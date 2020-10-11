@@ -1,4 +1,4 @@
 .idea/
 .idea/*
 app/models/variable/defaultSettings.js
-/app/models/variable/defaultSettings_default.js
+watch_local.sh

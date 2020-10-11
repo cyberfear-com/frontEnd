@@ -1,0 +1,1360 @@
+body {
+    font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+    font-size: 13px;
+}
+
+.txt-color-blue {
+    color: #57889c !important
+}
+
+.txt-color-blueLight {
+    color: #92a2a8 !important
+}
+
+.txt-color-blueDark {
+    color: #4c4f53 !important
+}
+
+.txt-color-green {
+    color: #356e35 !important
+}
+
+.txt-color-greenLight {
+    color: #71843f !important
+}
+
+.txt-color-greenDark {
+    color: #496949 !important
+}
+
+.txt-color-red {
+    color: #a90329 !important
+}
+
+.back_red{
+    background-color: red;
+}
+.back_yellow{
+    background-color: #F0F330;
+}
+
+.freemium, .table.table-striped .freemium{
+    background-color: #fffaf5;
+}
+
+.txt-color-yellow {
+    color: #b09b5b !important
+}
+
+.txt-color-orange {
+    color: #b19a6b !important
+}
+
+.txt-color-orangeDark {
+    color: #a57225 !important
+}
+
+.txt-color-pink {
+    color: #ac5287 !important
+}
+
+.txt-color-pinkDark {
+    color: #a8829f !important
+}
+
+.txt-color-purple {
+    color: #6e587a !important
+}
+
+.txt-color-darken {
+    color: #404040 !important
+}
+
+.txt-color-lighten {
+    color: #d5e7ec !important
+}
+
+.txt-color-white {
+    color: #fff !important
+}
+
+.txt-color-grayDark {
+    color: #525252 !important
+}
+
+.txt-color-magenta {
+    color: #6e3671 !important
+}
+
+.txt-color-teal {
+    color: #568a89 !important
+}
+
+.txt-color-redLight {
+    color: #a65858 !important
+}
+
+.bg-color-blue {
+    background-color: #57889c !important
+}
+
+.bg-color-blueLight {
+    background-color: #92a2a8 !important
+}
+
+.bg-color-blueDark {
+    background-color: #4c4f53 !important
+}
+
+.bg-color-green {
+    background-color: #356e35 !important
+}
+
+.bg-color-greenLight {
+    background-color: #71843f !important
+}
+
+.bg-color-greenDark {
+    background-color: #496949 !important
+}
+
+.bg-color-red {
+    background-color: #a90329 !important
+}
+
+.bg-color-yellow {
+    background-color: #b09b5b !important
+}
+
+.bg-color-orange {
+    background-color: #c79121 !important
+}
+
+.bg-color-orangeDark {
+    background-color: #a57225 !important
+}
+
+.bg-color-pink {
+    background-color: #ac5287 !important
+}
+
+.bg-color-pinkDark {
+    background-color: #a8829f !important
+}
+
+.bg-color-purple {
+    background-color: #6e587a !important
+}
+
+.bg-color-darken {
+    background-color: #404040 !important
+}
+
+.bg-color-lighten {
+    background-color: #d5e7ec !important
+}
+
+.bg-color-white {
+    background-color: #fff !important
+}
+
+.bg-color-grayDark {
+    background-color: #525252 !important
+}
+
+.bg-color-magenta {
+    background-color: #6e3671 !important
+}
+
+.bg-color-teal {
+    background-color: #568a89 !important
+}
+
+.bg-color-redLight {
+    background-color: #a65858 !important
+}
+
+.text-align-center, .text-center {
+    text-align: center !important;
+}
+
+.alert .close {
+    top: 0;
+    right: -5px;
+    line-height: 20px
+}
+
+.alert-heading {
+    font-weight: 600
+}
+
+.alert-danger {
+    border-color: #953b39;
+    color: #fff;
+    background: #c26565;
+    text-shadow: none
+}
+
+.alert-success {
+    border-color: #8ac38b;
+    color: #356635;
+    background: #cde0c4
+}
+
+.alert-info {
+    border-color: #9cb4c5;
+    color: #305d8c;
+    background: #d6dde7
+}
+
+.well {
+    background: #fbfbfb;
+    border: 1px solid #ddd;
+    box-shadow: 0 1px 1px #ececec;
+    -webkit-box-shadow: 0 1px 1px #ececec;
+    -moz-box-shadow: 0 1px 1px #ececec;
+    position: relative
+}
+
+.well.well-clean {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    border-color: transparent
+}
+
+.well.well-glass {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    border-color: transparent;
+    background-color: rgba(255, 255, 255, .25);
+    color: #fff
+}
+
+.well.well-light {
+    background: #fff;
+    border: 1px solid #e2e2e2
+}
+
+.widget-body .well {
+    margin-bottom: 0
+}
+
+.well.transparent {
+    border: none !important;
+    background: none !important
+}
+
+.jarviswidget.well.transparent > div, .jarviswidget.well.transparent > div .widget-body {
+    padding: 0 !important
+}
+
+.well[class*=" bg-"], .well[class^=bg-] {
+    border: 1px solid #555 !important
+}
+
+#hname {
+    display: none;
+}
+
+.invalid {
+    color: #ed1c24;
+    border-color: #ed1c24;
+    float: left;
+}
+
+.valid {
+    color: #007700;
+    border-color: #007700;
+}
+
+.miniIcono {
+    margin-top: 5px;
+    font-size: 20px
+}
+
+.expirationBadge {
+
+}
+
+.SmallBox span {
+    font-size: 17px;
+    font-weight: 300;
+    letter-spacing: -1px;
+    display: block;
+    margin: 4px 0
+}
+
+.SmallBox p {
+    font-size: 13px;
+    margin-top: 2px
+}
+
+.footer a {
+    margin: 0px 5px;
+}
+
+.text-align-center, .text-center {
+    text-align: center !important;
+}
+
+.no-content-padding {
+    margin: -10px -14px 0 -14px;
+}
+
+.progress {
+    position: relative;
+    margin-bottom: 0px;
+    overflow: hidden;
+    height: 22px;
+    background: #eee;
+    box-shadow: 0 1px 0 transparent, 0 0 0 1px #e3e3e3 inset;
+    -webkit-box-shadow: 0 1px 0 transparent, 0 0 0 1px #e3e3e3 inset;
+    -moz-box-shadow: 0 1px 0 transparent, 0 0 0 1px #e3e3e3 inset;
+    border-radius: 0;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0
+}
+
+.progress-micro {
+    height: 3px !important;
+    line-height: 3px !important;
+}
+
+.progress-xs {
+    height: 7px !important;
+    line-height: 7px !important
+}
+
+/* TOP navbar auth */
+
+.main-navigation {
+    padding: 10px;
+}
+
+.main-navigation > li > a {
+    text-transform: uppercase;
+}
+
+.navbar-header > button {
+    margin-top: 1px;
+}
+
+.authnavigation .navbar-header {
+    min-height: 50px;
+
+}
+
+.authnavigation .navbar-brand {
+    padding: 0px 10px;
+}
+
+.authnavigation img {
+    width: 51px;
+    float:left;
+}
+
+.authnavigation .logoname{
+    margin: 15px 0px 15px 7px;
+    width: 250px;
+}
+
+
+.authnavigation .navbar-header > button {
+    margin-right: 13px;
+    margin-top: 7px;
+}
+
+
+/*
+//END TOP navar //
+
+//left Navbar//
+*/
+.right-bar {
+    margin-right: 70px;
+}
+
+/*
+//END left Navbar//
+
+
+//Buttons //
+*/
+
+/*
+/]END Buttons ]/
+
+/] Folder Menu]/
+*/
+.inbox-menu-lg {
+    list-style: none;
+    padding: 0;
+}
+
+.inbox-menu-lg li {
+   /* display: inline-block;*/
+    width: 100%;
+    border-radius: 5px;
+}
+
+.inbox-menu-lg li.active {
+    background: #F0F0F0;
+}
+
+.inbox-menu-lg li.active a {
+    font-weight: 700;
+    /*border-bottom: 1px solid #E7E7E7;*/
+    color: #3276b1;
+}
+
+.inbox-menu-lg li a:hover {
+    text-decoration: initial;
+}
+
+.inbox-menu-lg li:hover {
+    background: #F5F5F5;
+}
+
+.inbox-menu-lg li a {
+    display: block;
+    padding: 6px 15px 7px;
+    color: #333;
+}
+
+.composeButton {
+    margin-bottom: 10px;
+}
+
+.folder-nav h6 {
+    font-weight: 400;
+    font-size: 11px;
+    display: block;
+    padding: 0 15px;
+    text-transform: uppercase;
+    color: #838383;
+    padding-left: 5px;
+    font-weight: bold;
+}
+
+.folder-nav {
+    padding: 5px 0px;
+    width: 190px;
+    margin-left: -10px;
+}
+
+/*END Folder Menu]*/
+
+.footer {
+    height: 30px;
+    padding: 5px 13px 0;
+    border-top: 1px solid #CECECE;
+    background: #2a2725;
+
+    display: block;
+    left: 0;
+
+    bottom: 0;
+    width: 100%;
+
+    position: fixed;
+
+   z-index: 10;
+}
+
+/*This just stops me getting horizontal scrolling if anything overflows the width*/
+.mailBody {
+    overflow: hidden;
+}
+
+/*Just removing default browser padding/margin*/
+html,
+body {
+    padding: 0;
+    margin: 0;
+}
+
+/*Flexbox gives us the flexiness we need. The top just stays put as there is no scrolling on the body due to the page never exceeding viewport height*/
+.Top {
+    display: flex;
+    position: relative;
+    z-index: 10;
+    height: 73px;
+}
+
+/*This is our main wrapping element, it's made 100vh high to ensure it is always the correct size and then moved into place and padded with negative margin and padding*/
+.Container {
+    display: flex;
+    /*overflow: scroll;*/
+    height: 85vh;
+
+   /* margin-top: -130px;
+    padding-top: 127px;
+    position: relative;
+    margin-bottom:30px;*/
+
+
+    position: fixed;
+
+    width: 100%;
+    backface-visibility: hidden;
+    will-change: overflow;
+    background: #F0F3F3;
+   padding-bottom:30px;
+}
+
+.sContainer {
+    display: flex;
+    overflow: hidden;
+    height: 100vh;
+
+    margin-top: -80px;
+    padding-top: 80px;
+
+    position: relative;
+    width: 100%;
+    backface-visibility: hidden;
+    will-change: overflow;
+    background: #F0F3F3;
+}
+
+.emailHeader {
+    display: flex;
+    position: relative;
+    z-index: 2;
+    height: 50px;
+    background: #fff;
+
+}
+
+/*All the scrollable sections should overflow and be whatever height they need to be. As they are flex-items (due to being inside a flex container) they could be made to stretch full height at all times if needed.
+WebKit inertia scrolling is being added here for any present/future devices that are able to make use of it.
+*/
+.Left,
+.Middle,
+.Right {
+    overflow: auto;
+    height: auto;
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: none;
+    background: #fff;
+    border-radius: 10px;
+    z-index:1;
+
+}
+
+.scrollable-menu {
+    height: auto;
+    max-height: 70vh;
+    overflow-x: hidden;
+}
+
+.scrollable-menu::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 4px;
+}
+.scrollable-menu::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: lightgray;
+    -webkit-box-shadow: 0 0 1px rgba(255,255,255,.75);
+}
+
+/*Entirely optional – just wanted to remove the scrollbar on WebKit browsers as I find them ugly*/
+
+.Left::-webkit-scrollbar,
+.Middle::-webkit-scrollbar,
+.Right::-webkit-scrollbar {
+    width: 7px;
+
+}
+
+.Left::-webkit-scrollbar-track,
+.Middle::-webkit-scrollbar-track,
+.Right::-webkit-scrollbar-track {
+    background-color: #e9e9e9;
+    border-radius: 8px;
+}
+
+.Left::-webkit-scrollbar-thumb,
+.Middle::-webkit-scrollbar-thumb,
+.Right::-webkit-scrollbar-thumb {
+    background-color: #d0d0d0;
+    border-radius: 8px;
+}
+
+.Left::-webkit-scrollbar-thumb:hover,
+.Middle::-webkit-scrollbar-thumb:hover,
+.Right::-webkit-scrollbar-thumb:hover {
+    background-color: #aaa;
+
+}
+
+/*  Left and Right are set sizes while the Middle is set to flex one so it occupies all remaining space. This could be set as a width too if prefereable, perhaps using calc.*/
+.Left {
+    min-width: 210px;
+    width: 210px;
+    margin: 10px 5px 0px 0px;
+    overflow-x:hidden;
+}
+
+.Middle {
+    transition: transform .3s ease;
+    margin: 10px 5px 0px 5px;
+    min-width: 310px;
+}
+
+.Right {
+    margin: 10px 0px 0px 5px;
+    overflow-x:hidden;
+}
+
+/*
+div {
+	margin:-1px;
+	border: 1px solid #000;
+ }
+
+ div>div{
+	 border: 1px solid #ff0000;
+}
+*/
+/*Mailbox Display Storage */
+.inbox-space {
+    padding: 5px 0px 5px 10px;
+    width: 220px;
+}
+
+.InboxIcons {
+    padding: 7px 10px 10px 0px;
+}
+#menus li {
+    margin-right: 25px;
+    font-weight: 700;
+}
+
+#menus .navbar-toggle {
+    font-size: 16px;
+    padding: 5px 15px;
+    font-weight: 700;
+    margin-top: 22px;
+    color: #fff;
+    background: #000;
+    border-radius: 0;
+}
+
+
+.InboxIcons button {
+    margin-right: 3px;
+    border: 0px;
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+.Top .navbar-brand {
+    height: 73px;
+}
+
+.boxEmailOption > button {
+    padding: 6px;
+}
+
+/* Messages */
+.table-inbox {
+    margin: 0px -15px 0px -15px;
+    padding: 0px 0px 0 0px;
+    border-top: 1px solid #d1d4d7;
+}
+
+.table-inbox tbody tr td {
+    margin-left: 0px;
+    padding-left: 0px;
+}
+
+.table-inbox .email {
+    cursor: pointer;
+    padding: 0px 10px;
+}
+
+.table-inbox .label {
+    margin: 4px;
+}
+
+.table-inbox .email label {
+    float: left;
+}
+
+.table-inbox .email .title span {
+   /* font-weight:bold;*/
+}
+
+.table-inbox .email .title {
+    float: left;
+    margin-left: 0px;
+    padding-left: 0px;
+}
+
+.table-inbox .email input {
+    margin-right: 8px;
+
+}
+
+.dataTables_wrapper .dataTables_info {
+    margin-top: 3px;
+    margin-right: 10px;
+}
+
+.table-inbox .action {
+    display: inline-block;
+    width: 16px;
+    text-align: center;
+    margin-right: 10px;
+    color: #d1d4d7;
+}
+
+.table-inbox .email.unread {
+    font-weight: 700;
+    color: #525252;
+}
+
+.table-inbox .email{
+    color: #919191;
+}
+
+.table-inbox .email .description {
+    color: #919598;
+    float: left;
+    margin-left: 0px;
+    padding-left: 0px;
+}
+
+.table-inbox a {
+    color: #3d3f42;
+    text-decoration: none;
+}
+
+.table-inbox .email .date {
+    text-align: right;
+    float: right;
+
+}
+
+.table-inbox .email a {
+    color: #3d3f42;
+    font-size: 14px;
+}
+
+/*Mail panel */
+
+#mRightPanel header {
+    color: #a2a2a2;
+
+}
+
+#mRightPanel header h2 {
+    border-bottom: 1px solid #ddd;
+    padding: 0 0 15px 0;
+    margin-top: 10px;
+}
+
+#mRightPanel .view-mail-header {
+    padding-top: 5px;
+}
+
+#mRightPanel .view-mail-reply {
+    margin-top: 12px;
+}
+
+#mRightPanel .view-mail-body {
+    /*border-top: 1px solid #ddd;*/
+    padding-top: 15px;
+    margin-top: 15px;
+}
+
+ul.pagination {
+    margin: 2px 0;
+    white-space: nowrap;
+}
+
+.mailCount {
+    padding: 8px;
+}
+
+.f-s-10 {
+    border-radius: 10px;
+    padding: 2px 7px;
+}
+
+.w-xxs {
+    *width: 60px;
+}
+
+.wrapper {
+    padding: 7px;
+}
+
+@media (max-width: 767px) {
+    .w-xxs {
+        width: auto;
+    }
+}
+
+.email-pagination {
+    padding: 5px;
+}
+
+.nav-settings {
+    list-style: none;
+    padding: 7px 4px 0px 0px;
+}
+
+.nav-settings i {
+    float: right;
+}
+
+.nav-settings a {
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #676767;
+    cursor: pointer;
+}
+
+.nav-settings a:hover {
+    text-decoration: none;
+    color: #0084B4;
+}
+
+.nav-settings .active {
+    font-weight: bold;
+    color: #555;
+}
+
+.nav-settings li {
+    position: relative;
+    display: block;
+    padding: 10px 0px;
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+}
+
+.sMiddle {
+    max-width: 250px;
+    z-index: 1;
+}
+
+.personal-info {
+    padding: 5px;
+}
+
+.personal-info-title {
+    font-size: 20px;
+    font-family: 'Open Sans', sans-serif;
+    color: #696d73;
+    font-style: italic;
+}
+
+.donate-but{
+    padding:5px;
+}
+.donate-but a{
+    margin:0px 5px;
+}
+
+.ellipsisText {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+h3.ellipsisText {
+    margin-top: 2px;
+}
+
+button {
+    /*margin: 0px 3px;*/
+}
+
+.accSett select {
+    margin: 3px 3px;
+}
+
+.accSett {
+    padding: 15px 0px;
+}
+
+.sRight {
+    padding-top: 10px;
+    z-index: 1;
+}
+
+.darkClass {
+    background-color: white;
+    filter: alpha(opacity=50); /* IE */
+    opacity: 0.5; /* Safari, Opera */
+    -moz-opacity: 0.50; /* FireFox */
+    z-index: 1050;
+    height: 100%;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.tabbed-nav {
+    margin-bottom: -11px;
+}
+
+a {
+    cursor: pointer;
+}
+
+.text-align-center, .text-center {
+    text-align: center !important;
+}
+
+.border-right {
+    border-right: 1px solid #E5E5E5;
+
+}
+
+.table-light tr {
+    border: 1px solid #E5E5E5;
+}
+
+table.dataTable.thead tr {
+    border-bottom: 1px solid #c7c7c7;
+}
+
+table.dataTable.no-footer {
+    border-bottom: 1px solid #c7c7c7;
+}
+
+.table {
+    table-layout: fixed;
+}
+
+.table td {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}
+
+.paginate_button.previous.disabled, .paginate_button.next.disabled {
+    /* visibility:hidden; */
+}
+
+.panel-setting {
+    min-height: 400px;
+}
+
+.email-pagination-arrow {
+    padding-top: 7px;
+}
+
+.image-disabled {
+    border-top: 1px solid #ddd;
+    margin-top: 10px;
+    padding-top: 10px;
+    /* padding-bottom: 15px;
+     border-bottom: 1px solid #ddd;*/
+}
+
+.image-disabled button {
+    float: right;
+}
+
+.badge-default {
+
+}
+
+.badge.light {
+    background-color: #aab0c5;
+    margin-right: 5px;
+}
+
+.email-read-icons {
+    padding: 5px 0px;
+    border-bottom: 1px solid #cbcbcb;
+
+}
+
+.email-read-icons button {
+    border: 0px;
+    box-shadow: none;
+    outline:0;
+
+}
+.email-read-icons button:focus, .email-read-icons button:active:focus {
+    border: 0px;
+    box-shadow: none;
+    outline:0;
+
+}
+
+.email-read-icons .btn-lock:focus {
+    border: 0px;
+    box-shadow: none;
+    outline: none;
+    background: none;
+}
+
+.email-compose-icons {
+    padding: 5px 0px;
+    border-bottom: 1px solid #cbcbcb;
+
+}
+
+.email-compose-icons .btn-lock:focus {
+    border: 0px;
+    box-shadow: none;
+    outline: none;
+    background: none;
+}
+
+.mailIcons {
+    float: left;
+    padding-top: 2px;
+    padding-left: 4px;
+}
+
+.emailRead .fa-tags {
+    padding-top: 3px;
+}
+
+.dmark-header {
+    margin-bottom: 10px;
+}
+
+.dmark-header .label {
+    margin-bottom: 10px;
+}
+
+.mailListLabel {
+    padding-right: 0px;
+    margin-right: 0px;
+}
+
+
+.table-inbox td {
+}
+
+.authnavigation {
+    font-size: 1.3em;
+}
+
+.panel-danger .panel-heading {
+    background-color: #ed5565;
+}
+
+.panel-info .panel-heading {
+    background-color: #edd079;
+}
+
+.email-status .badge, .email-status i {
+    margin: 5px 5px 0px 0px;
+}
+
+.ion-color-good {
+    color: #04be10;
+}
+
+.ion-color-bad {
+    color: #ce081f;
+}
+
+.ion-color-warning {
+    color: #dbdd4a;
+}
+
+.ion-color-info {
+    color: #1fcad4;
+}
+
+.ion {
+    font-size: 20px;
+}
+
+.ion-lg {
+    font-size: 25px;
+}
+
+.drop-text {
+    font-size: 15px;
+}
+
+.dataTables_wrapper, .pagination > li > a, .pagination > li > span {
+    position: initial;
+    /* clear: both; */
+}
+
+.email-status {
+    margin: 5px 0px 0px 50px;
+}
+
+.email-status button{
+    margin-right:5px;
+}
+
+.div-editable {
+    display: block;
+    width: 100%;
+    min-height: 140px;
+    padding: 6px 12px;
+    font-size: 13px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+.div-readonly {
+    background-color: #ccc;
+}
+
+.row-centered {
+    text-align: center;
+}
+
+.paddin-top-10 {
+    padding-top: 10px;
+}
+
+table.dataTable tbody tr.highlight {
+    background-color: #D4E5F4;
+}
+
+.panel-body .form-horizontal {
+    margin-left: 30px;
+}
+
+.qrcode {
+    width: 130px;
+    height: 130px;
+}
+
+.settings-tab-xs {
+    font-size: 22px;
+}
+
+.rowSelectable tr {
+    cursor: pointer;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.ui-widget-header {
+    background: #286090;
+}
+
+.no-right-padding {
+    padding-left: 5px !important;
+    padding-right: 0px !important;
+}
+
+#emailListNavigation div {
+    float: right;
+    clear: inherit;
+}
+
+.email-header {
+    background-color: #f8f8f8;
+}
+
+.email-header {
+    padding: 5px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.email-header-compose {
+    padding: 10px;
+    background-color: #f8f8f8;
+}
+
+.email-header-compose .form-group {
+    margin-bottom: 5px;
+}
+
+.ccbuts {
+    margin-top: 10px;
+}
+
+.ccbuts a {
+    margin-right: 5px;
+
+}
+
+.item-selected {
+    display: none;
+}
+
+.borderless {
+    border: 0px solid;
+}
+
+#selectAll {
+   /* margin-left: 13px;*/
+    margin-top: 4px;
+}
+
+.pgpsignature-danger {
+    padding: 5px;
+    background: #FA9292;
+    border-color: #F5A7A6;
+}
+
+.pgpsignature-success {
+    padding: 5px;
+
+}
+
+.pgpsignature-warning {
+    padding: 5px;
+
+}
+
+.select2-selection .select2-selection__choice.email-protected {
+    background-color: #8fff8f;
+}
+
+.select2-selection .select2-selection__choice.email-pgpprotected {
+    background-color: #bee5ff;
+}
+
+.select2-selection .select2-selection__choice.email-pinprotected {
+    background-color: #fffe8d;
+}
+
+.select2-selection .select2-selection__choice.email-unprotected {
+    background-color: #ffcbd4;
+}
+
+.email-head {
+
+    margin-top: 3px;
+}
+
+.select2-selection .select2-selection__choice.file-uploaded {
+    background-color: #8fff8f;
+}
+
+.connectionError {
+    padding-top: 10px;
+}
+.navbar-toggle.collapsed.no-border{
+    border:0px solid;
+    margin:0px;
+}
+@keyframes example {
+    0%   {background-color: #f0ad4e;}
+    50%  {background-color: #e89830;}
+    100% {background-color: #f0ad4e;}
+}
+.newVersion button {
+    animation-name: example;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+}
+
+.newVersion {
+    padding-top: 10px;
+}
+
+.button-noborder {
+    border: 0px solid;
+    background-color: inherit;
+}
+
+#privPass{
+    font-family: monospace, serif;
+}
+
+.unregIcons{
+    margin-right:10px;
+    margin-top:5px;
+}
+
+.unregIcons button{
+    margin-right:10px;
+}
+
+.InboxRefresh button{
+    border: 0px solid;
+    margin-top: 4px;
+
+}
+.InboxRefresh .btn-default.active, .InboxRefresh .btn-default.focus, .InboxRefresh .btn-default:active, .InboxRefresh .btn-default:focus, .InboxRefresh .btn-default:hover, .InboxRefresh .open > .dropdown-toggle.btn-default {
+background: inherit;
+    outline:0;
+}
+
+.dialog_buttons button{
+    margin-left:5px;
+}
+.no-padding {
+    padding: 0px;
+}
+.padding-vertical-10{
+    padding-top:10px;
+    padding-bottom:10px;
+}
+.mailbox_section{
+    position:absolute;
+}
+
+.email-header-compose label{
+    width:65px;
+}
+.atchBut{
+    margin-top:-7px;
+}
+
+.inbox-menu-lg li a {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 18px;
+}
+
+.inbox-menu-lg li {
+    clear: both;
+    line-height: 18px;
+}
+
+.inbox-menu-lg li .badge.pull-right {
+    margin-top: 6px !important;
+    margin-right: 4px !important;
+}
+table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
+    background-color: #FaFaFa;
+}
+
+table.dataTable tbody tr.selected {
+    background-color: rgba(205, 222, 255, 0.54);
+}
+.margin-right-10{
+    margin-right:10px;
+}
+
+.clickable tr, .clickable td, .rowSelectable tr, .rowSelectable td{
+    cursor:pointer;
+}
+
+.break-all{
+    word-break: break-all;
+}
+
+.note-editor .note-codable {
+    color: #000;
+    background-color:#fff;
+}

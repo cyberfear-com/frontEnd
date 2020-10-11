@@ -1,0 +1,94 @@
+#divSmallBoxes {
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 9999
+}
+
+.SmallBox {
+    position: absolute;
+    right: 5px;
+    top: 20px;
+    width: 420px;
+    color: #fff;
+    z-index: 9999;
+    overflow: hidden;
+    border: 1px solid transparent
+}
+
+.SmallBox:hover {
+    border: 1px solid #fff;
+    cursor: pointer
+}
+
+.SmallBox .foto {
+    font-size: 50px;
+    position: absolute;
+    left: 17px
+}
+
+.SmallBox .textoFull {
+    width: 93%;
+    float: left;
+    padding-left: 20px
+}
+
+.SmallBox .textoFoto {
+    width: 78%;
+    margin: 3px 20px 3px 80px;
+    float: left
+}
+
+@media screen and (max-width: 450px) and (max-width: 767px) {
+    #divSmallBoxes {
+        position: fixed;
+        width: 90%;
+        right: 0;
+        top: 0
+    }
+
+    .SmallBox {
+        width: 95%
+    }
+
+    .SmallBox:hover {
+        box-shadow: 0 0 10px #888;
+        cursor: pointer
+    }
+
+    .SmallBox span {
+        font-size: 16px
+    }
+
+    .SmallBox p {
+        font-size: 12px;
+        margin-top: 2px
+    }
+
+    .SmallBox .textoFull {
+        width: 93%;
+        float: left;
+        padding-left: 20px
+    }
+
+    .SmallBox .textoFoto {
+        width: 55%;
+        margin: 3px 20px 3px 80px;
+        float: left
+    }
+
+    .bigBox {
+        position: fixed;
+        right: 10px;
+        bottom: 10px;
+        background-color: #004d60;
+        padding-left: 10px;
+        padding-top: 10px;
+        padding-right: 10px;
+        padding-bottom: 5px;
+        width: 88%;
+        height: 150px;
+        color: #fff;
+        z-index: 99999
+    }
+}

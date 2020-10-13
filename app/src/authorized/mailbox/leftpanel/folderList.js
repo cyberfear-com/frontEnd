@@ -85,6 +85,20 @@ thisComp.notifyMe();
 							}
 						});
 
+					}else{
+						thisComp.removeClassesActive();
+						app.user.set({"resetSelectedItems":true});
+
+						app.globalF.resetCurrentMessage();
+						app.globalF.resetDraftMessage();
+						Backbone.history.navigate("/mail/"+app.user.get("currentFolder"), {
+							trigger : true
+						});
+$('#emailListTable tr').removeClass('selected');
+						$('#sdasdasd').addClass("hidden");
+						$('#mMiddlePanelTop').removeClass(' hidden-xs hidden-sm hidden-md');
+						$('#mRightPanel').addClass('hidden-xs hidden-sm hidden-md');
+
 					}
 
 
@@ -136,7 +150,7 @@ thisComp.notifyMe();
 
 								$('#emailListTable').find("tr").removeClass("selected");
 								$('#mMiddlePanelTop').addClass(' hidden-xs hidden-sm hidden-md');
-
+								$('#mRightPanel').removeClass('hidden-xs hidden-sm hidden-md');
 								Backbone.history.navigate("/mail/Compose", {
 									trigger : true
 								});

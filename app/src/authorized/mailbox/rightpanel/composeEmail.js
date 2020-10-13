@@ -1400,75 +1400,87 @@ define(['react','app', 'summernote','select2'], function (React,app,summernote,s
 
                 case 'deleteDraft':
 
-                    var thisComp=this;
-                    $('#dialogModHead').html("Delete Draft Email");
-                    $('#dialogModBody').html("Continue?");
+					if(this.state.messageId==""){
+						Backbone.history.navigate("/mail/"+app.user.get("currentFolder"), {
+							trigger : true
+						});
+						$('#sdasdasd').addClass("hidden");
+						$('#mMiddlePanelTop').removeClass(' hidden-xs hidden-sm hidden-md');
+						$('#mRightPanel').addClass('hidden-xs hidden-sm hidden-md');
 
-                    $('#dialogOk').on('click', function () {
+					}else{
+						var thisComp=this;
+						$('#dialogModHead').html("Delete Draft Email");
+						$('#dialogModBody').html("Continue?");
 
-                        if(Object.keys(thisComp.state.fileObject).length>0){
-                            $.each(thisComp.state.fileObject, function (index, data) {
-                                thisComp.fileRemove(index,function(){
-                                    var selected = [];
-                                    selected.push(thisComp.state.messageId);
-                                   // console.log(selected);
+						$('#dialogOk').on('click', function () {
 
-                                    if(selected.length>0){
-                                        //delete email physically;
-                                        app.globalF.resetCurrentMessage();
-                                        app.globalF.resetDraftMessage();
+							if(Object.keys(thisComp.state.fileObject).length>0){
+								$.each(thisComp.state.fileObject, function (index, data) {
+									thisComp.fileRemove(index,function(){
+										var selected = [];
+										selected.push(thisComp.state.messageId);
+										// console.log(selected);
 
-                                        app.globalF.deleteEmailsFromFolder(selected,function(emails2Delete){
-                                            //console.log(emails2Delete);
-                                            if(emails2Delete.length>0){
-                                                app.userObjects.updateObjects('deleteEmail',emails2Delete,function(result){
-                                                    app.globalF.syncUpdates();
-                                                    $('#dialogPop').modal('hide');
-                                                    Backbone.history.navigate("/mail/"+app.user.get("currentFolder"), {
-                                                        trigger : true
-                                                    });
-                                                });
-                                            }
-                                        });
-                                    }
+										if(selected.length>0){
+											//delete email physically;
+											app.globalF.resetCurrentMessage();
+											app.globalF.resetDraftMessage();
 
-                                });
-                            });
-                        }else{
-                            var selected = [];
-                            selected.push(thisComp.state.messageId);
-                          //  console.log(selected);
+											app.globalF.deleteEmailsFromFolder(selected,function(emails2Delete){
+												//console.log(emails2Delete);
+												if(emails2Delete.length>0){
+													app.userObjects.updateObjects('deleteEmail',emails2Delete,function(result){
+														app.globalF.syncUpdates();
+														$('#dialogPop').modal('hide');
+														Backbone.history.navigate("/mail/"+app.user.get("currentFolder"), {
+															trigger : true
+														});
+													});
+												}
+											});
+										}
 
-                            if(selected.length>0){
-                                //delete email physically;
+									});
+								});
+							}else{
+								var selected = [];
+								selected.push(thisComp.state.messageId);
+								//  console.log(selected);
 
-                                app.globalF.resetCurrentMessage();
-                                app.globalF.resetDraftMessage();
+								if(selected.length>0){
+									//delete email physically;
 
-                                app.globalF.deleteEmailsFromFolder(selected,function(emails2Delete){
-                                    //console.log(emails2Delete);
-                                    if(emails2Delete.length>0){
-                                        app.userObjects.updateObjects('deleteEmail',emails2Delete,function(result){
-                                            app.globalF.syncUpdates();
+									app.globalF.resetCurrentMessage();
+									app.globalF.resetDraftMessage();
 
-                                            $('#dialogPop').modal('hide');
-                                            Backbone.history.navigate("/mail/"+app.user.get("currentFolder"), {
-                                                trigger : true
-                                            });
-                                        });
-                                    }
-                                });
-                            }
+									app.globalF.deleteEmailsFromFolder(selected,function(emails2Delete){
+										//console.log(emails2Delete);
+										if(emails2Delete.length>0){
+											app.userObjects.updateObjects('deleteEmail',emails2Delete,function(result){
+												app.globalF.syncUpdates();
+
+												$('#dialogPop').modal('hide');
+												Backbone.history.navigate("/mail/"+app.user.get("currentFolder"), {
+													trigger : true
+												});
+											});
+										}
+									});
+								}
 
 
-                        }
+							}
 
-                    });
+						});
 
-                    $('#dialogPop').modal('show');
+						$('#dialogPop').modal('show');
 
-                    //console.log(thisComp.state.fileObject);
-                    //this.fileRemove(fileName64);
+						//console.log(thisComp.state.fileObject);
+						//this.fileRemove(fileName64);
+					}
+
+
                     break;
 
 			}
@@ -1684,7 +1696,7 @@ define(['react','app', 'summernote','select2'], function (React,app,summernote,s
 						{protect}
 
 						<button className="btn btn-primary btn-sm" disabled={this.state.sendingProgress} onClick={this.handleClick.bind(this, 'sendEmail')} id="sendingEmail"><i className={(this.state.sendingProgress===true?'fa fa-refresh fa-spin':"")}></i>{(this.state.sendingProgress===true? "Sending":"Send")}</button>
-						<button className={"btn btn-danger btn-sm "} data-placement="bottom" data-toggle="popover-hover" data-trigger="focus" title="" data-content="Delete message" data-original-title="" onClick={this.handleClick.bind(this, 'deleteDraft')} disabled={(this.state.sendingProgress || this.state.messageId=="")}><i className="fa fa-trash fa-lg"></i></button>
+						<button className={"btn btn-danger btn-sm "} data-placement="bottom" data-toggle="popover-hover" data-trigger="focus" title="" data-content="Delete message" data-original-title="" onClick={this.handleClick.bind(this, 'deleteDraft')} disabled={(this.state.sendingProgress)}><i className="fa fa-trash fa-lg"></i></button>
 					</div>
 				</div>
 

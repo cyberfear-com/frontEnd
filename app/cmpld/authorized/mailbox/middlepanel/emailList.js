@@ -486,8 +486,10 @@ define(['react', 'app', 'dataTable', 'dataTableBoot'], function (React, app, Dat
                                 });
 
                                 if (id != undefined && $(event.target).attr('type') != "checkbox" && $(event.target).prop("tagName") != "LABEL") {
+                                    console.log('1');
                                     $('#sdasdasd').removeClass("hidden");
                                     $('#mMiddlePanelTop').addClass(' hidden-xs hidden-sm hidden-md');
+                                    $('#mRightPanel').removeClass(' hidden-xs hidden-sm hidden-md');
                                     var table = $('#emailListTable').DataTable();
                                     table.$('tr.selected').removeClass('selected');
 
@@ -524,6 +526,10 @@ define(['react', 'app', 'dataTable', 'dataTableBoot'], function (React, app, Dat
                     $('#sdasdasd').removeClass("hidden");
                 } else if (thisComp.state.messsageId == "") {
                     $('#sdasdasd').addClass("hidden");
+                } else {
+                    //  thisComp.setState({
+                    //    messsageId:""
+                    //  });
                 }
             });
         },

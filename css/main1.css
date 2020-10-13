@@ -1245,8 +1245,25 @@ table.dataTable tbody tr.highlight {
     background-color: #8fff8f;
 }
 
+
+.vibrate {
+    /* Start the shake animation and make the animation last for 0.5 seconds */
+    animation: shake 1s;
+
+    /* When the animation is finished, start again */
+    animation-iteration-count: infinite;
+}
+
+@keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    50% { transform: translate(1px, 1px) rotate(-10deg); }
+    100% { transform: translate(1px, 1px) rotate(10deg); }
+
+}
+
+
 .connectionError {
-    padding-top: 10px;
+    padding-top: 0px;
 }
 .navbar-toggle.collapsed.no-border{
     border:0px solid;

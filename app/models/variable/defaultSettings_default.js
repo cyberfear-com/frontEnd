@@ -13,7 +13,7 @@ define([
             this.set({'defaultPage':'mail/Inbox'});
 
             this.set({'domain':'https://cyberfear.com'});
-            this.set({'apidomain':'https://local.cyberfear.com/api'});
+            this.set({'apidomain':'https://cyberfear.com/api'});
             this.set({"domainMail":"@cyberfear.com"});
             this.set({"hashToken":"cyberFear"});
             this.set({'name':'CyberFear.com'});

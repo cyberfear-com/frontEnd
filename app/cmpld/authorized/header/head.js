@@ -201,7 +201,7 @@ define(['react', 'app'], function (React, app) {
 							React.createElement(
 								'button',
 								{ className: 'button', 'data-placement': 'bottom', 'data-toggle': 'popover-hover', 'data-trigger': 'focus', title: '', 'data-content': 'The system experienced a connection problem. Please reload the page. If the problem persists, please contact us.', 'data-original-title': 'Connection Error', onClick: this.handleClick.bind(this, 'restartQue') },
-								React.createElement('i', { className: 'fa fa fa-exclamation-circle fa-lg fa-fw txt-color-red' })
+								React.createElement('i', { className: 'fa fa fa-bell vibrate fa-lg fa-fw txt-color-red' })
 							)
 						),
 						React.createElement(
@@ -367,7 +367,7 @@ define(['react', 'app'], function (React, app) {
 							React.createElement(
 								'button',
 								{ className: 'btn btn-default button-noborder', 'data-placement': 'bottom', 'data-toggle': 'popover-hover', 'data-trigger': 'focus', title: '', 'data-content': 'The system experienced a connection problem. Please reload the page. If the problem persists, please contact us.', 'data-original-title': 'Connection Error', onClick: this.handleClick.bind(this, 'restartQue') },
-								React.createElement('i', { className: 'fa fa fa-exclamation-circle fa-lg fa-fw txt-color-red' })
+								React.createElement('i', { className: 'fa fa fa-bell vibrate fa-lg fa-fw txt-color-red' })
 							)
 						)
 					)

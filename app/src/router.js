@@ -7,11 +7,8 @@ define(['app','backbone', 'react','jquery','bootstrap','cmpld/splashPage/SplashC
 	return Backbone.Router.extend({
 		routes : {
 			"":"index",
-			"TermsAndConditions" : "terms",
-			"PrivacyPolicy" : "privacy",
 			"PE" : "payend",
 			"report" : "report",
-			"Canary" : "canary",
 			"login" : "login",
 			"createUser" : "createUser",
 			"contactUs" : "contactUs",

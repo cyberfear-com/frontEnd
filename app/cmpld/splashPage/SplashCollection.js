@@ -1,4 +1,4 @@
-define(['react', 'app', 'wow', 'cmpld/splashPage/head', 'cmpld/splashPage/compare', 'cmpld/splashPage/footer', 'cmpld/modals/login', 'cmpld/splashPage/forgotPassword', 'cmpld/splashPage/forgotSecret', 'cmpld/modals/reportBug', 'cmpld/modals/createUser', 'cmpld/splashPage/terms', 'cmpld/splashPage/privacy', 'cmpld/splashPage/pe', 'cmpld/splashPage/canary', 'cmpld/modals/tokenPop', 'cmpld/modals/paymentGate', 'cmpld/modals/dialogPop'], function (React, app, Wow, SplashHead, Compare, SplashFoot, Login, ForgotPassword, ForgotSecret, ReportBug, CreateUser, Terms, Privacy, PE, Canary, TokenPop, PaymentGate, DialogPop) {
+define(['react', 'app', 'wow', 'cmpld/splashPage/head', 'cmpld/splashPage/compare', 'cmpld/splashPage/footer', 'cmpld/modals/login', 'cmpld/splashPage/forgotPassword', 'cmpld/splashPage/forgotSecret', 'cmpld/modals/reportBug', 'cmpld/modals/createUser', 'cmpld/splashPage/pe', 'cmpld/modals/tokenPop', 'cmpld/modals/paymentGate', 'cmpld/modals/dialogPop'], function (React, app, Wow, SplashHead, Compare, SplashFoot, Login, ForgotPassword, ForgotSecret, ReportBug, CreateUser, PE, TokenPop, PaymentGate, DialogPop) {
 	var body;
 
 	return React.createClass({
@@ -99,19 +99,10 @@ define(['react', 'app', 'wow', 'cmpld/splashPage/head', 'cmpld/splashPage/compar
 				//  body=<Compare scrollTo="donate"/>;
 			}
 
-			if (this.props.page == 'terms') {
-				body = React.createElement(Terms, null);
-			}
 			if (this.props.page == 'pe') {
 				body = React.createElement(PE, null);
 			}
 
-			if (this.props.page == 'privacy') {
-				body = React.createElement(Privacy, null);
-			}
-			if (this.props.page == 'canary') {
-				body = React.createElement(Canary, null);
-			}
 			if (this.props.page == 'forgotPassword') {
 				body = React.createElement(ForgotPassword, { page: this.state.AccountResetOptions });
 			}

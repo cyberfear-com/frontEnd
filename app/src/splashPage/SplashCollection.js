@@ -3,9 +3,7 @@ define(['react','app','wow',
 	'cmpld/splashPage/footer','cmpld/modals/login',
 	'cmpld/splashPage/forgotPassword','cmpld/splashPage/forgotSecret',
 	'cmpld/modals/reportBug','cmpld/modals/createUser',
-	'cmpld/splashPage/terms','cmpld/splashPage/privacy',
 		'cmpld/splashPage/pe',
-	'cmpld/splashPage/canary',
         'cmpld/modals/tokenPop',
 		'cmpld/modals/paymentGate',
 		'cmpld/modals/dialogPop',
@@ -14,7 +12,7 @@ define(['react','app','wow',
 		React,app,Wow,
 		SplashHead,Compare,
 		SplashFoot,Login,ForgotPassword,ForgotSecret,ReportBug,
-		CreateUser,Terms,Privacy,PE,Canary,TokenPop,
+		CreateUser,PE,TokenPop,
 		PaymentGate,DialogPop
 		) {
 	var body;
@@ -128,19 +126,10 @@ define(['react','app','wow',
               //  body=<Compare scrollTo="donate"/>;
             }
 
-			if(this.props.page=='terms'){
-				body=<Terms />;
-			}
 			if(this.props.page=='pe'){
 				body=<PE />;
 			}
 
-			if(this.props.page=='privacy'){
-				body=<Privacy />;
-			}
-			if(this.props.page=='canary'){
-				body=<Canary />;
-			}
 			if(this.props.page=='forgotPassword'){
 				body=<ForgotPassword page={this.state.AccountResetOptions}/>;
 			}

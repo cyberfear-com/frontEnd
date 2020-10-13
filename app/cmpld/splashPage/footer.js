@@ -2,21 +2,6 @@ define(['react'], function (React) {
 	return React.createClass({
 		handleClick: function (i) {
 			switch (i) {
-				case 'terms':
-					Backbone.history.navigate("/TermsAndConditions", {
-						trigger: true
-					});
-					break;
-				case 'privacy':
-					Backbone.history.navigate("/PrivacyPolicy", {
-						trigger: true
-					});
-					break;
-				case 'canary':
-					Backbone.history.navigate("/Canary", {
-						trigger: true
-					});
-					break;
 				case 'reportBug':
 					$('#reportBug-modal').modal('show');
 					break;

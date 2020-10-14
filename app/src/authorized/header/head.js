@@ -180,7 +180,7 @@ define(['react','app'], function (React,app) {
 							</div>
 
 							<div className={"navbar-toggle collapsed pull-right connectionError  no-border " +offlineClass}>
-								<button className="button" data-placement="bottom" data-toggle="popover-hover" data-trigger="focus" title="" data-content="The system experienced a connection problem. Please reload the page. If the problem persists, please contact us." data-original-title="Connection Error" onClick={this.handleClick.bind(this, 'restartQue')}><i className="fa fa fa-exclamation-circle fa-lg fa-fw txt-color-red"></i></button>
+								<button className="button" data-placement="bottom" data-toggle="popover-hover" data-trigger="focus" title="" data-content="The system experienced a connection problem. Please reload the page. If the problem persists, please contact us." data-original-title="Connection Error" onClick={this.handleClick.bind(this, 'restartQue')}><i className="fa fa fa-bell vibrate fa-lg fa-fw txt-color-red"></i></button>
 
 
 							</div>
@@ -233,7 +233,7 @@ define(['react','app'], function (React,app) {
 
 							</div>
 							<div className={"pull-right connectionError " +offlineClass}>
-								<button className="btn btn-default button-noborder" data-placement="bottom" data-toggle="popover-hover" data-trigger="focus" title="" data-content="The system experienced a connection problem. Please reload the page. If the problem persists, please contact us." data-original-title="Connection Error" onClick={this.handleClick.bind(this, 'restartQue')}><i className="fa fa fa-exclamation-circle fa-lg fa-fw txt-color-red"></i></button>
+								<button className="btn btn-default button-noborder" data-placement="bottom" data-toggle="popover-hover" data-trigger="focus" title="" data-content="The system experienced a connection problem. Please reload the page. If the problem persists, please contact us." data-original-title="Connection Error" onClick={this.handleClick.bind(this, 'restartQue')}><i className="fa fa fa-bell vibrate fa-lg fa-fw txt-color-red"></i></button>
 
 
 							</div>

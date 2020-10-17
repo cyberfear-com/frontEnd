@@ -200,7 +200,7 @@ define(['react', 'app'], function (React, app) {
 							{ className: "navbar-toggle collapsed pull-right connectionError  no-border " + offlineClass },
 							React.createElement(
 								'button',
-								{ className: 'button', 'data-placement': 'bottom', 'data-toggle': 'popover-hover', 'data-trigger': 'focus', title: '', 'data-content': 'The system experienced a connection problem. Please reload the page. If the problem persists, please contact us.', 'data-original-title': 'Connection Error', onClick: this.handleClick.bind(this, 'restartQue') },
+								{ className: 'button', 'data-placement': 'bottom', 'data-toggle': 'popover-hover', 'data-trigger': 'focus', title: '', 'data-content': 'The system experienced a connection problem. Please click here to reconnect. If the problem persists, please contact us.', 'data-original-title': 'Connection Error', onClick: this.handleClick.bind(this, 'restartQue') },
 								React.createElement('i', { className: 'fa fa fa-bell vibrate fa-lg fa-fw txt-color-red' })
 							)
 						),
@@ -366,7 +366,7 @@ define(['react', 'app'], function (React, app) {
 							{ className: "pull-right connectionError " + offlineClass },
 							React.createElement(
 								'button',
-								{ className: 'btn btn-default button-noborder', 'data-placement': 'bottom', 'data-toggle': 'popover-hover', 'data-trigger': 'focus', title: '', 'data-content': 'The system experienced a connection problem. Please reload the page. If the problem persists, please contact us.', 'data-original-title': 'Connection Error', onClick: this.handleClick.bind(this, 'restartQue') },
+								{ className: 'btn btn-default button-noborder', 'data-placement': 'bottom', 'data-toggle': 'popover-hover', 'data-trigger': 'focus', title: '', 'data-content': 'The system experienced a connection problem. Please click here to reconnect. If the problem persists, please contact us.', 'data-original-title': 'Connection Error', onClick: this.handleClick.bind(this, 'restartQue') },
 								React.createElement('i', { className: 'fa fa fa-bell vibrate fa-lg fa-fw txt-color-red' })
 							)
 						)

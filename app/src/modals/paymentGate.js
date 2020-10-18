@@ -41,7 +41,10 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                 method: "POST",
                 url: app.defaults.get('apidomain')+"/SetMembershipPriceV2",
                 data: userObj,
-                dataType: "json"
+                dataType: "json",
+                xhrFields: {
+                    withCredentials: true
+                }
             })
                 .then(function (msg) {
 
@@ -303,7 +306,7 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                                             <input type="hidden" name="last_name" value="anonymous"/>
                                             <input type="hidden" name="email" value="anonymous@cyberfear.com"/>
                                             <input type="hidden" name="item_name" value="Premium Membership"/>
-                                            <input type="hidden" name="item_desc" value="1 Year Subscription"/>
+                                            <input type="hidden" name="item_desc" value={this.state.membr=='year'?"1 Year Subscription":"1 Month Subscription"}/>
                                             <input type="hidden" name="custom" value={this.state.userId}/>
                                             <input type="hidden" name="currency" value="USD"/>
                                             <input type="hidden" name="amountf" value={this.state.mCharge}/>

@@ -40,7 +40,10 @@ define(['app', 'accounting', 'react'], function (app, accounting, React) {
                 method: "POST",
                 url: app.defaults.get('apidomain') + "/SetMembershipPriceV2",
                 data: userObj,
-                dataType: "json"
+                dataType: "json",
+                xhrFields: {
+                    withCredentials: true
+                }
             }).then(function (msg) {
 
                 if (msg['response'] === 'fail') {
@@ -333,7 +336,7 @@ define(['app', 'accounting', 'react'], function (app, accounting, React) {
                                         React.createElement('input', { type: 'hidden', name: 'last_name', value: 'anonymous' }),
                                         React.createElement('input', { type: 'hidden', name: 'email', value: 'anonymous@cyberfear.com' }),
                                         React.createElement('input', { type: 'hidden', name: 'item_name', value: 'Premium Membership' }),
-                                        React.createElement('input', { type: 'hidden', name: 'item_desc', value: '1 Year Subscription' }),
+                                        React.createElement('input', { type: 'hidden', name: 'item_desc', value: this.state.membr == 'year' ? "1 Year Subscription" : "1 Month Subscription" }),
                                         React.createElement('input', { type: 'hidden', name: 'custom', value: this.state.userId }),
                                         React.createElement('input', { type: 'hidden', name: 'currency', value: 'USD' }),
                                         React.createElement('input', { type: 'hidden', name: 'amountf', value: this.state.mCharge }),

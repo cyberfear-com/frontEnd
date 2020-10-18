@@ -493,7 +493,7 @@ define(['react', 'app', 'dataTable', 'dataTableBoot'], function (React, app, Dat
 					app.globalF.checkPlanLimits('disposable', thisComp.state.dataDispisable.length, function (result) {
 						if (result) {
 
-							var postData = { 'email': app.transform.SHA512(email + domain) };
+							var postData = { 'fromEmail': email + domain };
 
 							app.serverCall.ajaxRequest('checkEmailExist', postData, function (result) {
 								if (result) {
@@ -1204,6 +1204,9 @@ define(['react', 'app', 'dataTable', 'dataTableBoot'], function (React, app, Dat
 				remote: {
 					url: app.defaults.get('apidomain') + "/checkEmailExistV2",
 					type: "post",
+					xhrFields: {
+						withCredentials: true
+					},
 					data: {
 						fromEmail: function () {
 							var email = $('#fromAliasEmail').val().toLowerCase();

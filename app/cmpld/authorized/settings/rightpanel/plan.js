@@ -67,6 +67,16 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 
 		handleClick: function (i) {
 			switch (i) {
+				case 'upgradeMember':
+					var thisComp = this;
+					thisComp.setState({
+						toPay: app.user.get("userPlan")['yearSubscr'] / 100,
+						forPlan: "UpgradeToYear",
+						howMuch: 1
+					});
+					thisComp.handleClick('showSecond');
+					break;
+
 				case 'setGB':
 					var thisComp = this;
 					//if save
@@ -294,7 +304,7 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 								return actions.order.create({
 									purchase_units: [{
 										amount: {
-											value: 0.2
+											value: thisComp.state.toPay
 										},
 										custom_id: app.user.get("userId"),
 										description: thisComp.state.forPlan,
@@ -308,7 +318,7 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 							onApprove: function (data, actions) {
 								return actions.order.capture().then(function (details) {
 									//alert('Transaction completed by ' + details.payer.name.given_name + '!');
-									alert('done');
+									alert('Thank you.');
 									thisComp.handleClick.bind(thisComp, 'showFirst');
 								});
 							}
@@ -797,7 +807,8 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 					React.createElement(
 						'b',
 						null,
-						'Yearly Cost:'
+						app.user.get("userPlan")['planSelected'] == 1 ? "Yearly" : "Monthly",
+						' Cost:'
 					)
 				),
 				React.createElement(
@@ -817,7 +828,7 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 					React.createElement(
 						'b',
 						null,
-						'Paid This Year:'
+						'Paid This Cycle:'
 					)
 				),
 				React.createElement(
@@ -1019,6 +1030,18 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 							),
 							React.createElement(
 								'h3',
+								{ className: app.user.get("userPlan")['planSelected'] == 2 ? "txt-color-red" : "hidden" },
+								'Please upgrade to yearly subscription to unlock premium features. ',
+								React.createElement(
+									'button',
+									{ type: 'button', className: 'btn btn-primary pull-right', onClick: this.handleClick.bind(this, 'upgradeMember') },
+									'Upgrade ',
+									accounting.formatMoney(app.user.get("userPlan")['yearSubscr'] / 100 + app.user.get("userPlan")['monthlyCharge']),
+									'/Year'
+								)
+							),
+							React.createElement(
+								'h3',
 								{ className: 'pull-left' },
 								'Account:'
 							),
@@ -1060,7 +1083,7 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 										{ className: 'panel panel-default' },
 										React.createElement(
 											'div',
-											{ className: 'panel-body' },
+											{ className: 'panel-body disable' },
 											React.createElement(
 												'h5',
 												null,
@@ -1083,7 +1106,7 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 													{ className: 'col-lg-5 col-sm-12' },
 													React.createElement(
 														'select',
-														{ className: 'form-control', onChange: this.handleChange.bind(this, 'changeGB'), value: this.state.boxSize },
+														{ className: 'form-control', onChange: this.handleChange.bind(this, 'changeGB'), value: this.state.boxSize, disabled: app.user.get("userPlan")['planSelected'] == 2 ? true : false },
 														React.createElement(
 															'option',
 															{ value: '1000' },
@@ -1179,7 +1202,7 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 													{ className: 'col-lg-5 col-sm-12' },
 													React.createElement(
 														'select',
-														{ className: 'form-control', onChange: this.handleChange.bind(this, 'changeDomain'), value: this.state.cDomain },
+														{ className: 'form-control', onChange: this.handleChange.bind(this, 'changeDomain'), value: this.state.cDomain, disabled: app.user.get("userPlan")['planSelected'] == 2 ? true : false },
 														React.createElement(
 															'option',
 															{ value: '0' },
@@ -1275,7 +1298,7 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 													{ className: 'col-lg-4 col-sm-12' },
 													React.createElement(
 														'select',
-														{ className: 'form-control', onChange: this.handleChange.bind(this, 'changeAl'), value: this.state.aliases },
+														{ className: 'form-control', onChange: this.handleChange.bind(this, 'changeAl'), value: this.state.aliases, disabled: app.user.get("userPlan")['planSelected'] == 2 ? true : false },
 														React.createElement(
 															'option',
 															{ value: '1' },

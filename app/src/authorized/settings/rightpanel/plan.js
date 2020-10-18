@@ -72,6 +72,16 @@ define(['react', 'app','accounting','jsui'], function (React, app,accounting,jsu
 
 		handleClick: function (i) {
 			switch (i) {
+				case 'upgradeMember':
+					var thisComp=this;
+					thisComp.setState({
+						toPay:app.user.get("userPlan")['yearSubscr']/100,
+						forPlan:"UpgradeToYear",
+						howMuch:1
+					});
+					thisComp.handleClick('showSecond');
+					break;
+
 				case 'setGB':
 					var thisComp=this;
 					//if save
@@ -323,7 +333,7 @@ define(['react', 'app','accounting','jsui'], function (React, app,accounting,jsu
 								return actions.order.create({
 									purchase_units: [{
 										amount: {
-											value: 0.2
+											value: thisComp.state.toPay
 										},
 										custom_id:app.user.get("userId"),
 										description:thisComp.state.forPlan,
@@ -338,7 +348,7 @@ define(['react', 'app','accounting','jsui'], function (React, app,accounting,jsu
 							onApprove: function(data, actions) {
 								return actions.order.capture().then(function(details) {
 									//alert('Transaction completed by ' + details.payer.name.given_name + '!');
-									alert('done');
+									alert('Thank you.');
 									thisComp.handleClick.bind(thisComp, 'showFirst');
 								});
 							}
@@ -828,7 +838,7 @@ define(['react', 'app','accounting','jsui'], function (React, app,accounting,jsu
 
 			options.push(<tr key="2a">
 				<td>
-					<b>Yearly Cost:</b>
+					<b>{app.user.get("userPlan")['planSelected']==1?"Yearly":"Monthly"} Cost:</b>
 				</td>
 				<td>{accounting.formatMoney(app.user.get("userPlan")['monthlyCharge'])}
 					</td>
@@ -837,7 +847,7 @@ define(['react', 'app','accounting','jsui'], function (React, app,accounting,jsu
 
 			options.push(<tr key="2c">
 				<td>
-					<b>Paid This Year:</b>
+					<b>Paid This Cycle:</b>
 				</td>
 				<td>{accounting.formatMoney(app.user.get("userPlan")['alrdPaid'])}
 				</td>
@@ -953,6 +963,11 @@ define(['react', 'app','accounting','jsui'], function (React, app,accounting,jsu
 									Please renew your service soon to avoid service interruption. Your email functionality will be limited to access to previous emails only.
 								</h3>
 
+								<h3 className={	app.user.get("userPlan")['planSelected']==2?"txt-color-red":"hidden"}>
+									Please upgrade to yearly subscription to unlock premium features. <button type="button" className="btn btn-primary pull-right" onClick={this.handleClick.bind(this, 'upgradeMember')}>Upgrade {accounting.formatMoney(app.user.get("userPlan")['yearSubscr']/100+app.user.get("userPlan")['monthlyCharge'])}/Year</button>
+
+								</h3>
+
 								<h3 className="pull-left">Account:</h3>
 
 								<table className=" table table-hover table-striped datatable table-light">
@@ -976,12 +991,12 @@ define(['react', 'app','accounting','jsui'], function (React, app,accounting,jsu
 								<div className="row">
 									<div className="col-md-12 col-lg-4">
 										<div className="panel panel-default">
-											<div className="panel-body">
+											<div className="panel-body disable">
 												<h5><b>Mailbox Space</b></h5>
 												<div className="form-horizontal margin-left-0">
 													<label className="col-lg-7 col-sm-12 control-label">Set Space in GB:</label>
 													<div className="col-lg-5 col-sm-12">
-														<select className="form-control" onChange={this.handleChange.bind(this, 'changeGB')} value={this.state.boxSize}>
+														<select className="form-control" onChange={this.handleChange.bind(this, 'changeGB')} value={this.state.boxSize} disabled={app.user.get("userPlan")['planSelected']==2?true:false}>
 															<option value="1000">{app.user.get("userPlan")['planData']['bSize']==1000?"1 GB*":"1 GB"}</option>
 															<option value="5000">{app.user.get("userPlan")['planData']['bSize']==5000?"5 GB*":"5 GB"}</option>
 															<option value="10000">{app.user.get("userPlan")['planData']['bSize']==10000?"10 GB*":"10 GB"}</option>
@@ -1013,7 +1028,7 @@ define(['react', 'app','accounting','jsui'], function (React, app,accounting,jsu
 													<label className="col-lg-7 col-sm-12 control-label">Number Of Domains:</label>
 
 													<div className="col-lg-5 col-sm-12">
-														<select className="form-control" onChange={this.handleChange.bind(this, 'changeDomain')} value={this.state.cDomain}>
+														<select className="form-control" onChange={this.handleChange.bind(this, 'changeDomain')} value={this.state.cDomain} disabled={app.user.get("userPlan")['planSelected']==2?true:false}>
 															<option value="0">{app.user.get("userPlan")['planData']['cDomain']==0?"0*":"0"}</option>
 															<option value="1">{app.user.get("userPlan")['planData']['cDomain']==1?"1*":"1"}</option>
 															<option value="2">{app.user.get("userPlan")['planData']['cDomain']==2?"2*":"2"}</option>
@@ -1041,7 +1056,7 @@ define(['react', 'app','accounting','jsui'], function (React, app,accounting,jsu
 													<label className="col-lg-8 col-sm-12 control-label">Number of aliases:</label>
 
 													<div className="col-lg-4 col-sm-12">
-														<select className="form-control" onChange={this.handleChange.bind(this, 'changeAl')} value={this.state.aliases}>
+														<select className="form-control" onChange={this.handleChange.bind(this, 'changeAl')} value={this.state.aliases} disabled={app.user.get("userPlan")['planSelected']==2?true:false}>
 															<option value="1">{app.user.get("userPlan")['planData']['alias']==1?"1*":"1"}</option>
 															<option value="5">{app.user.get("userPlan")['planData']['alias']==5?"5*":"5"}</option>
 															<option value="10">{app.user.get("userPlan")['planData']['alias']==10?"10*":"10"}</option>

@@ -1165,6 +1165,9 @@ define(['react','app','dataTable','dataTableBoot'], function (React,app,DataTabl
 				remote: {
 					url: app.defaults.get('apidomain')+"/checkEmailExistV2",
 					type: "post",
+					xhrFields: {
+						withCredentials: true
+					},
 					data:{
 						fromEmail:function(){
 							var email =$('#fromAliasEmail').val().toLowerCase();

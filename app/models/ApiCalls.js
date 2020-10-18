@@ -443,8 +443,7 @@ define([
 				$.ajaxQueue.addRequest({
 					xhr: function () {
 						var xhr = new window.XMLHttpRequest();
-						xhr.withCredentials = true;
-						//	xhr['testVariable']=anchor;
+							//	xhr['testVariable']=anchor;
 						//console.log()
 						xhr.upload.addEventListener("progress", function(evt) {
 							//show total file size
@@ -484,6 +483,9 @@ define([
 					type: "POST",
 					url: app.defaults.get('apidomain')+url,
 					data:postData ,
+                    xhrFields: {
+                        withCredentials: true
+                    },
 					success: function (data, textStatus) {
 
 						//console.log(document.referrer);

@@ -1164,7 +1164,7 @@ define([
 					//	'userObj':JSON.stringify(newUserObj)
 					//}
 
-					console.log(app.user.get("secondPassword"));
+				//	console.log(app.user.get("secondPassword"));
 
 
 					//console.log('savings');

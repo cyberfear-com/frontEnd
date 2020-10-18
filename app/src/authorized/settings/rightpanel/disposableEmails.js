@@ -557,7 +557,7 @@ define(['react','app','dataTable','dataTableBoot'], function (React,app,DataTabl
 						app.globalF.checkPlanLimits('disposable',thisComp.state.dataDispisable.length,function(result){
 							if(result){
 
-								var postData={'email':app.transform.SHA512(email+domain)};
+								var postData={'fromEmail':email+domain};
 
 								app.serverCall.ajaxRequest('checkEmailExist', postData, function (result) {
 									if(result){

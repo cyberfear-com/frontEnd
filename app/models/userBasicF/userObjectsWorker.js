@@ -612,9 +612,15 @@ define([
 */
                     var today=Math.floor(Date.now() / 1000);
 
+                if(result['data']['planSelected']==1){
+                    var due=2592000;
+                }else{
+                    var due= 604800;
+                }
 
                     //warning one week before plan
-                    if(parseInt(result['data']['cycleEnd'])-today<2592000 && result['data']['monthlyCharge']>result['data']['currentPlanBalance']){
+                    if(parseInt(result['data']['cycleEnd'])-today<due && result['data']['monthlyCharge']>result['data']['currentPlanBalance']){
+
                         app.user.set({
                             balanceShort:true,
                         });
@@ -1158,7 +1164,7 @@ define([
 					//	'userObj':JSON.stringify(newUserObj)
 					//}
 
-					console.log(app.user.get("secondPassword"));
+				//	console.log(app.user.get("secondPassword"));
 
 
 					//console.log('savings');

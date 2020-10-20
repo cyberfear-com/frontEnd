@@ -9,7 +9,8 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                 buttonText: "Create Account",
                 paym:"",
                 userId:"",
-                mCharge:""
+                mCharge:"",
+                membr:""
             };
         },
 
@@ -18,7 +19,8 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
             app.user.on("change:userPlan",function() {
                 // console.log(app.user.get("resetSelectedItems"));
                 thisComp.setState({
-                    mCharge:app.user.get("userPlan")['monthlyCharge']-app.user.get("userPlan")['alrdPaid']-app.user.get("userPlan")['currentPlanBalance']
+                    mCharge:app.user.get("userPlan")['monthlyCharge']-app.user.get("userPlan")['alrdPaid']-app.user.get("userPlan")['currentPlanBalance'],
+                    membr:app.user.get("userPlan")['planSelected']==1?'year':'month'
                 });
                 // $('#selectAll>input').prop("checked",false);
             },thisComp);
@@ -26,13 +28,53 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
         },
 
         componentWillUnmount: function () {
-
             app.user.off("change:userPlan");
+        },
+        setMembership:function(duration){
+
+            var userObj={};
+
+             userObj['planSelector']=duration;
+            userObj['userToken']=app.user.get("userLoginToken");
+
+            $.ajax({
+                method: "POST",
+                url: app.defaults.get('apidomain')+"/SetMembershipPriceV2",
+                data: userObj,
+                dataType: "json",
+                xhrFields: {
+                    withCredentials: true
+                }
+            })
+                .then(function (msg) {
+
+                    if(msg['response']==='fail'){
+                            app.notifications.systemMessage('tryAgain');
+
+                    }else if(msg['response']==='success'){
+                        app.userObjects.loadUserPlan(function(){});
+                    }
+
+                    // console.log(msg)
+                });
         },
 
         handleChange: function (action, event) {
 
             switch (action) {
+                case 'year':
+                    this.setState({
+                        membr: "year",
+                    });
+                    this.setMembership('year');
+                    break;
+                case 'month':
+                    this.setState({
+                        membr: "month",
+                    });
+                    this.setMembership('month');
+                    break;
+
                 case 'perfectm':
                     var thisComp=this;
                     this.setState({
@@ -156,6 +198,40 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                             </div>
 
                             <div className="panel panel-default">
+                                <div className="text-center">Select your Membership:</div>
+                                <div className="panel-body">
+                                    <div className="form-inline text-center">
+                                        <div className="form-group col-lg-offset-0 text-left">
+                                            <div className="radio">
+                                                <label>
+                                                    <input className="margin-right-10" type="radio" name="memberSh" id="optionsRadios1"
+                                                           value="option1"
+                                                           checked={this.state.membr=='year'}
+                                                           onChange={this.handleChange.bind(this, 'year')} />
+                                                    &nbsp;Yearly ($18/year)
+                                                </label>
+                                            </div>
+                                            <div className="clearfix"></div>
+                                            <div className="radio">
+                                                <label>
+                                                    <input className="margin-right-10" type="radio" name="memberSh" id="optionsRadios2"
+                                                           value="option2"
+                                                           checked={this.state.membr=='month'}
+                                                           onChange={this.handleChange.bind(this, 'month')} />
+
+                                                    &nbsp;Monthly ($2/month)
+                                                </label>
+                                            </div>
+                                        </div>
+
+
+                                        <div className="clearfix"></div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="panel panel-default">
                                 <div className="text-center">Payment Method:</div>
                                 <div className="panel-body">
                                     <div className="form-inline text-center">
@@ -230,7 +306,7 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                                             <input type="hidden" name="last_name" value="anonymous"/>
                                             <input type="hidden" name="email" value="anonymous@cyberfear.com"/>
                                             <input type="hidden" name="item_name" value="Premium Membership"/>
-                                            <input type="hidden" name="item_desc" value="1 Year Subscription"/>
+                                            <input type="hidden" name="item_desc" value={this.state.membr=='year'?"1 Year Subscription":"1 Month Subscription"}/>
                                             <input type="hidden" name="custom" value={this.state.userId}/>
                                             <input type="hidden" name="currency" value="USD"/>
                                             <input type="hidden" name="amountf" value={this.state.mCharge}/>

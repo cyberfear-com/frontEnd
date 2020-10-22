@@ -631,7 +631,7 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
                });
            }
     */
-				if (app.user.get("userPlan")['pastDue'] == 1 || app.user.get("userPlan")['alrdPaid'] == 0 || app.user.get("userPlan")['priceFullProrated'] > 0) {
+				if (app.user.get("userPlan")['pastDue'] == 1 || app.user.get("userPlan")['priceFullProrated'] > 0) {
 
 					thisComp.setState({ setWarning: true });
 				} else {
@@ -715,8 +715,7 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 
 				});
 
-				if (app.user.get("userPlan")['pastDue'] == 1 || app.user.get("userPlan")['alrdPaid'] == 0 || app.user.get("userPlan")['priceFullProrated'] > 0) {
-
+				if (app.user.get("userPlan")['pastDue'] == 1 || app.user.get("userPlan")['priceFullProrated'] > 0) {
 					thisComp.setState({ setWarning: true });
 				} else {
 					thisComp.setState({ setWarning: false });
@@ -880,6 +879,26 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 				React.createElement('td', null)
 			));
 
+			options.push(React.createElement(
+				'tr',
+				{ key: '3c' },
+				React.createElement(
+					'td',
+					null,
+					React.createElement(
+						'b',
+						null,
+						'Rewards:'
+					)
+				),
+				React.createElement(
+					'td',
+					null,
+					accounting.formatMoney(app.user.get("userPlan")['rewardCollected'], '$', 4)
+				),
+				React.createElement('td', null)
+			));
+
 			//}
 
 
@@ -1030,7 +1049,7 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 							),
 							React.createElement(
 								'h3',
-								{ className: app.user.get("userPlan")['planSelected'] == 2 ? "txt-color-red" : "hidden" },
+								{ className: app.user.get("userPlan")['planSelected'] == 2 || app.user.get("userPlan")['planSelected'] == 3 ? "txt-color-red" : "hidden" },
 								'Please upgrade to yearly subscription to unlock premium features. ',
 								React.createElement(
 									'button',
@@ -1106,7 +1125,7 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 													{ className: 'col-lg-5 col-sm-12' },
 													React.createElement(
 														'select',
-														{ className: 'form-control', onChange: this.handleChange.bind(this, 'changeGB'), value: this.state.boxSize, disabled: app.user.get("userPlan")['planSelected'] == 2 ? true : false },
+														{ className: 'form-control', onChange: this.handleChange.bind(this, 'changeGB'), value: this.state.boxSize, disabled: app.user.get("userPlan")['planSelected'] == 1 ? false : true },
 														React.createElement(
 															'option',
 															{ value: '1000' },
@@ -1202,7 +1221,7 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 													{ className: 'col-lg-5 col-sm-12' },
 													React.createElement(
 														'select',
-														{ className: 'form-control', onChange: this.handleChange.bind(this, 'changeDomain'), value: this.state.cDomain, disabled: app.user.get("userPlan")['planSelected'] == 2 ? true : false },
+														{ className: 'form-control', onChange: this.handleChange.bind(this, 'changeDomain'), value: this.state.cDomain, disabled: app.user.get("userPlan")['planSelected'] == 1 ? false : true },
 														React.createElement(
 															'option',
 															{ value: '0' },
@@ -1298,7 +1317,12 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 													{ className: 'col-lg-4 col-sm-12' },
 													React.createElement(
 														'select',
-														{ className: 'form-control', onChange: this.handleChange.bind(this, 'changeAl'), value: this.state.aliases, disabled: app.user.get("userPlan")['planSelected'] == 2 ? true : false },
+														{ className: 'form-control', onChange: this.handleChange.bind(this, 'changeAl'), value: this.state.aliases, disabled: app.user.get("userPlan")['planSelected'] == 1 ? false : true },
+														React.createElement(
+															'option',
+															{ value: '0' },
+															app.user.get("userPlan")['planData']['alias'] == 0 ? "0*" : "0"
+														),
 														React.createElement(
 															'option',
 															{ value: '1' },

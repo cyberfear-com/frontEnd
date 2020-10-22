@@ -78,6 +78,12 @@ define(['react','app'], function (React,app) {
 							trigger : true
 						});
 						break;
+					case 'Coupon':
+						Backbone.history.navigate("/settings/Coupons", {
+							trigger : true
+						});
+						break;
+
 					case 'Plan':
 						Backbone.history.navigate("/settings/Plan", {
 							trigger : true
@@ -148,6 +154,8 @@ define(['react','app'], function (React,app) {
 
 					{/*<li className={this.props.activeLink.security}>
 						<a className="list-link js-nav" onClick={this.handleClick.bind(this, 'Security-Log')}>Security Log<i className="fa fa-chevron-right"></i></a></li>*/}
+					<li className={this.props.activeLink.coupon}>
+						<a className="list-link js-nav" onClick={this.handleClick.bind(this, 'Coupon')}>Coupons<i className="fa fa-chevron-right"></i></a></li>
 
 					<li className={this.props.activeLink.plan}>
 						<a className="list-link js-nav" onClick={this.handleClick.bind(this, 'Plan')}>Paid Plan Features<i className="fa fa-chevron-right"></i></a></li>

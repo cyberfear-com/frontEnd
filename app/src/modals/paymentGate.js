@@ -18,12 +18,29 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
             var thisComp=this;
             app.user.on("change:userPlan",function() {
                 // console.log(app.user.get("resetSelectedItems"));
+
+                if(app.user.get("userPlan")['planSelected']==1){
+                    var pl='year';
+                }else if(app.user.get("userPlan")['planSelected']==2){
+                    var pl='month';
+                }else if(app.user.get("userPlan")['planSelected']==3){
+                    var pl='free';
+                }
                 thisComp.setState({
                     mCharge:app.user.get("userPlan")['monthlyCharge']-app.user.get("userPlan")['alrdPaid']-app.user.get("userPlan")['currentPlanBalance'],
-                    membr:app.user.get("userPlan")['planSelected']==1?'year':'month'
+                    membr:pl
                 });
                 // $('#selectAll>input').prop("checked",false);
             },thisComp);
+
+                $(".specButton").on({
+                    mouseover:function(){
+                        $(this).css({
+                            left:(Math.random()*450)+"px",
+                        });
+                    }
+                });
+
 
         },
 
@@ -55,7 +72,7 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                         app.userObjects.loadUserPlan(function(){});
                     }
 
-                    // console.log(msg)
+                     //console.log(msg)
                 });
         },
 
@@ -74,6 +91,14 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                     });
                     this.setMembership('month');
                     break;
+
+                    case 'free':
+                    this.setState({
+                        membr: "free",
+                    });
+                    this.setMembership('free');
+                    break;
+
 
                 case 'perfectm':
                     var thisComp=this;
@@ -176,6 +201,30 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                         });
                     };
                     break;
+                case "freemium":
+
+                    $.ajax({
+                        method: "POST",
+                        url: app.defaults.get('apidomain')+"/activateFreemiumV2",
+                        data: {},
+                        dataType: "json",
+                        xhrFields: {
+                            withCredentials: true
+                        }
+                    })
+                        .then(function (msg) {
+
+                            if(msg['response']==='fail'){
+                                app.notifications.systemMessage('tryAgain');
+
+                            }else if(msg['response']==='success'){
+                                app.userObjects.loadUserPlan(function(){});
+                            }
+
+                            //console.log(msg)
+                        });
+
+                    break;
             }
         },
 
@@ -204,7 +253,7 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                                         <div className="form-group col-lg-offset-0 text-left">
                                             <div className="radio">
                                                 <label>
-                                                    <input className="margin-right-10" type="radio" name="memberSh" id="optionsRadios1"
+                                                    <input className="margin-right-10" type="radio" name="memberSh" id="optionsR1"
                                                            value="option1"
                                                            checked={this.state.membr=='year'}
                                                            onChange={this.handleChange.bind(this, 'year')} />
@@ -214,12 +263,23 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                                             <div className="clearfix"></div>
                                             <div className="radio">
                                                 <label>
-                                                    <input className="margin-right-10" type="radio" name="memberSh" id="optionsRadios2"
+                                                    <input className="margin-right-10" type="radio" name="memberSh" id="optionsR2"
                                                            value="option2"
                                                            checked={this.state.membr=='month'}
                                                            onChange={this.handleChange.bind(this, 'month')} />
 
                                                     &nbsp;Monthly ($2/month)
+                                                </label>
+                                            </div>
+                                            <div className="clearfix"></div>
+                                            <div className="radio">
+                                                <label>
+                                                    <input className="margin-right-10" type="radio" name="memberSh" id="optionsR"
+                                                           value="option3"
+                                                           checked={this.state.membr=='free'}
+                                                           onChange={this.handleChange.bind(this, 'free')} />
+
+                                                    &nbsp;Free (Some cool features are disabled)
                                                 </label>
                                             </div>
                                         </div>
@@ -231,7 +291,7 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                                 </div>
                             </div>
 
-                            <div className="panel panel-default">
+                            <div className={this.state.membr=='free'?"hidden":"panel panel-default"}>
                                 <div className="text-center">Payment Method:</div>
                                 <div className="panel-body">
                                     <div className="form-inline text-center">
@@ -320,14 +380,21 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
 
                                         <div className={this.state.paym=="paypal"?"":"hidden"} id="paypal-button-container"></div>
 
-                                        <div className="radio">
-                                            <button type="submit" form={this.state.paym==="perfectm" ?"perfMF":"cryptF"} onClick={this.handleClick.bind(this, 'pay')} className={this.state.paym=="perfectm" || this.state.paym=="bitc" ?"white-btn":"hidden"} disabled={this.state.paym==""}>Pay Now</button>
-                                        </div>
+
 
                                     </div>
                                 </div>
                             </div>
+                            <div>
+                                <div style={{textAlign:"center"}}>
+                                <button type="submit" form={this.state.paym==="perfectm" ?"perfMF":"cryptF"} onClick={this.handleClick.bind(this, 'pay')} className={(this.state.paym=="perfectm" || this.state.paym=="bitc") && this.state.membr!='free' ?"white-btn":"hidden"} disabled={this.state.paym==""} style={{float:"none",display:"initial"}}>Pay Now</button>
+                                </div>
 
+                            </div>
+
+                            <div className={this.state.membr=='free'?"":"hidden"} style={{textAlign:"center"}}>
+                                <button onClick={this.handleClick.bind(this, 'freemium')} className="white-btn specButton" style={{float:"none",display:"initial"}}>Log In</button>
+                            </div>
                         </div>
                     </div>
                 </div>

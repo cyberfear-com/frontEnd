@@ -5,6 +5,7 @@ define(['react', 'app', 'cmpld/authorized/settings/leftmenu/settingsList'], func
 			return {
 				settings: {
 					profile: '',
+					coupon: '',
 					layout: '',
 					password: '',
 					disposable: '',
@@ -119,6 +120,9 @@ define(['react', 'app', 'cmpld/authorized/settings/leftmenu/settingsList'], func
 					break;
 				case 'BlackList':
 					this.setState({ settings: { blackList: 'active' } });
+					break;
+				case 'Coupons':
+					this.setState({ settings: { coupon: 'active' } });
 					break;
 
 				case 'Folders':

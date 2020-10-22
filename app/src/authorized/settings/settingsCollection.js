@@ -10,6 +10,7 @@ define(['react','app',
 			return {
 				settings:{
 					profile:'',
+					coupon:'',
 					layout:'',
 					password:'',
 					disposable:'',
@@ -130,7 +131,9 @@ define(['react','app',
                     case 'BlackList':
                         this.setState({settings:{blackList:'active'}});
                         break;
-
+					case 'Coupons':
+						this.setState({settings:{coupon:'active'}});
+						break;
 
 					case 'Folders':
 						this.setState({settings:{folders:'active'}});

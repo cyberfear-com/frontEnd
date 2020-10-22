@@ -26,6 +26,7 @@ html {
 	height: 100%;
 	box-sizing: border-box;
 }
+
 body {
 	font-family: 'Lane-Narrow';
 	font-weight: 400;
@@ -147,7 +148,11 @@ a:hover {
 	background-color: #6d6d6d;
 	border-color: #6d6d6d;
 }
-
+.specButton{
+	position:absolute !important;
+	bottom:2px;
+	left:225px;
+}​
 .dark-btn {
 	border-radius: 2px;
 	background-color: rgb(0, 0, 0);

@@ -78,6 +78,12 @@ define(['react', 'app'], function (React, app) {
 							trigger: true
 						});
 						break;
+					case 'Coupon':
+						Backbone.history.navigate("/settings/Coupons", {
+							trigger: true
+						});
+						break;
+
 					case 'Plan':
 						Backbone.history.navigate("/settings/Plan", {
 							trigger: true
@@ -215,6 +221,16 @@ define(['react', 'app'], function (React, app) {
 							'a',
 							{ className: 'list-link js-nav', onClick: this.handleClick.bind(this, 'BlackList') },
 							'Black / White List ',
+							React.createElement('i', { className: 'fa fa-chevron-right' })
+						)
+					),
+					React.createElement(
+						'li',
+						{ className: this.props.activeLink.coupon },
+						React.createElement(
+							'a',
+							{ className: 'list-link js-nav', onClick: this.handleClick.bind(this, 'Coupon') },
+							'Coupons',
 							React.createElement('i', { className: 'fa fa-chevron-right' })
 						)
 					),

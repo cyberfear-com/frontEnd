@@ -78,6 +78,12 @@ define(['react','app'], function (React,app) {
 							trigger : true
 						});
 						break;
+					case 'Coupon':
+						Backbone.history.navigate("/settings/Coupons", {
+							trigger : true
+						});
+						break;
+
 					case 'Plan':
 						Backbone.history.navigate("/settings/Plan", {
 							trigger : true

@@ -235,6 +235,7 @@ define(['app','backbone', 'react','jquery','bootstrap','cmpld/splashPage/SplashC
 					'cmpld/authorized/settings/rightpanel/profile',
 					'cmpld/authorized/settings/rightpanel/layout',
 					'cmpld/authorized/settings/rightpanel/password',
+					'cmpld/authorized/settings/rightpanel/coupons',
 					'cmpld/authorized/settings/rightpanel/contacts',
 					'cmpld/authorized/settings/rightpanel/2step',
 					'cmpld/authorized/settings/rightpanel/customDomains',
@@ -253,7 +254,7 @@ define(['app','backbone', 'react','jquery','bootstrap','cmpld/splashPage/SplashC
 
 				function (
 					Profile,Layout,
-					Password,Contacts,
+					Password,Coupons,Contacts,
 					Step2,Domains,
 					Aliases,Pgp,
 					Webdiv,Security,
@@ -326,6 +327,11 @@ define(['app','backbone', 'react','jquery','bootstrap','cmpld/splashPage/SplashC
 					case 'Delete-Account':
 							 Profil= Delete;
 						break;
+
+					case 'Coupons':
+						Profil= Coupons;
+						break;
+
 					case 'Plan':
 						 Profil= Plan;
 						break;

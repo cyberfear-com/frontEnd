@@ -31,7 +31,7 @@ define([
 			else
 				var email = emailInput.toLowerCase();
 
-			//console.log(password);
+			console.log(email);
 			var post={
 				//todo get one step or two before submit, minimize exposure
 				username:app.transform.SHA512(email),
@@ -135,9 +135,15 @@ define([
 				app.user.set({"getPlan": true});
 
 				app.userObjects.loadUserPlan(function () {
+					//console.log(app.user.get("tempCoin"));
+					//console.log(app.user.get("firstTimeCacel"));
+					//console.log(app.user.get("userPlan")['newUser']);
+					//console.log(app.user.get("userPlan")['newUser'] === false);
+					//console.log(app.user.get("userPlan"));
+
 					app.user.set({"getPlan": false});
 					//if paid
-					if (app.user.get("userPlan")['newUser'] === false && app.user.get("userPlan")['alrdPaid'] != 0) {
+					if (app.user.get("userPlan")['newUser'] === false && app.user.get("userPlan")['alrdPaid'] === app.user.get("userPlan")['monthlyCharge']) {
 
 						clearInterval(thisComp.checkP);
 						app.user.set({"getPlan": false});

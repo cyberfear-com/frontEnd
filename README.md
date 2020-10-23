@@ -28,13 +28,13 @@ Locally hosted frontend will load faster.
 
 Usage Guide:
 
-1. install node.js
-2. install git
-3. run command: git clone git@github.com:cyberfear-com/frontEnd.git [localfolder]
-5. run command: git checkout localCode
-6. open the following directory: app/models/variable/ copy defaultSettings_default.js to defaultSettings.js
-7. in base folder run command: ./watch.sh
-8. run command: node server.js
-9. Visit: localhost:3128 in your favorite browser
+1. Install node.js
+2. Install git
+3. Run command: git clone git@github.com:cyberfear-com/frontEnd.git [localfolder]
+4. Inside the new folder, run command: git checkout localCode
+5. Open the following directory: app/models/variable/ and copy defaultSettings_default.js to defaultSettings.js
+6. In base folder run command: ./watch.sh
+7. Run command: node server.js
+8. Visit: localhost:3128 in your favorite browser
 
 Enjoy!

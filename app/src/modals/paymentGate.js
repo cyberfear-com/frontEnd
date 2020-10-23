@@ -33,13 +33,13 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                 // $('#selectAll>input').prop("checked",false);
             },thisComp);
 
-                $(".specButton").on({
+               /* $(".specButton").on({
                     mouseover:function(){
                         $(this).css({
                             left:(Math.random()*450)+"px",
                         });
                     }
-                });
+                });*/
 
 
         },
@@ -393,7 +393,7 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                             </div>
 
                             <div className={this.state.membr=='free'?"":"hidden"} style={{textAlign:"center"}}>
-                                <button onClick={this.handleClick.bind(this, 'freemium')} className="white-btn specButton" style={{float:"none",display:"initial"}}>Log In</button>
+                                <button onClick={this.handleClick.bind(this, 'freemium')} className="white-btn" style={{float:"none",display:"initial"}}>Log In</button>
                             </div>
                         </div>
                     </div>

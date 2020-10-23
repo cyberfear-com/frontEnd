@@ -137,7 +137,7 @@ define([
 				app.userObjects.loadUserPlan(function () {
 					app.user.set({"getPlan": false});
 					//if paid
-					if (app.user.get("userPlan")['newUser'] === false && app.user.get("userPlan")['alrdPaid'] != 0) {
+					if (app.user.get("userPlan")['newUser'] === false && app.user.get("userPlan")['alrdPaid'] === app.user.get("userPlan")['monthlyCharge']) {
 
 						clearInterval(thisComp.checkP);
 						app.user.set({"getPlan": false});

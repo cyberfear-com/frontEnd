@@ -1486,7 +1486,7 @@ define(['react', 'app', 'summernote', 'select2'], function (React, app, summerno
 			} else if (this.state.emailProtected == 3) {
 				protect = React.createElement(
 					'button',
-					{ className: 'btn btn-default btn-sm', 'data-placement': 'bottom', 'data-toggle': 'popover', 'data-trigger': 'focus', title: '', 'data-content': 'Email will be sent within SCRYPTmail system. All information is encrypted, including: subject, recipients and sender.', 'data-original-title': 'Encryption Level: High' },
+					{ className: 'btn btn-default btn-sm', 'data-placement': 'bottom', 'data-toggle': 'popover', 'data-trigger': 'focus', title: '', 'data-content': 'Email will be sent within cyberfear system. All information is encrypted, including: subject, recipients and sender.', 'data-original-title': 'Encryption Level: High' },
 					React.createElement('i', { className: 'fa fa-lock fa-lg txt-color-greenDark' })
 				);
 			}

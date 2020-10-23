@@ -410,12 +410,23 @@ define([
                     delete postData['userToken'];
                     break;
 
+				case 'requestInvLink':
+					var url='/requestInvLinkV2';
+					break;
+
                 case 'retrieveUnregEmailV2':
 
                     var url='/retrieveUnregEmailV2';
                     delete postData['userToken'];
 
                     break;
+
+				case 'RetrieveCoupData':
+
+					var url='/RetrieveCoupDataV2';
+
+					break;
+
                 case 'retrievePublicKeyUnreg':
 
                     var url='/retrievePublicKeyUnregV2';
@@ -504,6 +515,9 @@ define([
 								if(data['data']=="pastDue"){
 									app.notifications.systemMessage('pastDue');
 								}
+								if(data['data']=="tryAgain"){
+									app.notifications.systemMessage('tryAgain');
+								}
 							}
 
 							//app.notifications.systemMessage('wrngUsrOrPass');
@@ -522,7 +536,7 @@ define([
 						callback(data);
 					},
 					error: function (data, textStatus) {
-						console.log(data['responseText']);
+					//	console.log(data['responseText']);
 
 						if(data['responseText']==="Login Required"){
 							app.restartApp();

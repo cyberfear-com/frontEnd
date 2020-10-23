@@ -18,9 +18,17 @@ define(['app', 'accounting', 'react'], function (app, accounting, React) {
             var thisComp = this;
             app.user.on("change:userPlan", function () {
                 // console.log(app.user.get("resetSelectedItems"));
+
+                if (app.user.get("userPlan")['planSelected'] == 1) {
+                    var pl = 'year';
+                } else if (app.user.get("userPlan")['planSelected'] == 2) {
+                    var pl = 'month';
+                } else if (app.user.get("userPlan")['planSelected'] == 3) {
+                    var pl = 'free';
+                }
                 thisComp.setState({
                     mCharge: app.user.get("userPlan")['monthlyCharge'] - app.user.get("userPlan")['alrdPaid'] - app.user.get("userPlan")['currentPlanBalance'],
-                    membr: app.user.get("userPlan")['planSelected'] == 1 ? 'year' : 'month'
+                    membr: pl
                 });
                 // $('#selectAll>input').prop("checked",false);
             }, thisComp);
@@ -70,6 +78,13 @@ define(['app', 'accounting', 'react'], function (app, accounting, React) {
                         membr: "month"
                     });
                     this.setMembership('month');
+                    break;
+
+                case 'free':
+                    this.setState({
+                        membr: "free"
+                    });
+                    this.setMembership('free');
                     break;
 
                 case 'perfectm':
@@ -169,6 +184,28 @@ define(['app', 'accounting', 'react'], function (app, accounting, React) {
                         });
                     };
                     break;
+                case "freemium":
+
+                    $.ajax({
+                        method: "POST",
+                        url: app.defaults.get('apidomain') + "/activateFreemiumV2",
+                        data: {},
+                        dataType: "json",
+                        xhrFields: {
+                            withCredentials: true
+                        }
+                    }).then(function (msg) {
+
+                        if (msg['response'] === 'fail') {
+                            app.notifications.systemMessage('tryAgain');
+                        } else if (msg['response'] === 'success') {
+                            app.userObjects.loadUserPlan(function () {});
+                        }
+
+                        //console.log(msg)
+                    });
+
+                    break;
             }
         },
 
@@ -222,7 +259,7 @@ define(['app', 'accounting', 'react'], function (app, accounting, React) {
                                             React.createElement(
                                                 'label',
                                                 null,
-                                                React.createElement('input', { className: 'margin-right-10', type: 'radio', name: 'memberSh', id: 'optionsRadios1',
+                                                React.createElement('input', { className: 'margin-right-10', type: 'radio', name: 'memberSh', id: 'optionsR1',
                                                     value: 'option1',
                                                     checked: this.state.membr == 'year',
                                                     onChange: this.handleChange.bind(this, 'year') }),
@@ -236,11 +273,25 @@ define(['app', 'accounting', 'react'], function (app, accounting, React) {
                                             React.createElement(
                                                 'label',
                                                 null,
-                                                React.createElement('input', { className: 'margin-right-10', type: 'radio', name: 'memberSh', id: 'optionsRadios2',
+                                                React.createElement('input', { className: 'margin-right-10', type: 'radio', name: 'memberSh', id: 'optionsR2',
                                                     value: 'option2',
                                                     checked: this.state.membr == 'month',
                                                     onChange: this.handleChange.bind(this, 'month') }),
                                                 '\xA0Monthly ($2/month)'
+                                            )
+                                        ),
+                                        React.createElement('div', { className: 'clearfix' }),
+                                        React.createElement(
+                                            'div',
+                                            { className: 'radio' },
+                                            React.createElement(
+                                                'label',
+                                                null,
+                                                React.createElement('input', { className: 'margin-right-10', type: 'radio', name: 'memberSh', id: 'optionsR',
+                                                    value: 'option3',
+                                                    checked: this.state.membr == 'free',
+                                                    onChange: this.handleChange.bind(this, 'free') }),
+                                                '\xA0Free (Some cool features are disabled)'
                                             )
                                         )
                                     ),
@@ -250,7 +301,7 @@ define(['app', 'accounting', 'react'], function (app, accounting, React) {
                         ),
                         React.createElement(
                             'div',
-                            { className: 'panel panel-default' },
+                            { className: this.state.membr == 'free' ? "hidden" : "panel panel-default" },
                             React.createElement(
                                 'div',
                                 { className: 'text-center' },
@@ -345,17 +396,30 @@ define(['app', 'accounting', 'react'], function (app, accounting, React) {
                                         React.createElement('input', { type: 'hidden', name: 'cancel_url', value: 'https://cyberfear.com/api/Pe' })
                                     ),
                                     React.createElement('div', { className: 'clearfix' }),
-                                    React.createElement('div', { className: this.state.paym == "paypal" ? "" : "hidden", id: 'paypal-button-container' }),
-                                    React.createElement(
-                                        'div',
-                                        { className: 'radio' },
-                                        React.createElement(
-                                            'button',
-                                            { type: 'submit', form: this.state.paym === "perfectm" ? "perfMF" : "cryptF", onClick: this.handleClick.bind(this, 'pay'), className: this.state.paym == "perfectm" || this.state.paym == "bitc" ? "white-btn" : "hidden", disabled: this.state.paym == "" },
-                                            'Pay Now'
-                                        )
-                                    )
+                                    React.createElement('div', { className: this.state.paym == "paypal" ? "" : "hidden", id: 'paypal-button-container' })
                                 )
+                            )
+                        ),
+                        React.createElement(
+                            'div',
+                            null,
+                            React.createElement(
+                                'div',
+                                { style: { textAlign: "center" } },
+                                React.createElement(
+                                    'button',
+                                    { type: 'submit', form: this.state.paym === "perfectm" ? "perfMF" : "cryptF", onClick: this.handleClick.bind(this, 'pay'), className: (this.state.paym == "perfectm" || this.state.paym == "bitc") && this.state.membr != 'free' ? "white-btn" : "hidden", disabled: this.state.paym == "", style: { float: "none", display: "initial" } },
+                                    'Pay Now'
+                                )
+                            )
+                        ),
+                        React.createElement(
+                            'div',
+                            { className: this.state.membr == 'free' ? "" : "hidden", style: { textAlign: "center" } },
+                            React.createElement(
+                                'button',
+                                { onClick: this.handleClick.bind(this, 'freemium'), className: 'white-btn', style: { float: "none", display: "initial" } },
+                                'Log In'
                             )
                         )
                     )

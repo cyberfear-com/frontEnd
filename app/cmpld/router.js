@@ -176,7 +176,7 @@ define(['app', 'backbone', 'react', 'jquery', 'bootstrap', 'cmpld/splashPage/Spl
 				app.restartApp();
 			}
 			var Profil = '';
-			require(['cmpld/authorized/settings/rightpanel/profile', 'cmpld/authorized/settings/rightpanel/layout', 'cmpld/authorized/settings/rightpanel/password', 'cmpld/authorized/settings/rightpanel/contacts', 'cmpld/authorized/settings/rightpanel/2step', 'cmpld/authorized/settings/rightpanel/customDomains', 'cmpld/authorized/settings/rightpanel/disposableEmails', 'cmpld/authorized/settings/rightpanel/pgpKeys', 'cmpld/authorized/settings/rightpanel/webDiv', 'cmpld/authorized/settings/rightpanel/securityLog', 'cmpld/authorized/settings/rightpanel/folders', 'cmpld/authorized/settings/rightpanel/emailFilter', 'cmpld/authorized/settings/rightpanel/deleteAccount', 'cmpld/authorized/settings/rightpanel/plan', 'cmpld/authorized/settings/rightpanel/blackList', 'cmpld/authorized/authCollection', 'cmpld/authorized/updates/updateVersion1'], function (Profile, Layout, Password, Contacts, Step2, Domains, Aliases, Pgp, Webdiv, Security, Folders, Spam, Delete, Plan, blackList, AuthCollection, UpdateVersion1) {
+			require(['cmpld/authorized/settings/rightpanel/profile', 'cmpld/authorized/settings/rightpanel/layout', 'cmpld/authorized/settings/rightpanel/password', 'cmpld/authorized/settings/rightpanel/coupons', 'cmpld/authorized/settings/rightpanel/contacts', 'cmpld/authorized/settings/rightpanel/2step', 'cmpld/authorized/settings/rightpanel/customDomains', 'cmpld/authorized/settings/rightpanel/disposableEmails', 'cmpld/authorized/settings/rightpanel/pgpKeys', 'cmpld/authorized/settings/rightpanel/webDiv', 'cmpld/authorized/settings/rightpanel/securityLog', 'cmpld/authorized/settings/rightpanel/folders', 'cmpld/authorized/settings/rightpanel/emailFilter', 'cmpld/authorized/settings/rightpanel/deleteAccount', 'cmpld/authorized/settings/rightpanel/plan', 'cmpld/authorized/settings/rightpanel/blackList', 'cmpld/authorized/authCollection', 'cmpld/authorized/updates/updateVersion1'], function (Profile, Layout, Password, Coupons, Contacts, Step2, Domains, Aliases, Pgp, Webdiv, Security, Folders, Spam, Delete, Plan, blackList, AuthCollection, UpdateVersion1) {
 
 				//clearTimeout(app.mailMan.get('loading'));
 
@@ -240,6 +240,11 @@ define(['app', 'backbone', 'react', 'jquery', 'bootstrap', 'cmpld/splashPage/Spl
 					case 'Delete-Account':
 						Profil = Delete;
 						break;
+
+					case 'Coupons':
+						Profil = Coupons;
+						break;
+
 					case 'Plan':
 						Profil = Plan;
 						break;

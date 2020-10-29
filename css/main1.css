@@ -1244,6 +1244,40 @@ table.dataTable tbody tr.highlight {
 .select2-selection .select2-selection__choice.file-uploaded {
     background-color: #8fff8f;
 }
+.emailbody{
+padding:10px;
+}
+.py-2{
+    margin-right:10px;
+}
+
+.dark-btn {
+    border-radius: 2px;
+    background-color: rgb(0, 0, 0);
+    color: #fff !important;
+    padding: 8px 35px;
+    cursor: pointer;
+    font-weight: 700;
+    z-index: 1;
+    position: relative;
+    border: 0;
+}
+.white-btn {
+    border: 1px solid #000;
+    background-color: rgb(255, 255, 255);
+    color: #000000 !important;
+    padding: 7px 20px;
+    float: right;
+    cursor: pointer;
+    display: block;
+    text-align: center;
+    font-weight: 700;
+    z-index: 9999;
+    position: relative;
+}
+.dark-btn:hover {
+    background-color: rgb(67, 67, 67) !important;
+}
 
 .vibrate {
     /* Start the shake animation and make the animation last for 0.5 seconds */

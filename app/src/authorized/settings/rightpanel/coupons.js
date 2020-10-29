@@ -1,4 +1,4 @@
-define(['react','app','qrcode'], function (React,app,qrcode) {
+define(['react','app','accounting'], function (React,app,accounting) {
 	"use strict";
 	return React.createClass({
 
@@ -22,17 +22,16 @@ define(['react','app','qrcode'], function (React,app,qrcode) {
 			return {
 				nav1Class:"",
 				nav2Class:"",
-
-				panel1Class:"hidden", //goog enab
-				panel2Class:"hidden", //goog create
-				panel3Class:"hidden", //yubi enab
-				panel4Class:"hidden", //yubi create
-
-				panel2Visible:"hidden",
-				panel4Visible:"hidden",
+				panel1Class:"", //goog enab
 				button1Class:"",
-				googlePin:"",
-				yubiPin:""
+				CouponHistory:"",
+                invited:0,
+                paid:0,
+                reward:0,
+				pendingReward:0,
+                rewardPaid:0,
+				alreadyAwarded:0
+
 			};
 		},
 
@@ -41,63 +40,117 @@ define(['react','app','qrcode'], function (React,app,qrcode) {
 				nav1Class:"",
 				nav2Class:"",
 
-				panel1Class:"hidden",
-				panel2Class:"hidden",
-				panel3Class:"hidden",
-				panel4Class:"hidden",
-				panel2Visible:"hidden",
-				panel4Visible:"hidden",
+				panel1Class:"",
+
 				button1Class:""
 
 			});
 		},
 
+		CouponHistory: function () {
+
+			var options = [];
+
+			var paid=[];
+
+			/*  if(app.user.get("userPlan")['balance']<0){
+                  paid.push(<span key="sd1" className='txt-color-red'>{accounting.formatMoney(app.user.get("userPlan")['balance'])}</span>);
+                  paid.push( <span  key="sd2"  className="pull-right txt-color-red">Account is past due.</span>);
+              }else{
+                  paid.push(<span key="sd1" className=''>{accounting.formatMoney(app.user.get("userPlan")['balance'])}</span>);
+              }*/
+			//
+
+
+			options.push(<tr key="1a">
+				<td className="col-md-6">
+					<b>Your Unique Coupon:</b>
+				</td>
+				<td colSpan="2">{app.user.get("userPlan")['coupon']}</td>
+
+
+
+			</tr>);
+
+			options.push(<tr key="1b">
+				<td className="col-md-6">
+					<b>Invitation Link:</b>
+				</td>
+				<td>https://cyberfear.com/index.html#createUser/{app.user.get("userPlan")['coupon']}
+
+
+				</td>
+				<td><div className="pull-right dialog_buttons col-md-3">
+					<button type="button" className="btn btn-primary pull-right" onClick={this.handleClick.bind(this, 'copyToClipboard')}>Copy Link</button>
+
+				</div></td>
+
+			</tr>);
+
+			options.push(<tr key="2a">
+				<td>
+					<b>Registered using your link:</b>
+				</td>
+				<td colSpan="2">{this.state.invited}
+				</td>
+
+			</tr>);
+
+			options.push(<tr key="2c">
+				<td>
+					<b>Registered and paid:</b>
+				</td>
+				<td>{this.state.paid}
+				</td>
+				<td></td>
+			</tr>);
+
+			//if(app.user.get("userPlan")['balance']>0){
+			options.push(<tr key="3a">
+				<td>
+					<b>Current reward per account signup:</b>
+				</td>
+				<td>{accounting.formatMoney(this.state.reward[2])+" / "+accounting.formatMoney(this.state.reward[1])+" (month/year)"}
+				</td>
+				<td></td>
+			</tr>);
+
+			options.push(<tr key="3b">
+				<td>
+					<b>Total Reward:</b>
+				</td>
+				<td>{accounting.formatMoney(app.user.get("userPlan")['rewardCollected']+this.state.alreadyAwarded,'$',2)}
+				</td>
+				<td></td>
+			</tr>);
+
+			options.push(<tr key="3ba">
+				<td>
+					<b>Pending Reward:</b>
+				</td>
+				<td>{accounting.formatMoney(this.state.pendingReward,'$',2)}
+				</td>
+				<td></td>
+			</tr>);
+
+			options.push(<tr key="3c">
+				<td>
+					<b>Reward already paid:</b>
+				</td>
+				<td>{accounting.formatMoney(app.user.get("userPlan")['rewardPaid'],'$',2)}
+				</td>
+				<td></td>
+			</tr>);
+
+
+			//}
+
+
+			return options;
+
+		},
 
 		whatToShow: function () {
-			if(app.user.get("Factor2")['type']=="google"){
-			//google present
-				this.setState({
-					nav1Class:"active",
-					nav2Class:"hidden",
-					nav1Click:"",
-					nav2Click:"",
-
-					panel1Class:"panel-body",
-					panel2Class:"hidden",
-					panel3Class:"hidden",
-					panel4Class:"hidden",
-					panel2Visible:"hidden",
-
-					button1Class:"hidden"
-
-				});
-
-				//this.generateQr(this.state.secret);
-
-
-
-			}else if(app.user.get("Factor2")['type']=="yubi"){
-				//yubi present
-				this.setState({
-
-					nav1Class:"hidden",
-					nav2Class:"active",
-					nav1Click:"",
-					nav2Click:"",
-
-					panel1Class:"hidden",
-					panel2Class:"hidden",
-					panel3Class:"panel-body",
-					panel4Class:"hidden",
-					panel2Visible:"hidden",
-					panel4Visible:"hidden",
-
-					button1Class:"hidden",
-					button2Class:"hidden"
-
-				});
-			}else{
-				//if not selected
 
 				this.setState({
 					nav1Class:"active",
@@ -105,15 +158,10 @@ define(['react','app','qrcode'], function (React,app,qrcode) {
 					nav1Click:"show1Panel",
 					nav2Click:"show2Panel",
 
-					panel1Class:"hidden",
-					panel2Class:"panel-body",
-					panel3Class:"hidden",
-					panel4Class:"hidden",
-					panel2Visible:"hidden",
-					panel4Visible:"hidden",
+					panel1Class:"",
 					button1Class:""
 				});
-			}
+
 		},
 
 		componentDidMount: function () {
@@ -121,7 +169,15 @@ define(['react','app','qrcode'], function (React,app,qrcode) {
 			var thisComp=this;
 
 			app.serverCall.ajaxRequest('RetrieveCoupData', {}, function (result) {
-				console.log(result);
+				//console.log(result);
+				thisComp.setState({
+                    invited:result['invited'],
+                    paid:result['paid'],
+                    reward:result['reward'],
+					alreadyAwarded:result['totalAwarded'],
+					pendingReward:result['pendingAward'],
+                    rewardPaid:0
+                });
 			})
 
 		},
@@ -142,15 +198,12 @@ define(['react','app','qrcode'], function (React,app,qrcode) {
 
 					break;
 
-				case 'enableLink':
-					var dfd = jQuery.Deferred();
-
-					var post={};
-
-					app.serverCall.ajaxRequest('requestInvLink', post, function (result) {
-						console.log(result);
-					})
-
+				case "copyToClipboard":
+					var $temp = $("<input>");
+					$("body").append($temp);
+					$temp.val('https://cyberfear.com/index.html#createUser/'+app.user.get("userPlan")['coupon']).select();
+					document.execCommand("copy");
+					$temp.remove();
 					break;
 
 			}
@@ -165,22 +218,7 @@ define(['react','app','qrcode'], function (React,app,qrcode) {
          */
 		handleChange: function (action, event) {
 			switch (action) {
-				case 'enterGCode':
-					this.setState({
-						googlePin:event.target.value
-					});
-					break
-				case 'enterYCode':
-					this.setState({
-						yubiPin:event.target.value
-					});
-					break
 
-				case 'preventEnter':
-					if(event.keyCode==13){
-						event.preventDefault();
-					}
-					break;
 
 			}
 		},
@@ -210,39 +248,13 @@ define(['react','app','qrcode'], function (React,app,qrcode) {
 						</div>
 
 							<div className={this.state.panel1Class}>
-								<blockquote>
-									<p>Using Google AUTH Since: <strong>{new Date(app.user.get("Factor2")['since'] * 1000).toLocaleDateString()}</strong></p>
-								</blockquote>
+
+								<table className=" table table-hover table-striped datatable table-light margin-top-20">
+									{this.CouponHistory()}
+								</table>
 
 							</div>
 
-
-
-							<div className={this.state.panel2Class}>
-
-								<div className="pull-right">
-									<div className="form-group">
-										<button type="button" className={"btn btn-primary "+this.state.button1Class} onClick={this.handleClick.bind(this, "enableLink")}>Generate Invitation Link</button>
-									</div>
-								</div>
-
-								<div className={this.state.panel2Visible}>
-									<div className={classQrDiv}>
-										<div className="form-group">
-											<div id="qrcode" className="qrcode"></div>
-										</div>
-									</div>
-
-									<div className={classQRInputs}>
-										<div className="form-group">
-											<input type="name" className="form-control" readOnly={true} value={this.state.secret}/>
-										</div>
-									</div>
-
-
-								</div>
-
-							</div>
 
 					</div>
 				</div>
@@ -271,20 +283,6 @@ define(['react','app','qrcode'], function (React,app,qrcode) {
 			);
 		},
 
-        /**
-         *
-         * @param {string} secret
-         */
-		generateQr: function(secret){
-			var qrcode = new QRCode("qrcode", {
-				text: "otpauth://totp/"+app.user.get('loginEmail')+"?secret="+secret+"&issuer=CyberFear.com",
-				width: 128,
-				height: 128,
-				colorDark : "#000000",
-				colorLight : "#ffffff",
-				correctLevel : QRCode.CorrectLevel.M
-			});
-		}
 
 	});
 });

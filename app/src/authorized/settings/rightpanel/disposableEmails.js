@@ -39,7 +39,7 @@ define(['react','app','dataTable','dataTableBoot'], function (React,app,DataTabl
 				isDefault:false,
 
 
-				includeSignature:false,
+				includeSignature:true,
 				signature:'',
 				domain:app.defaults.get('domainMail').toLowerCase(),
 				domains:[],
@@ -369,7 +369,7 @@ define(['react','app','dataTable','dataTableBoot'], function (React,app,DataTabl
 							aliasName:'',
 							aliasEmail:'',
 							domain:app.defaults.get('domainMail').toLowerCase(),
-							includeSignature:false,
+							includeSignature:true,
 							signature:"",
 							signatureEditable:false
 
@@ -422,7 +422,9 @@ define(['react','app','dataTable','dataTableBoot'], function (React,app,DataTabl
 									firstTab:"active",
 									secondTab:"",
 
-									button1visible:'hidden'
+									button1visible:'hidden',
+									signature:'<div>Sent using Encrypted Email Service -&nbsp;<a href="https://cyberfear.com/index.html#createUser/'+app.user.get("userPlan")['coupon']+'" target="_blank">CyberFear.com</a></div>'
+
 								}
 							);
 						}else{

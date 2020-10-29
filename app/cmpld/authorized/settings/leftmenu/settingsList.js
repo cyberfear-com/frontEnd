@@ -104,7 +104,7 @@ define(['react', 'app'], function (React, app) {
 				$('#infoModal').modal('show');
 
 				//todo add cancel button
-				console.log('no');
+				//console.log('no');
 			}
 		},
 		render: function () {

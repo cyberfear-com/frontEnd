@@ -241,7 +241,7 @@ define(['react', 'app', 'summernote', 'select2'], function (React, app, summerno
 
 
 			if (!this.state.manualSignature) {
-				$('#composeEmail').code('<div class="emailsignature"></div><br/></br>' + thisComp.state.body);
+				$('#composeEmail').code('<v class="emailbody"><br/><br/></div><div class="emailsignature"></div><br/></br>' + thisComp.state.body);
 			} else {
 				$('#composeEmail').code(thisComp.state.body);
 			}

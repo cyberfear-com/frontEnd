@@ -22,7 +22,8 @@ define(['app', 'backbone', 'react', 'jquery', 'bootstrap', 'cmpld/splashPage/Spl
 			"composeEmail/:emailId": "ComposeUnreg",
 			"settings/:options(/:msg)": "settings",
 			"updateAccount/:options(/:msg)": "updateAccount",
-			"logOut": "logOut"
+			"logOut": "logOut",
+			"createUser/:coupon": "createUserCoupon"
 
 		},
 		execute: function (callback, args) {
@@ -91,6 +92,7 @@ define(['app', 'backbone', 'react', 'jquery', 'bootstrap', 'cmpld/splashPage/Spl
 			React.render(React.createElement(SplashCollection, { page: 'index' }), document.getElementById('mainBody'));
 			$('#loginUser').modal('show');
 		},
+
 		createUser: function () {
 			React.render(React.createElement(SplashCollection, { page: 'index' }), document.getElementById('mainBody'));
 			$('#createAccount-modal').modal('show');
@@ -158,6 +160,39 @@ define(['app', 'backbone', 'react', 'jquery', 'bootstrap', 'cmpld/splashPage/Spl
 			});
 			//}
 		},
+		createUserCoupon: function (msg) {
+			//MemorizeCouponCodeV2
+
+			$.ajax({
+				method: "POST",
+				url: app.defaults.get('apidomain') + "/MemorizeCouponCodeV2",
+				data: {
+					coupon: msg
+
+				},
+				dataType: "text",
+				xhrFields: {
+					withCredentials: true
+				}
+			}).done(function (msg) {
+				if (msg === 'false') {
+					/*thisComp.setState({
+     	couponError: "coupon not valid",
+     	couponSucc:false
+     });*/
+				} else if (msg === 'true') {
+					/*thisComp.setState({
+     	couponError: "",
+     	couponSucc:true
+     });*/
+				}
+			});
+
+			React.render(React.createElement(SplashCollection, { page: 'index' }), document.getElementById('mainBody'));
+			$('#createAccount-modal').modal('show');
+			$('#coupon').val(msg);
+		},
+
 		pinMail: function (msg) {
 			//console.log(msg);
 			require(['cmpld/unregistered/unregCollection'], function (UnregCollection) {

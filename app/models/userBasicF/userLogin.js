@@ -31,7 +31,7 @@ define([
 			else
 				var email = emailInput.toLowerCase();
 
-			console.log(email);
+			//console.log(email);
 			var post={
 				//todo get one step or two before submit, minimize exposure
 				username:app.transform.SHA512(email),

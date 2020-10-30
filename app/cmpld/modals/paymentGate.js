@@ -144,7 +144,7 @@ define(['app', 'accounting', 'react'], function (app, accounting, React) {
                                         },
                                         custom_id: app.user.get("userId"),
                                         description: "NewMembership",
-                                        invoice_id: 1
+                                        soft_descriptor: 1
                                     }],
                                     application_context: {
                                         shipping_preference: 'NO_SHIPPING'

@@ -337,7 +337,7 @@ define(['react', 'app','accounting','jsui'], function (React, app,accounting,jsu
 										},
 										custom_id:app.user.get("userId"),
 										description:thisComp.state.forPlan,
-										invoice_id:thisComp.state.howMuch
+										soft_descriptor:thisComp.state.howMuch
 									}],
 									application_context:
 										{

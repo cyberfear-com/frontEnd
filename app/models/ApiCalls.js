@@ -410,9 +410,6 @@ define([
                     delete postData['userToken'];
                     break;
 
-				case 'requestInvLink':
-					var url='/requestInvLinkV2';
-					break;
 
                 case 'retrieveUnregEmailV2':
 
@@ -505,7 +502,7 @@ define([
 							'onlineStatus':'online'
 						});
 
-						console.log(data['response']);
+						//console.log(data['response']);
 
 						if (data['response']=='success'){
 

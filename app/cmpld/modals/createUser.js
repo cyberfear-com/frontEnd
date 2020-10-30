@@ -185,7 +185,10 @@ define(['app', 'react'], function (app, React) {
                         method: "POST",
                         url: app.defaults.get('apidomain') + "/createNewUserV2",
                         data: userObj,
-                        dataType: "json"
+                        dataType: "json",
+                        xhrFields: {
+                            withCredentials: true
+                        }
                     }).then(function (msg) {
 
                         if (msg['response'] === 'fail') {
@@ -222,20 +225,25 @@ define(['app', 'react'], function (app, React) {
             if (thisComp.state.coupon.length >= 0) {
                 $.ajax({
                     method: "POST",
-                    url: "api/checkCouponExistV2",
+                    url: app.defaults.get('apidomain') + "/checkCouponExistV2",
                     data: {
                         coupon: this.state.coupon
 
                     },
-                    dataType: "text"
+                    dataType: "text",
+                    xhrFields: {
+                        withCredentials: true
+                    }
                 }).done(function (msg) {
                     if (msg === 'false' && thisComp.state.coupon.length > 0) {
                         thisComp.setState({
-                            couponError: "coupon not valid"
+                            couponError: "coupon not valid",
+                            couponSucc: false
                         });
                     } else if (msg === 'true' || thisComp.state.coupon.length == 0) {
                         thisComp.setState({
-                            couponError: ""
+                            couponError: "",
+                            couponSucc: true
                         });
                     }
                 });

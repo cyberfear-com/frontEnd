@@ -104,11 +104,11 @@ define(['react','app'], function (React,app) {
 				$('#infoModal').modal('show');
 
 				//todo add cancel button
-				console.log('no');
+				//console.log('no');
 			}
 		},
 		render: function () {
-		//	console.log(this.props.activePage);
+			//console.log(this.props.activeLink);
 			//console.log(this.props.classes.leftClass);
 		return (
 			<div className={this.props.classes.leftClass} id="leftSettingPanel">

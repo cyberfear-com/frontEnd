@@ -43,22 +43,22 @@ define([
 			this.fetch({
 				success: function(mod, res){
 					if(!res.error && res.user){
-						console.log('1');
+						//console.log('1');
 						self.updateSessionUser(res.user);
 						self.set({ logged_in : true });
 						if('success' in callback) callback.success(mod, res);
 					} else {
-						console.log('2');
+						//console.log('2');
 						self.set({ logged_in : false });
 						if('error' in callback) callback.error(mod, res);
 					}
 				}, error:function(mod, res){
-					console.log('3');
+					//console.log('3');
 					self.set({ logged_in : false });
 					if('error' in callback) callback.error(mod, res);
 				}
 			}).complete( function(){
-					console.log('4');
+				//	console.log('4');
 					if('complete' in callback) callback.complete();
 				});
 		},

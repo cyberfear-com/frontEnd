@@ -281,5 +281,9 @@ require(['app', 'cmpld/router',
 
 		app.run();
 
+		if(document.domain=='cyberfear4hlcsac.onion'){
+			app.defaults.set({'apidomain':'http://cyberfear4hlcsac.onion/api'});
+		}
+
 		//var person = new Person;
 	});

@@ -268,15 +268,23 @@ define(['react','app', 'summernote','select2'], function (React,app,summernote,s
 			thisComp.fileTag();
 			//console.log(this.getEmailHash());
 
+			//console.log(this.state.manualSignature);
 
-
+//signature
 			if(!this.state.manualSignature){
 				$('#composeEmail').code('<v class="emailbody"><br/><br/></div><div class="emailsignature"></div><br/></br>'+thisComp.state.body);
 			}else{
 				$('#composeEmail').code(thisComp.state.body);
 			}
+			//console.log(thisComp.state.signature);
+			//console.log(thisComp.state.signature=="");
+			if(thisComp.state.signature!=""){
+				$('.emailsignature').html(thisComp.state.signature);
+			}else{
+				$('.emailsignature').html('<div>Sent using Encrypted Email Service -&nbsp;<a href="https://cyberfear.com/index.html#createUser/'+app.user.get("userPlan")['coupon']+'" target="_blank">CyberFear.com</a></div>');
 
-			$('.emailsignature').html(thisComp.state.signature);
+			}
+
 			//
 			this.setState({
 				originalHash:this.getEmailHash()

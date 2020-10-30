@@ -39,7 +39,7 @@ define(['react','app','dataTable','dataTableBoot'], function (React,app,DataTabl
 				isDefault:false,
 
 
-				includeSignature:true,
+				includeSignature:false,
 				signature:'',
 				domain:app.defaults.get('domainMail').toLowerCase(),
 				domains:[],
@@ -369,7 +369,7 @@ define(['react','app','dataTable','dataTableBoot'], function (React,app,DataTabl
 							aliasName:'',
 							aliasEmail:'',
 							domain:app.defaults.get('domainMail').toLowerCase(),
-							includeSignature:true,
+							includeSignature:false,
 							signature:"",
 							signatureEditable:false
 

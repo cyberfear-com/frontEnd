@@ -246,8 +246,8 @@ define([
                 'name':'',
                 'displayName':app.transform.to64str(email),
                 'email':email,
-                'includeSignature':true,
-                'signature':'<div>Sent using Encrypted Email Service -&nbsp;<a href="https://cyberfear.com/index.html#createUser/'+app.user.get("userPlan")['coupon']+'" target="_blank">CyberFear.com</a></div>',
+                'includeSignature':false,
+                'signature':'',
                 'keyLength':2048,
                 'keysModified':'',
                 'isChanged':false

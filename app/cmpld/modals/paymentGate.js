@@ -143,8 +143,7 @@ define(['app', 'accounting', 'react'], function (app, accounting, React) {
                                             value: thisComp.state.mCharge
                                         },
                                         custom_id: app.user.get("userId"),
-                                        description: "NewMembership",
-                                        invoice_id: 1
+                                        description: "NewMembership_1"
                                     }],
                                     application_context: {
                                         shipping_preference: 'NO_SHIPPING'

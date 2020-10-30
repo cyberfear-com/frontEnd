@@ -148,8 +148,7 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                                             value: thisComp.state.mCharge
                                         },
                                         custom_id:app.user.get("userId"),
-                                        description:"NewMembership",
-                                        soft_descriptor:1
+                                        description:"NewMembership_1",
                                     }],
                                     application_context:
                                         {

@@ -336,8 +336,7 @@ define(['react', 'app','accounting','jsui'], function (React, app,accounting,jsu
 											value: thisComp.state.toPay
 										},
 										custom_id:app.user.get("userId"),
-										description:thisComp.state.forPlan,
-										soft_descriptor:thisComp.state.howMuch
+										description:thisComp.state.forPlan+"_"+thisComp.state.howMuch,
 									}],
 									application_context:
 										{

@@ -110,16 +110,16 @@ define(['react','app','accounting'], function (React,app,accounting) {
 				<td>
 					<b>Current reward per account signup:</b>
 				</td>
-				<td>{accounting.formatMoney(this.state.reward[2])+" / "+accounting.formatMoney(this.state.reward[1])+" (month/year)"}
+				<td colSpan="2">{this.state.reward}%
 				</td>
-				<td></td>
+
 			</tr>);
 
 			options.push(<tr key="3b">
 				<td>
 					<b>Total Reward:</b>
 				</td>
-				<td>{accounting.formatMoney(app.user.get("userPlan")['rewardCollected']+this.state.alreadyAwarded,'$',2)}
+				<td>{accounting.formatMoney(app.user.get("userPlan")['rewardCollected'],'$',2)}
 				</td>
 				<td></td>
 			</tr>);
@@ -240,7 +240,7 @@ define(['react','app','accounting'], function (React,app,accounting) {
 							<ul className="nav nav-tabs tabbed-nav">
 								<li className={this.state.nav1Class}>
 									<a>
-										<h3 className={this.props.tabs.Header}>Affiliate Dashboard</h3>
+										<h3 className={this.props.tabs.Header}>Coupons</h3>
 										<h3 className={this.props.tabs.HeaderXS}><i className="fa fa-qrcode"></i></h3>
 									</a>
 								</li>

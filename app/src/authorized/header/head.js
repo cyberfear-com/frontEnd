@@ -1,8 +1,9 @@
-define(['react','app'], function (React,app) {
+define(['react','app','accounting'], function (React,app,accounting) {
 	return React.createClass({
         getInitialState : function() {
             return {
-                newVersion:false
+                newVersion:false,
+				reward:0
             };
         },
 
@@ -28,6 +29,15 @@ define(['react','app'], function (React,app) {
                 }
                 thisComp.forceUpdate();
             });
+
+			app.user.on("change:userPlan",function() {
+				this.setState({
+					"reward":accounting.formatMoney(app.user.get("userPlan")['rewardCollected'],'$',4)
+
+				})
+
+			},this);
+
 		},
 
 		removeClassesActive:function(){
@@ -172,6 +182,10 @@ define(['react','app'], function (React,app) {
 								<span className="icon-bar"></span>
 							</button>
 							<div className="navbar-toggle collapsed pull-right no-border">
+								<span className="pull-left badge expirationBadge bg-color-blueLight" title={'Reward for using CyberFear'}>Reward: {this.state.reward}</span>
+							</div>
+
+							<div className="navbar-toggle collapsed pull-right no-border">
 								<span className={"pull-left badge expirationBadge " +(app.user.get('timeLeft')<100?"bg-color-red ":"bg-color-blueLight ") +(app.user.get('sessionExpiration')==-1?"hidden":"")} title={'Session will expire in '+app.user.get('timeLeft')+ ' sec'}>{app.user.get('timeLeft')}</span>
 							</div>
 
@@ -181,9 +195,8 @@ define(['react','app'], function (React,app) {
 
 							<div className={"navbar-toggle collapsed pull-right connectionError  no-border " +offlineClass}>
 								<button className="button" data-placement="bottom" data-toggle="popover-hover" data-trigger="focus" title="" data-content="The system experienced a connection problem. Please click here to reconnect. If the problem persists, please contact us." data-original-title="Connection Error" onClick={this.handleClick.bind(this, 'restartQue')}><i className="fa fa fa-bell vibrate fa-lg fa-fw txt-color-red"></i></button>
-
-
 							</div>
+
 
 							<a className="navbar-brand" onClick={this.handleClick.bind(this, 'inbox')}><img className="logoname" src="/img/logo/logo.svg" alt=""/></a>
 
@@ -193,6 +206,8 @@ define(['react','app'], function (React,app) {
 						<div className="navbar-collapse collapse" id="stamp-navigation">
 
 							<ul className="nav navbar-nav pull-left">
+								<li style={{marginTop:"4px;"}}className="pull-left badge expirationBadge bg-color-blueLight" title={'Reward for using CyberFear'}>Reward: {this.state.reward}</li>
+
 								<li className="hidden"><a href="/#reportBug" target="_blank">Report Bug</a></li>
 								<li className="hidden-xs"><a onClick={this.handleClick.bind(this, 'gotoPayment')}>Premium Features</a></li>
 							</ul>

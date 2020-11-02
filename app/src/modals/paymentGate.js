@@ -10,7 +10,8 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                 paym:"",
                 userId:"",
                 mCharge:"",
-                membr:""
+                membr:"",
+                butDis:false
             };
         },
 
@@ -50,6 +51,7 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
         setMembership:function(duration){
 
             var userObj={};
+            var thisComp=this;
 
              userObj['planSelector']=duration;
             userObj['userToken']=app.user.get("userLoginToken");
@@ -69,7 +71,12 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                             app.notifications.systemMessage('tryAgain');
 
                     }else if(msg['response']==='success'){
-                        app.userObjects.loadUserPlan(function(){});
+                        app.userObjects.loadUserPlan(function(){
+                            thisComp.setState({
+                                butDis:false
+                            });
+
+                        });
                     }
 
                      //console.log(msg)
@@ -82,19 +89,23 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                 case 'year':
                     this.setState({
                         membr: "year",
+                        butDis:true
                     });
                     this.setMembership('year');
                     break;
                 case 'month':
                     this.setState({
                         membr: "month",
+                        butDis:true
                     });
                     this.setMembership('month');
+
                     break;
 
                     case 'free':
                     this.setState({
                         membr: "free",
+                        butDis:true
                     });
                     this.setMembership('free');
                     break;
@@ -103,7 +114,7 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                 case 'perfectm':
                     var thisComp=this;
                     this.setState({
-                        paym: "perfectm",
+                        paym: "perfectm"
                     });
 
                     this.setState({
@@ -114,7 +125,7 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                 case 'bitc':
                     var thisComp=this;
                     this.setState({
-                        paym: "bitc",
+                        paym: "bitc"
                     });
 
                     this.setState({
@@ -125,7 +136,7 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                 case 'paypal':
                     var thisComp=this;
                     this.setState({
-                        paym: "paypal",
+                        paym: "paypal"
                     });
 
                     var my_script = thisComp.new_script();
@@ -386,7 +397,7 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                             </div>
                             <div>
                                 <div style={{textAlign:"center"}}>
-                                <button type="submit" form={this.state.paym==="perfectm" ?"perfMF":"cryptF"} onClick={this.handleClick.bind(this, 'pay')} className={(this.state.paym=="perfectm" || this.state.paym=="bitc") && this.state.membr!='free' ?"white-btn":"hidden"} disabled={this.state.paym==""} style={{float:"none",display:"initial"}}>Pay Now</button>
+                                <button type="submit" form={this.state.paym==="perfectm" ?"perfMF":"cryptF"} onClick={this.handleClick.bind(this, 'pay')} className={(this.state.paym=="perfectm" || this.state.paym=="bitc") && this.state.membr!='free' && !this.state.butDis ?"white-btn":"hidden"} disabled={this.state.paym==""|| this.state.butDis} style={{float:"none",display:"initial"}}>Pay Now</button>
                                 </div>
 
                             </div>

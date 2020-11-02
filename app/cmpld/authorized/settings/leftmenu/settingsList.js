@@ -104,7 +104,7 @@ define(['react', 'app'], function (React, app) {
 				$('#infoModal').modal('show');
 
 				//todo add cancel button
-				console.log('no');
+				//console.log('no');
 			}
 		},
 		render: function () {
@@ -221,6 +221,16 @@ define(['react', 'app'], function (React, app) {
 							'a',
 							{ className: 'list-link js-nav', onClick: this.handleClick.bind(this, 'BlackList') },
 							'Black / White List ',
+							React.createElement('i', { className: 'fa fa-chevron-right' })
+						)
+					),
+					React.createElement(
+						'li',
+						{ className: this.props.activeLink.coupon },
+						React.createElement(
+							'a',
+							{ className: 'list-link js-nav', onClick: this.handleClick.bind(this, 'Coupon') },
+							'Coupons',
 							React.createElement('i', { className: 'fa fa-chevron-right' })
 						)
 					),

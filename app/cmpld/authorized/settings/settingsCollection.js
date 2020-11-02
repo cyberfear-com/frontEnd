@@ -121,7 +121,7 @@ define(['react', 'app', 'cmpld/authorized/settings/leftmenu/settingsList'], func
 				case 'BlackList':
 					this.setState({ settings: { blackList: 'active' } });
 					break;
-				case 'Coupons':
+				case 'Coupon':
 					this.setState({ settings: { coupon: 'active' } });
 					break;
 

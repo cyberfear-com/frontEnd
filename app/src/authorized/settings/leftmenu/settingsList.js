@@ -104,11 +104,11 @@ define(['react','app'], function (React,app) {
 				$('#infoModal').modal('show');
 
 				//todo add cancel button
-				console.log('no');
+				//console.log('no');
 			}
 		},
 		render: function () {
-		//	console.log(this.props.activePage);
+			//console.log(this.props.activeLink);
 			//console.log(this.props.classes.leftClass);
 		return (
 			<div className={this.props.classes.leftClass} id="leftSettingPanel">
@@ -154,6 +154,8 @@ define(['react','app'], function (React,app) {
 
 					{/*<li className={this.props.activeLink.security}>
 						<a className="list-link js-nav" onClick={this.handleClick.bind(this, 'Security-Log')}>Security Log<i className="fa fa-chevron-right"></i></a></li>*/}
+					<li className={this.props.activeLink.coupon}>
+						<a className="list-link js-nav" onClick={this.handleClick.bind(this, 'Coupon')}>Coupons<i className="fa fa-chevron-right"></i></a></li>
 
 					<li className={this.props.activeLink.plan}>
 						<a className="list-link js-nav" onClick={this.handleClick.bind(this, 'Plan')}>Paid Plan Features<i className="fa fa-chevron-right"></i></a></li>

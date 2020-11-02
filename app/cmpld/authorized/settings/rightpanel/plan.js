@@ -267,28 +267,7 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 					var thisComp = this;
 
 					var my_script = thisComp.new_script();
-					/*
-     	const script = document.createElement("script");
-     	script.src = "https://www.paypal.com/sdk/js?client-id=AaDCvbA992btr491o9RRqJk6wcqicJRaKwpfhHwQh84MSVNCU1ARqFN9kAtUjqQV6GvmxSv17yFRAMGW&currency=USD";
-     	script.async = true;
-     	//script.onload = () => this.scriptLoaded();
-     		document.body.appendChild(script);
-     */
-					/*
-     <input type="hidden" name="PAYEE_ACCOUNT" value={app.defaults.get('perfectMecrh')}/>
-     		<input type="hidden" name="PAYEE_NAME" value="Cyber Fear"/>
-     		<input type="hidden" name="PAYMENT_AMOUNT" value={this.state.toPay}/>
-     		<input type="hidden" name="PAYMENT_UNITS" value="USD"/>
-     		<input type="hidden" name="STATUS_URL" value="https://cyberfear.com/api/PerfectPaidstatus"/>
-     		<input type="hidden" name="PAYMENT_URL" value="https://cyberfear.com/api/Pe"/>
-     		<input type="hidden" name="PAYMENT_URL_METHOD" value="POST"/>
-     		<input type="hidden" name="NOPAYMENT_URL" value="https://cyberfear.com/api/Pe"/>
-     		<input type="hidden" name="NOPAYMENT_URL_METHOD" value="LINK"/>
-     		<input type="hidden" name="SUGGESTED_MEMO" value=""/>
-     		<input type="hidden" name="userId" value={app.user.get("userId")}/>
-     		<input type="hidden" name="paymentFor" value={this.state.forPlan}/>
-     		<input type="hidden" name="howMuch" value={this.state.howMuch}/>
-      */
+
 					var self = this;
 					my_script.then(function () {
 						//self.setState({'status': 'done'});
@@ -555,30 +534,7 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 							}
 						}
 					}
-
-					/*
-                         var newPlan=result['data']['plan'];
-     
-     					thisComp.setState({
-     						monthlyCharge:result['data']['monthlyCharge'],
-     						currentServiceCost:result['data']['currentCost'],
-                             newboxSize:newPlan['bSize'],
-                             newcDomain:newPlan['cDomain'],
-                             newaliases:newPlan['alias'],
-     
-     					});
-     					if(thisComp.state.planSelector=="changeGB"){
-     					thisComp.setState({
-     						GBprice:result['data']['changedBy']
-     					});
-     					}*/
 				}
-				/*if(result['data']['monthlyCharge']!=app.user.get("userPlan")['monthlyCharge']){
-    	thisComp.setState({
-    		monthChargeClass:""
-    	});
-    }
-    */
 			});
 		},
 
@@ -609,27 +565,6 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 					amount = 5;
 				}
 
-				/*       if(currentPlan['paymentVersion']===1){
-             if( currentPlan['monthlyCharge']===0){
-                     thisComp.setState({
-                         planSelector:0,
-                         paymentVersion:1
-                     });
-                 }else{
-                 thisComp.setState({
-                     planSelector:77,
-                     paymentVersion:currentPlan['paymentVersion'],
-                     currentPlan:77
-                 });
-             }
-           }if(currentPlan['paymentVersion']===2){
-               thisComp.setState({
-                   planSelector:currentPlan['planSelected'],
-                   paymentVersion:2,
-                   currentPlan:currentPlan['planSelected']
-               });
-           }
-    */
 				if (app.user.get("userPlan")['pastDue'] == 1 || app.user.get("userPlan")['priceFullProrated'] > 0) {
 
 					thisComp.setState({ setWarning: true });
@@ -1124,7 +1059,7 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 													{ className: 'col-lg-5 col-sm-12' },
 													React.createElement(
 														'select',
-														{ className: 'form-control', onChange: this.handleChange.bind(this, 'changeGB'), value: this.state.boxSize, disabled: app.user.get("userPlan")['planSelected'] == 1 ? false : true },
+														{ className: 'form-control', onChange: this.handleChange.bind(this, 'changeGB'), value: this.state.boxSize, disabled: app.user.get("userPlan")['planSelected'] == 1 ? false : true, key: 'editor1' },
 														React.createElement(
 															'option',
 															{ value: '1000' },

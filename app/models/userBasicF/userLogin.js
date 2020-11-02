@@ -31,7 +31,7 @@ define([
 			else
 				var email = emailInput.toLowerCase();
 
-			//console.log(password);
+			//console.log(email);
 			var post={
 				//todo get one step or two before submit, minimize exposure
 				username:app.transform.SHA512(email),
@@ -77,16 +77,6 @@ define([
 						//console.log(app.user)
 					$('#loginUser').modal('hide');
 
-/*
-					if(!app.user.get("remeberPassword")){
-						//if(result['data']['oneStep']){
-							app.user.set({"password":""});
-							app.user.set({"secondPassword":""});
-						//}else{
-						//	app.user.set({"password":""});
-						//}
-					}
-*/
 
 					if (result['data']['firstTime']===true) {
 						//start plancheck routines
@@ -96,16 +86,12 @@ define([
 						$('#makePayment').modal('show');
 					}else{
 						Backbone.history.navigate(app.defaults.get('defaultPage'), {
-							//Backbone.history.navigate("mail/Inbox", {
 							trigger : true
 						});
 
 					}
 
 				callback('good');
-					//Backbone.history.navigate("/mail/Inbox", {
-					//	trigger : true
-					//});
 
 				}else if(result['data']=="needGoogle"){
 						callback('needGoogle');
@@ -129,12 +115,14 @@ define([
 				app.restartApp();
 			},function(){});
 		},
+
 		checkPlan:function(){
 			var thisComp=this;
 			if (!app.user.get("getPlan")) {
 				app.user.set({"getPlan": true});
 
 				app.userObjects.loadUserPlan(function () {
+
 					app.user.set({"getPlan": false});
 					//if paid
 					if (app.user.get("userPlan")['newUser'] === false && app.user.get("userPlan")['alrdPaid'] === app.user.get("userPlan")['monthlyCharge']) {

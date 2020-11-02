@@ -17,13 +17,7 @@ define(['react','app'], function (React,app) {
          * @param {object} event
          */
 		handleClick: function(action,event) {
-			//app.user.set({id:10});
 
-			//switch(i) {
-				//case 'SubmitPass':
-				//	break;
-
-			//}
 		},
 
         /**

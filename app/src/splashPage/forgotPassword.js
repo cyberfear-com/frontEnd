@@ -131,8 +131,6 @@ define(['react','app'], function (React,app) {
                 case 'resetPass':
 
                     var thisComp=this;
-                    thisComp.resetPassAndSecret(thisComp.state.email,"tokenHash","tokenAesHash","newPass","secondPass");
-/*
 
                     this.setState({
                         emailError: this.state.email==""?"enter email":"",
@@ -224,7 +222,7 @@ define(['react','app'], function (React,app) {
 
 
 
-*/
+
 
 
 

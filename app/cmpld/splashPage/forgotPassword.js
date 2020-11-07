@@ -126,100 +126,77 @@ define(['react', 'app'], function (React, app) {
                 case 'resetPass':
 
                     var thisComp = this;
-                    thisComp.resetPassAndSecret(thisComp.state.email, "tokenHash", "tokenAesHash", "newPass", "secondPass");
-                    /*
-                    
-                                        this.setState({
-                                            emailError: this.state.email==""?"enter email":"",
-                                            tokenError:this.state.token==""?"provide token":"",
-                                            secretError:((this.state.secret=="" && !this.state.oneStep)?"enter second password":""),
-                    
-                                            newPassError:
-                                                this.state.newPass==""?"enter password":
-                                                    this.state.newPass.length<6?"password is too short. 6 min":
-                                                        this.state.newPass.length>80?"password is too long. 80 ":"",
-                                            repPassError:this.state.newPassRep!=this.state.newPass?"password should match":"",
-                                        },function(){
-                                            if(
-                                                thisComp.state.emailError=="" &&
-                                                thisComp.state.tokenError=="" &&
-                                                thisComp.state.secretError=="" &&
-                                                thisComp.state.newPassError=="" &&
-                                                thisComp.state.repPassError=="" &&
-                                                thisComp.state.newPassError==thisComp.state.repPassError
-                    
-                                            ){
-                                                thisComp.setState({
-                                                    'generateI':"fa fa-refresh fa-spin fa-lg"
-                                                });
-                    
-                                                if(thisComp.state.oneStep===false){
-                    
-                                                    var salt = thisComp.state.salt;
-                    
-                                                    var secretnew = app.globalF.makeDerived(thisComp.state.secret, salt);
-                    
-                                                    var tokenAesHash = app.transform.SHA512(thisComp.state.token);
-                    
-                                                    //var derivedKey = app.globalF.makeDerived(secretnew, salt);
-                                                    var derivedKey = secretnew;
-                                                    var Test = app.transform.bin2hex(derivedKey);
-                    
-                                                    var Part2 = Test.substr(64, 128);
-                                                    var keyA = app.transform.hex2bin(Part2);
-                    
-                                                    var tokenAes = app.transform.fromAesBin(keyA, thisComp.state.token);
-                                                    var tokenHash = app.transform.SHA512(tokenAes);
-                    
-                                                    var post={
-                                                        email:app.transform.SHA512(thisComp.state.email),
-                                                        tokenHash:tokenHash,
-                                                        tokenAesHash:tokenAesHash
-                                                    }
-                    
-                                                    $.ajax({
-                                                        method: "POST",
-                                                        url: "api/checkTokenHashesV2",
-                                                        data: post,
-                                                        dataType: "json"
-                                                    })
-                                                        .done(function( msg ) {
-                                                            if(msg['response']=='success'){
-                    
-                                                                    var newPass=app.transform.SHA512(thisComp.state.newPass);
-                                                                    thisComp.changePass(app.transform.SHA512(thisComp.state.email),tokenHash,tokenAesHash,newPass);
-                    
-                                                            }else if(msg['response']=='incorrect'){
-                                                                thisComp.setState({
-                                                                    secretError:"Incorrect second password",
-                                                                    'generateI':""
-                    
-                                                                });
-                                                            }else{
-                                                                app.notifications.systemMessage('tryAgain');
-                                                                thisComp.setState({
-                                                                    'generateI':""
-                                                                });
-                                                            }
-                    
-                                                        });
-                    
-                                                }else{
-                                                    var tokenAesHash = app.transform.SHA512(thisComp.state.token);
-                    
-                                                    var newPass=app.transform.SHA512(app.globalF.makeDerivedFancy(thisComp.state.newPass, app.defaults.get('hashToken')));
-                                                    var secondPass=app.globalF.makeDerived(this.state.newPass, thisComp.state.salt);
-                    
-                                                    thisComp.resetPassAndSecret(thisComp.state.email,tokenHash,tokenAesHash,newPass,secondPass);
-                    
-                                                }
-                    
-                                            }
+
+                    this.setState({
+                        emailError: this.state.email == "" ? "enter email" : "",
+                        tokenError: this.state.token == "" ? "provide token" : "",
+                        secretError: this.state.secret == "" && !this.state.oneStep ? "enter second password" : "",
+
+                        newPassError: this.state.newPass == "" ? "enter password" : this.state.newPass.length < 6 ? "password is too short. 6 min" : this.state.newPass.length > 80 ? "password is too long. 80 " : "",
+                        repPassError: this.state.newPassRep != this.state.newPass ? "password should match" : ""
+                    }, function () {
+                        if (thisComp.state.emailError == "" && thisComp.state.tokenError == "" && thisComp.state.secretError == "" && thisComp.state.newPassError == "" && thisComp.state.repPassError == "" && thisComp.state.newPassError == thisComp.state.repPassError) {
+                            thisComp.setState({
+                                'generateI': "fa fa-refresh fa-spin fa-lg"
+                            });
+
+                            if (thisComp.state.oneStep === false) {
+
+                                var salt = thisComp.state.salt;
+
+                                var secretnew = app.globalF.makeDerived(thisComp.state.secret, salt);
+
+                                var tokenAesHash = app.transform.SHA512(thisComp.state.token);
+
+                                //var derivedKey = app.globalF.makeDerived(secretnew, salt);
+                                var derivedKey = secretnew;
+                                var Test = app.transform.bin2hex(derivedKey);
+
+                                var Part2 = Test.substr(64, 128);
+                                var keyA = app.transform.hex2bin(Part2);
+
+                                var tokenAes = app.transform.fromAesBin(keyA, thisComp.state.token);
+                                var tokenHash = app.transform.SHA512(tokenAes);
+
+                                var post = {
+                                    email: app.transform.SHA512(thisComp.state.email),
+                                    tokenHash: tokenHash,
+                                    tokenAesHash: tokenAesHash
+                                };
+
+                                $.ajax({
+                                    method: "POST",
+                                    url: "api/checkTokenHashesV2",
+                                    data: post,
+                                    dataType: "json"
+                                }).done(function (msg) {
+                                    if (msg['response'] == 'success') {
+
+                                        var newPass = app.transform.SHA512(thisComp.state.newPass);
+                                        thisComp.changePass(app.transform.SHA512(thisComp.state.email), tokenHash, tokenAesHash, newPass);
+                                    } else if (msg['response'] == 'incorrect') {
+                                        thisComp.setState({
+                                            secretError: "Incorrect second password",
+                                            'generateI': ""
+
                                         });
-                    
-                    
-                    
-                    */
+                                    } else {
+                                        app.notifications.systemMessage('tryAgain');
+                                        thisComp.setState({
+                                            'generateI': ""
+                                        });
+                                    }
+                                });
+                            } else {
+                                var tokenAesHash = app.transform.SHA512(thisComp.state.token);
+
+                                var newPass = app.transform.SHA512(app.globalF.makeDerivedFancy(thisComp.state.newPass, app.defaults.get('hashToken')));
+                                var secondPass = app.globalF.makeDerived(this.state.newPass, thisComp.state.salt);
+
+                                thisComp.resetPassAndSecret(thisComp.state.email, tokenHash, tokenAesHash, newPass, secondPass);
+                            }
+                        }
+                    });
 
                     break;
 

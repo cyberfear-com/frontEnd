@@ -214,7 +214,7 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 					var thisComp = this;
 
 					thisComp.setState({
-						toPay: app.user.get("userPlan")['balance'] + app.user.get("userPlan")['monthlyCharge'] - app.user.get("userPlan")['currentPlanBalance'],
+						toPay: app.user.get("userPlan")['balance'] + app.user.get("userPlan")['monthlyCharge'] - app.user.get("userPlan")['currentPlanBalance'] + app.user.get("userPlan")['truePriceFullProrated'],
 						forPlan: "Subscription Renewal",
 						howMuch: 1
 					});
@@ -675,6 +675,8 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
      }*/
 			//
 
+			console.log(app.user.get("userPlan"));
+			console.log(app.user.get('balanceShort'));
 			var ys = "";
 			if (app.user.get("userPlan")['pastDue'] == 1) {
 				ys = "UNPAID";
@@ -707,7 +709,7 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 				),
 				React.createElement(
 					'td',
-					{ className: 'col-sm-2' },
+					{ className: 'col-md-3' },
 					'Status: ',
 					React.createElement(
 						'b',
@@ -719,13 +721,13 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 						{ className: 'pull-right dialog_buttons' },
 						React.createElement(
 							'button',
-							{ type: 'button', className: app.user.get("userPlan")['priceFullProrated'] <= 0 ? "hidden" : "btn btn-primary pull-right", onClick: this.handleClick.bind(this, 'payEnough') },
-							'Pay Now'
+							{ type: 'button', className: app.user.get("userPlan")['priceFullProrated'] > 0 && !app.user.get('balanceShort') ? "btn btn-primary pull-right" : "hidden", onClick: this.handleClick.bind(this, 'payEnough') },
+							'Pay Missing Balance'
 						),
 						React.createElement(
 							'button',
 							{ type: 'button', className: app.user.get("userPlan")['alrdPaid'] && !app.user.get('balanceShort') ? "hidden" : "btn btn-primary pull-right", onClick: this.handleClick.bind(this, 'renew') },
-							'Pay Now'
+							'Renew'
 						)
 					)
 				)
@@ -1395,7 +1397,7 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 					React.createElement('input', { type: 'hidden', name: 'merchant', value: app.defaults.get('coinMecrh') }),
 					React.createElement('input', { type: 'hidden', name: 'item_amount', value: this.state.howMuch }),
 					React.createElement('input', { type: 'hidden', name: 'item_name', value: this.state.forPlan }),
-					React.createElement('input', { type: 'hidden', name: 'item_desc', value: '1 Year Subscription' }),
+					React.createElement('input', { type: 'hidden', name: 'item_desc', value: this.state.forPlan }),
 					React.createElement('input', { type: 'hidden', name: 'custom', value: app.user.get("userId") }),
 					React.createElement('input', { type: 'hidden', name: 'currency', value: 'USD' }),
 					React.createElement('input', { type: 'hidden', name: 'amountf', value: this.state.toPay }),

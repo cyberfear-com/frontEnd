@@ -239,7 +239,7 @@ define(['react', 'app','accounting','jsui'], function (React, app,accounting,jsu
 					var thisComp=this;
 
 					thisComp.setState({
-						toPay:app.user.get("userPlan")['balance']+app.user.get("userPlan")['monthlyCharge']-app.user.get("userPlan")['currentPlanBalance'],
+						toPay:app.user.get("userPlan")['balance']+app.user.get("userPlan")['monthlyCharge']-app.user.get("userPlan")['currentPlanBalance']+app.user.get("userPlan")['truePriceFullProrated'],
 						forPlan:"Subscription Renewal",
 						howMuch:1
 					});
@@ -737,6 +737,8 @@ define(['react', 'app','accounting','jsui'], function (React, app,accounting,jsu
             }*/
            //
 
+			console.log(app.user.get("userPlan"));
+			console.log(app.user.get('balanceShort'));
 			var ys="";
 			if(app.user.get("userPlan")['pastDue']==1){
 				ys="UNPAID";
@@ -753,11 +755,11 @@ define(['react', 'app','accounting','jsui'], function (React, app,accounting,jsu
 				<td>From: {new Date(app.user.get("userPlan")['cycleStart']*1000).toLocaleDateString()}<br/>
 					Until: {new Date(app.user.get("userPlan")['cycleEnd']*1000).toLocaleDateString()}</td>
 
-				<td className="col-sm-2">Status: <b>{ys}</b>
+				<td className="col-md-3">Status: <b>{ys}</b>
 					<div className="pull-right dialog_buttons">
-						<button type="button" className={(app.user.get("userPlan")['priceFullProrated']<=0)?"hidden":"btn btn-primary pull-right"} onClick={this.handleClick.bind(this, 'payEnough')}>Pay Now</button>
+						<button type="button" className={(app.user.get("userPlan")['priceFullProrated']>0 && !app.user.get('balanceShort'))?"btn btn-primary pull-right":"hidden"} onClick={this.handleClick.bind(this, 'payEnough')}>Pay Missing Balance</button>
 
-						<button type="button" className={(app.user.get("userPlan")['alrdPaid'] && !app.user.get('balanceShort'))?"hidden":"btn btn-primary pull-right"} onClick={this.handleClick.bind(this, 'renew')}>Pay Now</button>
+						<button type="button" className={(app.user.get("userPlan")['alrdPaid'] && !app.user.get('balanceShort'))?"hidden":"btn btn-primary pull-right"} onClick={this.handleClick.bind(this, 'renew')}>Renew</button>
 
 
 					</div>
@@ -1072,7 +1074,7 @@ define(['react', 'app','accounting','jsui'], function (React, app,accounting,jsu
 						<input type="hidden" name="merchant" value={app.defaults.get('coinMecrh')}/>
 						<input type="hidden" name="item_amount" value={this.state.howMuch}/>
 						<input type="hidden" name="item_name" value={this.state.forPlan}/>
-						<input type="hidden" name="item_desc" value="1 Year Subscription"/>
+						<input type="hidden" name="item_desc" value={this.state.forPlan}/>
 						<input type="hidden" name="custom" value={app.user.get("userId")}/>
 						<input type="hidden" name="currency" value="USD"/>
 						<input type="hidden" name="amountf" value={this.state.toPay}/>

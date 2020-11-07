@@ -236,7 +236,7 @@ define(['react', 'app', 'accounting'], function (React, app, accounting) {
 							{ className: 'nav navbar-nav pull-left' },
 							React.createElement(
 								'li',
-								{ style: { marginTop: "4px;" }, className: 'pull-left badge expirationBadge bg-color-blueLight', title: 'Reward for using CyberFear' },
+								{ style: { marginTop: "4px" }, className: 'pull-left badge expirationBadge bg-color-blueLight', title: 'Reward for using CyberFear' },
 								'Reward: ',
 								this.state.reward
 							),

@@ -206,7 +206,7 @@ define(['react','app','accounting'], function (React,app,accounting) {
 						<div className="navbar-collapse collapse" id="stamp-navigation">
 
 							<ul className="nav navbar-nav pull-left">
-								<li style={{marginTop:"4px;"}}className="pull-left badge expirationBadge bg-color-blueLight" title={'Reward for using CyberFear'}>Reward: {this.state.reward}</li>
+								<li style={{marginTop:"4px"}}className="pull-left badge expirationBadge bg-color-blueLight" title={'Reward for using CyberFear'}>Reward: {this.state.reward}</li>
 
 								<li className="hidden"><a href="/#reportBug" target="_blank">Report Bug</a></li>
 								<li className="hidden-xs"><a onClick={this.handleClick.bind(this, 'gotoPayment')}>Premium Features</a></li>

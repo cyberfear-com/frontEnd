@@ -565,7 +565,7 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 					amount = 5;
 				}
 
-				if (app.user.get("userPlan")['pastDue'] == 1 || app.user.get("userPlan")['priceFullProrated'] > 0) {
+				if (app.user.get("userPlan")['pastDue'] == 1 && app.user.get("userPlan")['priceFullProrated'] > 0) {
 
 					thisComp.setState({ setWarning: true });
 				} else {
@@ -649,7 +649,7 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 
 				});
 
-				if (app.user.get("userPlan")['pastDue'] == 1 || app.user.get("userPlan")['priceFullProrated'] > 0) {
+				if (app.user.get("userPlan")['pastDue'] == 1 && app.user.get("userPlan")['priceFullProrated'] > 0) {
 					thisComp.setState({ setWarning: true });
 				} else {
 					thisComp.setState({ setWarning: false });
@@ -989,8 +989,8 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 									'button',
 									{ type: 'button', className: 'btn btn-primary pull-right', onClick: this.handleClick.bind(this, 'upgradeMember') },
 									'Upgrade ',
-									accounting.formatMoney(app.user.get("userPlan")['yearSubscr'] / 100 + app.user.get("userPlan")['monthlyCharge']),
-									'/Year'
+									accounting.formatMoney(app.user.get("userPlan")['yearSubscr'] / 100),
+									' for a year'
 								)
 							),
 							React.createElement(

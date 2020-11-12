@@ -191,8 +191,7 @@ define(['react', 'app', 'accounting'], function (React, app, accounting) {
 							React.createElement(
 								'span',
 								{ className: 'pull-left badge expirationBadge bg-color-blueLight', title: 'Reward for using CyberFear' },
-								'Reward: ',
-								this.state.reward
+								accounting.formatMoney(this.state.reward, '$', 2)
 							)
 						),
 						React.createElement(
@@ -218,7 +217,7 @@ define(['react', 'app', 'accounting'], function (React, app, accounting) {
 							{ className: "navbar-toggle collapsed pull-right connectionError  no-border " + offlineClass },
 							React.createElement(
 								'button',
-								{ className: 'button', 'data-placement': 'bottom', 'data-toggle': 'popover-hover', 'data-trigger': 'focus', title: '', 'data-content': 'The system experienced a connection problem. Please click here to reconnect. If the problem persists, please contact us.', 'data-original-title': 'Connection Error', onClick: this.handleClick.bind(this, 'restartQue') },
+								{ className: 'button', 'data-placement': 'bottom', 'data-toggle': 'popover-hover', 'data-trigger': 'focus', title: '', 'data-content': '1The system experienced a connection problem. Please click here to reconnect. If the problem persists, please contact us.', 'data-original-title': 'Connection Error', onClick: this.handleClick.bind(this, 'restartQue') },
 								React.createElement('i', { className: 'fa fa fa-bell vibrate fa-lg fa-fw txt-color-red' })
 							)
 						),
@@ -236,9 +235,23 @@ define(['react', 'app', 'accounting'], function (React, app, accounting) {
 							{ className: 'nav navbar-nav pull-left' },
 							React.createElement(
 								'li',
-								{ style: { marginTop: "4px;" }, className: 'pull-left badge expirationBadge bg-color-blueLight', title: 'Reward for using CyberFear' },
+								{ style: { marginTop: "4px" }, className: 'pull-left badge expirationBadge bg-color-blueLight', title: 'Reward for using CyberFear' },
 								'Reward: ',
 								this.state.reward
+							),
+							React.createElement(
+								'li',
+								{ style: { marginTop: "4px" }, className: "pull-left badge expirationBadge margin-left-5 " + (app.user.get('timeLeft') < 100 ? "bg-color-red " : "bg-color-blueLight ") + (app.user.get('sessionExpiration') == -1 ? "hidden" : ""), title: 'Session will expire in ' + app.user.get('timeLeft') + ' sec' },
+								app.user.get('timeLeft')
+							),
+							React.createElement(
+								'li',
+								{ className: "pull-left connectionError " + offlineClass },
+								React.createElement(
+									'button',
+									{ className: 'btn btn-default button-noborder', 'data-placement': 'bottom', 'data-toggle': 'popover-hover', 'data-trigger': 'focus', title: '', 'data-content': 'The system experienced a connection problem. Please click here to reconnect. If the problem persists, please contact us.', 'data-original-title': 'Connection Error', onClick: this.handleClick.bind(this, 'restartQue') },
+									React.createElement('i', { className: 'fa fa fa-bell vibrate fa-lg fa-fw txt-color-red' })
+								)
 							),
 							React.createElement(
 								'li',
@@ -268,11 +281,6 @@ define(['react', 'app', 'accounting'], function (React, app, accounting) {
 								React.createElement(
 									'a',
 									{ href: '#', className: 'dropdown-toggle pull-left right-bar', 'data-toggle': 'dropdown', role: 'button', 'aria-expanded': 'false' },
-									React.createElement(
-										'span',
-										{ className: "pull-left badge expirationBadge " + (app.user.get('timeLeft') < 100 ? "bg-color-red " : "bg-color-blueLight ") + (app.user.get('sessionExpiration') == -1 ? "hidden" : ""), title: 'Session will expire in ' + app.user.get('timeLeft') + ' sec' },
-										app.user.get('timeLeft')
-									),
 									'\xA0Menu ',
 									React.createElement('span', { className: 'caret' })
 								),
@@ -383,15 +391,6 @@ define(['react', 'app', 'accounting'], function (React, app, accounting) {
 								'button',
 								{ className: 'btn btn-warning', 'data-placement': 'bottom', 'data-toggle': 'popover-hover', 'data-trigger': 'focus', title: '', 'data-content': 'New version is released. Please logout, and refresh you browser', 'data-original-title': 'New Version', onClick: this.handleClick.bind(this, 'refreshBrowser') },
 								'New Verison Available'
-							)
-						),
-						React.createElement(
-							'div',
-							{ className: "pull-right connectionError " + offlineClass },
-							React.createElement(
-								'button',
-								{ className: 'btn btn-default button-noborder', 'data-placement': 'bottom', 'data-toggle': 'popover-hover', 'data-trigger': 'focus', title: '', 'data-content': 'The system experienced a connection problem. Please click here to reconnect. If the problem persists, please contact us.', 'data-original-title': 'Connection Error', onClick: this.handleClick.bind(this, 'restartQue') },
-								React.createElement('i', { className: 'fa fa fa-bell vibrate fa-lg fa-fw txt-color-red' })
 							)
 						)
 					)

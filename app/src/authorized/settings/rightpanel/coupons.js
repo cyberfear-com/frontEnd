@@ -269,10 +269,10 @@ define(['react','app','accounting'], function (React,app,accounting) {
 						<div className="panel-body">
 
 							<p>
-								<b>Google Authenticator</b> - Increase the security of your login with multi-factor authentication by Google Authenticator. After typing in your login password, you'll be prompted to enter the six digit code displayed in the Authenticator app on your mobile device. To begin the setup, be sure you are on the Google Auth tab and click on "Enable Google Auth" using the Authenticator app on your mobile device and scan the QR code displayed in your CyberFear settings.
+
 							</p>
 							<p>
-								<b>YubiKey</b> - small usb key, that generates One Time Password in order to protect your account. Please note, that in order to verify a token, the system needs to make request on third party server, that potentially can disclose your login attempt. You can learn more at : https://www.yubico.com/start/
+
 							</p>
 
 						</div>

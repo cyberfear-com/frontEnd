@@ -75,7 +75,7 @@ define(['react', 'app','accounting','jsui'], function (React, app,accounting,jsu
 				case 'upgradeMember':
 					var thisComp=this;
 					thisComp.setState({
-						toPay:app.user.get("userPlan")['yearSubscr']/100,
+						toPay:app.user.get("userPlan")['yearSubscr']/100+app.user.get("userPlan")['balance'],
 						forPlan:"UpgradeToYear",
 						howMuch:1
 					});
@@ -222,7 +222,7 @@ define(['react', 'app','accounting','jsui'], function (React, app,accounting,jsu
 
 					if(this.state.alButtonText=='Pay Now'){
 
-						console.log(app.user.get("userId"))
+						//console.log(app.user.get("userId"))
 						thisComp.setState({
 							toPay:this.state.alpayNow,
 							forPlan:"Email Aliases",
@@ -238,11 +238,12 @@ define(['react', 'app','accounting','jsui'], function (React, app,accounting,jsu
 				case 'renew':
 					var thisComp=this;
 
-					thisComp.setState({
-						toPay:app.user.get("userPlan")['balance']+app.user.get("userPlan")['monthlyCharge']-app.user.get("userPlan")['currentPlanBalance']+app.user.get("userPlan")['truePriceFullProrated'],
-						forPlan:"Subscription Renewal",
-						howMuch:1
-					});
+						thisComp.setState({
+							toPay:app.user.get("userPlan")['renewAmount'],
+							forPlan:"Subscription Renewal",
+							howMuch:1
+						});
+
 					thisComp.handleClick('showSecond');
 
 					break;
@@ -707,12 +708,6 @@ define(['react', 'app','accounting','jsui'], function (React, app,accounting,jsu
 					"aliases":app.user.get("userPlan")['planData']['alias']
 
 				})
-
-				if(app.user.get("userPlan")['pastDue']==1 && app.user.get("userPlan")['priceFullProrated']>0){
-					thisComp.setState({setWarning:true});
-				}else{
-					thisComp.setState({setWarning:false});
-				}
 			},this);
 
 
@@ -740,14 +735,20 @@ define(['react', 'app','accounting','jsui'], function (React, app,accounting,jsu
 			console.log(app.user.get("userPlan"));
 			console.log(app.user.get('balanceShort'));
 			var ys="";
+			if(app.user.get("userPlan")['priceFullProrated']>0 && app.user.get("userPlan")['pastDue']==0){
+				ys="Partialy PAID";
+			}
+
 			if(app.user.get("userPlan")['pastDue']==1){
 				ys="UNPAID";
 			}else{
 				ys="PAID";
 			}
-			if(app.user.get("userPlan")['priceFullProrated']>0){
-				ys="Partialy PAID";
-			}
+
+			//what button to show
+			//if pastdue and alrdpaid=0 then renew
+			//if pastdue and alrd paid then missing balance
+
 			options.push(<tr key="1c">
 				<td className="col-md-6">
 					<b>Current Plan:</b>
@@ -757,9 +758,9 @@ define(['react', 'app','accounting','jsui'], function (React, app,accounting,jsu
 
 				<td className="col-md-3">Status: <b>{ys}</b>
 					<div className="pull-right dialog_buttons">
-						<button type="button" className={(app.user.get("userPlan")['priceFullProrated']>0 && !app.user.get('balanceShort'))?"btn btn-primary pull-right":"hidden"} onClick={this.handleClick.bind(this, 'payEnough')}>Pay Missing Balance</button>
+						<button type="button" className={app.user.get("userPlan")['needFill']?"btn btn-primary pull-right":"hidden"} onClick={this.handleClick.bind(this, 'payEnough')}>Pay Missing Balance</button>
 
-						<button type="button" className={(app.user.get("userPlan")['alrdPaid'] && !app.user.get('balanceShort'))?"hidden":"btn btn-primary pull-right"} onClick={this.handleClick.bind(this, 'renew')}>Renew</button>
+						<button type="button" className={app.user.get("userPlan")['needRenew']?"btn btn-primary pull-right":"hidden"} onClick={this.handleClick.bind(this, 'renew')}>Renew</button>
 
 
 					</div>
@@ -895,16 +896,16 @@ define(['react', 'app','accounting','jsui'], function (React, app,accounting,jsu
 							</div>
 
 							<div className={this.state.firstPanelClass}>
-								<h3 className={this.state.setWarning?"txt-color-red":"hidden"}>
+								<h3 className={app.user.get("userPlan")['pastDue']===1?"txt-color-red":"hidden"}>
 								Please Pay your balance to send and receive emails. Your email functionality is limited to access to previous emails only.
 								</h3>
 
-								<h3 className={app.user.get('balanceShort')?"txt-color-red":"hidden"}>
+								<h3 className={app.user.get("userPlan")['needRenew']?"txt-color-red":"hidden"}>
 									Please renew your service soon to avoid service interruption. Your email functionality will be limited to access to previous emails only.
 								</h3>
 
 								<h3 className={	app.user.get("userPlan")['planSelected']==2 || app.user.get("userPlan")['planSelected']==3?"txt-color-red":"hidden"}>
-									Please upgrade to yearly subscription to unlock premium features. <button type="button" className="btn btn-primary pull-right" onClick={this.handleClick.bind(this, 'upgradeMember')}>Upgrade {accounting.formatMoney(app.user.get("userPlan")['yearSubscr']/100)} for a year</button>
+									Please upgrade to yearly subscription to unlock premium features. <button type="button" className="btn btn-primary pull-right" onClick={this.handleClick.bind(this, 'upgradeMember')}>Upgrade {accounting.formatMoney(app.user.get("userPlan")['yearSubscr']/100+app.user.get("userPlan")['balance'])} for a year</button>
 
 								</h3>
 

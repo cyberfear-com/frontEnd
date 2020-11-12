@@ -182,7 +182,7 @@ define(['react','app','accounting'], function (React,app,accounting) {
 								<span className="icon-bar"></span>
 							</button>
 							<div className="navbar-toggle collapsed pull-right no-border">
-								<span className="pull-left badge expirationBadge bg-color-blueLight" title={'Reward for using CyberFear'}>Reward: {this.state.reward}</span>
+								<span className="pull-left badge expirationBadge bg-color-blueLight" title={'Reward for using CyberFear'}>{accounting.formatMoney(this.state.reward,'$',2)}</span>
 							</div>
 
 							<div className="navbar-toggle collapsed pull-right no-border">
@@ -194,7 +194,7 @@ define(['react','app','accounting'], function (React,app,accounting) {
 							</div>
 
 							<div className={"navbar-toggle collapsed pull-right connectionError  no-border " +offlineClass}>
-								<button className="button" data-placement="bottom" data-toggle="popover-hover" data-trigger="focus" title="" data-content="The system experienced a connection problem. Please click here to reconnect. If the problem persists, please contact us." data-original-title="Connection Error" onClick={this.handleClick.bind(this, 'restartQue')}><i className="fa fa fa-bell vibrate fa-lg fa-fw txt-color-red"></i></button>
+								<button className="button" data-placement="bottom" data-toggle="popover-hover" data-trigger="focus" title="" data-content="1The system experienced a connection problem. Please click here to reconnect. If the problem persists, please contact us." data-original-title="Connection Error" onClick={this.handleClick.bind(this, 'restartQue')}><i className="fa fa fa-bell vibrate fa-lg fa-fw txt-color-red"></i></button>
 							</div>
 
 
@@ -207,6 +207,13 @@ define(['react','app','accounting'], function (React,app,accounting) {
 
 							<ul className="nav navbar-nav pull-left">
 								<li style={{marginTop:"4px"}}className="pull-left badge expirationBadge bg-color-blueLight" title={'Reward for using CyberFear'}>Reward: {this.state.reward}</li>
+								<li style={{marginTop:"4px"}} className={"pull-left badge expirationBadge margin-left-5 " + (app.user.get('timeLeft') < 100 ? "bg-color-red " : "bg-color-blueLight ") + (app.user.get('sessionExpiration') == -1 ? "hidden" : "")} title={'Session will expire in '+app.user.get('timeLeft')+ ' sec'}>{app.user.get('timeLeft')}</li>
+
+								<li className={"pull-left connectionError " +offlineClass}>
+
+									<button className="btn btn-default button-noborder" data-placement="bottom" data-toggle="popover-hover" data-trigger="focus" title="" data-content="The system experienced a connection problem. Please click here to reconnect. If the problem persists, please contact us." data-original-title="Connection Error" onClick={this.handleClick.bind(this, 'restartQue')}><i className="fa fa fa-bell vibrate fa-lg fa-fw txt-color-red"></i></button>
+
+								</li>
 
 								<li className="hidden"><a href="/#reportBug" target="_blank">Report Bug</a></li>
 								<li className="hidden-xs"><a onClick={this.handleClick.bind(this, 'gotoPayment')}>Premium Features</a></li>
@@ -216,7 +223,6 @@ define(['react','app','accounting'], function (React,app,accounting) {
 								<li className="dropdown">
 
 									<a href="#" className="dropdown-toggle pull-left right-bar" data-toggle="dropdown" role="button" aria-expanded="false">
-										<span className={"pull-left badge expirationBadge " + (app.user.get('timeLeft') < 100 ? "bg-color-red " : "bg-color-blueLight ") + (app.user.get('sessionExpiration') == -1 ? "hidden" : "")} title={'Session will expire in '+app.user.get('timeLeft')+ ' sec'}>{app.user.get('timeLeft')}</span>
 										&nbsp;Menu <span className="caret"></span>
 									</a>
 									<ul className="dropdown-menu" role="menu">
@@ -247,11 +253,7 @@ define(['react','app','accounting'], function (React,app,accounting) {
 
 
 							</div>
-							<div className={"pull-right connectionError " +offlineClass}>
-								<button className="btn btn-default button-noborder" data-placement="bottom" data-toggle="popover-hover" data-trigger="focus" title="" data-content="The system experienced a connection problem. Please click here to reconnect. If the problem persists, please contact us." data-original-title="Connection Error" onClick={this.handleClick.bind(this, 'restartQue')}><i className="fa fa fa-bell vibrate fa-lg fa-fw txt-color-red"></i></button>
 
-
-							</div>
 
 						</div>
 					</nav>

@@ -517,6 +517,9 @@ define([
 								if(data['data']=="tryAgain"){
 									app.notifications.systemMessage('tryAgain');
 								}
+								if(data['data']=='upgradePlan'){
+									app.notifications.systemMessage('upgradePlan');
+								}
 							}
 
 							//app.notifications.systemMessage('wrngUsrOrPass');

@@ -1408,6 +1408,9 @@ table.dataTable tbody tr.selected {
     color: #000;
     background-color:#fff;
 }
+.margin-left-5{
+    margin-left:10px;
+}
 .panel-body .margin-left-10{
     margin-left:10px;
 }

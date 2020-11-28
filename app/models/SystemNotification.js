@@ -38,6 +38,9 @@ define([
 				case 'selectMsg':
 					this.noAnswer('Please select at least one message'); //
 					break;
+				case 'upgradePlan':
+					this.noAnswer("Please upgrade your plan to yearly subscription."); //
+					break;
 
 				case 'rchdLimits':
 					this.noAnswer("You've reached your plan limit. Please upgrade plan"); //

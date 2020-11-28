@@ -303,7 +303,7 @@ define([
                     eachKey.resolve();
 
                 }).catch(function(error) {
-                    console.log(error);
+                   // console.log(error);
                     app.notifications.systemMessage('tryAgain');
                 });
 

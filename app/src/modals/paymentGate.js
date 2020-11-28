@@ -28,9 +28,10 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                     var pl='free';
                 }
                 thisComp.setState({
-                    mCharge:app.user.get("userPlan")['monthlyCharge']-app.user.get("userPlan")['alrdPaid']-app.user.get("userPlan")['currentPlanBalance'],
+                    mCharge:app.user.get("userPlan")['monthlyCharge']-app.user.get("userPlan")['alrdPaid'],
                     membr:pl
                 });
+
                 // $('#selectAll>input').prop("checked",false);
             },thisComp);
 
@@ -41,7 +42,6 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                         });
                     }
                 });*/
-
 
         },
 

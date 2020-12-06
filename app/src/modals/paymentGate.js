@@ -239,6 +239,24 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
         },
 
         render: function () {
+            if(app.user.get("userPlan")['discountApplied']>0){
+                var discy=accounting.formatMoney(app.user.get("userPlan")['trueYearPrice']*(100-app.user.get("userPlan")['discountApplied'])/10000);
+                var discm=accounting.formatMoney(app.user.get("userPlan")['trueMonthPrice']*(100-app.user.get("userPlan")['discountApplied'])/10000);
+
+                if(app.user.get("userPlan")['planSelected']==1){
+                    var full="$"+app.user.get("userPlan")['trueYearPrice']/100
+
+
+                }else if(app.user.get("userPlan")['planSelected']==2){
+                    var full="$"+app.user.get("userPlan")['trueMonthPrice']/100
+
+                }
+                var charge=false;
+            }else{
+                var charge=true;
+            }
+
+
             return (
                 <div className="modal fade bs-example-modal-sm" id="makePayment" tabIndex="-1" role="dialog"
                      aria-hidden="true">
@@ -252,7 +270,8 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                                     <div className="clearfix"></div>
                                     Account Type: Premium
                                     <div className="clearfix"></div>
-                                    Amount Due: {accounting.formatMoney(this.state.mCharge)}
+                                    Amount Due:<span className={!charge?"":"hidden"}><strike>{{full}}</strike><b> {accounting.formatMoney(this.state.mCharge)}</b></span>
+                                    <span className={charge?"":"hidden"}>{accounting.formatMoney(this.state.mCharge)}</span>
                                 </div>
                             </div>
 
@@ -267,7 +286,7 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                                                            value="option1"
                                                            checked={this.state.membr=='year'}
                                                            onChange={this.handleChange.bind(this, 'year')} />
-                                                    &nbsp;Yearly ($18/year)
+                                                    &nbsp;Yearly (<span className={!charge?"":"hidden"}><strike>${app.user.get("userPlan")['trueYearPrice']/100}/year</strike> <b>{discy}/year</b></span> <span className={charge?"":"hidden"}>${app.user.get("userPlan")['trueYearPrice']/100}/year</span>)
                                                 </label>
                                             </div>
                                             <div className="clearfix"></div>
@@ -278,7 +297,7 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                                                            checked={this.state.membr=='month'}
                                                            onChange={this.handleChange.bind(this, 'month')} />
 
-                                                    &nbsp;Monthly ($2/month)
+                                                    &nbsp;Monthly (<span className={!charge?"":"hidden"}><strike>${app.user.get("userPlan")['trueMonthPrice']/100}/month</strike> <b>{discm}/month</b></span> <span className={charge?"":"hidden"}>${app.user.get("userPlan")['trueMonthPrice']/100}/month</span>)
                                                 </label>
                                             </div>
                                             <div className="clearfix"></div>

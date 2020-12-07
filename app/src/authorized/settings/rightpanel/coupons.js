@@ -269,9 +269,26 @@ define(['react','app','accounting'], function (React,app,accounting) {
 						<div className="panel-body">
 
 							<p>
+								<b>Coupons serve 2 purposes:</b><br/>
+								- discount for new users<br/>
+								- reward for you<br/>
+								<br/>
+									<b>Example:</b><br/>
+									You copy your coupon link and send it to your friend John.<br/>
+									John clicks on your link and creates an account.<br/>
+									John selects yearly subscription for $18.<br/>
+									Thanks to your coupon, the price gets decreased by 10% which makes it $16.20 instead of $18.<br/>
+									John saves $1.8. (10% of 18.00)<br/>
+									You receive $3.24 reward. (20% of 16.20)<br/>
+									CyberFear gains a new member.<br/>
+									<br/>
+										You can share your link with multiple people, it will always provide the discount and reward.<br/>
+										You can withdraw your rewards when you like to.<br/>
 
-							</p>
-							<p>
+								<br/>
+									Payments made by crypto and Perfect Money are instantly available for withdrawal.<br/>
+									Payments made by PayPal will be pending for 30 days before they can be withdrawn.<br/>
+									<b>Minimum withdrawal: $10.00</b><br/>
 
 							</p>
 

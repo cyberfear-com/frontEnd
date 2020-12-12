@@ -133,19 +133,6 @@ define(['react', 'app', 'accounting'], function (React, app, accounting) {
 					null,
 					this.state.discount,
 					'%'
-				),
-				React.createElement(
-					'td',
-					null,
-					React.createElement(
-						'div',
-						{ className: 'pull-right dialog_buttons col-md-3' },
-						React.createElement(
-							'button',
-							{ type: 'button', className: 'btn btn-primary pull-right', onClick: this.handleClick.bind(this, 'copyToClipboard') },
-							'Copy Link'
-						)
-					)
 				)
 			));
 
@@ -166,19 +153,6 @@ define(['react', 'app', 'accounting'], function (React, app, accounting) {
 					{ colSpan: '2' },
 					this.state.reward,
 					'%'
-				),
-				React.createElement(
-					'td',
-					null,
-					React.createElement(
-						'div',
-						{ className: 'pull-right dialog_buttons col-md-3' },
-						React.createElement(
-							'button',
-							{ type: 'button', className: 'btn btn-primary pull-right', onClick: this.handleClick.bind(this, 'copyToClipboard') },
-							'Copy Link'
-						)
-					)
 				)
 			));
 

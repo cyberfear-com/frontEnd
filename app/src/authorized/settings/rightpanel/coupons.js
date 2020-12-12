@@ -96,10 +96,6 @@ define(['react','app','accounting'], function (React,app,accounting) {
 
 
                 </td>
-                <td><div className="pull-right dialog_buttons col-md-3">
-                    <button type="button" className="btn btn-primary pull-right" onClick={this.handleClick.bind(this, 'copyToClipboard')}>Copy Link</button>
-
-                </div></td>
 
             </tr>);
 
@@ -111,10 +107,6 @@ define(['react','app','accounting'], function (React,app,accounting) {
 
 
                 </td>
-                <td><div className="pull-right dialog_buttons col-md-3">
-                    <button type="button" className="btn btn-primary pull-right" onClick={this.handleClick.bind(this, 'copyToClipboard')}>Copy Link</button>
-
-                </div></td>
 
             </tr>);
 

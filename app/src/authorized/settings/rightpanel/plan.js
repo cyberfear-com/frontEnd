@@ -222,7 +222,7 @@ define(['react', 'app','accounting','jsui'], function (React, app,accounting,jsu
 
 					if(this.state.alButtonText=='Pay Now'){
 
-						console.log(app.user.get("userId"))
+						//console.log(app.user.get("userId"))
 						thisComp.setState({
 							toPay:this.state.alpayNow,
 							forPlan:"Email Aliases",

@@ -29,6 +29,7 @@ define(['react','app','accounting'], function (React,app,accounting) {
                 paid:0,
                 reward:0,
 				pendingReward:0,
+                discount:0,
                 rewardPaid:0,
 				alreadyAwarded:0
 
@@ -87,6 +88,28 @@ define(['react','app','accounting'], function (React,app,accounting) {
 
 			</tr>);
 
+            options.push(<tr key="1c">
+                <td className="col-md-6">
+                    <b>Discount for new user:</b>
+                </td>
+                <td>{this.state.discount}%
+
+
+                </td>
+
+            </tr>);
+
+            options.push(<tr key="1d">
+                <td className="col-md-6">
+                    <b>Reward for you:</b>
+                </td>
+                <td colSpan="2">{this.state.reward}%
+
+
+                </td>
+
+            </tr>);
+
 			options.push(<tr key="2a">
 				<td>
 					<b>Registered using your link:</b>
@@ -105,24 +128,16 @@ define(['react','app','accounting'], function (React,app,accounting) {
 				<td></td>
 			</tr>);
 
+            options.push(<tr key="3b">
+                <td>
+                    <b>Total Reward:</b>
+                </td>
+                <td>{accounting.formatMoney(app.user.get("userPlan")['rewardCollected'],'$',2)}
+                </td>
+                <td></td>
+            </tr>);
 			//if(app.user.get("userPlan")['balance']>0){
-			options.push(<tr key="3a">
-				<td>
-					<b>Current reward per account signup:</b>
-				</td>
-				<td colSpan="2">{this.state.reward}%
-				</td>
 
-			</tr>);
-
-			options.push(<tr key="3b">
-				<td>
-					<b>Total Reward:</b>
-				</td>
-				<td>{accounting.formatMoney(app.user.get("userPlan")['rewardCollected'],'$',2)}
-				</td>
-				<td></td>
-			</tr>);
 
 			options.push(<tr key="3ba">
 				<td>
@@ -176,6 +191,7 @@ define(['react','app','accounting'], function (React,app,accounting) {
                     reward:result['reward'],
 					alreadyAwarded:result['totalAwarded'],
 					pendingReward:result['pendingAward'],
+                    discount:result['discount'],
                     rewardPaid:0
                 });
 			})
@@ -269,9 +285,26 @@ define(['react','app','accounting'], function (React,app,accounting) {
 						<div className="panel-body">
 
 							<p>
+								<b>Coupons serve 2 purposes:</b><br/>
+								- discount for new users<br/>
+								- reward for you<br/>
+								<br/>
+									<b>Example:</b><br/>
+									You copy your coupon link and send it to your friend John.<br/>
+									John clicks on your link and creates an account.<br/>
+									John selects yearly subscription for $18.<br/>
+									Thanks to your coupon, the price gets decreased by 10% which makes it $16.20 instead of $18.<br/>
+									John saves $1.8. (10% of 18.00)<br/>
+									You receive $3.24 reward. (20% of 16.20)<br/>
+									CyberFear gains a new member.<br/>
+									<br/>
+										You can share your link with multiple people, it will always provide the discount and reward.<br/>
+										You can withdraw your rewards when you like to.<br/>
 
-							</p>
-							<p>
+								<br/>
+									Payments made by crypto and Perfect Money are instantly available for withdrawal.<br/>
+									Payments made by PayPal will be pending for 30 days before they can be withdrawn.<br/>
+									<b>Minimum withdrawal: $10.00</b><br/>
 
 							</p>
 

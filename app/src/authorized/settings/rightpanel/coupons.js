@@ -29,6 +29,7 @@ define(['react','app','accounting'], function (React,app,accounting) {
                 paid:0,
                 reward:0,
 				pendingReward:0,
+                discount:0,
                 rewardPaid:0,
 				alreadyAwarded:0
 
@@ -87,6 +88,36 @@ define(['react','app','accounting'], function (React,app,accounting) {
 
 			</tr>);
 
+            options.push(<tr key="1c">
+                <td className="col-md-6">
+                    <b>Discount for new user:</b>
+                </td>
+                <td>{this.state.discount}%
+
+
+                </td>
+                <td><div className="pull-right dialog_buttons col-md-3">
+                    <button type="button" className="btn btn-primary pull-right" onClick={this.handleClick.bind(this, 'copyToClipboard')}>Copy Link</button>
+
+                </div></td>
+
+            </tr>);
+
+            options.push(<tr key="1d">
+                <td className="col-md-6">
+                    <b>Reward for you:</b>
+                </td>
+                <td colSpan="2">{this.state.reward}%
+
+
+                </td>
+                <td><div className="pull-right dialog_buttons col-md-3">
+                    <button type="button" className="btn btn-primary pull-right" onClick={this.handleClick.bind(this, 'copyToClipboard')}>Copy Link</button>
+
+                </div></td>
+
+            </tr>);
+
 			options.push(<tr key="2a">
 				<td>
 					<b>Registered using your link:</b>
@@ -105,24 +136,16 @@ define(['react','app','accounting'], function (React,app,accounting) {
 				<td></td>
 			</tr>);
 
+            options.push(<tr key="3b">
+                <td>
+                    <b>Total Reward:</b>
+                </td>
+                <td>{accounting.formatMoney(app.user.get("userPlan")['rewardCollected'],'$',2)}
+                </td>
+                <td></td>
+            </tr>);
 			//if(app.user.get("userPlan")['balance']>0){
-			options.push(<tr key="3a">
-				<td>
-					<b>Current reward per account signup:</b>
-				</td>
-				<td colSpan="2">{this.state.reward}%
-				</td>
 
-			</tr>);
-
-			options.push(<tr key="3b">
-				<td>
-					<b>Total Reward:</b>
-				</td>
-				<td>{accounting.formatMoney(app.user.get("userPlan")['rewardCollected'],'$',2)}
-				</td>
-				<td></td>
-			</tr>);
 
 			options.push(<tr key="3ba">
 				<td>
@@ -176,6 +199,7 @@ define(['react','app','accounting'], function (React,app,accounting) {
                     reward:result['reward'],
 					alreadyAwarded:result['totalAwarded'],
 					pendingReward:result['pendingAward'],
+                    discount:result['discount'],
                     rewardPaid:0
                 });
 			})

@@ -228,6 +228,20 @@ define(['app', 'accounting', 'react'], function (app, accounting, React) {
         },
 
         render: function () {
+            if (app.user.get("userPlan")['discountApplied'] > 0) {
+                var discy = accounting.formatMoney(app.user.get("userPlan")['trueYearPrice'] * (100 - app.user.get("userPlan")['discountApplied']) / 10000);
+                var discm = accounting.formatMoney(app.user.get("userPlan")['trueMonthPrice'] * (100 - app.user.get("userPlan")['discountApplied']) / 10000);
+
+                if (app.user.get("userPlan")['planSelected'] == 1) {
+                    var full = "$" + app.user.get("userPlan")['trueYearPrice'] / 100;
+                } else if (app.user.get("userPlan")['planSelected'] == 2) {
+                    var full = "$" + app.user.get("userPlan")['trueMonthPrice'] / 100;
+                }
+                var charge = false;
+            } else {
+                var charge = true;
+            }
+
             return React.createElement(
                 'div',
                 { className: 'modal fade bs-example-modal-sm', id: 'makePayment', tabIndex: '-1', role: 'dialog',
@@ -250,8 +264,27 @@ define(['app', 'accounting', 'react'], function (app, accounting, React) {
                                 React.createElement('div', { className: 'clearfix' }),
                                 'Account Type: Premium',
                                 React.createElement('div', { className: 'clearfix' }),
-                                'Amount Due: ',
-                                accounting.formatMoney(this.state.mCharge)
+                                'Amount Due:',
+                                React.createElement(
+                                    'span',
+                                    { className: !charge ? "" : "hidden" },
+                                    React.createElement(
+                                        'strike',
+                                        null,
+                                        { full }
+                                    ),
+                                    React.createElement(
+                                        'b',
+                                        null,
+                                        ' ',
+                                        accounting.formatMoney(this.state.mCharge)
+                                    )
+                                ),
+                                React.createElement(
+                                    'span',
+                                    { className: charge ? "" : "hidden" },
+                                    accounting.formatMoney(this.state.mCharge)
+                                )
                             )
                         ),
                         React.createElement(
@@ -281,7 +314,34 @@ define(['app', 'accounting', 'react'], function (app, accounting, React) {
                                                     value: 'option1',
                                                     checked: this.state.membr == 'year',
                                                     onChange: this.handleChange.bind(this, 'year') }),
-                                                '\xA0Yearly ($18/year)'
+                                                '\xA0Yearly (',
+                                                React.createElement(
+                                                    'span',
+                                                    { className: !charge ? "" : "hidden" },
+                                                    React.createElement(
+                                                        'strike',
+                                                        null,
+                                                        '$',
+                                                        app.user.get("userPlan")['trueYearPrice'] / 100,
+                                                        '/year'
+                                                    ),
+                                                    ' ',
+                                                    React.createElement(
+                                                        'b',
+                                                        null,
+                                                        discy,
+                                                        '/year'
+                                                    )
+                                                ),
+                                                ' ',
+                                                React.createElement(
+                                                    'span',
+                                                    { className: charge ? "" : "hidden" },
+                                                    '$',
+                                                    app.user.get("userPlan")['trueYearPrice'] / 100,
+                                                    '/year'
+                                                ),
+                                                ')'
                                             )
                                         ),
                                         React.createElement('div', { className: 'clearfix' }),
@@ -295,7 +355,34 @@ define(['app', 'accounting', 'react'], function (app, accounting, React) {
                                                     value: 'option2',
                                                     checked: this.state.membr == 'month',
                                                     onChange: this.handleChange.bind(this, 'month') }),
-                                                '\xA0Monthly ($2/month)'
+                                                '\xA0Monthly (',
+                                                React.createElement(
+                                                    'span',
+                                                    { className: !charge ? "" : "hidden" },
+                                                    React.createElement(
+                                                        'strike',
+                                                        null,
+                                                        '$',
+                                                        app.user.get("userPlan")['trueMonthPrice'] / 100,
+                                                        '/month'
+                                                    ),
+                                                    ' ',
+                                                    React.createElement(
+                                                        'b',
+                                                        null,
+                                                        discm,
+                                                        '/month'
+                                                    )
+                                                ),
+                                                ' ',
+                                                React.createElement(
+                                                    'span',
+                                                    { className: charge ? "" : "hidden" },
+                                                    '$',
+                                                    app.user.get("userPlan")['trueMonthPrice'] / 100,
+                                                    '/month'
+                                                ),
+                                                ')'
                                             )
                                         ),
                                         React.createElement('div', { className: 'clearfix' }),

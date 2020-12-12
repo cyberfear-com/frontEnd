@@ -30,6 +30,7 @@ define(['react', 'app', 'accounting'], function (React, app, accounting) {
 				paid: 0,
 				reward: 0,
 				pendingReward: 0,
+				discount: 0,
 				rewardPaid: 0,
 				alreadyAwarded: 0
 
@@ -117,6 +118,72 @@ define(['react', 'app', 'accounting'], function (React, app, accounting) {
 
 			options.push(React.createElement(
 				'tr',
+				{ key: '1c' },
+				React.createElement(
+					'td',
+					{ className: 'col-md-6' },
+					React.createElement(
+						'b',
+						null,
+						'Discount for new user:'
+					)
+				),
+				React.createElement(
+					'td',
+					null,
+					this.state.discount,
+					'%'
+				),
+				React.createElement(
+					'td',
+					null,
+					React.createElement(
+						'div',
+						{ className: 'pull-right dialog_buttons col-md-3' },
+						React.createElement(
+							'button',
+							{ type: 'button', className: 'btn btn-primary pull-right', onClick: this.handleClick.bind(this, 'copyToClipboard') },
+							'Copy Link'
+						)
+					)
+				)
+			));
+
+			options.push(React.createElement(
+				'tr',
+				{ key: '1d' },
+				React.createElement(
+					'td',
+					{ className: 'col-md-6' },
+					React.createElement(
+						'b',
+						null,
+						'Reward for you:'
+					)
+				),
+				React.createElement(
+					'td',
+					{ colSpan: '2' },
+					this.state.reward,
+					'%'
+				),
+				React.createElement(
+					'td',
+					null,
+					React.createElement(
+						'div',
+						{ className: 'pull-right dialog_buttons col-md-3' },
+						React.createElement(
+							'button',
+							{ type: 'button', className: 'btn btn-primary pull-right', onClick: this.handleClick.bind(this, 'copyToClipboard') },
+							'Copy Link'
+						)
+					)
+				)
+			));
+
+			options.push(React.createElement(
+				'tr',
 				{ key: '2a' },
 				React.createElement(
 					'td',
@@ -154,27 +221,6 @@ define(['react', 'app', 'accounting'], function (React, app, accounting) {
 				React.createElement('td', null)
 			));
 
-			//if(app.user.get("userPlan")['balance']>0){
-			options.push(React.createElement(
-				'tr',
-				{ key: '3a' },
-				React.createElement(
-					'td',
-					null,
-					React.createElement(
-						'b',
-						null,
-						'Current reward per account signup:'
-					)
-				),
-				React.createElement(
-					'td',
-					{ colSpan: '2' },
-					this.state.reward,
-					'%'
-				)
-			));
-
 			options.push(React.createElement(
 				'tr',
 				{ key: '3b' },
@@ -194,6 +240,8 @@ define(['react', 'app', 'accounting'], function (React, app, accounting) {
 				),
 				React.createElement('td', null)
 			));
+			//if(app.user.get("userPlan")['balance']>0){
+
 
 			options.push(React.createElement(
 				'tr',
@@ -266,6 +314,7 @@ define(['react', 'app', 'accounting'], function (React, app, accounting) {
 					reward: result['reward'],
 					alreadyAwarded: result['totalAwarded'],
 					pendingReward: result['pendingAward'],
+					discount: result['discount'],
 					rewardPaid: 0
 				});
 			});
@@ -379,8 +428,57 @@ define(['react', 'app', 'accounting'], function (React, app, accounting) {
 						React.createElement(
 							'div',
 							{ className: 'panel-body' },
-							React.createElement('p', null),
-							React.createElement('p', null)
+							React.createElement(
+								'p',
+								null,
+								React.createElement(
+									'b',
+									null,
+									'Coupons serve 2 purposes:'
+								),
+								React.createElement('br', null),
+								'- discount for new users',
+								React.createElement('br', null),
+								'- reward for you',
+								React.createElement('br', null),
+								React.createElement('br', null),
+								React.createElement(
+									'b',
+									null,
+									'Example:'
+								),
+								React.createElement('br', null),
+								'You copy your coupon link and send it to your friend John.',
+								React.createElement('br', null),
+								'John clicks on your link and creates an account.',
+								React.createElement('br', null),
+								'John selects yearly subscription for $18.',
+								React.createElement('br', null),
+								'Thanks to your coupon, the price gets decreased by 10% which makes it $16.20 instead of $18.',
+								React.createElement('br', null),
+								'John saves $1.8. (10% of 18.00)',
+								React.createElement('br', null),
+								'You receive $3.24 reward. (20% of 16.20)',
+								React.createElement('br', null),
+								'CyberFear gains a new member.',
+								React.createElement('br', null),
+								React.createElement('br', null),
+								'You can share your link with multiple people, it will always provide the discount and reward.',
+								React.createElement('br', null),
+								'You can withdraw your rewards when you like to.',
+								React.createElement('br', null),
+								React.createElement('br', null),
+								'Payments made by crypto and Perfect Money are instantly available for withdrawal.',
+								React.createElement('br', null),
+								'Payments made by PayPal will be pending for 30 days before they can be withdrawn.',
+								React.createElement('br', null),
+								React.createElement(
+									'b',
+									null,
+									'Minimum withdrawal: $10.00'
+								),
+								React.createElement('br', null)
+							)
 						)
 					)
 				)

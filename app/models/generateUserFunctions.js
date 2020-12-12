@@ -305,6 +305,7 @@ define([
                 }).catch(function(error) {
                    // console.log(error);
                     app.notifications.systemMessage('tryAgain');
+                    console.log('here1');
                 });
 
                 eachKey.done(function () {
@@ -318,6 +319,7 @@ define([
 
             eightStep.done(function () {
 
+                console.log('here');
                var modKey= app.globalF.makeModKey();
 
                     var nUserObj={
@@ -346,7 +348,7 @@ define([
 
 
 
-
+                console.log('here2');
                     var updatingPost={};
 
                     updatingPost['userObject']=JSON.stringify(newUserObj);
@@ -364,12 +366,12 @@ define([
 
 
 
-
+                console.log('here3');
 
                 var derivedKey = app.globalF.makeDerived(secret, salt);
 
                     app.generate.generateToken(derivedKey,function(tokenHash,tokenAes,tokenAesHash){
-
+                        console.log('here4');
                         app.user.set({downloadToken:tokenAes});
 
                         updatingPost['email']=email;

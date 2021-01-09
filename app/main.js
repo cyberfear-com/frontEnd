@@ -281,8 +281,8 @@ require(['app', 'cmpld/router',
 
 		app.run();
 
-		if(document.domain=='cyberfear4hlcsac.onion'){
-			app.defaults.set({'apidomain':'http://cyberfear4hlcsac.onion/api'});
+		if(document.domain=='cyberfe3gvh7cvq2nhuqtaghjxebhcnqafnfvalwvq6mxrinep7m7xqd.onion'){
+			app.defaults.set({'apidomain':'http://cyberfe3gvh7cvq2nhuqtaghjxebhcnqafnfvalwvq6mxrinep7m7xqd.onion/api'});
 		}
 
 		//var person = new Person;

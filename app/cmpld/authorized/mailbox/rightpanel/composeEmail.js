@@ -1249,7 +1249,7 @@ define(['react', 'app', 'summernote', 'select2'], function (React, app, summerno
 
 									app.globalF.move2Folder(origFolder, [emailId], function () {
 										if (error['data'] != "limitIsReached") {
-											app.notifications.systemMessage('tryAgain');
+											app.notifications.systemMessage('email2often');
 										} else if (error['data'] == 'attachmentError') {
 											app.notifications.systemMessage('reuploadAttachm');
 										}

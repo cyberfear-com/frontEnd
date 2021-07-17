@@ -732,8 +732,8 @@ define(['react', 'app','accounting','jsui'], function (React, app,accounting,jsu
             }*/
            //
 
-			console.log(app.user.get("userPlan"));
-			console.log(app.user.get('balanceShort'));
+			//console.log(app.user.get("userPlan"));
+			//console.log(app.user.get('balanceShort'));
 			var ys="";
 			if(app.user.get("userPlan")['priceFullProrated']>0 && app.user.get("userPlan")['pastDue']==0){
 				ys="Partialy PAID";

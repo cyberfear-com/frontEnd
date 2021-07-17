@@ -520,6 +520,10 @@ define([
 								if(data['data']=='upgradePlan'){
 									app.notifications.systemMessage('upgradePlan');
 								}
+								if(data['data']=='email2often'){
+									app.notifications.systemMessage('email2often');
+								}
+
 							}
 
 							//app.notifications.systemMessage('wrngUsrOrPass');

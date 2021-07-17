@@ -510,6 +510,8 @@ define([
 
 							if(data['data']=="limitIsReached"){
 								app.notifications.systemMessage('limitIsReached');
+							}else if(data['data']=='email2often'){
+								app.notifications.systemMessage('email2often');
 							}else{
 								if(data['data']=="pastDue"){
 									app.notifications.systemMessage('pastDue');
@@ -519,9 +521,6 @@ define([
 								}
 								if(data['data']=='upgradePlan'){
 									app.notifications.systemMessage('upgradePlan');
-								}
-								if(data['data']=='email2often'){
-									app.notifications.systemMessage('email2often');
 								}
 
 							}

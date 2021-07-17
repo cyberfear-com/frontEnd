@@ -178,6 +178,11 @@ define([
 				case 'nthTochngORexst':
 					this.omgAnswer('Nothing changed Or already exist');
 					break;
+				case 'email2often':
+					this.omgAnswer("You've reached hourly sending limit. Please try again later or upgrade your plan.");
+					break;
+
+
 
 
 

@@ -510,18 +510,19 @@ define([
 
 							if(data['data']=="limitIsReached"){
 								app.notifications.systemMessage('limitIsReached');
-							}else if(data['data']=='email2often'){
-								app.notifications.systemMessage('email2often');
 							}else{
-								if(data['data']==="pastDue"){
+								if(data['data']=="pastDue"){
 									app.notifications.systemMessage('pastDue');
 								}
-								if(data['data']==="tryAgain"){
+								if(data['data']=="tryAgain"){
 									app.notifications.systemMessage('tryAgain');
 								}
-								if(data['data']==='upgradePlan'){
+								if(data['data']=='upgradePlan'){
 									app.notifications.systemMessage('upgradePlan');
 								}
+								//if(data['data']=='email2often'){
+								//	app.notifications.systemMessage('email2often');
+								//}
 
 							}
 

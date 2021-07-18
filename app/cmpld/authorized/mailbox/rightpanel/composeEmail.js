@@ -1241,15 +1241,16 @@ define(['react', 'app', 'summernote', 'select2'], function (React, app, summerno
 									app.layout.display('viewBox');
 									// console.log('good');
 								}).fail(function (error) {
-									//  console.log(error);
 									var emailId = thisComp.state.messageId;
 									var messages = app.user.get('emails')['messages'];
 									var origFolder = app.user.get("systemFolders")['draftFolderId'];
 									messages[emailId]['tp'] = 3;
 
 									app.globalF.move2Folder(origFolder, [emailId], function () {
-										if (error['data'] != "limitIsReached") {
+										if (error['data'] != "email2often") {
 											app.notifications.systemMessage('tryAgain');
+										} else if (error['data'] == "email2often") {
+											app.notifications.systemMessage('email2often');
 										} else if (error['data'] == 'attachmentError') {
 											app.notifications.systemMessage('reuploadAttachm');
 										}

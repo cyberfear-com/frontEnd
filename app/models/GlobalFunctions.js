@@ -1365,7 +1365,7 @@ define([
 								app.globalF.move2Folder(origFolder, [mesId], function () {
                                     deff.reject('error');
 								});
-								app.notifications.systemMessage('tryAgain');
+								//app.notifications.systemMessage('tryAgain');
 							}
 
 
@@ -1576,7 +1576,7 @@ define([
 									app.globalF.move2Folder(origFolder,[mesId],function(){
                                         deff.reject('error');
 									});
-									app.notifications.systemMessage('tryAgain');
+									//app.notifications.systemMessage('tryAgain');
 								}
 
 
@@ -1841,15 +1841,11 @@ define([
                                         app.notifications.systemMessage('tryAgain');
                                     }
 
-                                }else if(result['response']=="fail" && result['data']=="limitIsReached"){
-                                    app.globalF.move2Folder(origFolder,[mesId],function(){
-                                        deff.reject(result);
-                                    });
                                 }else{
                                     app.globalF.move2Folder(origFolder,[mesId],function(){
                                         deff.reject(result);
                                     });
-                                    app.notifications.systemMessage('tryAgain');
+                                   // app.notifications.systemMessage('tryAgain');
                                 }
 
                             });

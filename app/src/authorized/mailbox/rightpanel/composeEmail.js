@@ -1377,9 +1377,11 @@ define(['react','app', 'summernote','select2'], function (React,app,summernote,s
                                         messages[emailId]['tp'] = 3;
 
                                         app.globalF.move2Folder(origFolder, [emailId], function () {
-                                            if(error['data']!="limitIsReached"){
-                                                app.notifications.systemMessage('email2often');
-                                            }else if (error['data'] == 'attachmentError') {
+                                            if(error['data']!="email2often"){
+                                                app.notifications.systemMessage('tryAgain');
+                                            }else if(error['data']=="email2often"){
+												app.notifications.systemMessage('email2often');
+											}else if (error['data'] == 'attachmentError') {
                                                 app.notifications.systemMessage('reuploadAttachm');
                                             }
                                         });

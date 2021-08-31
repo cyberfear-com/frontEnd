@@ -57,6 +57,12 @@ define(['react', 'app'], function (React, app) {
 						});
 						break;
 
+					case 'AdminPanel':
+						Backbone.history.navigate("/settings/AdminPanel", {
+							trigger: true
+						});
+						break;
+
 					case 'Filter':
 						Backbone.history.navigate("/settings/Filter", {
 							trigger: true
@@ -108,6 +114,13 @@ define(['react', 'app'], function (React, app) {
 			}
 		},
 		render: function () {
+			//console.log(this.props.activeLink);
+			//console.log(this.props.classes.leftClass);
+			if (app.transform.SHA512(app.user.get('loginEmail')) != "eff5ce297f6dbec57ea9b44cea193bd1f053ebd207efbecc751c11307a1ea1ef3f1f2ddc64d744685e69e842b50a88228cd50aa2d3d411bdbfd448e72448b98d") {
+				var admin = '';
+			} else {
+				var admin = 'hidden';
+			}
 			return React.createElement(
 				'div',
 				{ className: this.props.classes.leftClass, id: 'leftSettingPanel' },
@@ -221,6 +234,16 @@ define(['react', 'app'], function (React, app) {
 							'a',
 							{ className: 'list-link js-nav', onClick: this.handleClick.bind(this, 'BlackList') },
 							'Black / White List ',
+							React.createElement('i', { className: 'fa fa-chevron-right' })
+						)
+					),
+					React.createElement(
+						'li',
+						{ className: this.props.activeLink.adminPanel + "" + admin },
+						React.createElement(
+							'a',
+							{ className: 'list-link js-nav', onClick: this.handleClick.bind(this, 'AdminPanel') },
+							'Admin Panel ',
 							React.createElement('i', { className: 'fa fa-chevron-right' })
 						)
 					),

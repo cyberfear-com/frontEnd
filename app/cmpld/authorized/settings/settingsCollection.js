@@ -19,7 +19,8 @@ define(['react', 'app', 'cmpld/authorized/settings/leftmenu/settingsList'], func
 					security: '',
 					plan: '',
 					delete: '',
-					blackList: ''
+					blackList: '',
+					adminPanel: ''
 				},
 				setTabs: {
 					Header: "panel-title personal-info-title hidden-xs",
@@ -121,6 +122,10 @@ define(['react', 'app', 'cmpld/authorized/settings/leftmenu/settingsList'], func
 				case 'BlackList':
 					this.setState({ settings: { blackList: 'active' } });
 					break;
+				case 'AdminPanel':
+					this.setState({ settings: { adminPanel: 'active' } });
+					break;
+
 				case 'Coupon':
 					this.setState({ settings: { coupon: 'active' } });
 					break;

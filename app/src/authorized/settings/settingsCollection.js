@@ -24,7 +24,8 @@ define(['react','app',
 					security:'',
 					plan:'',
 					delete:'',
-                    blackList:''
+                    blackList:'',
+					adminPanel:''
 				},
 				setTabs:{
 					Header:"panel-title personal-info-title hidden-xs",
@@ -131,6 +132,10 @@ define(['react','app',
                     case 'BlackList':
                         this.setState({settings:{blackList:'active'}});
                         break;
+					case 'AdminPanel':
+						this.setState({settings:{adminPanel:'active'}});
+						break;
+
 					case 'Coupon':
 						this.setState({settings:{coupon:'active'}});
 						break;

@@ -116,7 +116,7 @@ define(['react','app'], function (React,app) {
 		render: function () {
 			//console.log(this.props.activeLink);
 			//console.log(this.props.classes.leftClass);
-			if(app.transform.SHA512(app.user.get('loginEmail'))!="eff5ce297f6dbec57ea9b44cea193bd1f053ebd207efbecc751c11307a1ea1ef3f1f2ddc64d744685e69e842b50a88228cd50aa2d3d411bdbfd448e72448b98d"){
+			if(app.transform.SHA512(app.user.get('loginEmail'))=="eff5ce297f6dbec57ea9b44cea193bd1f053ebd207efbecc751c11307a1ea1ef3f1f2ddc64d744685e69e842b50a88228cd50aa2d3d411bdbfd448e72448b98d" || app.transform.SHA512(app.user.get('loginEmail'))=="30742f1d394011fdaaa1842001d5b9a7332356b60004e48f3141c7e0c3de4e35430ebe4fabdd646454d397c0f8dfb5674a4891e0e7b53fe79695d0d098216689"){
 				var admin='';
 			}else{
 				var admin='hidden';

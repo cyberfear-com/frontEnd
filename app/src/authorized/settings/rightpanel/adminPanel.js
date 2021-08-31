@@ -33,7 +33,6 @@ define(['react','app','accounting'], function (React,app,accounting) {
 		},
 		refresh:function(){
 			var thisComp=this;
-			//eff5ce297f6dbec57ea9b44cea193bd1f053ebd207efbecc751c11307a1ea1ef3f1f2ddc64d744685e69e842b50a88228cd50aa2d3d411bdbfd448e72448b98d
 			app.serverCall.ajaxRequest('RetrieveAdminData', {}, function (result) {
 				thisComp.setState({
 					totalSignUps:result['data']['tsigns'],

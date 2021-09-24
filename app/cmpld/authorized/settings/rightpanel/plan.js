@@ -631,6 +631,7 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 
 			this.presetValues();
 			app.user.on("change:userPlan", function () {
+				console.log('plan changed');
 				this.setState({
 					"boxButtonText": "",
 					"domButtonText": "",
@@ -831,7 +832,7 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 				React.createElement(
 					'td',
 					null,
-					accounting.formatMoney(app.user.get("userPlan")['rewardCollected'], '$', 4)
+					accounting.formatMoney(app.user.get("userPlan")['rewardCollected'], '$', 3)
 				),
 				React.createElement('td', null)
 			));

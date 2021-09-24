@@ -599,7 +599,7 @@ define(['react', 'app','accounting','jsui'], function (React, app,accounting,jsu
             var def=$.Deferred();
 
             app.userObjects.loadUserPlan(function(){
-                def.resolve();
+              def.resolve();
             });
 
 
@@ -809,7 +809,7 @@ define(['react', 'app','accounting','jsui'], function (React, app,accounting,jsu
 				<td>
 					<b>Rewards:</b>
 				</td>
-				<td>{accounting.formatMoney(app.user.get("userPlan")['rewardCollected'],'$',4)}
+				<td>{accounting.formatMoney(app.user.get("userPlan")['rewardCollected'],'$',3)}
 				</td>
 				<td></td>
 			</tr>);

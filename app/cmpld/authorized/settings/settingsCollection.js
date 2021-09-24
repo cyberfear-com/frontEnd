@@ -4,7 +4,7 @@ define(['react', 'app', 'cmpld/authorized/settings/leftmenu/settingsList'], func
 		getInitialState: function () {
 			return {
 				settings: {
-					profile: '',
+					profile: 'active',
 					coupon: '',
 					layout: '',
 					password: '',
@@ -34,6 +34,32 @@ define(['react', 'app', 'cmpld/authorized/settings/leftmenu/settingsList'], func
 
 			};
 		},
+		resetActive: (thisComp, callback) => {
+			thisComp.setState({
+				settings: {
+					profile: '',
+					coupon: '',
+					layout: '',
+					password: '',
+					disposable: '',
+					domain: '',
+					auth: '',
+					contacts: '',
+					webdiv: '',
+					pgp: '',
+					spam: '',
+					folders: '',
+					security: '',
+					plan: '',
+					delete: '',
+					blackList: '',
+					adminPanel: ''
+				}
+			}, () => {
+				callback();
+			});
+		},
+
 		componentDidMount: function () {
 
 			var thisComp = this;
@@ -68,7 +94,13 @@ define(['react', 'app', 'cmpld/authorized/settings/leftmenu/settingsList'], func
 			app.mixins.off("change");
 		},
 
+		setActive: (thisComp, page) => {
+			thisComp.resetActive(thisComp, function () {
+				thisComp.state.settings[page] = 'active';
+			});
+		},
 		updateActive: function (page) {
+			var thisComp = this;
 			if ($('#leftSettingPanel').is(":visible") && !$('#rightSettingPanel').is(":visible")) {
 
 				this.setState({
@@ -88,62 +120,64 @@ define(['react', 'app', 'cmpld/authorized/settings/leftmenu/settingsList'], func
 
 			switch (page) {
 				case 'Profile':
-					this.setState({ settings: { profile: 'active' } });
+					thisComp.setActive(thisComp, 'profile');
+
 					break;
 				case 'Layout':
-					this.setState({ settings: { layout: 'active' } });
+					thisComp.setActive(thisComp, 'layout');
 					break;
 
 				case 'Password':
-					this.setState({ settings: { password: 'active' } });
+					thisComp.setActive(thisComp, 'password');
 					break;
 				case 'Disposable-Aliases':
-					this.setState({ settings: { disposable: 'active' } });
+					thisComp.setActive(thisComp, 'disposable');
+
 					break;
 				case 'Custom-Domain':
-					this.setState({ settings: { domain: 'active' } });
+					thisComp.setActive(thisComp, 'domain');
 					break;
 				case '2-Step':
-					this.setState({ settings: { auth: 'active' } });
+					thisComp.setActive(thisComp, 'auth');
 					break;
 				case 'Contacts':
-					this.setState({ settings: { contacts: 'active' } });
+					thisComp.setActive(thisComp, 'contacts');
 					break;
 				case 'WebDiv':
-					this.setState({ settings: { webdiv: 'active' } });
+					thisComp.setActive(thisComp, 'webdiv');
 					break;
 				case 'PGP-Keys':
-					this.setState({ settings: { pgp: 'active' } });
+					thisComp.setActive(thisComp, 'pgp');
 					break;
 
 				case 'Filter':
-					this.setState({ settings: { spam: 'active' } });
+					thisComp.setActive(thisComp, 'spam');
 					break;
 				case 'BlackList':
-					this.setState({ settings: { blackList: 'active' } });
+					thisComp.setActive(thisComp, 'blackList');
 					break;
 				case 'AdminPanel':
-					this.setState({ settings: { adminPanel: 'active' } });
+					thisComp.setActive(thisComp, 'adminPanel');
 					break;
 
 				case 'Coupon':
-					this.setState({ settings: { coupon: 'active' } });
+					thisComp.setActive(thisComp, 'coupon');
 					break;
 
 				case 'Folders':
-					this.setState({ settings: { folders: 'active' } });
+					thisComp.setActive(thisComp, 'folders');
 					break;
 
 				case 'Security-Log':
-					this.setState({ settings: { security: 'active' } });
+					thisComp.setActive(thisComp, 'security');
 
 					break;
 				case 'Plan':
-					this.setState({ settings: { plan: 'active' } });
+					thisComp.setActive(thisComp, 'plan');
 					break;
 
 				case 'Delete-Account':
-					this.setState({ settings: { delete: 'active' } });
+					thisComp.setActive(thisComp, 'delete');
 					break;
 
 			}

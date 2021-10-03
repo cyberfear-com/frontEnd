@@ -631,7 +631,6 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 
 			this.presetValues();
 			app.user.on("change:userPlan", function () {
-				console.log('plan changed');
 				this.setState({
 					"boxButtonText": "",
 					"domButtonText": "",

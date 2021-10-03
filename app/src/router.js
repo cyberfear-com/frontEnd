@@ -284,6 +284,7 @@ define(['app','backbone', 'react','jquery','bootstrap','cmpld/splashPage/SplashC
 					'cmpld/authorized/settings/rightpanel/securityLog',
 					'cmpld/authorized/settings/rightpanel/folders',
 					'cmpld/authorized/settings/rightpanel/emailFilter',
+					'cmpld/authorized/settings/rightpanel/adminPanel',
 					'cmpld/authorized/settings/rightpanel/deleteAccount',
 					'cmpld/authorized/settings/rightpanel/plan',
                     'cmpld/authorized/settings/rightpanel/blackList',
@@ -298,6 +299,7 @@ define(['app','backbone', 'react','jquery','bootstrap','cmpld/splashPage/SplashC
 					Aliases,Pgp,
 					Webdiv,Security,
 					Folders,Spam,
+					adminPanel,
 					Delete,Plan,blackList,AuthCollection,
 					UpdateVersion1
 					) {
@@ -362,6 +364,9 @@ define(['app','backbone', 'react','jquery','bootstrap','cmpld/splashPage/SplashC
                         Profil=  blackList;
                         break;
 
+					case 'AdminPanel':
+						Profil= adminPanel;
+						break;
 
 					case 'Delete-Account':
 							 Profil= Delete;

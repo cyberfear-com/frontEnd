@@ -57,6 +57,12 @@ define(['react','app'], function (React,app) {
 						});
 						break;
 
+					case 'AdminPanel':
+						Backbone.history.navigate("/settings/AdminPanel", {
+							trigger : true
+						});
+						break;
+
 					case 'Filter':
 						Backbone.history.navigate("/settings/Filter", {
 							trigger : true
@@ -110,6 +116,10 @@ define(['react','app'], function (React,app) {
 		render: function () {
 			//console.log(this.props.activeLink);
 			//console.log(this.props.classes.leftClass);
+			var admin='hidden';
+			if(app.transform.SHA512(app.user.get('loginEmail'))=="eff5ce297f6dbec57ea9b44cea193bd1f053ebd207efbecc751c11307a1ea1ef3f1f2ddc64d744685e69e842b50a88228cd50aa2d3d411bdbfd448e72448b98d" || app.transform.SHA512(app.user.get('loginEmail'))=="30742f1d394011fdaaa1842001d5b9a7332356b60004e48f3141c7e0c3de4e35430ebe4fabdd646454d397c0f8dfb5674a4891e0e7b53fe79695d0d098216689"){
+				var admin='';
+			}
 		return (
 			<div className={this.props.classes.leftClass} id="leftSettingPanel">
 
@@ -151,6 +161,9 @@ define(['react','app'], function (React,app) {
 						<a className="list-link js-nav" onClick={this.handleClick.bind(this, 'Filter')}>Email Filter <i className="fa fa-chevron-right"></i></a></li>
                     <li className={this.props.activeLink.blackList}>
                         <a className="list-link js-nav" onClick={this.handleClick.bind(this, 'BlackList')}>Black / White List <i className="fa fa-chevron-right"></i></a></li>
+
+					<li className={this.props.activeLink.adminPanel+" "+ admin}>
+						<a className="list-link js-nav" onClick={this.handleClick.bind(this, 'AdminPanel')}>Admin Panel <i className="fa fa-chevron-right"></i></a></li>
 
 					{/*<li className={this.props.activeLink.security}>
 						<a className="list-link js-nav" onClick={this.handleClick.bind(this, 'Security-Log')}>Security Log<i className="fa fa-chevron-right"></i></a></li>*/}

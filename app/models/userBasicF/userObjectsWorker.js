@@ -2856,23 +2856,23 @@ define([
 			3) delete plan record
 			4) delete all user objects
 			 */
-			var allEmails=app.user.get('emails')['messages'];
+			//var allEmails=app.user.get('emails')['messages'];
 			var parsedEmails={};
 
 			app.userObjects.set({"modalText":'Deleting emails and user objects. It may take few minutes'});
 			app.userObjects.set({"modalpercentage":50});
 
-			if(Object.keys(allEmails).length>0){
+	/*		if(Object.keys(allEmails).length>0){
 				$.each(allEmails, function (index, value) {
 					//console.log(index);
 					//console.log(value);
 					parsedEmails[index]=value['mK'];
 
 				});
-			}
+			}*/
 			var post={
                 'lockEmail':lockEmail?1:0,
-				'emails':JSON.stringify(parsedEmails)
+				//'emails':JSON.stringify(parsedEmails)
 			};
 
 			app.serverCall.ajaxRequest('deleteUser', post, function (result) {

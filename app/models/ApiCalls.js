@@ -138,6 +138,9 @@ define([
                 case 'deleteAllBlockedEmails':
                     var url='/deleteAllBlockedEmailsV2';
                     break;
+				case 'RetrieveAdminData':
+					var url='/AdminDataV2';
+					break;
 
 
 

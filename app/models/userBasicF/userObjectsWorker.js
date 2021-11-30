@@ -1468,7 +1468,9 @@ define([
 					var post={
 						'objectData':	JSON.stringify(newProfObj),
 						'domain':app.user.get('newDomain')['domain'],
-						'vrfString':app.user.get('newDomain')['vrfString']
+						'vrfString':app.user.get('newDomain')['vrfString'],
+                        'dkimPrivateKey':app.user.get('newDomain')['dkimPrivateKey'],
+                        'dkimDNSRecord':app.user.get('newDomain')['dkimDNSRecord'],
 					}
 
 					//console.log(profile);

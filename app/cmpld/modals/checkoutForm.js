@@ -1,109 +1,92 @@
-import React, { useState, useEffect } from "react";
-import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import React, { useEffect, useState } from "react";
+import { PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
 
 export default function CheckoutForm() {
-    const [succeeded, setSucceeded] = useState(false);
-    const [error, setError] = useState(null);
-    const [processing, setProcessing] = useState('');
-    const [disabled, setDisabled] = useState(true);
-    const [clientSecret, setClientSecret] = useState('');
     const stripe = useStripe();
     const elements = useElements();
 
+    const [message, setMessage] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+
     useEffect(() => {
-        // Create PaymentIntent as soon as the page loads
-        window.fetch("/create.php", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ items: [{ id: "xl-tshirt" }] })
-        }).then(res => {
-            return res.json();
-        }).then(data => {
-            setClientSecret(data.clientSecret);
-        });
-    }, []);
-
-    const cardStyle = {
-        style: {
-            base: {
-                color: "#32325d",
-                fontFamily: 'Arial, sans-serif',
-                fontSmoothing: "antialiased",
-                fontSize: "16px",
-                "::placeholder": {
-                    color: "#32325d"
-                }
-            },
-            invalid: {
-                color: "#fa755a",
-                iconColor: "#fa755a"
-            }
+        if (!stripe) {
+            return;
         }
-    };
 
-    const handleChange = async event => {
-        // Listen for changes in the CardElement
-        // and display any errors as the customer types their card details
-        setDisabled(event.empty);
-        setError(event.error ? event.error.message : "");
-    };
+        const clientSecret = new URLSearchParams(window.location.search).get("payment_intent_client_secret");
 
-    const handleSubmit = async ev => {
-        ev.preventDefault();
-        setProcessing(true);
+        if (!clientSecret) {
+            return;
+        }
 
-        const payload = await stripe.confirmCardPayment(clientSecret, {
-            payment_method: {
-                card: elements.getElement(CardElement)
+        stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
+            switch (paymentIntent.status) {
+                case "succeeded":
+                    setMessage("Payment succeeded!");
+                    break;
+                case "processing":
+                    setMessage("Your payment is processing.");
+                    break;
+                case "requires_payment_method":
+                    setMessage("Your payment was not successful, please try again.");
+                    break;
+                default:
+                    setMessage("Something went wrong.");
+                    break;
+            }
+        });
+    }, [stripe]);
+
+    const handleSubmit = async e => {
+        e.preventDefault();
+
+        if (!stripe || !elements) {
+            // Stripe.js has not yet loaded.
+            // Make sure to disable form submission until Stripe.js has loaded.
+            return;
+        }
+
+        setIsLoading(true);
+
+        const { error } = await stripe.confirmPayment({
+            elements,
+            confirmParams: {
+                // Make sure to change this to your payment completion page
+                return_url: "http://localhost:3000"
             }
         });
 
-        if (payload.error) {
-            setError(`Payment failed ${ payload.error.message }`);
-            setProcessing(false);
+        // This point will only be reached if there is an immediate error when
+        // confirming the payment. Otherwise, your customer will be redirected to
+        // your `return_url`. For some payment methods like iDEAL, your customer will
+        // be redirected to an intermediate site first to authorize the payment, then
+        // redirected to the `return_url`.
+        if (error.type === "card_error" || error.type === "validation_error") {
+            setMessage(error.message);
         } else {
-            setError(null);
-            setProcessing(false);
-            setSucceeded(true);
+            setMessage("An unexpected error occured.");
         }
+
+        setIsLoading(false);
     };
 
     return React.createElement(
         "form",
         { id: "payment-form", onSubmit: handleSubmit },
-        React.createElement(CardElement, { id: "card-element", options: cardStyle, onChange: handleChange }),
+        React.createElement(PaymentElement, { id: "payment-element" }),
         React.createElement(
             "button",
-            {
-                disabled: processing || disabled || succeeded,
-                id: "submit"
-            },
+            { disabled: isLoading || !stripe || !elements, id: "submit" },
             React.createElement(
                 "span",
                 { id: "button-text" },
-                processing ? React.createElement("div", { className: "spinner", id: "spinner" }) : "Pay now"
+                isLoading ? React.createElement("div", { className: "spinner", id: "spinner" }) : "Pay now"
             )
         ),
-        error && React.createElement(
+        message && React.createElement(
             "div",
-            { className: "card-error", role: "alert" },
-            error
-        ),
-        React.createElement(
-            "p",
-            { className: succeeded ? "result-message" : "result-message hidden" },
-            "Payment succeeded, see the result in your",
-            React.createElement(
-                "a",
-                {
-                    href: `https://dashboard.stripe.com/test/payments`
-                },
-                " ",
-                "Stripe dashboard."
-            ),
-            " Refresh the page to pay again."
+            { id: "payment-message" },
+            message
         )
     );
 }

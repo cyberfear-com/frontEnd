@@ -178,7 +178,7 @@ define([
 						});
 
 						$('#dialogModHead').html("Waiting for funds");
-						$('#dialogModBody').html("You started a payment process using coinpayments.<br/> It may take some time to precess. As soon as we receive payments, you will be automatically redirected to your mailbox. You can close this window and come back later.<br/><b>If you like to use other payment processor, please click 'Cancel'</b><br/><br/> Thnak you for choosing CyberFear.com");
+						$('#dialogModBody').html("You started a payment process.<br/> It may take some time to precess. As soon as we receive payments, you will be automatically redirected to your mailbox. You can close this window and come back later.<br/><b>If you like to use other payment processor, please click 'Cancel'</b><br/><br/> Thnak you for choosing CyberFear.com");
 
 						$("#dialogOk").addClass('hidden');
 

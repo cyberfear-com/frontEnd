@@ -30,6 +30,7 @@ define([
             this.set({"balanceShort": false});
             this.set({"folderCached": {}});
 
+			this.set({"stipeLoaded": false});
 
             this.set({"rememberContacts": true});
 

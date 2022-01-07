@@ -14,7 +14,10 @@ define(['react','app','accounting'], function (React,app,accounting) {
 				totalDomain:0,
 				Domain24:0,
 				Domain7:0,
-				Domain30:0
+				Domain30:0,
+				Active24:0,
+				Active7:0,
+				Active30:0
         };
     },
 
@@ -46,7 +49,10 @@ define(['react','app','accounting'], function (React,app,accounting) {
 					totalDomain:result['data']['domtot'],
 					Domain24:result['data']['dom24h'],
 					Domain7:result['data']['dom7d'],
-					Domain30:result['data']['dom30d']
+					Domain30:result['data']['dom30d'],
+					Active24:result['data']['active24'],
+					Active7:result['data']['active7d'],
+					Active30:result['data']['active30d'],
 				});
 			})
 		},
@@ -184,7 +190,27 @@ define(['react','app','accounting'], function (React,app,accounting) {
 										</td>
 										<td colSpan="2">{accounting.formatMoney(this.state.Domain30,'',0)}</td>
 
+									</tr>
 
+									<tr key="12">
+										<td className="col-md-6">
+											<b>Active 24h:</b>
+										</td>
+										<td colSpan="2">{accounting.formatMoney(this.state.Active24,'',0)}</td>
+
+									</tr>
+									<tr key="13">
+										<td className="col-md-6">
+											<b>Active 7 days:</b>
+										</td>
+										<td colSpan="2">{accounting.formatMoney(this.state.Active7,'',0)}</td>
+
+									</tr>
+									<tr key="14">
+										<td className="col-md-6">
+											<b>Active 30 days:</b>
+										</td>
+										<td colSpan="2">{accounting.formatMoney(this.state.active30d,'',0)}</td>
 
 									</tr>
 								</table>

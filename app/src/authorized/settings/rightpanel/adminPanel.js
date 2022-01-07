@@ -210,7 +210,7 @@ define(['react','app','accounting'], function (React,app,accounting) {
 										<td className="col-md-6">
 											<b>Active 30 days:</b>
 										</td>
-										<td colSpan="2">{accounting.formatMoney(this.state.active30d,'',0)}</td>
+										<td colSpan="2">{accounting.formatMoney(this.state.Active30,'',0)}</td>
 
 									</tr>
 								</table>

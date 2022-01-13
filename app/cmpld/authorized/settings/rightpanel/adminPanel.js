@@ -375,7 +375,7 @@ define(['react', 'app', 'accounting'], function (React, app, accounting) {
 										React.createElement(
 											'td',
 											{ colSpan: '2' },
-											accounting.formatMoney(this.state.active30d, '', 0)
+											accounting.formatMoney(this.state.Active30, '', 0)
 										)
 									)
 								)

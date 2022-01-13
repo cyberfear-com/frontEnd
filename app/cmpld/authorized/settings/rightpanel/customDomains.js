@@ -49,8 +49,6 @@ define(['react', 'app', 'dataTable', 'dataTableBoot'], function (React, app, Dat
 
 			var thisComp = this;
 
-			console.log(app.user);
-
 			this.getCustomDomain(function (result) {
 
 				thisComp.setState({

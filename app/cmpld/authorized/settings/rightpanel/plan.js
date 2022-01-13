@@ -265,10 +265,6 @@ define(['react', 'app', 'accounting'], function (React, app, accounting) {
 					});
 					break;
 
-				case "checkSt":
-					await this.checkStatus();
-					break;
-
 				case "stripe":
 
 					this.setState({
@@ -280,31 +276,8 @@ define(['react', 'app', 'accounting'], function (React, app, accounting) {
 						await app.stripeCheckOut.checkout(this);
 					});
 
-					//app.stripeCheckOut.checkStatus(this);
-
-					//call to server paymentintent
-
-					/*					if(!app.user.get("stipeLoaded")){
-     						console.log('before checkout');
-     						app.stripeCheckOut.checkout();
-     
-     						app.user.set({"stipeLoaded":true});
-     //4000000000000002 -decline
-     						//4242 4242 4242 4242 -good
-     
-     					}else{
-     						//update order
-     						console.log('after checkout');
-     						//await this.initialize();
-     						await app.stripeCheckOut.start(this);
-     						thisComp.updateStripe();
-     
-     						//var stripe_checkout = await thisComp.stripe_checkout();
-     					}*/
-
 					break;
 				case "payPal":
-
 					var thisComp = this;
 
 					thisComp.setState({
@@ -715,8 +688,8 @@ define(['react', 'app', 'accounting'], function (React, app, accounting) {
 
 		componentDidMount: function () {
 			var thisComp = this;
-			this.presetValues();
 
+			this.presetValues();
 			app.user.on("change:userPlan", function () {
 				this.setState({
 					"boxButtonText": "",
@@ -1435,11 +1408,6 @@ define(['react', 'app', 'accounting'], function (React, app, accounting) {
 									'button',
 									{ type: 'submit', className: 'btn btn-primary', form: 'perfF', onClick: this.handleClick.bind(this, 'showFirst') },
 									'Pay With Perfect Money'
-								),
-								React.createElement(
-									'button',
-									{ type: 'submit', className: 'btn btn-primary', onClick: this.handleClick.bind(this, 'checkSt') },
-									'Check Status'
 								),
 								React.createElement(
 									'button',

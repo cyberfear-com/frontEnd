@@ -15,7 +15,10 @@ define(['react', 'app', 'accounting'], function (React, app, accounting) {
 				totalDomain: 0,
 				Domain24: 0,
 				Domain7: 0,
-				Domain30: 0
+				Domain30: 0,
+				Active24: 0,
+				Active7: 0,
+				Active30: 0
 			};
 		},
 
@@ -45,7 +48,10 @@ define(['react', 'app', 'accounting'], function (React, app, accounting) {
 					totalDomain: result['data']['domtot'],
 					Domain24: result['data']['dom24h'],
 					Domain7: result['data']['dom7d'],
-					Domain30: result['data']['dom30d']
+					Domain30: result['data']['dom30d'],
+					Active24: result['data']['active24'],
+					Active7: result['data']['active7d'],
+					Active30: result['data']['active30d']
 				});
 			});
 		},
@@ -316,6 +322,60 @@ define(['react', 'app', 'accounting'], function (React, app, accounting) {
 											'td',
 											{ colSpan: '2' },
 											accounting.formatMoney(this.state.Domain30, '', 0)
+										)
+									),
+									React.createElement(
+										'tr',
+										{ key: '12' },
+										React.createElement(
+											'td',
+											{ className: 'col-md-6' },
+											React.createElement(
+												'b',
+												null,
+												'Active 24h:'
+											)
+										),
+										React.createElement(
+											'td',
+											{ colSpan: '2' },
+											accounting.formatMoney(this.state.Active24, '', 0)
+										)
+									),
+									React.createElement(
+										'tr',
+										{ key: '13' },
+										React.createElement(
+											'td',
+											{ className: 'col-md-6' },
+											React.createElement(
+												'b',
+												null,
+												'Active 7 days:'
+											)
+										),
+										React.createElement(
+											'td',
+											{ colSpan: '2' },
+											accounting.formatMoney(this.state.Active7, '', 0)
+										)
+									),
+									React.createElement(
+										'tr',
+										{ key: '14' },
+										React.createElement(
+											'td',
+											{ className: 'col-md-6' },
+											React.createElement(
+												'b',
+												null,
+												'Active 30 days:'
+											)
+										),
+										React.createElement(
+											'td',
+											{ colSpan: '2' },
+											accounting.formatMoney(this.state.Active30, '', 0)
 										)
 									)
 								)

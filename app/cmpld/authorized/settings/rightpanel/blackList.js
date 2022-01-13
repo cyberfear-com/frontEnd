@@ -324,8 +324,7 @@ define(['react', 'app'], function (React, app) {
 		/**
    *
    * @returns {JSX}
-   */
-		render: function () {
+   */render: function () {
 
 			return React.createElement(
 				'div',
@@ -422,15 +421,11 @@ define(['react', 'app'], function (React, app) {
 											{ value: 'domainM' },
 											'Domain Match'
 										),
-										{//<option value="domainNM">Domain Not Matched</option>
-										},
 										React.createElement(
 											'option',
 											{ value: 'emailM' },
 											'Email Match'
-										),
-										{//  <option value="emailNM">Email Not Matched</option>
-										}
+										)
 									)
 								),
 								React.createElement(

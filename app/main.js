@@ -30,6 +30,9 @@ require.config({
 		accounting: "/js/Plugins/accounting/accounting",
 		select2: "/js/Plugins/select2/select2.full",
 		openpgp: "/js/Plugins/openpgp/openpgp",
+		//Elements:"@stripe/react-stripe-js",
+		//loadStripe:"/js/Plugins/@stripe/stripe-js/dist/stripe",
+		//useEffect:"react"
 
        // mailreader: "/js/Plugins/mailParser/mailreader",
         //mailparser:"/js/Plugins/mailParser/mailparser"
@@ -179,6 +182,7 @@ require(['app', 'cmpld/router',
 		'models/indexedDb/indexedDBWorker',
 		'models/updates/versioning',
 		'models/userBasicF/userObjectsWorker',
+		'models/userBasicF/stripeCheckOut',
 		'models/mixins/mixins',
 		'models/variable/defaultSettings',
         'models/mailMan',
@@ -200,6 +204,7 @@ require(['app', 'cmpld/router',
 			  IndexedDBWorker,
 			  Versioning,
 			  UserObjectsWorker,
+			  StripeCheckOut,
 			  Mixins,
 			  defaultSettings,
               fetchingEmails,
@@ -243,6 +248,7 @@ require(['app', 'cmpld/router',
 		app.auth = new UserLogin();
 		app.indexedDBWorker = new IndexedDBWorker();
 		app.userObjects = new UserObjectsWorker();
+		app.stripeCheckOut=new StripeCheckOut();
 
 		app.versioning = new Versioning();
 		app.mixins = new Mixins();

@@ -2,17 +2,19 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
 
     return React.createClass({
 
+
         getInitialState: function () {
             return {
                 email: "",
                 buttonTag: "",
                 buttonText: "Create Account",
                 paym:"",
-                userId:"",
                 mCharge:"",
                 membr:"",
-                butDis:false
+                butDis:false,
+                stripeId:""
             };
+
         },
 
         componentDidMount: function () {
@@ -73,7 +75,20 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                     }else if(msg['response']==='success'){
                         app.userObjects.loadUserPlan(function(){
                             thisComp.setState({
-                                butDis:false
+                                butDis:false,
+                            },function(){
+                                console.log(thisComp.state.mCharge);
+                                console.log(thisComp.state.paym);
+                                if(thisComp.state.paym=="stripe" && thisComp.state.membr!=="free"){
+
+                                    var payLoad={};
+                                    payLoad['planSelector']= this.state.membr;
+                                    payLoad['userToken']=app.user.get("userLoginToken");
+                                    payLoad['price']=this.state.mCharge;
+                                    payLoad['stripeId']=this.state.stripeId;
+
+                                    app.stripeCheckOut.updateStripe(payLoad);
+                                }
                             });
 
                         });
@@ -83,7 +98,7 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                 });
         },
 
-        handleChange: function (action, event) {
+       handleChange:async function (action, event) {
 
             switch (action) {
                 case 'year':
@@ -117,10 +132,6 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                         paym: "perfectm"
                     });
 
-                    this.setState({
-                        userId:app.user.get("userId")
-                    });
-
                     break;
                 case 'bitc':
                     var thisComp=this;
@@ -128,11 +139,26 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                         paym: "bitc"
                     });
 
+                    break;
+                case 'stripe':
+                    var thisComp=this;
                     this.setState({
-                        userId:app.user.get("userId")
+                        paym: "stripe",
+                        location:"NewMembership",
+                        email:app.user.get('loginEmail'),
+                        toPay:this.state.mCharge,
+                        forPlan:this.state.membr,
+                        howMuch:1
+                    },function(){
+                        app.stripeCheckOut.start(this);
+                        app.stripeCheckOut.checkout(this);
+
                     });
 
+
                     break;
+
+
                 case 'paypal':
                     var thisComp=this;
                     this.setState({
@@ -185,6 +211,54 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
             }
         },
 
+        async stripeHandleSubmit(e) {
+            console.log('her551');
+            //4000000000000002 -decline
+            //4242 4242 4242 4242 -good
+            e.preventDefault();
+            app.stripeCheckOut.setLoading(true);
+
+            var elements=app.stripeCheckOut.get("elements");
+            var stripe=app.stripeCheckOut.get("stripe");
+
+            const { error,paymentIntent } = await stripe.confirmPayment({
+                elements,
+                confirmParams: {
+                    // Make sure to change this to your payment completion page
+                    return_url: "https://cyber.com/index.html"
+                },
+                redirect: "if_required"
+
+            });
+
+            try{
+                if (paymentIntent.status === "succeeded") {
+                    console.log('paid');
+                    app.stripeCheckOut.showMessage('Payment was accepted. Please wait to be redirected');
+                }
+
+            }catch(error){
+
+            }
+
+            // This point will only be reached if there is an immediate error when
+            // confirming the payment. Otherwise, your customer will be redirected to
+            // your `return_url`. For some payment methods like iDEAL, your customer will
+            // be redirected to an intermediate site first to authorize the payment, then
+            // redirected to the `return_url`.
+            // console.log(error);
+            try{
+                if (error.type === "card_error" || error.type === "validation_error") {
+                    app.stripeCheckOut.showMessage(error.message);
+                } else {
+                    app.stripeCheckOut.showMessage("An unexpected error occured.");
+                }
+            }catch(error){
+
+            }
+            app.stripeCheckOut.setLoading(false);
+        },
+
         new_script: function() {
             return new Promise(function(resolve, reject){
                 var script = document.createElement('script');
@@ -199,9 +273,6 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
             })
         },
 
-        handleSubmit(event) {
-
-        },
         handleClick: function(action,event) {
             switch(action) {
                 case 'pay':
@@ -270,7 +341,7 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                                     <div className="clearfix"></div>
                                     Account Type: Premium
                                     <div className="clearfix"></div>
-                                    Amount Due:<span className={!charge?"":"hidden"}><strike>{{full}}</strike><b> {accounting.formatMoney(this.state.mCharge)}</b></span>
+                                    Amount Due:<span className={!charge?"":"hidden"}><strike>{full}</strike><b> {accounting.formatMoney(this.state.mCharge)}</b></span>
                                     <span className={charge?"":"hidden"}>{accounting.formatMoney(this.state.mCharge)}</span>
                                 </div>
                             </div>
@@ -355,6 +426,16 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                                                     &nbsp;PayPal
                                                 </label>
                                             </div>
+                                            <div className="clearfix"></div>
+                                            <div className="radio">
+                                                <label>
+                                                    <input className="margin-right-10" type="radio" name="optionsRadios" id="optionsRadios4"
+                                                           value="option4"
+                                                           checked={this.state.paym=='stripe'}
+                                                           onChange={this.handleChange.bind(this, 'stripe')} />
+                                                    &nbsp;stripe
+                                                </label>
+                                            </div>
 
 
                                         </div>
@@ -373,7 +454,7 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                                             <input type="hidden" name="NOPAYMENT_URL" value="https://cyberfear.com/api/Pe"/>
                                             <input type="hidden" name="NOPAYMENT_URL_METHOD" value="LINK"/>
                                             <input type="hidden" name="SUGGESTED_MEMO" value=""/>
-                                            <input type="hidden" name="userId" value={this.state.userId}/>
+                                            <input type="hidden" name="userId" value={app.user.get("userId")}/>
                                             <input type="hidden" name="paymentFor" value="NewMembership"/>
                                             <input type="hidden" name="howMuch" value="1"/>
                                             <input type="hidden" name="BAGGAGE_FIELDS" value="userId paymentFor howMuch"/>
@@ -396,7 +477,7 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                                             <input type="hidden" name="email" value="anonymous@cyberfear.com"/>
                                             <input type="hidden" name="item_name" value="Premium Membership"/>
                                             <input type="hidden" name="item_desc" value={this.state.membr=='year'?"1 Year Subscription":"1 Month Subscription"}/>
-                                            <input type="hidden" name="custom" value={this.state.userId}/>
+                                            <input type="hidden" name="custom" value={app.user.get("userId")}/>
                                             <input type="hidden" name="currency" value="USD"/>
                                             <input type="hidden" name="amountf" value={this.state.mCharge}/>
                                             <input type="hidden" name="want_shipping" value="0"/>
@@ -406,6 +487,18 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
 
                                         </form>
                                         <div className="clearfix"></div>
+
+                                        <div className={this.state.paym=="stripe"?"":"hidden"} id="stripe-container">
+                                            <form id="payment-form">
+                                                <div id="payment-element">
+                                                </div>
+                                                <button id="submit">
+                                                    <div className="spinner hidden" id="spinner"></div>
+                                                    <span id="button-text">Pay now</span>
+                                                </button>
+                                                <div id="payment-message" className="hidden"></div>
+                                            </form>
+                                        </div>
 
                                         <div className={this.state.paym=="paypal"?"":"hidden"} id="paypal-button-container"></div>
 

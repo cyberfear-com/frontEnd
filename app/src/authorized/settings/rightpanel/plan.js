@@ -1,4 +1,4 @@
-define(['react', 'app','accounting','jsui'], function (React, app,accounting,jsui) {
+define(['react', 'app','accounting'], function (React, app,accounting) {
 	return React.createClass({
 		getInitialState: function () {
 			return {
@@ -61,16 +61,14 @@ define(['react', 'app','accounting','jsui'], function (React, app,accounting,jsu
 				howMuch:0,
                 paymentVersion:0,
                 currentPlan:0,
-				setWarning:false
-
-
-
-
+				setWarning:false,
+				paym:"",
+				stripeId:""
 			};
 
 		},
 
-		handleClick: function (i) {
+		handleClick: async function (i) {
 			switch (i) {
 				case 'upgradeMember':
 					var thisComp=this;
@@ -251,7 +249,7 @@ define(['react', 'app','accounting','jsui'], function (React, app,accounting,jsu
 				case "payEnough":
 					var thisComp=this;
 					thisComp.setState({
-						toPay:app.user.get("userPlan")['priceFullProrated'],
+						toPay: app.user.get("userPlan")['priceFullProrated']+app.user.get("userPlan")['balance'],
 						forPlan:"Missing Balance",
 						howMuch:1
 					});
@@ -273,11 +271,12 @@ define(['react', 'app','accounting','jsui'], function (React, app,accounting,jsu
 							cancelEditClass:"hidden",
 
 							editPlanButtonClass:"",
-							saveButtonClass:"hidden"
+							saveButtonClass:"hidden",
+							paym:''
+
 
 						});
 
-					$(".normal-slider").slider({disabled: true});
 					break;
 
 				case 'showSecond':
@@ -292,8 +291,51 @@ define(['react', 'app','accounting','jsui'], function (React, app,accounting,jsu
 					break;
 
 
+				case "checkSt":
+					await this.checkStatus();
+					break;
+
+				case "stripe":
+
+					this.setState({
+						paym:'stripe',
+						location:"plan",
+						email:app.user.get('loginEmail')
+					},async function(){
+						await app.stripeCheckOut.start(this);
+						await app.stripeCheckOut.checkout(this);
+					});
+
+					//app.stripeCheckOut.checkStatus(this);
+
+					//call to server paymentintent
+
+/*					if(!app.user.get("stipeLoaded")){
+						console.log('before checkout');
+						app.stripeCheckOut.checkout();
+
+						app.user.set({"stipeLoaded":true});
+//4000000000000002 -decline
+						//4242 4242 4242 4242 -good
+
+					}else{
+						//update order
+						console.log('after checkout');
+						//await this.initialize();
+						await app.stripeCheckOut.start(this);
+						thisComp.updateStripe();
+
+						//var stripe_checkout = await thisComp.stripe_checkout();
+					}*/
+
+
+					break;
 				case "payPal":
 					var thisComp=this;
+
+					thisComp.setState({
+						paym:'paypal'
+					});
 
 				var my_script = thisComp.new_script();
 
@@ -359,6 +401,53 @@ define(['react', 'app','accounting','jsui'], function (React, app,accounting,jsu
 
 
 		},
+
+		async stripeHandleSubmit(e) {
+			console.log('her55');
+			e.preventDefault();
+			app.stripeCheckOut.setLoading(true);
+
+			var elements=app.stripeCheckOut.get("elements");
+			var stripe=app.stripeCheckOut.get("stripe");
+
+			const { error,paymentIntent } = await stripe.confirmPayment({
+				elements,
+				confirmParams: {
+					// Make sure to change this to your payment completion page
+					return_url: "https://cyber.com/index.html"
+				},
+				redirect: "if_required"
+
+			});
+
+			try{
+				if (paymentIntent.status === "succeeded") {
+					console.log('paid2');
+					app.stripeCheckOut.showMessage('Payment was accepted. Please wait to be redirected');
+					this.handleClick('showFirst');
+				}
+			}catch(error){
+
+			}
+
+			// This point will only be reached if there is an immediate error when
+			// confirming the payment. Otherwise, your customer will be redirected to
+			// your `return_url`. For some payment methods like iDEAL, your customer will
+			// be redirected to an intermediate site first to authorize the payment, then
+			// redirected to the `return_url`.
+			// console.log(error);
+			try{
+				if (error.type === "card_error" || error.type === "validation_error") {
+					app.stripeCheckOut.showMessage(error.message);
+				} else {
+					app.stripeCheckOut.showMessage("An unexpected error occured.");
+				}
+			}catch(error){
+
+			}
+			app.stripeCheckOut.setLoading(false);
+		},
+
 		new_script: function() {
 			return new Promise(function(resolve, reject){
 				var script = document.createElement('script');
@@ -721,7 +810,7 @@ define(['react', 'app','accounting','jsui'], function (React, app,accounting,jsu
    		accountDataTable: function () {
 
             var options = [];
-
+			var toP= accounting.formatMoney(app.user.get("userPlan")['priceFullProrated']+app.user.get("userPlan")['balance'],'$',2)
             var paid=[];
 
           /*  if(app.user.get("userPlan")['balance']<0){
@@ -758,9 +847,9 @@ define(['react', 'app','accounting','jsui'], function (React, app,accounting,jsu
 
 				<td className="col-md-3">Status: <b>{ys}</b>
 					<div className="pull-right dialog_buttons">
-						<button type="button" className={app.user.get("userPlan")['needFill']?"btn btn-primary pull-right":"hidden"} onClick={this.handleClick.bind(this, 'payEnough')}>Pay Missing Balance</button>
+						<button type="button" className={app.user.get("userPlan")['needFill']?"btn btn-primary pull-right":"hidden"} onClick={this.handleClick.bind(this, 'payEnough')}>Pay Missing Balance of {toP}</button>
 
-						<button type="button" className={app.user.get("userPlan")['needRenew']?"btn btn-primary pull-right":"hidden"} onClick={this.handleClick.bind(this, 'renew')}>Renew</button>
+						<button type="button" className={app.user.get("userPlan")['needRenew']?"btn btn-primary pull-right":"hidden"} onClick={this.handleClick.bind(this, 'renew')}>Renew Plan ( ${app.user.get("userPlan")['renewAmount']} )</button>
 
 
 					</div>
@@ -904,7 +993,7 @@ define(['react', 'app','accounting','jsui'], function (React, app,accounting,jsu
 									Please renew your service soon to avoid service interruption. Your email functionality will be limited to access to previous emails only.
 								</h3>
 
-								<h3 className={	app.user.get("userPlan")['planSelected']==2 || app.user.get("userPlan")['planSelected']==3?"txt-color-red":"hidden"}>
+								<h3 className={	(app.user.get("userPlan")['planSelected']==2 || app.user.get("userPlan")['planSelected']==3) && app.user.get("userPlan")['pastDue']!==1?"txt-color-red":"hidden"} style={{"marginBottom":"20px"}}>
 									Please upgrade to yearly subscription to unlock premium features. <button type="button" className="btn btn-primary pull-right" onClick={this.handleClick.bind(this, 'upgradeMember')}>Upgrade {accounting.formatMoney(app.user.get("userPlan")['yearSubscr']/100+app.user.get("userPlan")['balance'])} for a year</button>
 
 								</h3>
@@ -1025,20 +1114,36 @@ define(['react', 'app','accounting','jsui'], function (React, app,accounting,jsu
 								Payment
 								</h3>
 
-								<div className="pull-right dialog_buttons">
+								<div className="pull-right dialog_buttons" style={{lineHeight: "40px"}}>
 									<button type="submit" className="btn btn-primary" onClick={this.handleClick.bind(this, 'payPal')}>Pay With PayPal</button>
 									<button type="submit" className="btn btn-primary" form="crypF" onClick={this.handleClick.bind(this, 'showFirst')}>Pay With CoinPayments</button>
 									<button type="submit" className="btn btn-primary" form="perfF" onClick={this.handleClick.bind(this, 'showFirst')}>Pay With Perfect Money</button>
+									<button type="submit" className="btn btn-primary" onClick={this.handleClick.bind(this, 'checkSt')}>Check Status</button>
+									<button type="submit" className="btn btn-primary" onClick={this.handleClick.bind(this, 'stripe')}>Pay With stripe</button>
 
 									<button type="button" className="btn btn-default" onClick={this.handleClick.bind(this, 'showFirst')}>Cancel</button>
 								</div>
 
-                                <span className="bold">
-                                Info: <i className="">It may take some time to reflect new balance after successfull payment. <br/> If you pay with bitcoin, make sure you enter exact amount you are willing to pay, otherwise it may be marked as mispayment.</i></span>
+								<div className="clearfix"></div>
+                                <div className="bold margin-top-20">
+                                Info: <i className="">It may take some time to reflect new balance after successfull payment. <br/> If you pay with bitcoin, make sure you enter exact amount you are willing to pay, otherwise it may be marked as mispayment.</i></div>
 
                                 <div className="clearfix"></div>
 
-								<div id="paypal-button-container"></div>
+
+								<div className={this.state.paym=="paypal"?"":"hidden"} id="paypal-button-container"></div>
+
+								<div className={this.state.paym=="stripe"?"":"hidden"} id="stripe-container">
+									<form id="payment-form">
+										<div id="payment-element">
+										</div>
+										<button id="submit">
+											<div className="spinner hidden" id="spinner"></div>
+											<span id="button-text">Pay now</span>
+										</button>
+										<div id="payment-message" className="hidden"></div>
+									</form>
+								</div>
 
                             </div>
 

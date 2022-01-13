@@ -419,11 +419,11 @@ define(['react','app'], function (React,app) {
 									onChange={this.handleChange.bind(this, 'changeMatch')}
 									value={this.state.fieldMatch}>
 										<option value="domainM">Domain Match</option>
-                                        {{//<option value="domainNM">Domain Not Matched</option>
-                                        }}
+                                        {//<option value="domainNM">Domain Not Matched</option>
+                                        }
 										<option value="emailM">Email Match</option>
-                                        {{//  <option value="emailNM">Email Not Matched</option>
-                                        }}
+                                        {//  <option value="emailNM">Email Not Matched</option>
+                                        }
 
 									</select>
 								</div>

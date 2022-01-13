@@ -39,7 +39,9 @@ define(['react','app','dataTable','dataTableBoot'], function (React,app,DataTabl
                 subdomainList:[],
                 subdomainListPlain:[],
                 subdomain:"",
-                tmpDom:""
+                tmpDom:"",
+				dkimAnswer:"",
+				txtArea2value:""
 			};
 		},
 		componentDidMount: function() {
@@ -142,9 +144,26 @@ define(['react','app','dataTable','dataTableBoot'], function (React,app,DataTabl
 			});
 
 //this.handleClick('showThird');
-
 		},
 
+		generateKeys:(thisComp)=>{
+			//var thisComp=this;
+
+			app.generate.generateRSA("2048",function(RSAkeys){
+
+				var dkimString=RSAkeys.publicKey.replace('-----BEGIN PUBLIC KEY-----','').replace('-----END PUBLIC KEY-----','').replace(/(\r\n|\n|\r)/gm, "");
+				dkimString="v=DKIM1; k=rsa; p="+dkimString+";"
+				thisComp.setState({
+					txtArea2value:RSAkeys.privateKey,
+					dkimAnswer:dkimString
+				});
+
+
+				console.log(RSAkeys);
+				console.log(dkimString);
+
+			});
+		},
         /**
          *
          * @param callback
@@ -248,7 +267,17 @@ define(['react','app','dataTable','dataTableBoot'], function (React,app,DataTabl
 		handleClick: function(action,event) {
 			switch(action) {
 				case 'email':
-				break;
+
+					break;
+				case 'copyToClipboard':
+
+					var $temp = $("<input>");
+					$("body").append($temp);
+					$temp.val(this.state.dkimAnswer).select();
+					document.execCommand("copy");
+					$temp.remove();
+
+					break;
 
                 case 'addSubdomain':
                   //  subdomainList
@@ -308,6 +337,8 @@ define(['react','app','dataTable','dataTableBoot'], function (React,app,DataTabl
                     var thisComp=this;
 					app.globalF.checkPlanLimits('addDomain',Object.keys(app.user.get('customDomains')).length,function(result){
 							if(result){
+								thisComp.generateKeys(thisComp);
+
                                 thisComp.setState(
 									{
 										firstPanelClass:"panel-body hidden",
@@ -387,7 +418,7 @@ define(['react','app','dataTable','dataTableBoot'], function (React,app,DataTabl
 
                     }
 
-                    
+
 					thisComp.setState({
 						domain:app.transform.from64str(id),
 						verfString:app.transform.SHA256(domains[id]['sec']),
@@ -396,6 +427,7 @@ define(['react','app','dataTable','dataTableBoot'], function (React,app,DataTabl
 						mx:domains[id]['mxRec'],
 						owner:domains[id]['owner'],
 						dkim:domains[id]['dkim'],
+						dkimAnswer:domains[id]['dkimDNSRecord'],
 						status:status,
                         subdomain:"",
                         subdomainList:item
@@ -484,6 +516,8 @@ define(['react','app','dataTable','dataTableBoot'], function (React,app,DataTabl
 							'domain':this.state.newdomain,
                             'subdomain':'',
 							'vrfString':thisComp.state.domainBase,
+							'dkimPrivateKey':thisComp.state.txtArea2value,
+							'dkimDNSRecord':thisComp.state.dkimAnswer,
 							'sec':thisComp.state.domainBase,
 							'spf':false,
 							'mxRec':false,
@@ -783,13 +817,13 @@ define(['react','app','dataTable','dataTableBoot'], function (React,app,DataTabl
 							<table className=" table table-hover table-striped datatable table-light">
 									<tr>
 										<td className="col-xs-3"><b>Domain:</b></td>
-										<td className="col-xs-9">{this.state.domain}</td>
+										<td  colSpan="2" className="col-xs-9">{this.state.domain}</td>
 									</tr>
 
 
                                     <tr>
                                         <td className="col-xs-3"><b>Subdomain:</b></td>
-                                        <td className="col-xs-9">
+                                        <td  colSpan="2" className="col-xs-9">
 
                                             <div className="col-xs-12 col-lg-6">
                                                 <div className="form-group" style={{marginBottom: "0px"}}>
@@ -821,27 +855,27 @@ define(['react','app','dataTable','dataTableBoot'], function (React,app,DataTabl
 
 
 										<td><b>Verification String:</b></td>
-										<td>{this.state.verfString}</td>
+										<td colSpan="2">{this.state.verfString}</td>
 								</tr>
 								<tr>
 										<td><b>SPF:</b></td>
-										<td className={this.state.spf=='1'?"text-success bold":"text-danger bold"}>{this.state.spf=='1'?"verified":"failed"}</td>
+										<td colSpan="2" className={this.state.spf=='1'?"text-success bold":"text-danger bold"}>{this.state.spf=='1'?"verified":"failed"}</td>
 								</tr>
 								<tr>
 										<td><b>MX:</b></td>
-										<td className={this.state.mx=='1'?"text-success bold":"text-danger bold"}>{this.state.mx=='1'?"verified":"failed"}</td>
+										<td colSpan="2" className={this.state.mx=='1'?"text-success bold":"text-danger bold"}>{this.state.mx=='1'?"verified":"failed"}</td>
 								</tr>
 								<tr>
 										<td><b>Owner:</b></td>
-										<td className={this.state.owner=='1'?"text-success bold":"text-danger bold"}>{this.state.owner=='1'?"verified":"failed"}</td>
+										<td colSpan="2" className={this.state.owner=='1'?"text-success bold":"text-danger bold"}>{this.state.owner=='1'?"verified":"failed"}</td>
 								</tr>
 								<tr>
 										<td><b>DKIM:</b></td>
-										<td className={this.state.dkim=='1'?"text-success bold":"text-danger bold"}>{this.state.dkim=='1'?"verified":"failed"}</td>
+										<td colSpan="2" className={this.state.dkim=='1'?"text-success bold":"text-danger bold"}>{this.state.dkim=='1'?"verified":"failed"}</td>
 								</tr>
 								<tr>
 										<td><b>Status:</b></td>
-										<td className={this.state.status=='0'?"text-success bold":
+										<td colSpan="2" className={this.state.status=='0'?"text-success bold":
 											this.state.status=='1'?"text-warning bold":"text-danger bold"}>{
 											this.state.status=="0"?"good":
 											this.state.status=="1"?"pending":
@@ -851,7 +885,20 @@ define(['react','app','dataTable','dataTableBoot'], function (React,app,DataTabl
 											}</td>
 
 									</tr>
+								<tr>
+									<td><b>DKIM Record Host Field</b></td>
+									<td colSpan="2">default._domainkey</td>
+								</tr>
+								<tr>
+									<td><b>DKIM Record Answer Field</b></td>
+									<td className="col-md-6">
+											{this.state.dkimAnswer}
+									</td>
+									<td><div className="pull-right dialog_buttons col-md-3">
+										<button type="button" className="btn btn-primary pull-right" onClick={this.handleClick.bind(this, 'copyToClipboard')}>Copy Text</button>
 
+									</div></td>
+								</tr>
 							</table>
 							<div className="clearfix"></div>
 							<button type="button" className="btn btn-danger" onClick={this.handleClick.bind(this, 'deleteDomain')}>Delete</button>
@@ -898,8 +945,7 @@ define(['react','app','dataTable','dataTableBoot'], function (React,app,DataTabl
                             </p>
 
                             <p className="break-all">
-                                <b>DKIM</b> - DKIM is a digital signature that is sent along with email to verify that a server is authorized to send email on behalf of your domain. This is another step to comply and pass spam check. Please create the TXT record in your zone file:  <code>default._domainkey
-                                v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDTNXD2KoQUiAmAJcp05gt0dStpoiXf0xDsD6T4M/THCT461Ata4EyuYQhJHSbZ6IDvMMrkZymLYdhbgsue6YWX44UVoX1LSYKt64HaMG+H9TrEbksH6UpbYcCDKGc7cUYolrwwmUh4fxnC3x5REbpCT7FhsHj5I3D1wmid+Yj25wIDAQAB;</code>
+								<b>DKIM</b> - DKIM is a digital signature that is sent along with email to verify that a server is authorized to send email on behalf of your domain. This is another step to comply and pass spam check. Please create the TXT record in your zone file, put: <code>default._domainkey</code> into <b> Host Field</b> and paste DKIM Record Answer Field into <b>Answer Field</b>
                             </p>
 
                             <p>

@@ -1,4 +1,4 @@
-define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting, jsui) {
+define(['react', 'app', 'accounting'], function (React, app, accounting) {
 	return React.createClass({
 		getInitialState: function () {
 			return {
@@ -60,12 +60,13 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 				howMuch: 0,
 				paymentVersion: 0,
 				currentPlan: 0,
-				setWarning: false
-
+				setWarning: false,
+				paym: "",
+				stripeId: ""
 			};
 		},
 
-		handleClick: function (i) {
+		handleClick: async function (i) {
 			switch (i) {
 				case 'upgradeMember':
 					var thisComp = this;
@@ -226,7 +227,7 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 				case "payEnough":
 					var thisComp = this;
 					thisComp.setState({
-						toPay: app.user.get("userPlan")['priceFullProrated'],
+						toPay: app.user.get("userPlan")['priceFullProrated'] + app.user.get("userPlan")['balance'],
 						forPlan: "Missing Balance",
 						howMuch: 1
 					});
@@ -247,11 +248,11 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 						cancelEditClass: "hidden",
 
 						editPlanButtonClass: "",
-						saveButtonClass: "hidden"
+						saveButtonClass: "hidden",
+						paym: ''
 
 					});
 
-					$(".normal-slider").slider({ disabled: true });
 					break;
 
 				case 'showSecond':
@@ -264,8 +265,24 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 					});
 					break;
 
+				case "stripe":
+
+					this.setState({
+						paym: 'stripe',
+						location: "plan",
+						email: app.user.get('loginEmail')
+					}, async function () {
+						await app.stripeCheckOut.start(this);
+						await app.stripeCheckOut.checkout(this);
+					});
+
+					break;
 				case "payPal":
 					var thisComp = this;
+
+					thisComp.setState({
+						paym: 'paypal'
+					});
 
 					var my_script = thisComp.new_script();
 
@@ -324,6 +341,49 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 
 			}
 		},
+
+		async stripeHandleSubmit(e) {
+			console.log('her55');
+			e.preventDefault();
+			app.stripeCheckOut.setLoading(true);
+
+			var elements = app.stripeCheckOut.get("elements");
+			var stripe = app.stripeCheckOut.get("stripe");
+
+			const { error, paymentIntent } = await stripe.confirmPayment({
+				elements,
+				confirmParams: {
+					// Make sure to change this to your payment completion page
+					return_url: "https://cyber.com/index.html"
+				},
+				redirect: "if_required"
+
+			});
+
+			try {
+				if (paymentIntent.status === "succeeded") {
+					console.log('paid2');
+					app.stripeCheckOut.showMessage('Payment was accepted. Please wait to be redirected');
+					this.handleClick('showFirst');
+				}
+			} catch (error) {}
+
+			// This point will only be reached if there is an immediate error when
+			// confirming the payment. Otherwise, your customer will be redirected to
+			// your `return_url`. For some payment methods like iDEAL, your customer will
+			// be redirected to an intermediate site first to authorize the payment, then
+			// redirected to the `return_url`.
+			// console.log(error);
+			try {
+				if (error.type === "card_error" || error.type === "validation_error") {
+					app.stripeCheckOut.showMessage(error.message);
+				} else {
+					app.stripeCheckOut.showMessage("An unexpected error occured.");
+				}
+			} catch (error) {}
+			app.stripeCheckOut.setLoading(false);
+		},
+
 		new_script: function () {
 			return new Promise(function (resolve, reject) {
 				var script = document.createElement('script');
@@ -659,7 +719,7 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 		accountDataTable: function () {
 
 			var options = [];
-
+			var toP = accounting.formatMoney(app.user.get("userPlan")['priceFullProrated'] + app.user.get("userPlan")['balance'], '$', 2);
 			var paid = [];
 
 			/*  if(app.user.get("userPlan")['balance']<0){
@@ -723,12 +783,15 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 						React.createElement(
 							'button',
 							{ type: 'button', className: app.user.get("userPlan")['needFill'] ? "btn btn-primary pull-right" : "hidden", onClick: this.handleClick.bind(this, 'payEnough') },
-							'Pay Missing Balance'
+							'Pay Missing Balance of ',
+							toP
 						),
 						React.createElement(
 							'button',
 							{ type: 'button', className: app.user.get("userPlan")['needRenew'] ? "btn btn-primary pull-right" : "hidden", onClick: this.handleClick.bind(this, 'renew') },
-							'Renew'
+							'Renew Plan ( $',
+							app.user.get("userPlan")['renewAmount'],
+							' )'
 						)
 					)
 				)
@@ -986,7 +1049,7 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 							),
 							React.createElement(
 								'h3',
-								{ className: app.user.get("userPlan")['planSelected'] == 2 || app.user.get("userPlan")['planSelected'] == 3 ? "txt-color-red" : "hidden" },
+								{ className: (app.user.get("userPlan")['planSelected'] == 2 || app.user.get("userPlan")['planSelected'] == 3) && app.user.get("userPlan")['pastDue'] !== 1 ? "txt-color-red" : "hidden", style: { "marginBottom": "20px" } },
 								'Please upgrade to yearly subscription to unlock premium features. ',
 								React.createElement(
 									'button',
@@ -1330,7 +1393,7 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 							),
 							React.createElement(
 								'div',
-								{ className: 'pull-right dialog_buttons' },
+								{ className: 'pull-right dialog_buttons', style: { lineHeight: "40px" } },
 								React.createElement(
 									'button',
 									{ type: 'submit', className: 'btn btn-primary', onClick: this.handleClick.bind(this, 'payPal') },
@@ -1348,13 +1411,19 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 								),
 								React.createElement(
 									'button',
+									{ type: 'submit', className: 'btn btn-primary', onClick: this.handleClick.bind(this, 'stripe') },
+									'Pay With stripe'
+								),
+								React.createElement(
+									'button',
 									{ type: 'button', className: 'btn btn-default', onClick: this.handleClick.bind(this, 'showFirst') },
 									'Cancel'
 								)
 							),
+							React.createElement('div', { className: 'clearfix' }),
 							React.createElement(
-								'span',
-								{ className: 'bold' },
+								'div',
+								{ className: 'bold margin-top-20' },
 								'Info: ',
 								React.createElement(
 									'i',
@@ -1365,7 +1434,27 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 								)
 							),
 							React.createElement('div', { className: 'clearfix' }),
-							React.createElement('div', { id: 'paypal-button-container' })
+							React.createElement('div', { className: this.state.paym == "paypal" ? "" : "hidden", id: 'paypal-button-container' }),
+							React.createElement(
+								'div',
+								{ className: this.state.paym == "stripe" ? "" : "hidden", id: 'stripe-container' },
+								React.createElement(
+									'form',
+									{ id: 'payment-form' },
+									React.createElement('div', { id: 'payment-element' }),
+									React.createElement(
+										'button',
+										{ id: 'submit' },
+										React.createElement('div', { className: 'spinner hidden', id: 'spinner' }),
+										React.createElement(
+											'span',
+											{ id: 'button-text' },
+											'Pay now'
+										)
+									),
+									React.createElement('div', { id: 'payment-message', className: 'hidden' })
+								)
+							)
 						)
 					)
 				),

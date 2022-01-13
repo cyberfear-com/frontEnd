@@ -36,6 +36,7 @@ define(['react', 'app', 'xss', 'cmpld/authorized/header/head', 'cmpld/authorized
 				$(".preloader").remove();
 				$('link[rel=stylesheet][href="/css/splash.css"]').remove();
 				$('link[rel=stylesheet][href="/css/animate.min.css"]').remove();
+				$('link[rel=stylesheet][href="/css/stripe.css"]').remove();
 				$('head').append($('<link rel="stylesheet" type="text/css" />').attr('href', '/css/main1.css'));
 
 				//check if account ready

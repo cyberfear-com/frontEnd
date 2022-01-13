@@ -46,6 +46,30 @@ define([
 			return secrt;
 		},
 
+        generateRSA:(strength,callback)=>{
+            var deferred = $.Deferred();
+            var RSAkeys = {
+                'privateKey': '',
+                'publicKey': ''
+            };
+
+            var keypair = forge.rsa.generateKeyPair({bits: 2048, e: 0x10001});
+            var RSAkeys = {
+                'privateKey': forge.pki.privateKeyToPem(keypair.privateKey),
+                'publicKey': forge.pki.publicKeyToPem(keypair.publicKey)
+            };
+            callback(RSAkeys);
+
+          /*  forge.rsa.generateKeyPair({bits: strength, workers: -1}, function(err, keypair) {
+                var RSAkeys = {
+                    'privateKey': keypair.privateKey,
+                    'publicKey': keypair.publicKey
+                };
+
+                callback(RSAkeys);
+            });*/
+
+        },
 		generatePairs: function (length,email,callback) {
 
 			var deferred = $.Deferred();

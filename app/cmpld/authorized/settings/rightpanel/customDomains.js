@@ -40,7 +40,9 @@ define(['react', 'app', 'dataTable', 'dataTableBoot'], function (React, app, Dat
 				subdomainList: [],
 				subdomainListPlain: [],
 				subdomain: "",
-				tmpDom: ""
+				tmpDom: "",
+				dkimAnswer: "",
+				txtArea2value: ""
 			};
 		},
 		componentDidMount: function () {
@@ -128,6 +130,22 @@ define(['react', 'app', 'dataTable', 'dataTableBoot'], function (React, app, Dat
 			//this.handleClick('showThird');
 		},
 
+		generateKeys: thisComp => {
+			//var thisComp=this;
+
+			app.generate.generateRSA("2048", function (RSAkeys) {
+
+				var dkimString = RSAkeys.publicKey.replace('-----BEGIN PUBLIC KEY-----', '').replace('-----END PUBLIC KEY-----', '').replace(/(\r\n|\n|\r)/gm, "");
+				dkimString = "v=DKIM1; k=rsa; p=" + dkimString + ";";
+				thisComp.setState({
+					txtArea2value: RSAkeys.privateKey,
+					dkimAnswer: dkimString
+				});
+
+				console.log(RSAkeys);
+				console.log(dkimString);
+			});
+		},
 		/**
    *
    * @param callback
@@ -213,6 +231,16 @@ define(['react', 'app', 'dataTable', 'dataTableBoot'], function (React, app, Dat
 		handleClick: function (action, event) {
 			switch (action) {
 				case 'email':
+
+					break;
+				case 'copyToClipboard':
+
+					var $temp = $("<input>");
+					$("body").append($temp);
+					$temp.val(this.state.dkimAnswer).select();
+					document.execCommand("copy");
+					$temp.remove();
+
 					break;
 
 				case 'addSubdomain':
@@ -270,6 +298,8 @@ define(['react', 'app', 'dataTable', 'dataTableBoot'], function (React, app, Dat
 					var thisComp = this;
 					app.globalF.checkPlanLimits('addDomain', Object.keys(app.user.get('customDomains')).length, function (result) {
 						if (result) {
+							thisComp.generateKeys(thisComp);
+
 							thisComp.setState({
 								firstPanelClass: "panel-body hidden",
 								secondPanelClass: "panel-body",
@@ -347,6 +377,7 @@ define(['react', 'app', 'dataTable', 'dataTableBoot'], function (React, app, Dat
 						mx: domains[id]['mxRec'],
 						owner: domains[id]['owner'],
 						dkim: domains[id]['dkim'],
+						dkimAnswer: domains[id]['dkimDNSRecord'],
 						status: status,
 						subdomain: "",
 						subdomainList: item
@@ -426,6 +457,8 @@ define(['react', 'app', 'dataTable', 'dataTableBoot'], function (React, app, Dat
 								'domain': this.state.newdomain,
 								'subdomain': '',
 								'vrfString': thisComp.state.domainBase,
+								'dkimPrivateKey': thisComp.state.txtArea2value,
+								'dkimDNSRecord': thisComp.state.dkimAnswer,
 								'sec': thisComp.state.domainBase,
 								'spf': false,
 								'mxRec': false,
@@ -777,7 +810,7 @@ define(['react', 'app', 'dataTable', 'dataTableBoot'], function (React, app, Dat
 									),
 									React.createElement(
 										'td',
-										{ className: 'col-xs-9' },
+										{ colSpan: '2', className: 'col-xs-9' },
 										this.state.domain
 									)
 								),
@@ -795,7 +828,7 @@ define(['react', 'app', 'dataTable', 'dataTableBoot'], function (React, app, Dat
 									),
 									React.createElement(
 										'td',
-										{ className: 'col-xs-9' },
+										{ colSpan: '2', className: 'col-xs-9' },
 										React.createElement(
 											'div',
 											{ className: 'col-xs-12 col-lg-6' },
@@ -851,7 +884,7 @@ define(['react', 'app', 'dataTable', 'dataTableBoot'], function (React, app, Dat
 									),
 									React.createElement(
 										'td',
-										null,
+										{ colSpan: '2' },
 										this.state.verfString
 									)
 								),
@@ -869,7 +902,7 @@ define(['react', 'app', 'dataTable', 'dataTableBoot'], function (React, app, Dat
 									),
 									React.createElement(
 										'td',
-										{ className: this.state.spf == '1' ? "text-success bold" : "text-danger bold" },
+										{ colSpan: '2', className: this.state.spf == '1' ? "text-success bold" : "text-danger bold" },
 										this.state.spf == '1' ? "verified" : "failed"
 									)
 								),
@@ -887,7 +920,7 @@ define(['react', 'app', 'dataTable', 'dataTableBoot'], function (React, app, Dat
 									),
 									React.createElement(
 										'td',
-										{ className: this.state.mx == '1' ? "text-success bold" : "text-danger bold" },
+										{ colSpan: '2', className: this.state.mx == '1' ? "text-success bold" : "text-danger bold" },
 										this.state.mx == '1' ? "verified" : "failed"
 									)
 								),
@@ -905,7 +938,7 @@ define(['react', 'app', 'dataTable', 'dataTableBoot'], function (React, app, Dat
 									),
 									React.createElement(
 										'td',
-										{ className: this.state.owner == '1' ? "text-success bold" : "text-danger bold" },
+										{ colSpan: '2', className: this.state.owner == '1' ? "text-success bold" : "text-danger bold" },
 										this.state.owner == '1' ? "verified" : "failed"
 									)
 								),
@@ -923,7 +956,7 @@ define(['react', 'app', 'dataTable', 'dataTableBoot'], function (React, app, Dat
 									),
 									React.createElement(
 										'td',
-										{ className: this.state.dkim == '1' ? "text-success bold" : "text-danger bold" },
+										{ colSpan: '2', className: this.state.dkim == '1' ? "text-success bold" : "text-danger bold" },
 										this.state.dkim == '1' ? "verified" : "failed"
 									)
 								),
@@ -941,8 +974,57 @@ define(['react', 'app', 'dataTable', 'dataTableBoot'], function (React, app, Dat
 									),
 									React.createElement(
 										'td',
-										{ className: this.state.status == '0' ? "text-success bold" : this.state.status == '1' ? "text-warning bold" : "text-danger bold" },
+										{ colSpan: '2', className: this.state.status == '0' ? "text-success bold" : this.state.status == '1' ? "text-warning bold" : "text-danger bold" },
 										this.state.status == "0" ? "good" : this.state.status == "1" ? "pending" : this.state.status == "2" ? "obsolete" : this.state.status == "3" ? "suspended" : this.state.status == "4" ? "Some Error" : ""
+									)
+								),
+								React.createElement(
+									'tr',
+									null,
+									React.createElement(
+										'td',
+										null,
+										React.createElement(
+											'b',
+											null,
+											'DKIM Record Host Field'
+										)
+									),
+									React.createElement(
+										'td',
+										{ colSpan: '2' },
+										'default._domainkey'
+									)
+								),
+								React.createElement(
+									'tr',
+									null,
+									React.createElement(
+										'td',
+										null,
+										React.createElement(
+											'b',
+											null,
+											'DKIM Record Answer Field'
+										)
+									),
+									React.createElement(
+										'td',
+										{ className: 'col-md-6' },
+										this.state.dkimAnswer
+									),
+									React.createElement(
+										'td',
+										null,
+										React.createElement(
+											'div',
+											{ className: 'pull-right dialog_buttons col-md-3' },
+											React.createElement(
+												'button',
+												{ type: 'button', className: 'btn btn-primary pull-right', onClick: this.handleClick.bind(this, 'copyToClipboard') },
+												'Copy Text'
+											)
+										)
 									)
 								)
 							),
@@ -1085,11 +1167,23 @@ define(['react', 'app', 'dataTable', 'dataTableBoot'], function (React, app, Dat
 									null,
 									'DKIM'
 								),
-								' - DKIM is a digital signature that is sent along with email to verify that a server is authorized to send email on behalf of your domain. This is another step to comply and pass spam check. Please create the TXT record in your zone file:  ',
+								' - DKIM is a digital signature that is sent along with email to verify that a server is authorized to send email on behalf of your domain. This is another step to comply and pass spam check. Please create the TXT record in your zone file, put: ',
 								React.createElement(
 									'code',
 									null,
-									'default._domainkey v=DKIM1; k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDTNXD2KoQUiAmAJcp05gt0dStpoiXf0xDsD6T4M/THCT461Ata4EyuYQhJHSbZ6IDvMMrkZymLYdhbgsue6YWX44UVoX1LSYKt64HaMG+H9TrEbksH6UpbYcCDKGc7cUYolrwwmUh4fxnC3x5REbpCT7FhsHj5I3D1wmid+Yj25wIDAQAB;'
+									'default._domainkey'
+								),
+								' into ',
+								React.createElement(
+									'b',
+									null,
+									' Host Field'
+								),
+								' and paste DKIM Record Answer Field into ',
+								React.createElement(
+									'b',
+									null,
+									'Answer Field'
 								)
 							),
 							React.createElement(

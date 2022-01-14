@@ -141,9 +141,6 @@ define(['react', 'app', 'dataTable', 'dataTableBoot'], function (React, app, Dat
 					txtArea2value: RSAkeys.privateKey,
 					dkimAnswer: dkimString
 				});
-
-				console.log(RSAkeys);
-				console.log(dkimString);
 			});
 		},
 		/**

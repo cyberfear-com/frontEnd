@@ -536,7 +536,7 @@ define(['app', 'accounting', 'react'], function (app, accounting, React) {
                                                     value: 'option4',
                                                     checked: this.state.paym == 'stripe',
                                                     onChange: this.handleChange.bind(this, 'stripe') }),
-                                                '\xA0stripe'
+                                                '\xA0Credit / Debit Card (Stripe)'
                                             )
                                         )
                                     ),

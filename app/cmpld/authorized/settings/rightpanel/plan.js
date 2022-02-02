@@ -1412,7 +1412,7 @@ define(['react', 'app', 'accounting'], function (React, app, accounting) {
 								React.createElement(
 									'button',
 									{ type: 'submit', className: 'btn btn-primary', onClick: this.handleClick.bind(this, 'stripe') },
-									'Pay With stripe'
+									'Pay With stripe (Credit / Debit Card)'
 								),
 								React.createElement(
 									'button',

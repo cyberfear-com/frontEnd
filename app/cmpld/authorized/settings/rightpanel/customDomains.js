@@ -341,7 +341,7 @@ define(['react', 'app', 'dataTable', 'dataTableBoot'], function (React, app, Dat
 					var domains = app.user.get('customDomains');
 					var id = event;
 
-					console.log(domains[id]);
+					//console.log(domains[id]);
 					var status = "0";
 					if (domains[id]['pending'] == "1") {
 						status = "1";
@@ -468,7 +468,7 @@ define(['react', 'app', 'dataTable', 'dataTableBoot'], function (React, app, Dat
 							}
 						});
 
-						console.log(app.user);
+						//console.log(app.user);
 
 						app.userObjects.updateObjects('savePendingDomain', '', function (result) {
 

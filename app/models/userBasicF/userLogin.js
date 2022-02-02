@@ -67,7 +67,6 @@ define([
                         //console.log(password);
 						app.user.set({"secondPassword":app.globalF.makeDerived(password, app.transform.hex2bin(result['data']['salt']))});
 
-						//console.log(app.user.get('secondPassword'));
 					}else{
 						//console.log(app.user.get('secondPassword'));
 					}

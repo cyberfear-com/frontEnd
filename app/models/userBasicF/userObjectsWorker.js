@@ -348,6 +348,8 @@ define([
                 app.globalF.checkSecondPassLogin(function(){
                     var userObj=app.user.get("DecryptedUserObject");
 
+
+
                     $.each(app.userObjects.get("EncryptedUserObject"), function (index, value) {
                         userObj[index]={};
                         userObj[index]['data']=JSON.parse(app.transform.db2profV2(value['data'], app.user.get("secondPassword"), app.user.get("salt")));

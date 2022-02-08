@@ -1098,7 +1098,6 @@ define([
 
 				case 'saveGoogleAuth':
 
-					console.log('saveGoog');
 
 					var profile=jQuery.extend(true, {}, app.user.get("DecryptedProfileObject"));
 
@@ -1119,7 +1118,8 @@ define([
 					var post={
 						'profObj':	JSON.stringify(newProfObj),
 						'secret':app.user.get('Factor2')['secret'],
-						'type':app.user.get('Factor2')['type']
+						'type':app.user.get('Factor2')['type'],
+                        'verificationCode':payLoad
 					}
 
 					//console.log(profile);

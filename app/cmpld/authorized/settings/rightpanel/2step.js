@@ -147,22 +147,22 @@ define(['react', 'app', 'qrcode'], function (React, app, qrcode) {
 			this.setState({ yubiValidator: $("#yubiForm").validate() });
 			$("#ypin").rules("add", {
 				required: true,
-				minlength: 36,
+				minlength: 44,
 				maxlength: 60,
-				remote: {
-					url: app.defaults.get('apidomain') + "/setup2FacV2",
-					type: "post",
-					data: {
-						"secret": function () {
-							return thisComp.state.secret;
-						},
-						'fac2Type': 'yubi',
-						"verificationCode": function () {
-							return thisComp.state.yubiPin;
-						},
-						'userToken': app.user.get("userLoginToken")
-					}
-				},
+				// remote: {
+				// 	url: app.defaults.get('apidomain')+"/setup2FacV2",
+				// 	type: "post",
+				// 	data:{
+				// 		"secret":function(){
+				// 			return thisComp.state.secret
+				// 		},
+				// 		'fac2Type':'yubi',
+				// 		"verificationCode":function(){
+				// 			return thisComp.state.yubiPin
+				// 		},
+				// 		'userToken':app.user.get("userLoginToken")
+				// 	}
+				// },
 				messages: {
 					remote: "Incorrect Pin"
 				}
@@ -391,7 +391,7 @@ define(['react', 'app', 'qrcode'], function (React, app, qrcode) {
 								'since': Math.round(new Date().getTime() / 1000)
 							} });
 
-						app.userObjects.updateObjects('saveGoogleAuth', '', function (result) {
+						app.userObjects.updateObjects('saveGoogleAuth', thisComp.state.yubiPin, function (result) {
 
 							if (result['response'] == "success") {
 								if (result['data'] == 'saved') {

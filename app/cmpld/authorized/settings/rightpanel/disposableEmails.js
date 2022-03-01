@@ -1193,7 +1193,7 @@ define(['react', 'app', 'dataTable', 'dataTableBoot'], function (React, app, Dat
 				if (app.globalF.IsEmail(email)) {
 					return true;
 				} else return false;
-			}, "no special symbols2");
+			}, "no special symbols");
 
 			this.setState({ aliasForm: $("#addNewAliasForm").validate() });
 			//console.log(this.state.domain);

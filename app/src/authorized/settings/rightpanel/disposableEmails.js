@@ -1154,7 +1154,7 @@ define(['react','app','dataTable','dataTableBoot'], function (React,app,DataTabl
 					return true;
 				}else
 					return false;
-			}, "no special symbols2");
+			}, "no special symbols");
 
 			this.setState({aliasForm:$("#addNewAliasForm").validate()});
 			//console.log(this.state.domain);

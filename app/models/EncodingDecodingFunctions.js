@@ -53,6 +53,9 @@ define(["app", "forge", "CryptoJS", "twofish", 'openpgp'], function(app, forge, 
 
 		},
 		from64str: function(data) {
+			if(data=== undefined){
+				return data;
+			}
 			try{
 				return forge.util.decodeUtf8(forge.util.decode64(data));
 

@@ -415,7 +415,10 @@ define(['react', 'app', 'dataTable', 'dataTableBoot'], function (React, app, Dat
 								'alReg': custDomain['alReg'],
 								'pending': custDomain['pending'],
 								'suspended': custDomain['suspended'],
-								'obsolete': custDomain['obsolete']
+								'obsolete': custDomain['obsolete'],
+								'dkimDNSRecord': custDomain['dkimDNSRecord'],
+								'dkimPrivateKey': custDomain['dkimPrivateKey']
+
 							}
 						});
 

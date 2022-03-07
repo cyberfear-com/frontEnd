@@ -466,6 +466,10 @@ define(['react','app','dataTable','dataTableBoot'], function (React,app,DataTabl
                                 'pending':custDomain['pending'],
                                 'suspended':custDomain['suspended'],
                                 'obsolete':custDomain['obsolete'],
+								'dkimDNSRecord':custDomain['dkimDNSRecord'],
+								'dkimPrivateKey':custDomain['dkimPrivateKey'],
+
+
                             }
                         });
 

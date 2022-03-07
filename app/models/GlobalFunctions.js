@@ -2159,7 +2159,7 @@ define([
 
 		reply: function (action) {
 
-                console.log(action);
+                //console.log(action);
 				//console.log(app.user.get('currentMessageView'));
 				//console.log(app.user.get('draftMessageView'));
 

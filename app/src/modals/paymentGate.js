@@ -416,16 +416,18 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                                                     &nbsp;Perfect Money
                                                 </label>
                                             </div>
-                                            <div className="clearfix"></div>
-                                            <div className="radio">
+                                            {/*
+                                                <div className="clearfix"></div>
+                                                <div className="radio">
                                                 <label>
-                                                    <input className="margin-right-10" type="radio" name="optionsRadios" id="optionsRadios3"
-                                                           value="option3"
-                                                           checked={this.state.paym=='paypal'}
-                                                           onChange={this.handleChange.bind(this, 'paypal')} />
-                                                    &nbsp;PayPal
+                                                <input className="margin-right-10" type="radio" name="optionsRadios" id="optionsRadios3"
+                                                value="option3"
+                                                checked={this.state.paym=='paypal'}
+                                                onChange={this.handleChange.bind(this, 'paypal')} />
+                                                &nbsp;PayPal
                                                 </label>
-                                            </div>
+                                                </div>
+                                            */}
                                             <div className="clearfix"></div>
                                             <div className="radio">
                                                 <label>

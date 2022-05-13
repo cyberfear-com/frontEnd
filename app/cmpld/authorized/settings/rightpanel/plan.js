@@ -1396,11 +1396,6 @@ define(['react', 'app', 'accounting'], function (React, app, accounting) {
 								{ className: 'pull-right dialog_buttons', style: { lineHeight: "40px" } },
 								React.createElement(
 									'button',
-									{ type: 'submit', className: 'btn btn-primary', onClick: this.handleClick.bind(this, 'payPal') },
-									'Pay With PayPal'
-								),
-								React.createElement(
-									'button',
 									{ type: 'submit', className: 'btn btn-primary', form: 'crypF', onClick: this.handleClick.bind(this, 'showFirst') },
 									'Pay With CoinPayments'
 								),

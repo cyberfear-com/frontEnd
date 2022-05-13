@@ -518,20 +518,6 @@ define(['app', 'accounting', 'react'], function (app, accounting, React) {
                                             React.createElement(
                                                 'label',
                                                 null,
-                                                React.createElement('input', { className: 'margin-right-10', type: 'radio', name: 'optionsRadios', id: 'optionsRadios3',
-                                                    value: 'option3',
-                                                    checked: this.state.paym == 'paypal',
-                                                    onChange: this.handleChange.bind(this, 'paypal') }),
-                                                '\xA0PayPal'
-                                            )
-                                        ),
-                                        React.createElement('div', { className: 'clearfix' }),
-                                        React.createElement(
-                                            'div',
-                                            { className: 'radio' },
-                                            React.createElement(
-                                                'label',
-                                                null,
                                                 React.createElement('input', { className: 'margin-right-10', type: 'radio', name: 'optionsRadios', id: 'optionsRadios4',
                                                     value: 'option4',
                                                     checked: this.state.paym == 'stripe',

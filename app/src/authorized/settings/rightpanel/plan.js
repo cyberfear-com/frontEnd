@@ -1088,7 +1088,7 @@ define(['react', 'app','accounting'], function (React, app,accounting) {
 								</h3>
 
 								<div className="pull-right dialog_buttons" style={{lineHeight: "40px"}}>
-									<button type="submit" className="btn btn-primary" onClick={this.handleClick.bind(this, 'payPal')}>Pay With PayPal</button>
+									{/*<button type="submit" className="btn btn-primary" onClick={this.handleClick.bind(this, 'payPal')}>Pay With PayPal</button>*/}
 									<button type="submit" className="btn btn-primary" form="crypF" onClick={this.handleClick.bind(this, 'showFirst')}>Pay With CoinPayments</button>
 									<button type="submit" className="btn btn-primary" form="perfF" onClick={this.handleClick.bind(this, 'showFirst')}>Pay With Perfect Money</button>
 									<button type="submit" className="btn btn-primary" onClick={this.handleClick.bind(this, 'stripe')}>Pay With stripe (Credit / Debit Card)</button>

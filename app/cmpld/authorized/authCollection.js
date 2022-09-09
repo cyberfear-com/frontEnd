@@ -60,32 +60,34 @@ define(['react', 'app', 'xss', 'cmpld/authorized/header/head', 'cmpld/authorized
 					/*
      if(!app.user.get("oneStep")){
      	//todo disabled to show for dev
-     		if(app.defaults.dev){
+     			if(app.defaults.dev){
      		//if development
-     				}else{
+     
+     	}else{
      		//for production
-     			//$('#secondPass').modal({
+     				//$('#secondPass').modal({
      		//		backdrop: 'static',
      		//	keyboard: true
      		//});
-     			app.globalF.checkSecondPass(function(){
+     				app.globalF.checkSecondPass(function(){
      			$('#userObjSync').modal({
      				backdrop: 'static',
      				keyboard: true
      			});
-     				app.userObjects.startSession(function(){
+     					app.userObjects.startSession(function(){
      				$('#userObjSync').modal('hide');
      				app.sessionData.set({"sessionReady":true});
      				thisMod.setState({dfd: "solved"});
-     				});
+     					});
      		});
-     			//$('#secondPass').on('hidden.bs.modal', function () {
-     			//sunc local data from server or check cache for new vers
+     				//$('#secondPass').on('hidden.bs.modal', function () {
+     				//sunc local data from server or check cache for new vers
      		//if second pass is set
-     				//});
-     		}
+     						//});
+     			}
      	//change into askforPass Functionality
-     			}else{
+     
+     }else{
      	//sunc local data from server or check cache for new vers
      	$('#userObjSync').modal({
      		backdrop: 'static',
@@ -96,7 +98,7 @@ define(['react', 'app', 'xss', 'cmpld/authorized/header/head', 'cmpld/authorized
      		app.sessionData.set({"sessionReady":true});
      		thisMod.setState({dfd: "solved"});
      	});
-     	}
+     		}
      */
 				}
 			}

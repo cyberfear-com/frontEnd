@@ -619,7 +619,7 @@ define(['react', 'app', 'summernote', 'select2'], function (React, app, summerno
 
 			return total;
 			/*
-   	$.each(this.state.contactArray, function( index, contactData ) {
+   		$.each(this.state.contactArray, function( index, contactData ) {
    	//console.log(contactData);
    	if(contactData!=undefined && $.inArray( contactData['id'], rcpt )!=-1){
    		thisComp.setState({

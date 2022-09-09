@@ -929,17 +929,17 @@ define(['react', 'app'], function (React, app) {
 
 					/*
      app.globalF.decryptPGPMessage(this.state.emailBody,this.state.emailAddress,function(email64,decryptedText){
-           if(email64!==false){
-          thisComp.setState({
+             if(email64!==false){
+           thisComp.setState({
              pgpEncrypted:false,
              emailBody:decryptedText,
              decryptedEmail:app.transform.from64str(email64)
          });
-              thisComp.renderStrictBody();
+               thisComp.renderStrictBody();
          }
-      // console.log(email64);
+        // console.log(email64);
      //     console.log(decryptedText);
-       });
+         });
      */
 					//this.renderFull();
 					// this.setState({

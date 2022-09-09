@@ -405,15 +405,15 @@ define(['react', 'app', 'dataTable', 'dataTableBoot'], function (React, app, Dat
                  }else{
                      $('#selectAll>input').prop("checked",true);
                  }
-                  thisComp.selectThisPage(thisComp.state.selectedEmails);
-              } );
-              $('#wholeFolder').click( function () {
+                   thisComp.selectThisPage(thisComp.state.selectedEmails);
+               } );
+               $('#wholeFolder').click( function () {
                  if($('#selectAll>input').prop("checked")){
                      $('#selectAll>input').prop("checked",false);
                  }else{
                      $('#selectAll>input').prop("checked",true);
                  }
-                  thisComp.selectAll(thisComp.state.selectedEmails);
+                   thisComp.selectAll(thisComp.state.selectedEmails);
              } );
             */
             $('#selectAll').change(function () {
@@ -453,7 +453,7 @@ define(['react', 'app', 'dataTable', 'dataTableBoot'], function (React, app, Dat
         },
         /*selectThisPage:function(thisComp){
             selectedEmails=thisComp.state.selectedEmails;
-          },*/
+            },*/
 
         componentWillUnmount: function () {
             app.user.off("change:emailListRefresh");

@@ -1,0 +1,51 @@
+.forgot-link{
+	width: 100%;
+	float: left;
+	font-size: 14px;
+	font-weight: 700;
+		
+	a{
+		color: $blue-color;
+		text-decoration: none;
+			
+		&:hover{
+			color: $black-color;
+			text-decoration: none;
+		}
+	}
+}
+
+.message-image{
+	width: 100%;
+	float: left;
+	padding: 30px 15px 0 15px;
+		
+	img{
+		max-width: 544px;
+		margin: 0 auto;
+		display: block;
+		width: 100%;
+	}
+}
+
+.login-bottom{
+	width: 100%;
+	float: left;
+	padding: 40px 0 0 0;
+	
+	.welcome-text{
+		font-size: 18px;
+		padding: 0 0 24px;
+	}
+
+}
+
+@media screen and (min-width: 992px){
+	.message-image{
+		padding: 90px 15px 0 15px;
+	}
+	
+	.login-bottom{
+		padding: 90px 0 0 0;
+	}
+}

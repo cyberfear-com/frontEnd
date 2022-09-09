@@ -1,0 +1,223 @@
+
+.pricing-top{
+	width: 100%;
+	float: left;
+	max-width: 645px;
+	position: relative;
+	margin: 64px 0 0 0;
+	
+	.nav-tabs{
+		text-align: center; 
+		width: 100%; 
+		float: left; 
+		display: block;
+		border: 1px solid #EEE;
+		border-radius: 12px; 
+		
+		li{
+			width: 100%;
+			float: left; 
+			border-bottom: 1px solid #EEE;
+			margin: 0; 
+			display: inline-block;
+			
+			button{
+				color: #7B8285; 
+				border: none; 
+				background: none;
+				color: #415067;
+				font-size: 14px;
+				font-weight: 700;
+				padding: 15px 0;
+				position: relative;
+				width: 100%;
+				float: left;
+				
+				&.active{
+					background: $blue-color;
+					color: $white-color;
+				}
+				
+				span{
+					background: #FBF0EC;
+					color: #F37D58;
+					border-radius: 10px;
+					padding: 3px 8px 5px;
+					margin: 0 0 0 10px;
+					font-size: 10px;
+					font-weight: 400;
+					
+					&.dark{
+						background: #F37D58;
+						color: $white-color;
+					}
+					
+				}
+			}
+			
+			&:first-child{
+				button{
+					&.active{
+						border-radius: 12px 12px 0 0;
+					}
+				}
+			}
+			
+			&:last-child{
+				border: none;
+				
+				button{
+					&.active{
+						border-radius: 0 0 12px 12px;
+					}
+				}
+			}
+		}
+	}
+}
+
+.tab-content{
+	width: 100%;
+	float: left;
+	margin: 24px 0 44px 0;
+	
+	.tab-pane{
+		width: 100%;
+		float: left;
+	}
+	
+	.pricing-box{
+		width: 100%;
+		float: left;
+		border: 1px solid rgba(0, 0, 0, 0.10);
+		border-radius: 12px;
+		padding: 30px 15px;
+		margin: 24px 0 24px;
+		text-align: center;
+	}
+	
+	.pricing-box-top{
+		width: 100%;
+		float: left;
+		border-bottom: 1px solid rgba(0, 0, 0, 0.10);
+		padding: 0 0 24px;
+	}
+	
+	.pricing-title{
+		width: 100%;
+		float: left;
+		font-size: 22px;
+		font-weight: 500;
+		line-height: 32px;
+		letter-spacing: -0.4px;
+	}
+	
+	p{
+		width: 100%;
+		float: left;
+		font-size: 14px;
+		line-height: 18px;
+		padding: 15px 0 0 0;
+		margin: 0;
+		font-weight: 500;
+	}
+	
+	.pricing-box-middle{
+		width: 100%;
+		float: left;
+		padding: 32px 0 0 0;
+	}
+	
+	.price{
+		width: 100%;
+		float: left;
+		font-weight: 500;
+		font-size: 36px;
+		line-height: 47px;
+	}
+	
+	.per-month{
+		width: 100%;
+		float: left;
+		color: $black-color;
+		opacity: 0.5;
+		font-size: 16px;
+		line-height: 21px;
+		padding: 12px 0 0 0;
+	}
+	
+	.btn-row{
+		width: 100%;
+		float: left;
+		padding: 32px 0 0 0;
+		
+		.btn-blue{
+			width: 100%;
+			float: left;
+			padding-left: 0;
+			padding-right: 0;
+		}
+	}
+	
+	.pricing-bullets{
+		width: 100%;
+		float: left;
+		padding: 10px 0 0 0;
+		
+		ul{
+			margin: 0;
+			padding: 0;
+			list-style-type: none;
+			
+			li{
+				width: 100%;
+				float: left;
+				background: url("#{$images-path}/icon-circle-check.svg") no-repeat left 2px;
+				background-size: 24px;
+				padding: 0 0 0 36px;
+				font-weight: 500;
+				font-size: 14px;
+				line-height: 24px;
+				text-align: left;
+				margin: 16px 0 0 0;
+			}
+		}
+	}
+}
+
+@media screen and (min-width: 768px){
+	.pricing-top{
+		.nav-tabs{
+			li{
+				width: 33.33%;
+				border-right: 1px solid #EEE;
+				border-bottom: none;
+				
+				&:first-child{
+					button{
+						&.active{
+							border-radius: 12px 0 0 12px;
+						}
+					}
+				}
+				
+				&:last-child{
+					button{
+						&.active{
+							border-radius: 0 12px 12px 0;
+						}
+					}
+				}
+				
+			}
+		}
+	}
+}
+
+@media screen and (min-width: 992px){
+	.tab-content{
+		.pricing-box{
+			padding: 30px;
+		}
+	}
+}

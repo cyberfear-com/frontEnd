@@ -1,106 +1,531 @@
 <!doctype html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
-
-        <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css"/>
-        <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css"/>
-        <link rel="stylesheet" type="text/css" href="/css/ionicons.min.css"/>
-        <link rel="stylesheet" type="text/css" href="/css/smartnotif.css">
-
-        <link rel="stylesheet" type="text/css" href="/css/dataTables/jquery.dataTables.min.css">
-        <link rel="stylesheet" type="text/css" href="/css/dataTables/dataTables.bootstrap.css">
-        <link rel="stylesheet" type="text/css" href="/css/summernote/summernote.css"/>
-        <link rel="stylesheet" type="text/css" href="/css/summernote/summernote-bs3.css"/>
-        <link rel="stylesheet" type="text/css" href="/css/jquery-ui.min.css"/>
-
-        <link rel="stylesheet" type="text/css" href="/css/select2/select2.css"/>
-
-    <link rel="stylesheet" type="text/css" href="/css/style.css"/>
-    <link rel="stylesheet" type="text/css" href="/css/animate.min.css">
-
-    <script src="/js/main/jquery-2.1.3.min.js"></script>
-
-   <!--[if gte IE 11]><!-->
-    <script data-main="app/main" src="js/main/require.js"></script>
-
-    <style type="text/css">
-        .standard-button,
-        .navbar-register-button {
-            filter: none;
-        }
-    </style>
-    <!--<![endif]-->
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            if (navigator.userAgent.match(/msie 10.0/i) ){
-                alert('Site requires Internet Explorer 12 or higher. Please upgrade you browser or use Google Chrome or Firefox');
-            }
-        });
-    </script>
-
-    <!--[if !IE]><!-->
-    <!--<script data-main="app/main" src="/js/main/require.js"></script>-->
-   <!--<![endif]-->
-
-
-    <title>CyberFear.com</title>
-    <meta name="description" content="End-to-end encrypted email service. Join CyberFear to send and receive emails anonymously.
-No logs, no ads, offshore servers location. We accept BitCoin, Monero and more!">
-
-    <meta property="og:title" content="CyberFear.com" />
-    <meta property="og:description" content="End-to-end encrypted email service. Join CyberFear to send and receive emails anonymously." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://cyberfear.com" />
-    <meta property="og:image" content="https://cyberfear.com/img/mainpage.png" />
-    <meta http-equiv="onion-location" content="http://cyberfe3gvh7cvq2nhuqtaghjxebhcnqafnfvalwvq6mxrinep7m7xqd.onion"/>
-
-    <meta name="author" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-    <!-- #FAVICONS-->
-    <link rel="shortcut icon" type="image/png" href="favicon.png" />
-    <link rel="icon" href="/img/favicon.png" type="image/x-icon">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MAILUM</title>
+    <meta name="Description" content="" />
+    <meta name="Keywords" content="" />
+    <link rel="apple-touch-icon" sizes="57x57" href="assets/images/icons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="assets/images/icons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="assets/images/icons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="assets/images/icons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="assets/images/icons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="assets/images/icons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="assets/images/icons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="assets/images/icons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/icons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="assets/images/icons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="assets/images/icons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/icons/favicon-16x16.png">
+    <link rel="manifest" href="assets/images/icons/manifest.json">
+    <meta name="msapplication-TileColor" content="#2277F7">
+    <meta name="msapplication-TileImage" content="assets/images/icons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#2277F7">
+    <link href="assets/css/style.css" rel="stylesheet">
 </head>
 <body>
+<div id="wrapper">
+
+    <!--- Header -->
+    <header class="home">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light"> <a class="navbar-brand" href="/"><img src="assets/images/logo.svg" alt=""/></a>
+                <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="icon-bar top-bar"></span> <span class="icon-bar middle-bar"></span> <span class="icon-bar bottom-bar"></span> </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item"> <a class="nav-link" href="about.html">About</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="pricing.html">Pricing</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="contact.html">Contact</a></li>
+                    </ul>
+                    <ul class="navbar-nav ms-auto header-cta-btn">
+                        <li class="nav-item"><a href="login.html" class="btn-1">Sign In</a></li>
+                        <li class="nav-item"><a href="signup.html" class="btn-2">Sign Up</a></li>
+                    </ul>
+                </div>
+            </nav>
+            <!--      <div class="logo"><a href="#"><img src="assets/images/logo.svg" alt=""/></a></div>-->
+        </div>
+    </header>
+    <!--- /Header -->
+
+    <!--- Banner -->
+    <section id="banner">
+        <div class="banner-image"><img src="assets/images/banner-image.png"  alt=""/></div>
+        <div class="banner-content">
+            <div class="container">
+                <div class="banner-left">
+                    <h1>Make Email<br>
+                        Security a Priority.</h1>
+                    <p>Protect confidential emails and information with open-source, most complete encryption that ensures your data is safeguarded from start to finish.</p>
+                    <div class="banner-btn"><a href="#" class="btn-white">Try For Free</a> <a href="#" class="btn-white-border">Learn More</a></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--- /Banner -->
+
+    <!--- Middle -->
+    <div id="middle">
+        <section class="about-section">
+            <div class="container">
+                <h2>What others say about us</h2>
+            </div>
+            <div class="about-slider-row">
+                <div class="owl-carousel about-slider">
+                    <div class="about-slider-box">
+                        <div class="box-top">
+                            <div class="about-image"><img src="assets/images/about-logo-1.png" alt=""/></div>
+                            Sven Taylor,<br>
+                            RestorePrivacy.com </div>
+                        <p>"Mailum is an anonymous e-mail service in Poland  that has caught our attention. It does not serve ads  or log IP addresses, while also offering full encryption on par with our other recommendations."</p>
+                    </div>
+                    <div class="about-slider-box">
+                        <div class="box-top">
+                            <div class="about-image"><img src="assets/images/about-logo-2.png" alt=""/></div>
+                            Sven Taylor,<br>
+                            RestorePrivacy.com</div>
+                        <p>"Mailum is an anonymous e-mail service in Poland  that has caught our attention. It does not serve ads  or log IP addresses, while also offering full encryption on par with our other recommendations."</p>
+                    </div>
+                    <div class="about-slider-box">
+                        <div class="box-top">
+                            <div class="about-image"><img src="assets/images/about-logo-1.png" alt=""/></div>
+                            Sven Taylor,<br>
+                            RestorePrivacy.com </div>
+                        <p>"Mailum is an anonymous e-mail service in Poland  that has caught our attention. It does not serve ads  or log IP addresses, while also offering full encryption on par with our other recommendations."</p>
+                    </div>
+                    <div class="about-slider-box">
+                        <div class="box-top">
+                            <div class="about-image"><img src="assets/images/about-logo-2.png" alt=""/></div>
+                            Sven Taylor,<br>
+                            RestorePrivacy.com</div>
+                        <p>"Mailum is an anonymous e-mail service in Poland  that has caught our attention. It does not serve ads  or log IP addresses, while also offering full encryption on par with our other recommendations."</p>
+                    </div>
+                    <div class="about-slider-box">
+                        <div class="box-top">
+                            <div class="about-image"><img src="assets/images/about-logo-1.png" alt=""/></div>
+                            Sven Taylor,<br>
+                            RestorePrivacy.com </div>
+                        <p>"Mailum is an anonymous e-mail service in Poland  that has caught our attention. It does not serve ads  or log IP addresses, while also offering full encryption on par with our other recommendations."</p>
+                    </div>
+                    <div class="about-slider-box">
+                        <div class="box-top">
+                            <div class="about-image"><img src="assets/images/about-logo-2.png" alt=""/></div>
+                            Sven Taylor,<br>
+                            RestorePrivacy.com</div>
+                        <p>"Mailum is an anonymous e-mail service in Poland  that has caught our attention. It does not serve ads  or log IP addresses, while also offering full encryption on par with our other recommendations."</p>
+                    </div>
+                    <div class="about-slider-box">
+                        <div class="box-top">
+                            <div class="about-image"><img src="assets/images/about-logo-1.png" alt=""/></div>
+                            Sven Taylor,<br>
+                            RestorePrivacy.com </div>
+                        <p>"Mailum is an anonymous e-mail service in Poland  that has caught our attention. It does not serve ads  or log IP addresses, while also offering full encryption on par with our other recommendations."</p>
+                    </div>
+                    <div class="about-slider-box">
+                        <div class="box-top">
+                            <div class="about-image"><img src="assets/images/about-logo-2.png" alt=""/></div>
+                            Sven Taylor,<br>
+                            RestorePrivacy.com</div>
+                        <p>"Mailum is an anonymous e-mail service in Poland  that has caught our attention. It does not serve ads  or log IP addresses, while also offering full encryption on par with our other recommendations."</p>
+                    </div>
+                    <div class="about-slider-box">
+                        <div class="box-top">
+                            <div class="about-image"><img src="assets/images/about-logo-1.png" alt=""/></div>
+                            Sven Taylor,<br>
+                            RestorePrivacy.com </div>
+                        <p>"Mailum is an anonymous e-mail service in Poland  that has caught our attention. It does not serve ads  or log IP addresses, while also offering full encryption on par with our other recommendations."</p>
+                    </div>
+                    <div class="about-slider-box">
+                        <div class="box-top">
+                            <div class="about-image"><img src="assets/images/about-logo-2.png" alt=""/></div>
+                            Sven Taylor,<br>
+                            RestorePrivacy.com</div>
+                        <p>"Mailum is an anonymous e-mail service in Poland  that has caught our attention. It does not serve ads  or log IP addresses, while also offering full encryption on par with our other recommendations."</p>
+                    </div>
+                </div>
+                <div class="slider-btn-wrp">
+                    <div class="container">
+                        <div class="slider-btn">
+                            <button class="prev-btn"></button>
+                            <button class="next-btn"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="features-setion">
+            <div class="feature-container">
+                <div class="features-content">
+                    <div class="container">
+                        <div class="features-top">
+                            <div class="feature-top-right"><img src="assets/images/lock.png" alt="" class="img-fluid"/> </div>
+                            <div class="features-top-left">
+                                <h2>Private and<br>
+                                    anonymous email</h2>
+                                <p>Our privacy is quickly becoming a thing of the past. <br>
+                                    Privacy enables you to control who can access information about your private life  and activities. Stand your ground and take it back. </p>
+                                <p><span>Mailum is committed to keeping the Internet an anonymous space  free from surveillance.</span></p>
+                            </div>
+                        </div>
+                        <div class="feature-box-row">
+                            <ul>
+                                <li>
+                                    <div class="feature-box" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Our top priority while designing and building Mailum was to create an email service that is not based on reliance. ">
+                                        <div class="box-data">
+                                            <div class="box-icon"><img src="assets/images/icon-feature-1.svg" alt=""/></div>
+                                            <div class="box-title">Zero-knowledge E2EE</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="feature-box" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Our top priority while designing and building Mailum was to create an email service that is not based on reliance. ">
+                                        <div class="box-data">
+                                            <div class="box-icon"><img src="assets/images/icon-feature-2.svg" alt=""/></div>
+                                            <div class="box-title">PGP support</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="feature-box" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Our top priority while designing and building Mailum was to create an email service that is not based on reliance. ">
+                                        <div class="box-data">
+                                            <div class="box-icon"><img src="assets/images/icon-feature-3.svg" alt=""/></div>
+                                            <div class="box-title">TOR support</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="feature-box" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Our top priority while designing and building Mailum was to create an email service that is not based on reliance. ">
+                                        <div class="box-data">
+                                            <div class="box-icon"><img src="assets/images/icon-feature-4.svg" alt=""/></div>
+                                            <div class="box-title">No ads</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="feature-box" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Our top priority while designing and building Mailum was to create an email service that is not based on reliance. ">
+                                        <div class="box-data">
+                                            <div class="box-icon"><img src="assets/images/icon-feature-5.svg" alt=""/></div>
+                                            <div class="box-title">No external trackers</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="feature-box" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Our top priority while designing and building Mailum was to create an email service that is not based on reliance. ">
+                                        <div class="box-data">
+                                            <div class="box-icon"><img src="assets/images/icon-feature-6.svg" alt=""/></div>
+                                            <div class="box-title">No IP-logs</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="feature-box" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Our top priority while designing and building Mailum was to create an email service that is not based on reliance. ">
+                                        <div class="box-data">
+                                            <div class="box-icon"><img src="assets/images/icon-feature-7.svg" alt=""/></div>
+                                            <div class="box-title">Offshore servers location</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="feature-box" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Our top priority while designing and building Mailum was to create an email service that is not based on reliance. ">
+                                        <div class="box-data">
+                                            <div class="box-icon"><img src="assets/images/icon-feature-8.svg" alt=""/></div>
+                                            <div class="box-title">Anonymous payment methods</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="feature-box" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Our top priority while designing and building Mailum was to create an email service that is not based on reliance. ">
+                                        <div class="box-data">
+                                            <div class="box-icon"><img src="assets/images/icon-feature-9.svg" alt=""/></div>
+                                            <div class="box-title">No KYC, no phone verifications</div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="feature-box" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Our top priority while designing and building Mailum was to create an email service that is not based on reliance. ">
+                                        <div class="box-data">
+                                            <div class="box-icon"><img src="assets/images/icon-feature-10.svg" alt=""/></div>
+                                            <div class="box-title">Open-source code</div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="scrollable-section">
 
 
-<!--[if lt IE 12]>
-Site requires Internet Explorer 11 or higher.
-Please upgrade you browser or use Google Chrome or Firefox
-<![endif]-->
 
-<!--[if gte IE 12]><!-->
+            <div class="owl-carousel mouse-scrolling">
 
-<div class="preloader">
-    <div class="status">
-        &nbsp;
+                <div class="scrollable-container-wrp">
+                    <div class="scrollable-box ">
+                        <div class="container">
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <div class="scrollable-box-image"><img src="assets/images/scroll-image-1.png"  alt=""/></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="scrollable-box-data">
+                                        <h3>The Most Air-Tight Encryption Available</h3>
+                                        <p>Mailum is the only email service encrypting  all 4 elements of an email and its metadata.  While other services only encrypt the email body,  we encrypt body, subject, sender, recipient, and timestamp  to protect your online privacy from unauthorized access.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scrollable-container-wrp">
+                    <div class="scrollable-box ">
+                        <div class="container">
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <div class="scrollable-box-image"><img src="assets/images/scroll-image-2.png"  alt=""/></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="scrollable-box-data">
+                                        <h3>Easy to use</h3>
+                                        <p>The idea of Encryption is not complicated as it sounds. Having a user-friendly and simple interface, Mailum is an ideal choice as your daily, hassle-free mailbox.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scrollable-container-wrp">
+                    <div class="scrollable-box ">
+                        <div class="container">
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <div class="scrollable-box-image"><img src="assets/images/scroll-image-3.png"  alt=""/></div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="scrollable-box-data">
+                                        <h3>The Most Air-Tight Encryption Available</h3>
+                                        <p>Mailum is the only email service encrypting  all 4 elements of an email and its metadata.  While other services only encrypt the email body,  we encrypt body, subject, sender, recipient, and timestamp  to protect your online privacy from unauthorized access.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+        </section>
+        <section class="trust-section">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-md-5 col-lg-4 order-md-1"><img src="assets/images/trust-image.png" alt="" class="img-fluid"/></div>
+                    <div class="col-md-7 col-lg-8 order-md-0">
+                        <h3><span>Peace of mind</span> without relying on trust!</h3>
+                        <p>Our top priority while designing and building Mailum was to create an email service that is not based on reliance. <br>
+                            We came up with a solution named “Local Code”.<br>
+                            We provide users with the ability to host the Mailum website on their computers locally. <br>
+                            This allows users to have an absolute certainty that scripts loaded by their browsers have neither been maliciously
+                            modified nor been altered.<br>
+                            This is optional, however, available to anyone who feels a little more concerned and “paranoid”.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="testimonial-section">
+            <div class="container">
+                <h2>What customers say about Mailum</h2>
+            </div>
+            <div class="testimonial-slider-row">
+                <div class="testimonial-slider-container">
+                    <div class="owl-carousel testimonial-slider">
+                        <div class="testimonial-box">
+                            <div class="testimonial-box-top">
+                                <div class="avatar"><img src="assets/images/client-avatar-2.jpg"  alt=""/></div>
+                                <div class="client-name">Sven Taylor</div>
+                                <div class="company-name">RestorePrivacy.com </div>
+                            </div>
+                            <p>"Mailum is an anonymous e-mail service in Poland  that has caught our attention. It does not serve ads  or log IP addresses, while also offering full encryption on par with our other recommendations."</p>
+                        </div>
+                        <div class="testimonial-box">
+                            <div class="testimonial-box-top">
+                                <div class="avatar"><img src="assets/images/client-avatar.jpg"  alt=""/></div>
+                                <div class="client-name">Sven Taylor</div>
+                                <div class="company-name">RestorePrivacy.com </div>
+                            </div>
+                            <p>"Mailum is an anonymous e-mail service in Poland  that has caught our attention. It does not serve ads  or log IP addresses, while also offering full encryption on par with our other recommendations."</p>
+                        </div>
+                        <div class="testimonial-box">
+                            <div class="testimonial-box-top">
+                                <div class="avatar"><img src="assets/images/client-avatar-2.jpg"  alt=""/></div>
+                                <div class="client-name">Sven Taylor</div>
+                                <div class="company-name">RestorePrivacy.com </div>
+                            </div>
+                            <p>"Mailum is an anonymous e-mail service in Poland  that has caught our attention. It does not serve ads  or log IP addresses, while also offering full encryption on par with our other recommendations."</p>
+                        </div>
+                        <div class="testimonial-box">
+                            <div class="testimonial-box-top">
+                                <div class="avatar"><img src="assets/images/client-avatar.jpg"  alt=""/></div>
+                                <div class="client-name">Sven Taylor</div>
+                                <div class="company-name">RestorePrivacy.com </div>
+                            </div>
+                            <p>"Mailum is an anonymous e-mail service in Poland  that has caught our attention. It does not serve ads  or log IP addresses, while also offering full encryption on par with our other recommendations."</p>
+                        </div>
+                        <div class="testimonial-box">
+                            <div class="testimonial-box-top">
+                                <div class="avatar"><img src="assets/images/client-avatar-2.jpg"  alt=""/></div>
+                                <div class="client-name">Sven Taylor</div>
+                                <div class="company-name">RestorePrivacy.com </div>
+                            </div>
+                            <p>"Mailum is an anonymous e-mail service in Poland  that has caught our attention. It does not serve ads  or log IP addresses, while also offering full encryption on par with our other recommendations."</p>
+                        </div>
+                        <div class="testimonial-box">
+                            <div class="testimonial-box-top">
+                                <div class="avatar"><img src="assets/images/client-avatar.jpg"  alt=""/></div>
+                                <div class="client-name">Sven Taylor</div>
+                                <div class="company-name">RestorePrivacy.com </div>
+                            </div>
+                            <p>"Mailum is an anonymous e-mail service in Poland  that has caught our attention. It does not serve ads  or log IP addresses, while also offering full encryption on par with our other recommendations."</p>
+                        </div>
+                        <div class="testimonial-box">
+                            <div class="testimonial-box-top">
+                                <div class="avatar"><img src="assets/images/client-avatar-2.jpg"  alt=""/></div>
+                                <div class="client-name">Sven Taylor</div>
+                                <div class="company-name">RestorePrivacy.com </div>
+                            </div>
+                            <p>"Mailum is an anonymous e-mail service in Poland  that has caught our attention. It does not serve ads  or log IP addresses, while also offering full encryption on par with our other recommendations."</p>
+                        </div>
+                        <div class="testimonial-box">
+                            <div class="testimonial-box-top">
+                                <div class="avatar"><img src="assets/images/client-avatar-2.jpg"  alt=""/></div>
+                                <div class="client-name">Sven Taylor</div>
+                                <div class="company-name">RestorePrivacy.com </div>
+                            </div>
+                            <p>"Mailum is an anonymous e-mail service in Poland  that has caught our attention. It does not serve ads  or log IP addresses, while also offering full encryption on par with our other recommendations."</p>
+                        </div>
+                        <div class="testimonial-box">
+                            <div class="testimonial-box-top">
+                                <div class="avatar"><img src="assets/images/client-avatar-2.jpg"  alt=""/></div>
+                                <div class="client-name">Sven Taylor</div>
+                                <div class="company-name">RestorePrivacy.com </div>
+                            </div>
+                            <p>"Mailum is an anonymous e-mail service in Poland  that has caught our attention. It does not serve ads  or log IP addresses, while also offering full encryption on par with our other recommendations."</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="slider-btn-wrp">
+                    <div class="container">
+                        <div class="slider-btn">
+                            <button class="prev-btn"></button>
+                            <button class="next-btn"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="call-to-action">
+            <div class="container">
+                <h4>Take action, Sign up Now <br>
+                    to protect your online presence</h4>
+                <div class="btn-row"> <a href="#" class="btn-white">Get Encrypted Email</a> </div>
+            </div>
+        </section>
     </div>
+    <!--- /Middle -->
+
+    <!--- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-top">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="footer-logo"><img src="assets/images/footer-logo.svg" alt=""/></div>
+                        <p>Protect confidential emails and information with open-source,  most complete encryption that ensures your data  is safeguarded from start to finish.</p>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-6 col-sm-6 col-md-3">
+                                <div class="footer-title">Marketplace</div>
+                                <div class="footer-nav">
+                                    <ul>
+                                        <li><a href="#">All NFTs</a></li>
+                                        <li><a href="#">Art</a></li>
+                                        <li><a href="#">Collectibles</a></li>
+                                        <li><a href="#">Domain Names</a></li>
+                                        <li><a href="#">Music</a></li>
+                                        <li><a href="#">Photography</a></li>
+                                        <li><a href="#">Sports</a></li>
+                                        <li><a href="#">Trading Cards</a></li>
+                                        <li><a href="#">Utility</a></li>
+                                        <li><a href="#">Virtual Worlds</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-6 col-sm-6 col-md-3">
+                                <div class="footer-title">My Account</div>
+                                <div class="footer-nav">
+                                    <ul>
+                                        <li><a href="#">Profile</a></li>
+                                        <li><a href="#">Favorites</a></li>
+                                        <li><a href="#">My Collections</a></li>
+                                        <li><a href="#">Settings</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-6 col-sm-6 col-md-3">
+                                <div class="footer-title">Resource</div>
+                                <div class="footer-nav">
+                                    <ul>
+                                        <li><a href="#">Help Center</a></li>
+                                        <li><a href="#">Platform Status</a></li>
+                                        <li><a href="#">Partners</a></li>
+                                        <li><a href="#">Gas-Free Marketplace</a></li>
+                                        <li><a href="#">Blog</a></li>
+                                        <li><a href="#">Docs</a></li>
+                                        <li><a href="#">Newsletter</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-6 col-sm-6 col-md-3">
+                                <div class="footer-title">Resource</div>
+                                <div class="footer-nav">
+                                    <ul>
+                                        <li><a href="#">Help Center</a></li>
+                                        <li><a href="#">Platform Status</a></li>
+                                        <li><a href="#">Partners</a></li>
+                                        <li><a href="#">Gas-Free Marketplace</a></li>
+                                        <li><a href="#">Blog</a></li>
+                                        <li><a href="#">Docs</a></li>
+                                        <li><a href="#">Newsletter</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="footer-social-media"><a href="#"><img src="assets/images/icon-instagram.svg" alt=""/></a><a href="#"><img src="assets/images/icon-twitter.svg" alt=""/></a></div>
+                <div class="footer-bottom-row">
+                    <div class="footer-bottom-left"> <a href="privacy.html">Privacy Policy</a> <a href="terms.html">Terms of use</a> <a href="#">Disclaimer</a> <a href="#">Sitemap </a> </div>
+                    <div class="copyright">&copy; 2022 All Rights Reserved.</div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--- Footer -->
+
 </div>
-
-<div id="mainBody">
-
-</div>
-
-
-<!--<![endif]-->
-
-<!--[if !IE]><!-->
-
-<div class="preloader">
-    <div class="status">
-        &nbsp;
-    </div>
-</div>
-
-<div id="mainBody">
-
-</div>
-
-<!--<![endif]-->
-
+<script src="assets/js/jquery-1.12.4.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/owl.carousel.min.js"></script>
+<script src="assets/js/app.js"></script>
 </body>
 </html>

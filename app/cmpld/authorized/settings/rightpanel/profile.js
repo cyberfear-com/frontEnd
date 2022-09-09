@@ -297,13 +297,13 @@ define(['react', 'app', 'summernote'], function (React, app, summernote) {
                         /*
                         app.user.set({"enableForwarding": this.state.secondPanelData.enableForwarding});
                         app.user.set({"enableNotification": this.state.secondPanelData.enableNotification});
-                          if (this.state.secondPanelData.enableForwarding) {
+                            if (this.state.secondPanelData.enableForwarding) {
                             app.user.set({"forwardingAddress": this.state.secondPanelData.forwardingAddress});
                         }
-                         if (this.state.secondPanelData.notificationSound != 0) {
+                          if (this.state.secondPanelData.notificationSound != 0) {
                             app.user.set({"notificationSound": this.state.secondPanelData.notificationSound});
                         }
-                         if (this.state.secondPanelData.enableNotification) {
+                          if (this.state.secondPanelData.enableNotification) {
                             app.user.set({"notificationAddress": this.state.secondPanelData.notificationAddress});
                         }
                         */

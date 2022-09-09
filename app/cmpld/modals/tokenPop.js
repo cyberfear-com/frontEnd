@@ -42,13 +42,13 @@ define(['react', 'app'], function (React, app) {
 
 					/*       // var tokenAes = toAesToken(keyA, token);
             // var tokenAesHash = SHA512(tokenAes);
-             var oMyBlob = new Blob([toFile], {type:'text/html'});
+              var oMyBlob = new Blob([toFile], {type:'text/html'});
             var toFile=app.user.get('downloadToken');
-             var a = document.createElement('a');
+              var a = document.createElement('a');
             a.href = window.URL.createObjectURL(oMyBlob);
-             var name=app.user.get('email');
+              var name=app.user.get('email');
             a.download = 'secretToken.key';
-             document.body.appendChild(a);
+              document.body.appendChild(a);
             a.click();
      */
 					break;

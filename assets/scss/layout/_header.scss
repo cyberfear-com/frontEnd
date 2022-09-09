@@ -1,0 +1,377 @@
+header{
+	width: 100%;
+	float: left;
+	position: fixed;
+	background: $white-color;
+	box-shadow: 0px 24px 48px rgba(0, 0, 0, 0.08);
+	z-index: 10;
+	padding: 15px 0 15px 0;
+	
+	.container{
+		padding: 0;
+	}
+	
+	.navbar-brand{
+		padding: 0 0 0 15px;
+		
+		img{
+			width: 118px;
+		}
+	}
+	
+	.navbar-toggler{
+		border: none;
+		outline: none;
+		padding: 4px 0 0 0;
+		position: absolute;
+		right: 15px;
+		top: 0;
+		border: none !important;
+		box-shadow: none !important;
+
+		.icon-bar {
+			background-color: $black-color;
+			transform: rotate(0deg) translate(0px, 0px);
+			transition: ease all 0.2s;
+			display: block;
+			width: 30px;
+			height: 3px;
+		}
+
+		.icon-bar + .icon-bar {
+			margin-top: 7px;
+		}
+
+		.icon-bar:nth-child(2) {
+			width: 30px;
+			transition: ease all 0.2s;
+			margin-left: -3px;
+		}
+
+		&:hover > .icon-bar:nth-child(2) {
+			width: 30px;
+			transition: ease all 0.2s;
+		}
+
+		&:active > .icon-bar:nth-child(2) {
+			width: 30px;
+			transition: ease all 0.2s;
+		}
+		&:not(.collapsed) .icon-bar:nth-child(1) {
+			transform: rotate(45deg) translate(8px, 5px);
+			transition: ease all 0.2s;
+		}
+		&:not(.collapsed) .icon-bar:nth-child(2) {
+			opacity: 0;
+			transition: ease all 0.2s;
+		}
+
+		&:not(.collapsed) .icon-bar:nth-child(3) {
+			transform: rotate(-45deg) translate(9px, -6px);
+			transition: ease all 0.2s;
+		}
+	}
+	
+	.navbar{
+		padding: 0;
+	}
+	
+	.bg-light{
+		background: none !important;
+	}
+	
+	.navbar-light{
+		.navbar-nav{
+			padding: 4px 0 0 0;
+
+			.nav-link{
+				color: $black-color;
+				text-decoration: none;
+				font-size: 14px;
+				font-weight: 700;
+				line-height: 18px;
+				padding: 15px 15px 15px;
+				width: 100%;
+				float: left;
+				
+				&.dropdown-toggle{
+					&:after{
+						width: 12px;
+						height: 7px;
+						background: url("#{$images-path}/down-arrow-dark.svg") no-repeat left top;
+						background-size: 12px 7px;
+						border: none;
+						margin-left: 5px;
+						position: relative;
+						top: 3px;
+						float: right;
+					}
+				}
+				
+				&:hover,
+				&.show{
+					color: $dark-blue-color;
+					text-decoration: none;
+					
+					&.dropdown-toggle{
+						&:after{
+							background: url("#{$images-path}/down-arrow-dark.svg") no-repeat left top;
+							background-size: 12px 7px;
+						}
+					}
+				}
+			}
+			
+			.nav-item{
+				width: 100%;
+				float: left;
+				border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+				&.active{
+					.nav-link{
+						color: $blue-color;
+					}
+				}
+			}
+			
+		}
+		
+		.dropdown-menu{
+			padding: 10px 0;
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+			border: none;
+			float: left;
+			width: 100%;
+			border-radius: 0;
+			
+			li{
+				width: 100%;
+				float: left;
+					
+				a{
+					font-size: 14px;
+					font-weight: 500 !important;
+					color: $dark-blue-color;
+					text-decoration: none;
+					padding: 5px 15px;
+					width: 100%;
+					float: left;
+						
+					&:hover{
+						color: $blue-color;
+						text-decoration: none;
+					}
+				}
+			}
+		}
+		
+		.header-cta-btn{
+			.nav-item{
+				border: none;
+				padding: 5px 15px;
+			}
+			
+			a{
+				border-radius: 12px;
+				width: 100%; 
+				text-align: center;
+				padding: 0;
+				color: $blue-color;
+				display: block;
+				height: 48px;
+				font-weight: 700;
+				font-size: 14px;
+				line-height: 18px;
+				text-decoration: none;
+				padding: 13px 0;
+				
+				&.btn-1{
+					border: 1px solid rgba(0, 0, 0, 0.1)
+				}
+
+				&.btn-2{
+					background: $blue-color;
+					color: $white-color;
+				}
+
+				&:hover{
+					color: $white-color;
+					background: $dark-blue-color;
+				}
+			}
+		}
+	}
+	
+	&.home{
+		background: $blue-color;
+		box-shadow: none;
+		
+		.navbar-light{
+			.navbar-nav{
+				.nav-link{
+					color: $white-color;
+					
+					&.dropdown-toggle{
+						&:after{
+							background: url("#{$images-path}/down-arrow.svg") no-repeat left top;
+							background-size: 12px 7px;
+						}
+					}
+				}
+			}
+			
+			.header-cta-btn{
+				a{
+					color: $white-color;
+					&.btn-1{
+						background: rgba(255, 255, 255, 0.16);
+					}
+
+					&.btn-2{
+						background: $white-color;
+						color: $blue-color;
+					}
+				}
+			}
+		}
+		
+		.navbar-toggler{
+			.icon-bar {
+				background-color: $white-color;
+			}
+		}
+	}
+}
+
+
+
+@media screen and (min-width: 992px){
+	header{
+		padding: 30px 0 30px 0;
+		
+		&.scroll-header{
+			padding: 10px 0 14px 0;
+		}
+		
+		.container{
+			padding: 0 15px;
+		}
+		
+		.navbar-brand{
+			padding: 0;
+		}
+		
+		.navbar-light{
+			.navbar-nav{
+				
+				.dropdown:hover{
+				.dropdown-menu{
+					display: block;
+				}
+			  }
+				
+				.nav-item{
+					padding: 0 20px;
+					border: none;
+				}
+				
+				.nav-link{
+					padding: 10px 0 15px;
+					&.dropdown-toggle{
+						&:after{
+							width: 12px;
+							height: 7px;
+							background: url("#{$images-path}/down-arrow-dark.svg") no-repeat left top;
+							background-size: 12px 7px;
+							border: none;
+							margin-left: 5px;
+							position: relative;
+							top: 3px;
+							float: none;
+						}
+					}
+					
+					&:hover,
+					&.show{
+						color: $blue-color;
+						text-decoration: none;
+
+						&.dropdown-toggle{
+							&:after{
+								background: url("#{$images-path}/down-arrow-blue.svg") no-repeat left top;
+								background-size: 12px 7px;
+							}
+						}
+					}
+				}
+			}
+			
+			.header-cta-btn{
+				.nav-item{
+					padding: 0 6px;
+				}
+				a{
+					width: 100px;
+				}
+			}
+			
+			.dropdown-menu{
+				width: auto;
+				border-radius: 5px;
+				float: none;
+				top: 40px;
+				
+				&:after{
+					bottom: 100%;
+					left: 30px;
+					border: solid transparent;
+					content: "";
+					height: 0;
+					width: 0;
+					position: absolute;
+					pointer-events: none;
+					border-color: rgba(136, 183, 213, 0);
+					border-bottom-color: $white-color;
+					border-width: 5px;
+				}
+			}
+		}
+		&.home{
+			.navbar-light{
+				.navbar-nav{
+					.nav-link{
+						&.dropdown-toggle{
+							&:after{
+								background: url("#{$images-path}/down-arrow.svg") no-repeat left top;
+								background-size: 12px 7px;
+							}
+						}
+						&:hover,
+						&.show{
+							color: $dark-blue-color;
+							text-decoration: none;
+
+							&.dropdown-toggle{
+								&:after{
+									background: url("#{$images-path}/down-arrow-dark.svg") no-repeat left top;
+									background-size: 12px 7px;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+@media screen and (min-width: 1200px){
+	header{
+		.navbar-light{
+			.header-cta-btn{
+				a{
+					width: 130px;
+				}
+			}
+		}
+	}
+}

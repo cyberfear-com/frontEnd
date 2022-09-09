@@ -831,7 +831,7 @@ define(['react', 'app', 'accounting', 'jsui'], function (React, app, accounting,
 				React.createElement(
 					'td',
 					null,
-					accounting.formatMoney(app.user.get("userPlan")['rewardCollected'], '$', 4)
+					accounting.formatMoney(app.user.get("userPlan")['rewardCollected'], '$', 3)
 				),
 				React.createElement('td', null)
 			));

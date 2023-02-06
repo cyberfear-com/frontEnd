@@ -296,19 +296,26 @@ define(['react', 'app'], function (React, app) {
 
 					if (emailsTo.length <= 3) {
 
+						console.log('inside PIN <3');
+						console.log(pins);
+
 						if (pins[app.globalF.parseEmail(folderData)['email']] != undefined) {
+							console.log('!=undefined');
 							var lock = React.createElement('i', { className: 'fa fa-lock' });
 							var title = '<i class="fa fa-lock"></i> ' + app.transform.from64str(pins[app.globalF.parseEmail(folderData)['email']]['pin']);
 						} else {
+							console.log('==undefined');
 							var lock = '';
 							var title = '<i class="fa fa-envelope-o"></i> ' + app.globalF.parseEmail(folderData)['email'];
 						}
 					} else {
-
+						console.log('inside PIN >3');
 						if (pins[app.globalF.parseEmail(folderData)['email']] != undefined) {
+							console.log('!=undefined');
 							var lock = React.createElement('i', { className: 'fa fa-lock' });
 							var title = '<i class="fa fa-envelope-o"></i> ' + app.globalF.parseEmail(folderData)['email'] + '<br/>' + '<i class="fa fa-lock"></i> ' + app.transform.from64str(pins[app.globalF.parseEmail(folderData)['email']]['pin']);
 						} else {
+							console.log('==undefined');
 							var lock = '';
 							var title = '<i class="fa fa-envelope-o"></i> ' + app.globalF.parseEmail(folderData)['email'];
 						}

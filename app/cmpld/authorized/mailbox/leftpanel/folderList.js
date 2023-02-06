@@ -14,6 +14,7 @@ define(['react', 'app', 'accounting'], function (React, app, accounting) {
 			//this.getMainFolderList();
 			//$( document ).tooltip();
 			var thisComp = this;
+			console.log(app.user.get('displayName'));
 
 			thisComp.props.changeFodlerId(app.user.get('systemFolders')['inboxFolderId']);
 

@@ -462,8 +462,7 @@ define([
 
             var post={
                 'emailHashes':JSON.stringify(app.mailMan.get("emailHashes")),
-                'limit':25,
-                'lastIdKey': app.user.get("lastIdKey")
+                'limit':25
             }
 
             app.serverCall.ajaxRequest('getNewSeeds', post, function (result) {

@@ -1,0 +1,4 @@
+version: STSv1
+mode: live
+mx: api1.cyberfear.com
+max_age: 86400

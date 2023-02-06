@@ -39,6 +39,15 @@
                 alert('Site requires Internet Explorer 12 or higher. Please upgrade you browser or use Google Chrome or Firefox');
             }
         });
+            $(document).ready(function() {
+            $(window).keydown(function(event){
+                if(event.keyCode == 116) {
+                    event.preventDefault();
+                    return false;
+                }
+            });
+        });
+
     </script>
 
     <!--[if !IE]><!-->

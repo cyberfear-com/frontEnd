@@ -115,7 +115,7 @@ define([
 
                                             var time=30000;
                                             if(app.mailMan.get('makeItFaster')){
-                                                time=25000;
+                                                time=15000;
                                             }
                                             app.mailMan.set({'makeItFaster':false});
                                             var schedule=setTimeout(function () {
@@ -462,8 +462,7 @@ define([
 
             var post={
                 'emailHashes':JSON.stringify(app.mailMan.get("emailHashes")),
-                'limit':25,
-                'lastIdKey': app.user.get("lastIdKey")
+                'limit':25
             }
 
             app.serverCall.ajaxRequest('getNewSeeds', post, function (result) {

@@ -23,7 +23,9 @@
     <script src="/js/main/jquery-2.1.3.min.js"></script>
 
    <!--[if gte IE 11]><!-->
-    <script data-main="app/main" src="js/main/require.js"></script>
+    <script data-main="app/main" src="js/main/require.js">
+        requirejs.config({ waitSeconds: 35 });
+    </script>
 
     <style type="text/css">
         .standard-button,

@@ -30,7 +30,7 @@ define(['react'], function (React) {
 			return	(
 				<div className="footer">
 						<div className="text-align-center">
-							<span className="txt-color-white">CyberFear © 2021 - </span>
+							<span className="txt-color-white">CyberFear © 2023 - </span>
 
 							<a href="/terms.html" target="_blank"><span className="txt-color-black">ToS</span></a>
 

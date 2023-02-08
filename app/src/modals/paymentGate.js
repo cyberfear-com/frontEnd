@@ -416,7 +416,7 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                                                     &nbsp;Perfect Money
                                                 </label>
                                             </div>
-                                            {/*
+
                                                 <div className="clearfix"></div>
                                                 <div className="radio">
                                                 <label>
@@ -427,7 +427,7 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                                                 &nbsp;PayPal
                                                 </label>
                                                 </div>
-                                            */}
+
                                             <div className="clearfix"></div>
                                             <div className="radio">
                                                 <label>

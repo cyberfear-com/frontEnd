@@ -83,10 +83,6 @@ define([
                                                                             }
                                                                            }
 
-
-
-
-
                                                         });
                                                     });
                                                 }else{
@@ -265,9 +261,9 @@ define([
 
         },
 
-        saveEmailIntoInboxV2: function(decryptedMeta,callback){
+        saveEmailIntoInboxV2: function(decryptedMeta,callback) {
 
-          //  console.log(decryptedMeta);
+            //  console.log(decryptedMeta);
 
             /*
              1) get new emailId,
@@ -296,109 +292,132 @@ define([
              vr:1;//version
              */
 
-            var messageObj={
+            var messageObj = {};
+            var emailpromises = $.Deferred();
 
+            var modK = app.globalF.makeModKey();
+
+            var post = {
+                modKey: modK,
+                limit: Object.keys(decryptedMeta).length
             };
-            var emailpromises=[];
+            var mesIds=[];
+            var waitforId=$.Deferred();
 
-            $.each(decryptedMeta, function (emailMetaId, data) {
-
-                var modK = app.globalF.makeModKey();
-                var d = new Date();
-                var post = {
-                    modKey: modK
-                };
-                var emailMetaPromise = $.Deferred();
-
-                app.serverCall.ajaxRequest('getDraftMessageId', post, function (result) {
-                    if (result['response'] == "success") {
-
-                        decryptedMeta[emailMetaId]['persFid']=result['data']['messageId'];
-                        decryptedMeta[emailMetaId]['persFmodKey']=modK;
-
-                        var destFolder=app.user.get('systemFolders')['inboxFolderId'];
-                        if(data['sugFolder']!=undefined){
-                            var allFolders=app.user.get('folders');
-                            if(allFolders[data['sugFolder']]!=undefined){
-                                destFolder= data['sugFolder'];
-                            }
-                        }
-                        var sentDate=0;
-                        if(data['timeSent']!==undefined){
-                            sentDate= parseInt(data['timeSent']);
-                        }else if(data['meta']['timeRcvd']!==undefined) {
-                            sentDate= parseInt(data['meta']['timeRcvd']);
-                        }else{
-                            sentDate= parseInt(data['meta']['timeSent'])
-                        }
-
-                        messageObj[result['data']['messageId']]={
-
-                            'p':data['meta']['emailKey'], //password
-                            'b':"", //block to decide later
-                            'tc':parseInt(data['meta']['timeSent']), //
-                            'tg':[],
-                            'f':destFolder, //folder to inbox
-                            'fr':data['meta']['from'], //from
-
-
-                            'to':$.merge(data['meta']['to'], data['meta']['toCC'] ), //to
-
-                            'sb':data['meta']['subject'], //subject
-                            'bd':data['meta']['body'], //body
-
-
-                            'tr':sentDate, //timeSent received - outside more
-                            //'tr':Math.round(d.getTime() / 1000), //received
-                            'mK':modK, //modKey
-                            'at':data['meta']['attachment'], //attachment
-                            'pn':data['meta']['pin'], //pin
-                            'en':data['meta']['en'], //encrypted 1-scryptmail internal,0-clear,3-unknown
-                            'sg':"", //encrypted signature
-                            'sgM':false, //manual signature
-
-                            'tp':1, //type 1-received,2 sent,3draft
-                            'sz':parseInt(data['emailSize']), //size
-                            'st':0,//status 1-replied,2-forwarder,3-opened,0-unopened
-                            'vr':2//version
-
-                        };
-
-                        emailMetaPromise.resolve();
+            app.serverCall.ajaxRequest('getDraftMessageId', post, function (result) {
+                if (result['response'] == "success") {
+                    mesIds=result['data']['messageIds']
+                    //console.log(result['data']['messageIds']);
+                    if(mesIds.length==Object.keys(decryptedMeta).length){
+                        waitforId.resolve();
                     }
+
+                }
+            });
+
+
+
+            waitforId.then(function() {
+                var drId=0;
+                $.each(decryptedMeta, function (emailMetaId, data) {
+                    var d = new Date();
+                    var post = {
+                        modKey: modK
+                    };
+                    //var emailMetaPromise = $.Deferred();
+
+                    // app.serverCall.ajaxRequest('getDraftMessageId', post, function (result) {
+                    //if (result['response'] == "success") {
+
+                    decryptedMeta[emailMetaId]['persFid'] = mesIds[drId];
+                    decryptedMeta[emailMetaId]['persFmodKey'] = modK;
+
+                    var destFolder = app.user.get('systemFolders')['inboxFolderId'];
+                    if (data['sugFolder'] != undefined) {
+                        var allFolders = app.user.get('folders');
+                        if (allFolders[data['sugFolder']] != undefined) {
+                            destFolder = data['sugFolder'];
+                        }
+                    }
+                    var sentDate = 0;
+                    if (data['timeSent'] !== undefined) {
+                        sentDate = parseInt(data['timeSent']);
+                    } else if (data['meta']['timeRcvd'] !== undefined) {
+                        sentDate = parseInt(data['meta']['timeRcvd']);
+                    } else {
+                        sentDate = parseInt(data['meta']['timeSent'])
+                    }
+
+                    messageObj[mesIds[drId]] = {
+
+                        'p': data['meta']['emailKey'], //password
+                        'b': "", //block to decide later
+                        'tc': parseInt(data['meta']['timeSent']), //
+                        'tg': [],
+                        'f': destFolder, //folder to inbox
+                        'fr': data['meta']['from'], //from
+
+
+                        'to': $.merge(data['meta']['to'], data['meta']['toCC']), //to
+
+                        'sb': data['meta']['subject'], //subject
+                        'bd': data['meta']['body'], //body
+
+
+                        'tr': sentDate, //timeSent received - outside more
+                        //'tr':Math.round(d.getTime() / 1000), //received
+                        'mK': modK, //modKey
+                        'at': data['meta']['attachment'], //attachment
+                        'pn': data['meta']['pin'], //pin
+                        'en': data['meta']['en'], //encrypted 1-scryptmail internal,0-clear,3-unknown
+                        'sg': "", //encrypted signature
+                        'sgM': false, //manual signature
+
+                        'tp': 1, //type 1-received,2 sent,3draft
+                        'sz': parseInt(data['emailSize']), //size
+                        'st': 0,//status 1-replied,2-forwarder,3-opened,0-unopened
+                        'vr': 2//version
+
+                    };
+                 //   emailMetaPromise.resolve();
+                    //  }
+                    // });
+                   // emailpromises.push(emailMetaPromise);
+                    drId++;
                 });
-
-                emailpromises.push(emailMetaPromise);
+                emailpromises.resolve();
             });
 
 
-            Promise.all(emailpromises).then(function() {
-             //   console.log(messageObj);
-                var folder = app.user.get('systemFolders')['inboxFolderId'];
+        emailpromises.then(function() {
+            console.log(decryptedMeta);
 
-                    app.globalF.addNewMessageToFolder(messageObj, folder, function () {
-                        var message2Delete=[];
-                        $.each(decryptedMeta, function (oldMessageId, data) {
-                            var messageData={
-                                'mailQId':oldMessageId,
-                                'mailModKey':data['mailModKey'],
-                                'persFid':data['persFid'],
-                                'persFmodKey':data['persFmodKey']
-                            };
+                //   console.log(messageObj);
+                   var folder = app.user.get('systemFolders')['inboxFolderId'];
 
-                            message2Delete.push(messageData);
+                       app.globalF.addNewMessageToFolder(messageObj, folder, function () {
+                           var message2Delete=[];
+                           $.each(decryptedMeta, function (oldMessageId, data) {
+                               var messageData={
+                                   'mailQId':oldMessageId,
+                                   'mailModKey':data['mailModKey'],
+                                   'persFid':data['persFid'],
+                                   'persFmodKey':data['persFmodKey']
+                               };
 
-                        });
+                               message2Delete.push(messageData);
 
-                        app.userObjects.updateObjects('saveNewEmailV2', message2Delete, function (result) {
+                           });
 
-                             callback();
+                           app.userObjects.updateObjects('saveNewEmailV2', message2Delete, function (result) {
 
-                        });
+                                callback();
 
-                    });
+                           });
 
-            });
+                       });
+
+               });
 
 
 
@@ -462,7 +481,8 @@ define([
 
             var post={
                 'emailHashes':JSON.stringify(app.mailMan.get("emailHashes")),
-                'limit':25
+                'limit':50,
+                'lastIdKey': app.user.get("lastIdKey")
             }
 
             app.serverCall.ajaxRequest('getNewSeeds', post, function (result) {

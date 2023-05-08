@@ -1,0 +1,47 @@
+.banner {
+    padding: 6rem;
+    position: relative;
+}
+
+.specular {
+    mix-blend-mode: color-dodge;
+    position: absolute;
+    pointer-events: none;
+
+    &.left {
+        left: -150px;
+        bottom: -250px;
+    }
+    &.right {
+        right: -150px;
+        top: -250px;
+    }
+}
+
+
+.search {
+    max-width: 445px;
+    position: relative;
+
+    input {
+        padding-left: calc(1.5rem + 24px);
+    }
+
+    &:before, &:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        width: 24px;
+        height: 100%;
+    }
+
+    &:before {
+        left: 1rem;
+        background: url(../assets/search-icon.svg) no-repeat center center;
+    }
+
+    &:after {
+        right: 1rem;
+        background: url(../assets/rarr-icon.svg) no-repeat center center;
+    }
+}

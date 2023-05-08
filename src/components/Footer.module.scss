@@ -1,0 +1,8 @@
+.footer {
+    background: #00112C;
+
+    :global(a) {
+         color: inherit;
+         text-decoration: none;
+    }
+}

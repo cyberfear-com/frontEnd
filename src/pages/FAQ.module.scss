@@ -1,0 +1,28 @@
+@import "bootstrap/scss/_functions";
+@import "bootstrap/scss/_variables";
+@import "bootstrap/scss/mixins/_breakpoints";
+
+.groups {
+    :global(.card-title) {
+        sup {
+            top: -0.25rem !important;
+        }
+    }
+}
+
+ul.questions {
+    display: flex;
+    flex-direction: column;
+    > li {
+        list-style-image: url(../assets/rquote.svg);
+        list-style-position: inside; 
+        padding-top: .75rem;
+        padding-bottom: .75rem;
+
+    }
+
+    li + li {
+        border-top: 1px solid $border-color-translucent;
+        // margin-top: 0.5rem;
+    }
+}

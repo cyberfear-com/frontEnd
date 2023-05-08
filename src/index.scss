@@ -1,0 +1,44 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700&display=swap");
+
+$h1-font-size: 3rem;
+$lead-font-size: 1.125rem;
+$headings-font-weight: bold;
+$input-padding-x: 1rem;
+$input-padding-y: 0.875rem;
+$input-placeholder-color: inherit;
+
+$display-line-height: 1.6;
+
+
+@import "bootstrap/scss/bootstrap";
+
+.form-control {
+    &::placeholder {
+        opacity: 0.75;
+    }
+}
+
+:root {
+    --bs-body-font-family: "Plus Jakarta Sans", sans-serif;
+    --bs-border-radius: 0.75rem;
+    --bs-border-width: 2px;
+    --bs-border-color: #dee2e655;
+}
+
+.card-body {
+    --bs-card-spacer-x: 2rem;
+    --bs-card-spacer-y: 2rem;
+}
+
+.btn {
+    --bs-btn-padding-x: 2.5rem;
+    --bs-btn-padding-y: 0.75rem;
+}
+
+.btn.small {
+    --bs-btn-font-size: 0.875em;
+}
+
+.nav {
+    --bs-nav-link-font-weight: bold;
+}

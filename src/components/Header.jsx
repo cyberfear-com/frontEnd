@@ -17,7 +17,7 @@ export default function Header() {
         </ul>
         
         <div class="text-end">
-          <button type="button" class="btn small fw-bold btn-outline-primary border-secondary-subtle me-2">Sign In</button>
+          <a href="/mailbox.html#login" type="button" class="btn small fw-bold btn-outline-primary border-secondary-subtle me-2">Sign In</a>
           <button type="button" class="btn small fw-bold btn-primary">Sign Up</button>
         </div>
       </div>

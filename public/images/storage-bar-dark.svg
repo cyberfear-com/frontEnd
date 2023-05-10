@@ -1,0 +1,23 @@
+<svg width="185" height="6" viewBox="0 0 185 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="185" height="6" fill="#EFEFEF"/>
+<g opacity="0.3">
+<mask id="mask0_163_4092" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="185" height="6">
+<rect width="185" height="6" fill="#333536"/>
+</mask>
+<g mask="url(#mask0_163_4092)">
+<rect opacity="0.2" width="248.446" height="20.8836" transform="matrix(0.560098 -0.828426 0.639035 0.769177 25 50.0557)" fill="#415067"/>
+<rect opacity="0.2" width="248.446" height="20.8836" transform="matrix(0.560098 -0.828426 0.639035 0.769177 51.6504 82.1338)" fill="#415067"/>
+<rect opacity="0.2" width="248.446" height="20.8836" transform="matrix(0.560098 -0.828426 0.639035 0.769177 78.2617 114.163)" fill="#415067"/>
+<rect opacity="0.2" width="248.446" height="20.8836" transform="matrix(0.560098 -0.828426 0.639035 0.769177 104.871 146.193)" fill="#415067"/>
+</g>
+</g>
+<mask id="mask1_163_4092" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="51" height="6">
+<rect width="51" height="6" fill="#B4CFFF" fill-opacity="0.8"/>
+</mask>
+<g mask="url(#mask1_163_4092)">
+<rect opacity="0.2" width="248.446" height="20.8836" transform="matrix(0.560098 -0.828426 0.639035 0.769177 -113 39.8203)" fill="#DBDBDB"/>
+<rect opacity="0.2" width="248.446" height="20.8836" transform="matrix(0.560098 -0.828426 0.639035 0.769177 -86.3496 71.8984)" fill="#DBDBDB"/>
+<rect opacity="0.2" width="248.446" height="20.8836" transform="matrix(0.560098 -0.828426 0.639035 0.769177 -59.7383 103.928)" fill="#DBDBDB"/>
+<rect opacity="0.2" width="248.446" height="20.8836" transform="matrix(0.560098 -0.828426 0.639035 0.769177 -33.1289 135.958)" fill="#DBDBDB"/>
+</g>
+</svg>

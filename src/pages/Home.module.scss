@@ -1,0 +1,30 @@
+.bestTime {
+    .frame {
+        padding: 104px;
+    }
+}
+
+section.features {
+    padding: 120px;
+    position: relative;
+
+    .lockImg {
+        position: absolute;
+        top: 87.5px;
+        right: 120px;
+        width: auto;
+        height: auto; 
+    }
+
+    .featureList {
+        :global {
+            .card {
+                height: 100%;
+            }
+        }
+    }
+}
+
+section.airTight {
+    padding: 120px;
+}

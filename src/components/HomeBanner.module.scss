@@ -1,0 +1,27 @@
+.tryButton {
+    font-size: 0.875rem !important;
+}
+
+.downloadList {
+    :global {
+        .btn {
+            --bs-btn-padding-x: 0.75rem;
+
+            font-size: 0.75rem;
+
+            small {
+                font-size: 0.5rem;
+                display: block;
+                margin-top: -0.1rem;
+                margin-bottom: 0.15rem;
+            }
+            strong {
+                margin-bottom: 0.1rem;
+            }
+        }
+
+        li + li {
+            margin-left: 1rem;
+        }
+    }
+}

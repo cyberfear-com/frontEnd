@@ -1,0 +1,27 @@
+.container {
+    background: url('../assets/quote-big.svg') no-repeat 20% 90px;
+    padding-top: 90px;
+    padding-bottom: 90px;
+}
+
+.swiper {
+    position: relative;
+    overflow-y: visible !important;
+    
+}
+
+.swiperNav { 
+    position: relative;
+    top: -100px;
+    right: 0;
+    height: 0;
+    overflow: visible;;
+
+    :global {
+        button {
+            width: 56px;
+            height: 56px;
+            padding: 0;
+        }
+    }
+}

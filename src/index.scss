@@ -1,6 +1,8 @@
-@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
 
 $h1-font-size: 3rem;
+$h2-font-size: 2.25rem;
+$h3-font-size: 2rem;
 $lead-font-size: 1.125rem;
 $headings-font-weight: bold;
 $input-padding-x: 1rem;
@@ -8,9 +10,19 @@ $input-padding-y: 0.875rem;
 $input-placeholder-color: inherit;
 
 $display-line-height: 1.6;
+$enable-negative-margins: true;
 
 
 @import "bootstrap/scss/bootstrap";
+
+.btn-close {
+    width: 60px;
+    height: 60px;
+    background-size: 10px;
+    border-radius: 50%;
+    background-color: #D9D9D9;
+    box-sizing: border-box;
+}
 
 .form-control {
     &::placeholder {
@@ -18,10 +30,18 @@ $display-line-height: 1.6;
     }
 }
 
+h3 {
+    font-weight: 600;
+}
+
+h4 {
+    font-weight: 500;
+}
+
 :root {
     --bs-body-font-family: "Plus Jakarta Sans", sans-serif;
     --bs-border-radius: 0.75rem;
-    --bs-border-width: 2px;
+    --bs-border-width: 1px;
     --bs-border-color: #dee2e655;
 }
 
@@ -41,4 +61,12 @@ $display-line-height: 1.6;
 
 .nav {
     --bs-nav-link-font-weight: bold;
+}
+
+.opacity-40 {
+    opacity: 0.4 !important;
+}
+
+.opacity-60 {
+    opacity: 0.6 !important;
 }

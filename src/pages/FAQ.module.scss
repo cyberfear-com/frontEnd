@@ -13,16 +13,54 @@
 ul.questions {
     display: flex;
     flex-direction: column;
+    margin-top: -0.75rem;
+    margin-bottom: -0.75rem;
     > li {
-        list-style-image: url(../assets/rquote.svg);
-        list-style-position: inside; 
         padding-top: .75rem;
         padding-bottom: .75rem;
+        list-style: none;
 
+        &::before {
+            content: url(../assets/rquote.svg);
+            width: 1rem;
+            display: inline-block;
+            top: -1px;
+            position: relative;
+        }
+
+        &:first-child {
+            padding-top: 0;
+        }
+        &:last-child {
+            padding-bottom: 0;
+        }
     }
 
     li + li {
         border-top: 1px solid $border-color-translucent;
-        // margin-top: 0.5rem;
     }
+}
+
+.cardToggle {
+    position: relative;
+    
+    &::after {
+        transform: rotate(-90deg);
+        opacity: 40%;
+        content: url(../assets/rquote.svg);
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 100%;
+    }
+}
+
+.cardToggle:global(.collapsed) {
+    &::after {
+        transform: rotate(90deg);
+    }
+}
+
+.becomeAPremium {
+    margin-top: 120px;
 }

@@ -12,8 +12,8 @@ export default function Footer() {
             <div className="container p-5">
                 <div className="row justify-content-between">
                     <div className="col-4 d-flex">
-                        <img src={mailumLarge} width="150" height="63" className="mt-3" />
-                        <p className="lead opacity-50 ms-5">
+                        <img src={mailumLarge} width="80" height="71" className="mt-2" />
+                        <p className="opacity-50 ms-5 small">
                             Protect confidential emails and information with open-source,  most complete encryption that ensures your data  is safeguarded from start to finish.
                         </p>
                     </div>
@@ -21,17 +21,17 @@ export default function Footer() {
                         <div className="row">
                             <div className="col-3">
                                 <h6>Resources</h6>
-                                <ul class="list-unstyled small opacity-50">
+                                <ul class={classNames(styles.links, 'list-unstyled small opacity-50')}>
                                     <li><a href="">Help Center</a></li>
-                                    <li><a href="">FAQ</a></li>
-                                    <li><a href="">Blog</a></li>
+                                    <li className='mt-2'><a href="">FAQ</a></li>
+                                    <li className='mt-2'><a href="">Blog</a></li>
                                 </ul>
                             </div>
                             <div className="col-3">
-                                <h6>Resources</h6>
-                                <ul class="list-unstyled small opacity-50">
+                                <h6>About</h6>
+                                <ul class={classNames(styles.links, 'list-unstyled small opacity-50')}>
                                     <li><a href="">Help Center</a></li>
-                                    <li><a href="">FAQ</a></li>
+                                    <li className='mt-2'><a href="">FAQ</a></li>
                                 </ul>
                             </div>
                             <div className="col-6">

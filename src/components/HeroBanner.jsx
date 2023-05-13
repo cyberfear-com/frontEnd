@@ -2,11 +2,12 @@
 import classNames from 'classnames'
 import specularImg from '@/assets/specular.png'
 import searchIcon from '@/assets/search-icon.svg'
+import { ReactComponent as RarrIconSVG } from '@/assets/rarr-icon.svg'
 import styles from './HeroBanner.module.scss'
 
 export default function HeroBanner() {
     return (
-        <div className={classNames(styles.banner, 'bg-primary text-light rounded-5 text-center')}>
+        <div className={classNames(styles.banner, 'col-12 bg-primary text-light rounded-5 text-center')}>
             <img src={specularImg} className={classNames(styles.specular, styles.left)} />
             <img src={specularImg} className={classNames(styles.specular, styles.right)} />
 
@@ -18,6 +19,8 @@ export default function HeroBanner() {
 
             <div className={classNames(styles.search, 'mx-auto')}>
                 <input type="text" class="form-control bg-primary text-bg-primary" placeholder="What can we help you with?" />
+                
+                <RarrIconSVG className={styles.submit} role="button" onClick={() => console.log('hello')} />
             </div>
         </div>
     )

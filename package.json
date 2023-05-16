@@ -6,9 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "npm run build:client && npm run build:server",
-    "build:client": "vite build --outDir dist/client",
-    "build:server": "vite build --ssr src/entry-server.jsx --outDir dist/server",
-    "generate": "vite build --outDir dist/static && npm run build:server && node prerender",
+    "build:client": "vite build --outDir dist/client --base /mailum/",
+    "build:server": "vite build --ssr src/entry-server.jsx --outDir dist/server --base /mailum/",
+    "generate": "vite build --outDir dist/static --base /mailum/ && npm run build:server && node prerender",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },

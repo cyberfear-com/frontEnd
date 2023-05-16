@@ -1,6 +1,4 @@
 import { useRef, useState, useEffect, useMemo } from 'react'
-import Modal from 'bootstrap/js/src/modal'
-import 'bootstrap/js/src/collapse'
 import classNames from 'classnames'
 import Header from '@/components/Header.jsx'
 import HeroBanner from '@/components/HeroBanner.jsx'
@@ -36,12 +34,23 @@ export default function FAQ() {
 
     const CurrentGroupIcon = icons[groupAt] || icons[0]
 
+    console.log('FAQ')
+
     useEffect(() => {
-        const modal = new Modal(modalRef.current, {
-            keyboard: true
-        })
-        setModal(modal)
-    }, [modalRef])
+        console.log('useEffect')
+        initModal()
+
+        async function initModal() {
+            console.warn('initModal')
+            await import('bootstrap/js/src/collapse')
+            const Modal = (await import('bootstrap/js/src/modal')).default
+            console.warn('initModal', Modal, modalRef.current)
+            const modal = new Modal(modalRef.current, {
+                keyboard: true
+            })
+            setModal(modal)
+        }
+    }, [])
 
     return (
         <>

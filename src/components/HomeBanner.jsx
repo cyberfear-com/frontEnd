@@ -35,7 +35,7 @@ export default function HomeBanner() {
                             Protect confidential emails and information with open-source, most complete encryption that ensures your data is safeguarded from start to finish.
                         </p>
 
-                        <a href="#" className="btn btn-light fw-bold small">Try for Free</a>
+                        <a href="#" className="btn btn-light wide fw-bold small">Try for Free</a>
 
                         <ul 
                             className={classNames(

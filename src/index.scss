@@ -12,6 +12,7 @@ $input-placeholder-color: inherit;
 $display-line-height: 1.6;
 $enable-negative-margins: true;
 
+$box-shadow-lg: 0 1rem 3rem rgba(#555, .175) !default;
 
 @import "bootstrap/scss/bootstrap";
 
@@ -51,8 +52,12 @@ h4 {
 }
 
 .btn {
-    --bs-btn-padding-x: 2.5rem;
+    --bs-btn-padding-x: 1.5rem;
     --bs-btn-padding-y: 0.75rem;
+}
+
+.btn.wide {
+    --bs-btn-padding-x: 2.5rem;
 }
 
 .btn.small {

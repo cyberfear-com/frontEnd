@@ -14,11 +14,32 @@ $enable-negative-margins: true;
 
 $box-shadow-lg: 0 1rem 3rem rgba(#555, .175) !default;
 
+$spacer: 1rem;
+
+$spacers: (
+  0: 0,
+  1: $spacer * .25,
+  2: $spacer * .5,
+  3: $spacer,
+  4: $spacer * 1.5,
+  5: $spacer * 3,
+  6: $spacer * 5.25
+);
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px
+);
+
 @import "bootstrap/scss/bootstrap";
 
 .btn-close {
-    width: 60px;
-    height: 60px;
+    width: 48px;
+    height: 48px;
     background-size: 10px;
     border-radius: 50%;
     background-color: #D9D9D9;
@@ -47,8 +68,12 @@ h4 {
 }
 
 .card-body {
-    --bs-card-spacer-x: 2rem;
-    --bs-card-spacer-y: 2rem;
+    --bs-card-spacer-x: 1rem;
+    --bs-card-spacer-y: 1rem;
+    @include media-breakpoint-up(md) {
+        --bs-card-spacer-x: 2rem;
+        --bs-card-spacer-y: 2rem;
+    }
 }
 
 .btn {

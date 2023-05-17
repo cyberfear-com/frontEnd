@@ -1,20 +1,23 @@
 .banner {
-    padding: 6rem;
     position: relative;
+    overflow: hidden;
 }
 
 .specular {
     mix-blend-mode: color-dodge;
     position: absolute;
     pointer-events: none;
+    width: 40%;
 
     &.left {
-        left: -150px;
-        bottom: -250px;
+        left: 0;
+        bottom: 0;
+        transform: translateY(50%);
     }
     &.right {
-        right: -150px;
-        top: -100px;
+        top: 0;
+        right: 0;
+        transform: translateX(40%) translateY(-25%);
     }
 }
 

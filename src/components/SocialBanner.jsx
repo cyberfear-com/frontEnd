@@ -12,7 +12,7 @@ const links = [
 
 export default function SocialBanner() {
     return (
-        <div className={classNames(styles.banner, 'bg-light rounded-5 p-5')}>
+        <div className={classNames(styles.banner, 'bg-light rounded-5 p-3 p-md-5')}>
             <div className="m-4">
                 <h1>
                     Reach Us on Your Favorite <span className="text-primary">Social Media Platform</span>

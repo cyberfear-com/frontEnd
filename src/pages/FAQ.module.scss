@@ -8,6 +8,42 @@
             top: -0.25rem !important;
         }
     }
+
+    .header {
+        position: relative;
+
+        @include media-breakpoint-down(md) {
+            display: flex;
+            align-items: center;
+
+            .icon {
+                width: 32px;
+                height: 32px;
+            }
+            .title {
+
+            }
+        
+            &::after {
+                transform: rotate(-90deg);
+                opacity: 40%;
+                content: url(../assets/rquote.svg);
+                // position: absolute;
+                // right: 0;
+                // top: 0;
+                width: auto;
+                display: block;
+                flex-shrink: 0;
+                // height: 100%;
+            }
+        }
+    }
+    
+    .header:global(.collapsed) {
+        &::after {
+            transform: rotate(90deg);
+        }
+    }
 }
 
 ul.questions {
@@ -39,6 +75,15 @@ ul.questions {
     li + li {
         border-top: 1px solid $border-color-translucent;
     }
+
+    @include media-breakpoint-up(md) {
+        // Disable .collapse
+        display: flex !important; 
+
+        // Disable .collapsing
+        transition: none !important;
+        height: auto !important;
+    }
 }
 
 .cardToggle {
@@ -59,8 +104,4 @@ ul.questions {
     &::after {
         transform: rotate(90deg);
     }
-}
-
-.becomeAPremium {
-    margin-top: 120px;
 }

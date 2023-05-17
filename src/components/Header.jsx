@@ -2,6 +2,7 @@ import 'bootstrap/js/src/collapse'
 import { useState, useEffect } from 'react'
 import classNames from 'classnames'
 import { ReactComponent as MailumSVG } from '@/assets/mailum.svg'
+import { ReactComponent as NavbarToggleSVG } from '@/assets/navbar-toggle-icon.svg'
 
 export default function Header({ variant = 'default' }) {
   const [scrollTop, setScrollTop] = useState(0)
@@ -37,8 +38,8 @@ export default function Header({ variant = 'default' }) {
 
           <button 
             className={classNames(
-              variant == 'primary' && 'text-light',
-              'btn btn-link border-0 outline-0'
+              variant == 'primary' ? 'text-light': 'text-body',
+              'btn btn-link border-0 outline-0 px-0 d-md-none'
             )}
             type="button"
             data-bs-toggle='collapse'
@@ -46,7 +47,7 @@ export default function Header({ variant = 'default' }) {
             aria-controls="navbarSupportedContent" 
             aria-expanded="false" aria-label="Toggle navigation"
           >
-            <span class="navbar-toggler-icon"></span>
+            <NavbarToggleSVG />
           </button>
 
           <div className='navbar-collapse collapse' id='navbarExtra'>
@@ -58,7 +59,7 @@ export default function Header({ variant = 'default' }) {
               <li><a href="#" class="nav-link px-2 text-reset">Contact</a></li>
             </ul>
             
-            <div class="text-end">
+            <div>
               <a 
                 href="/mailbox.html#login" 
                 type="button" 

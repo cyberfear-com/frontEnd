@@ -1,13 +1,17 @@
 
 import classNames from 'classnames'
 import specularImg from '@/assets/specular.png'
-import searchIcon from '@/assets/search-icon.svg'
 import { ReactComponent as RarrIconSVG } from '@/assets/rarr-icon.svg'
 import styles from './HeroBanner.module.scss'
 
 export default function HeroBanner() {
     return (
-        <div className={classNames(styles.banner, 'col-12 bg-primary text-light rounded-5 text-center')}>
+        <div 
+            className={classNames(
+                styles.banner, 
+                'p-4 py-md-6 col-12 bg-primary text-light rounded-5 text-center'
+            )}
+        >
             <img src={specularImg} className={classNames(styles.specular, styles.left)} />
             <img src={specularImg} className={classNames(styles.specular, styles.right)} />
 

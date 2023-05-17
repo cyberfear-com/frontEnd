@@ -41,10 +41,8 @@ export default function FAQ() {
         initModal()
 
         async function initModal() {
-            console.warn('initModal')
             await import('bootstrap/js/src/collapse')
             const Modal = (await import('bootstrap/js/src/modal')).default
-            console.warn('initModal', Modal, modalRef.current)
             const modal = new Modal(modalRef.current, {
                 keyboard: true
             })
@@ -57,12 +55,12 @@ export default function FAQ() {
             <div className='modal' ref={modalRef} tabIndex={-1}>
                 <div className='modal-dialog modal-xl'>
                     <div className='modal-content'>
-                        <div className='modal-body p-5'>
+                        <div className='modal-body p-3 p-md-5'>
                         {groupAt !== null ? 
                         <>
                             <header className='d-flex'>
                                 <CurrentGroupIcon className='flex-shrink-0' />
-                                <div className='flex-grow-1 ms-4 fw-medium'>
+                                <div className='flex-grow-1 ms-2 ms-md-4 fw-medium'>
                                     <div className='small opacity-40'>FAQ /</div>
                                     <div>{faqGroups[groupAt].title}</div>
                                 </div>
@@ -75,10 +73,10 @@ export default function FAQ() {
                                 />
                             </header>
 
-                            <div className='card mt-4'>
+                            <div className='card mt-3 mt-md-4'>
                                 <div className='card-body'>
                                     <h4 className='card-title'>{faqGroups[groupAt].questions[questionAt].question}</h4>
-                                    <p>{faqGroups[groupAt].questions[questionAt].answer}</p>
+                                    <p className='mb-0'>{faqGroups[groupAt].questions[questionAt].answer}</p>
                                 </div>
                             </div>
 
@@ -93,7 +91,7 @@ export default function FAQ() {
 
                                     >{question.question}</h6>
                                     <p
-                                        className='collapse mt-2'
+                                        className='collapse mt-2 mb-0'
                                         id={`q${index}`}
                                     >{question.answer}</p>
                                 </div>
@@ -107,64 +105,72 @@ export default function FAQ() {
             </div>
 
             <Header />
-            <div className="py-3" />
-            <main class="container">
+
+            <div className='container my-4 my-md-5 mt-3 mt-md-4'>
                 <HeroBanner />
+            </div>
 
-                <div class="py-4"></div>
-
-                <div className={classNames('container', styles.groups)}>
-                    <div className="row row-cols-3 mx-5">
-                        {faqGroups.map((group, index) => {
-                            const Icon = icons[index]
-                            return (
-                                <div className="col mt-4">
-                                    <div className='card h-100'>
-                                        <div className="card-body text-left">
-                                            <Icon />
-                                            <h4 className="card-title mt-3">
+            <div className={classNames('container mb-2 mb-md-4', styles.groups)}>
+                <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3">
+                    {faqGroups.map((group, index) => {
+                        const Icon = icons[index]
+                        return (
+                            <div className="col mt-2 mt-md-4">
+                                <div className='card h-100'>
+                                    <div className="card-body text-left">
+                                        <div 
+                                            data-bs-toggle='collapse'
+                                            data-bs-target={`#g${index}`}
+                                            role="button"
+                                            className={classNames(styles.header, 'collapsed')}
+                                        >
+                                            <Icon className={styles.icon} />
+                                            <h4 className={classNames(styles.title, 'card-title mt-md-3 mb-0 ms-2 ms-md-0 flex-grow-1')}>
                                                 {group.title}
                                                 <sup className="text-body-tertiary ms-2 fw-medium">({group.questions.length})</sup>
                                             </h4>
-                                            <ul className={classNames(styles.questions, 'card-text list-unstyled mt-4')}>
-                                                {group.questions.map((item, itemIndex) => (
-                                                    <li 
-                                                        key={itemIndex} 
-                                                        role='button'
-                                                        onClick={() => {
-                                                            setGroupAt(index)
-                                                            setQuestionAt(itemIndex)
-                                                            modal.show()
-                                                        }} 
-                                                        className='opacity-60'>
-                                                        <span>{item.question}</span>
-                                                    </li>
-                                                ))}
-                                            </ul>
                                         </div>
+                                        <ul 
+                                            id={`g${index}`}
+                                            className={classNames(styles.questions, 'card-text list-unstyled mt-4 collapse')}
+                                        >
+                                            {group.questions.map((item, itemIndex) => (
+                                                <li 
+                                                    key={itemIndex} 
+                                                    role='button'
+                                                    onClick={() => {
+                                                        setGroupAt(index)
+                                                        setQuestionAt(itemIndex)
+                                                        modal.show()
+                                                    }} 
+                                                    className='opacity-60'>
+                                                    <span>{item.question}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
                                     </div>
                                 </div>
-                            )
-                        })}
-                    </div>
+                            </div>
+                        )
+                    })}
                 </div>
+            </div>
 
-                <div className="py-4"></div>
-
+            <div className='container my-4 my-md-5'>
                 <QuestionsBanner />
 
-                <div className="row col-cols-2 mx-5 my-5 pt-5 align-items-center">
+                <div className="row row-cols-1 row-cols-lg-2 mx-lg-5 my-5 my-lg-6 align-items-center">
                     <div className="col">
                         <NeedMoreHelpForm />
                     </div>
-                    <div className="col">
+                    <div className="col mt-5 mt-lg-0 p-lg-5">
                         <SocialBanner />
                     </div>
                 </div>
-            </main>
+            </div>
 
-            <div className={classNames(styles.becomeAPremium, 'bg-primary text-light')}>
-                <div className="container text-center p-5">
+            <div className='bg-primary text-light'>
+                <div className="container text-center py-5">
                     <div className="m-4">
                         <h1>
                             Become a Premium Member and<br />

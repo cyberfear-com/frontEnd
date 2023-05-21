@@ -32,3 +32,32 @@
         }
     }
 }
+
+.social {
+
+    :global {
+        .btn {
+            color: white;
+
+            &:after {
+                content: '';
+                width: 45px;
+                height: 45px;
+                background: #ffffff05;
+                border-radius: 50%;
+                background-image: url(../assets/arrow-social.svg);
+                background-repeat: no-repeat;
+                background-position: center;
+                visibility: hidden;
+            }
+
+            &:hover {
+                background: $dark;
+
+                &:after {
+                    visibility: visible;
+                }
+            }
+        }
+    }
+}

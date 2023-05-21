@@ -38,6 +38,12 @@ const features = [
     { title: 'Open-source code', image: Feature10SVG },
 ]
 
+const socialLinks = [
+    { title: 'Twitter', id: '@Mailum', icon: TwitterLogoSVG },
+    { title: 'Facebook', id: '@Mailum', icon: FacebookLogoSVG },
+    { title: 'Reddit', id: '@Mailum', icon: RedditLogoSVG }
+]
+
 export default function Home() {
     return (
         <>
@@ -138,30 +144,28 @@ export default function Home() {
                 </div>
             </div>
 
-            {/* <CardBanner className='bg-dark text-bg-dark text-center'>
+            <CardBanner className={classNames(styles.social, 'bg-dark text-bg-dark text-center my-5')}>
                 <h1>
                     Join Us&nbsp;on&nbsp;Social Media<br />
                     We&rsquo;d love to&nbsp;have you here!
                 </h1>
 
-                <ul className='list-unstyled'>
+                <ul className='list-unstyled d-inline-flex flex-wrap justify-content-center mt-5'>
+                {socialLinks.map(link => (
                     <li>
-                        <a href='' className='btn btn-dark' role='button'>
-                            <TwitterLogoSVG />
+                        <a href='' className='btn p-3 d-inline-flex align-items-center justify-content-center' role='button'>
+                            <link.icon />
+
+                            <div className='text-start mx-3'>
+                                <span>Follow Us on {link.title}</span><br />
+                                <span className='strong'>{link.id}</span>
+                            </div>
                         </a>
                     </li>
-                    <li>
-                        <a href='' className='btn' role='button'>
-                            <FacebookLogoSVG />
-                        </a>
-                    </li>
-                    <li>
-                        <a href='' className='btn' role='button'>
-                            <RedditLogoSVG />
-                        </a>
-                    </li>
+                ))}
                 </ul>
-            </CardBanner> */}
+            </CardBanner>
+            
 
             <Footer />
         </>

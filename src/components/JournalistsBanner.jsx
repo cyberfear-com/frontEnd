@@ -1,10 +1,4 @@
 import classNames from 'classnames'
-import { Pagination } from 'swiper'
-import { register } from 'swiper/element';
-import { Swiper, SwiperSlide, useSwiper } from 'swiper/react'
-import 'swiper/css' 
-import 'swiper/css/navigation'
-import 'swiper/css/pagination'
 import styles from './JournalistsBanner.module.scss'
 import lhnLogo from '@/assets/testimonials/logo-lhn.png'
 import bhwLogo from '@/assets/testimonials/logo-bhw.png'
@@ -14,9 +8,10 @@ import xmrLogo from '@/assets/testimonials/logo-xmr.png'
 import { ReactComponent as QuoteSymbolSVG } from '@/assets/quote-symbol.svg'
 import { ReactComponent as LarrIconSVG } from '@/assets/larr-icon.svg'
 import { ReactComponent as RarrIconSVG } from '@/assets/rarr-icon.svg'
-import { useRef, useEffect } from 'react'
-
-register()
+import { useRef } from 'react'
+import Slider from 'react-slick'
+import "slick-carousel/slick/slick.css"
+import "slick-carousel/slick/slick-theme.css"
 
 const testimonials = [
     {
@@ -81,45 +76,64 @@ const testimonials = [
     }
 ]
 
-export default function JournalistsBanner() {
-    const swiperRef = useRef(null)
-    
+export default function JournalistsBanner() { 
+    const sliderRef = useRef(null)
     return (
         <div className={classNames(styles.container, "container text-center")}>
             <QuoteSymbolSVG className="pb-3" />
-            <div className="d-flex">
-                <div className="flex-grow-1">
-                    <h1>Why Journalists Love Us</h1>
-                    <p className="lead opacity-50 py-3">we have collected a professional team of science and security experts</p>
+            <div className='d-flex'>
+                <div className='flex-grow-1'>
+                    <h1>
+                        Why Journalists <span className='d-none d-md-inline'>Love&nbsp;Us</span><span className='d-md-none'>love&nbsp;us</span>
+                    </h1>
+                    <p className='lead opacity-50 py-3'>
+                        we&nbsp;have collected a&nbsp;professional team of&nbsp;science and security experts
+                    </p>
                 </div>
             </div>
 
-            <div className={classNames('text-end', styles.swiperNav)}>
-                <button 
-                    className='btn btn-outline-primary btn-large rounded-circle' 
-                    onClick={() => swiperRef.current.swiper.slidePrev()}
-                >
-                    <LarrIconSVG />
-                </button>
-                <button 
-                    className='btn btn-outline-primary btn-large rounded-circle ms-3' 
-                    onClick={() => swiperRef.current.swiper.slideNext()}
-                >
-                    <RarrIconSVG />
-                </button>
-            </div>
+            <div className={styles.sliderWrapper}>
+                <div className={classNames('text-end', styles.nav)}>
+                    <button  
+                        className='btn btn-outline-primary btn-large rounded-circle' 
+                        onClick={() => sliderRef.current.slickPrev()}
+                    >
+                        <LarrIconSVG />
+                    </button>
+                    <button 
+                        className='btn btn-outline-primary btn-large rounded-circle ms-3' 
+                        onClick={() => sliderRef.current.slickNext()}
+                    >
+                        <RarrIconSVG />
+                    </button>
+                </div>
 
-            <swiper-container 
-                ref={swiperRef}
-                slides-per-view="3"
-                looped-slides="2"
-                loop
-                space-between="30"
-                className={styles.swiper}
-            >
-            {testimonials.map(item => (
-                <swiper-slide>
-                   <div className="card user-selct-none" role="button">
+                <Slider
+                    ref={sliderRef}
+                    className={styles.slider}
+                    infinite={true}                
+                    slidesToShow={3}
+                    slidesToScroll={1}
+                    responsive={[
+                        {
+                            breakpoint: 1280,
+                            settings: { slidesToShow: 3, slidesToScroll: 3 }
+                        },
+                        {
+                            breakpoint: 992,
+                            settings: { slidesToShow: 2, slidesToScroll: 2 }
+                        },
+                        {
+                            breakpoint: 768,
+                            settings: { slidesToShow: 1 }
+                        }
+                    ]}
+                    speed={200}
+                >
+            
+
+                {testimonials.map(item => (
+                    <div className="card user-selct-none h-100" role="button">
                         <div className="card-body p-4 text-start small">
                             <p className={styles.testimonial} dangerouslySetInnerHTML={{__html: item.content}} />
                             <div className={classNames('d-flex border-top pt-2', styles.source)}>
@@ -131,9 +145,9 @@ export default function JournalistsBanner() {
                             </div>
                         </div>
                     </div> 
-                </swiper-slide>
-            ))}            
-            </swiper-container>
+                ))}   
+                </Slider>
+            </div>
         </div>
     )
 }

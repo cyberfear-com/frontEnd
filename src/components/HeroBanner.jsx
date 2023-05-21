@@ -3,13 +3,14 @@ import classNames from 'classnames'
 import specularImg from '@/assets/specular.png'
 import { ReactComponent as RarrIconSVG } from '@/assets/rarr-icon.svg'
 import styles from './HeroBanner.module.scss'
+import CardBanner from './CardBanner'
 
 export default function HeroBanner() {
     return (
-        <div 
+        <CardBanner
             className={classNames(
                 styles.banner, 
-                'p-4 py-md-6 col-12 bg-primary text-light rounded-5 text-center'
+                'bg-primary text-light rounded-5 text-center'
             )}
         >
             <img src={specularImg} className={classNames(styles.specular, styles.left)} />
@@ -26,6 +27,7 @@ export default function HeroBanner() {
                 
                 <RarrIconSVG className={styles.submit} role="button" onClick={() => console.log('hello')} />
             </div>
-        </div>
+        {/* </div> */}
+        </CardBanner>
     )
 }

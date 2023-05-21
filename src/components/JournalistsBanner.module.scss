@@ -1,27 +1,63 @@
+@import '@/_variables.scss';
+// @import 'bootstrap/scss/_functions.scss';
+// @import 'bootstrap/scss/_variables.scss';
+// @import 'bootstrap/scss/mixins/_breakpoints.scss';
+
 .container {
     background: url('../assets/quote-big.svg') no-repeat 20% 90px;
     padding-top: 90px;
     padding-bottom: 90px;
+
+    @include media-breakpoint-down(lg) {
+        padding-top: 72px;
+        padding-bottom: 72px;
+    }
+    @include media-breakpoint-down(md) {
+        padding-top: 48px;
+        padding-bottom: 48px;
+    }
 }
 
-.swiper {
+.slider {
     position: relative;
     overflow-y: visible !important;
-    
-}
-
-.swiperNav { 
-    position: relative;
-    top: -100px;
-    right: 0;
-    height: 0;
-    overflow: visible;;
-
+    margin: 0 -13px;
     :global {
-        button {
-            width: 56px;
-            height: 56px;
-            padding: 0;
+        .slick-slide {
+            padding: 0 13px;
         }
     }
+}
+
+.sliderWrapper {
+    display: flex;
+    flex-direction: column;
+
+    .nav {
+        :global {
+            button {
+                width: 56px;
+                height: 56px;
+                padding: 0;
+            }
+        }
+
+        @include media-breakpoint-up(lg) {
+            position: relative;
+            top: -120px;
+            height: 0;
+            overflow: visible;
+        }
+        @include media-breakpoint-down(lg) {
+            display: flex;
+            justify-content: center;
+            order: 2;
+            margin-top: 48px;
+        }
+        @include media-breakpoint-down(sm) {
+            margin-top: 24px;
+        }
+    }
+
+    
 }

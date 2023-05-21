@@ -1,20 +1,16 @@
-.bestTime {
-    .frame {
-        padding: 104px;
-    }
-}
+@import '@/_variables.scss';
 
-section.features {
-    padding: 120px;
+.features {
     position: relative;
+    
+    @include media-breakpoint-down(md) {
+        margin-top: 130px;
 
-    .lockImg {
-        position: absolute;
-        top: 87.5px;
-        right: 120px;
-        width: auto;
-        height: auto; 
+        .lockImgRow {
+            margin-top: -150px;
+        }
     }
+
 
     .featureList {
         :global {
@@ -25,6 +21,14 @@ section.features {
     }
 }
 
-section.airTight {
-    padding: 120px;
+.bottomSlider {
+    position: relative;
+
+    @include media-breakpoint-down(md) {
+        margin-top: 150px;
+
+        :global(img) {
+            margin-top: -170px;
+        }
+    }
 }

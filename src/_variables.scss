@@ -1,0 +1,54 @@
+@import 'bootstrap/scss/_functions.scss';
+@import 'bootstrap/scss/_variables.scss';
+@import 'bootstrap/scss/mixins/_breakpoints.scss';
+
+$h1-font-size: 3rem;
+$h2-font-size: 2.25rem;
+$h3-font-size: 2rem;
+$lead-font-size: 1.125rem;
+$headings-font-weight: bold;
+$btn-font-size: 0.875rem;
+$btn-font-weight: 700;
+$input-padding-x: 1rem;
+$input-padding-y: 0.875rem;
+$input-placeholder-color: inherit;
+$container-padding-x: 4rem;
+// $grid-gutter-width: 5rem;
+
+$display-line-height: 1.6;
+$enable-negative-margins: true;
+
+$box-shadow-lg: 0 1rem 3rem rgba(#555, .175) !default;
+
+$secondary-bg-subtle: #F7F8FA;
+
+$spacer: 1rem;
+
+$spacers: (
+  0: 0,
+  1: $spacer * .25,
+  2: $spacer * .5,
+  3: $spacer,
+  4: $spacer * 2,
+  5: $spacer * 3,
+  6: $spacer * 5.25
+);
+
+$grid-gutter-width: 1.5rem;
+$gutters: (
+  0: 0,
+  1: $spacer * .25,
+  2: $spacer * .5,
+  3: $spacer,
+  4: $spacer * 2,
+  5: $spacer * 3,
+);
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px
+);

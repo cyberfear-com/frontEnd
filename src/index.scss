@@ -1,39 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
 
-$h1-font-size: 3rem;
-$h2-font-size: 2.25rem;
-$h3-font-size: 2rem;
-$lead-font-size: 1.125rem;
-$headings-font-weight: bold;
-$input-padding-x: 1rem;
-$input-padding-y: 0.875rem;
-$input-placeholder-color: inherit;
-
-$display-line-height: 1.6;
-$enable-negative-margins: true;
-
-$box-shadow-lg: 0 1rem 3rem rgba(#555, .175) !default;
-
-$spacer: 1rem;
-
-$spacers: (
-  0: 0,
-  1: $spacer * .25,
-  2: $spacer * .5,
-  3: $spacer,
-  4: $spacer * 1.5,
-  5: $spacer * 3,
-  6: $spacer * 5.25
-);
-
-$grid-breakpoints: (
-  xs: 0,
-  sm: 576px,
-  md: 768px,
-  lg: 992px,
-  xl: 1200px,
-  xxl: 1400px
-);
+@import "./_variables.scss";
 
 @import "bootstrap/scss/bootstrap";
 
@@ -49,7 +16,7 @@ $grid-breakpoints: (
 .form-control {
     &::placeholder {
         opacity: 0.75;
-    }
+    }   
 }
 
 h3 {
@@ -65,6 +32,9 @@ h4 {
     --bs-border-radius: 0.75rem;
     --bs-border-width: 1px;
     --bs-border-color: #dee2e655;
+
+    --bs-dark: #17181B;
+    --bs-dark-rgb: 23, 24, 27;
 }
 
 .card-body {
@@ -85,9 +55,9 @@ h4 {
     --bs-btn-padding-x: 2.5rem;
 }
 
-.btn.small {
-    --bs-btn-font-size: 0.875em;
-}
+// .btn.small {
+//     --bs-btn-font-size: 0.875em;
+// }
 
 .nav {
     --bs-nav-link-font-weight: bold;
@@ -99,4 +69,10 @@ h4 {
 
 .opacity-60 {
     opacity: 0.6 !important;
+}
+
+.container, .container-fluid {
+    @include media-breakpoint-down(md) {
+        --bs-gutter-x: 3rem;
+    }
 }

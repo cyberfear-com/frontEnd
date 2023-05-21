@@ -1,8 +1,15 @@
+@import 'bootstrap/scss/_functions.scss';
+@import 'bootstrap/scss/_variables.scss';
+@import 'bootstrap/scss/mixins/_breakpoints.scss';
+
 .tryButton {
     font-size: 0.875rem !important;
 }
 
-.downloadList {
+ul.downloadList {
+    margin-top: -1rem;
+    margin-right: -1rem;
+
     :global {
         .btn {
             --bs-btn-padding-x: 0.75rem;
@@ -20,8 +27,16 @@
             }
         }
 
-        li + li {
-            margin-left: 1rem;
+        li {
+            margin-right: 1rem;
+            margin-top: 1rem;
         }
+    }
+}
+
+.uiImage {
+    width: 100%;
+    @include media-breakpoint-down(md) {
+        width: 120%;
     }
 }

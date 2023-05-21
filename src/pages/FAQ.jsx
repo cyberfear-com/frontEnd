@@ -105,10 +105,7 @@ export default function FAQ() {
             </div>
 
             <Header />
-
-            <div className='container my-4 my-md-5 mt-3 mt-md-4'>
-                <HeroBanner />
-            </div>
+            <HeroBanner />
 
             <div className={classNames('container mb-2 mb-md-4', styles.groups)}>
                 <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3">
@@ -156,12 +153,14 @@ export default function FAQ() {
                 </div>
             </div>
 
-            <div className='container my-4 my-md-5'>
-                <QuestionsBanner />
+            <QuestionsBanner />
 
+            <div className='container my-4 my-md-5'>
                 <div className="row row-cols-1 row-cols-lg-2 mx-lg-5 my-5 my-lg-6 align-items-center">
                     <div className="col">
-                        <NeedMoreHelpForm />
+                        <div className='mx-3 mx-md-4 mx-lg-0'>
+                            <NeedMoreHelpForm />
+                        </div>
                     </div>
                     <div className="col mt-5 mt-lg-0 p-lg-5">
                         <SocialBanner />

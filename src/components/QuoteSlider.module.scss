@@ -1,6 +1,7 @@
 @import '@/_variables.scss';
 
 .container {
+    overflow: hidden;
     background: url('../assets/quote-big.svg') no-repeat 20% 90px;
     padding-top: 90px;
     padding-bottom: 90px;
@@ -32,6 +33,7 @@
         }
 
         @include media-breakpoint-down(md) {
+            
             .slick-list {
                 overflow: visible;
             }

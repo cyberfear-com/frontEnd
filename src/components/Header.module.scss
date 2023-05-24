@@ -1,0 +1,93 @@
+@import '@/_variables.scss';
+
+.header {
+    :global {
+        .navbar-collapse ul {
+            // height: 100vh;
+        }
+    }
+}
+
+@include media-breakpoint-up(lg) {
+    .navbar {
+        align-items: center;
+    }
+    :global(.navbar-extra) {
+        display: flex;
+        width: 100%;
+        align-items: center;
+    }
+}
+
+@include media-breakpoint-down(lg) {
+    .navbar {
+        .headline {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            @include media-breakpoint-down(lg) {
+                width: 100%;
+            }
+        }
+
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        flex-direction: column;
+        align-items: stretch !important;
+        max-height: 100vh;
+
+
+        :global(.navbar-extra) {
+            overflow: hidden;
+            height: 0;
+            transition: height .35s ease;
+        }
+
+        &.expanded {
+            :global(.navbar-extra) {
+                height: 100vh;
+                max-height: 100vh;
+            }
+        }
+
+        :global {
+            .navbar-extra {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+            }
+            .navbar-nav {
+                flex-grow: 0 !important;
+                margin-top: 1rem;
+                .navbar-item {
+                    a {
+                        border: 1px solid var(--bs-secondary-border-subtle);
+                        border-radius: $border-radius;
+                        padding: .75rem;
+                        text-align: center;
+                    }
+                    margin-top: 0.5rem;
+                }
+
+                &.buttons {
+                    flex: 1;
+                    li {
+                        margin-top: 0.5rem;
+                    }
+                    a {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+
+    .header:global(.bg-primary) {
+        :global {
+            .navbar-nav .navbar-item a {
+                border-color: rgba(255, 255, 255, 0.1);
+            }
+        }
+    }
+ }

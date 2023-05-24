@@ -75,16 +75,10 @@ export default function HomeBanner() {
                         </ul>
                     </div>
                 </div>
-                {/* <div className="row"> */}
-                    {/* <div className="col-12"> */}
-                        
-                    {/* </div> */}
-                {/* </div> */}
-                <div className='d-flex justify-content-center'>
+                <div className='d-flex justify-content-center overflow-hidden'>
                     <img src={mailumUI} className={classNames(styles.uiImage)} />
                 </div>
             </div>
-            
         </div>
     )
 }

@@ -36,7 +36,7 @@ export default function Footer() {
                             </div>
                             <div className="col flex-grow-1">
                                 <h6 className='small fw-medium'>Payment Methods</h6>
-                                <img src={paymentMethods} />
+                                <img src={paymentMethods} style={{maxWidth: '100%', minWidth: '200px'}} />
                             </div>
                         </div>
                     </div>

@@ -1,11 +1,23 @@
 import classNames from 'classnames'
 import Header from '@/components/Header.jsx'
 import HomeBanner from '@/components/HomeBanner.jsx'
-import JournalistsBanner from '@/components/JournalistsBanner.jsx'
+import Banner from '@/components/Banner.jsx'
+import QuoteSlider from '@/components/QuoteSlider.jsx'
 import bestTimeLogosImg from '@/assets/best-time-logos.png'
 import bestTimeLogosMobileImg from '@/assets/best-time-logos-mobile.png'
 import lockImg from '@/assets/private-and-anonymous-email.png'
 import { ReactComponent as BigCircleSVG } from '@/assets/big-circle.svg'
+import lhnLogo from '@/assets/testimonials/logo-lhn.png'
+import bhwLogo from '@/assets/testimonials/logo-bhw.png'
+import monericaLogo from '@/assets/testimonials/logo-monerica.png'
+import prLogo from '@/assets/testimonials/logo-publishedreporter.png'
+import xmrLogo from '@/assets/testimonials/logo-xmr.png'
+import clientDfrImg from '@/assets/client-avatar-dfr.png'
+import clientCyberfearImg from '@/assets/client-avatar-cyberfearuser.png'
+import clientWhoamiImg from '@/assets/client-avatar-whoami.png'
+import client1264815Img from '@/assets/client-avatar-1264815.png'
+import clientRowaImg from '@/assets/client-avatar-rowa.png'
+
 import { ReactComponent as Feature1SVG } from '@/assets/feature-1.svg'
 import { ReactComponent as Feature2SVG } from '@/assets/feature-2.svg'
 import { ReactComponent as Feature3SVG } from '@/assets/feature-3.svg'
@@ -24,6 +36,75 @@ import safeImg from '@/assets/safe.png'
 import styles from './Home.module.scss'
 import CardBanner from '../components/CardBanner'
 import Footer from '../components/Footer';
+
+
+const testimonials = [
+    {
+        content: `
+            Tutanota, another popular email
+            provider, does a better job with data
+            encryption. They not only encrypt the
+            email body, but also the subject.
+            However, sender and recipient
+            information is left unencrypted.
+            <strong
+                >The only email service we found to
+                encrypt all of these 3 elements is
+                Mailum.</strong
+            >
+            `,
+        author: 'Mic Johnson',
+        company: 'latesthackingnews.com',
+        logo: lhnLogo,
+        logoWidth: 80
+    },
+    {
+        content: `
+            <strong>Approved</strong><br />This
+            email provider has been tested by the
+            marketplace moderation team to ensure
+            that it meets the standards for the
+            marketplace.
+            `,
+        author: 'Moderator',
+        company: 'BHW Forum',
+        logo: bhwLogo,
+        logoWidth: 36
+    },
+    {
+        content: `
+            Mailum <br />End-to-end encrypted email
+            service. <br />No logs, <br />no ads,
+            <br />offshore servers location.
+            `,
+        author: 'XMR.Directory',
+        logo: xmrLogo,
+        logoWidth: 36
+    },
+    {
+        content: `
+            Mailum - No IP Logs, <br />end to end
+            email encryption, <br />MITM protection
+            `,
+        author: 'Monerica',
+        company: 'monerica.com',
+        logo: monericaLogo,
+        logoWidth: 64
+    },
+    {
+        content: `
+            Consider getting email accounts at
+            Proton and Mailum. At some point it
+            might be a good idea to limit automatic
+            updates to prevent authoritarian
+            intrusions and limitations.
+            `,
+        author: 'Gene Van Shaar',
+        company: 'The Published Reporter',
+        logo: prLogo,
+        logoWidth: 100
+    }
+]
 
 const features = [
     { title: 'Zero-knowledge E2EE', image: Feature1SVG },
@@ -44,19 +125,114 @@ const socialLinks = [
     { title: 'Reddit', id: '@Mailum', icon: RedditLogoSVG }
 ]
 
+const reviews = [
+    {
+        content: `
+            I&nbsp;am very happy that&nbsp;I could test
+            Mailum. So&nbsp;far&nbsp;I cannot say anything bad
+            about this service, but&nbsp;I will gladly
+            update this post as&nbsp;soon as&nbsp;I notice
+            something, which I&nbsp;do not like.
+            `,
+        author: 'dfr+',
+        company: 'hackforums.net',
+        logo: clientDfrImg,
+        logoWidth: 36,
+    },
+    {
+        content: `
+            I&nbsp;use mailum and love the product. Well
+            worth the cost and admittedly the
+            occasional downtime or&nbsp;slow service. I
+            would really like to&nbsp;see a&nbsp;review of&nbsp;it
+            in&nbsp;this site.
+            `,
+        author: 'Cyberfear User',
+        company: 'restoreprivacy.com',
+        logo: clientCyberfearImg,
+        logoWidth: 36,
+    },
+    {
+        content: `
+            Overall, very quick and easy to&nbsp;setup. I
+            was up&nbsp;and running in&nbsp;no&nbsp;time. All of
+            the features listed in&nbsp;the thread here
+            are present in&nbsp;my&nbsp;account, in&nbsp;addition
+            to&nbsp;more.
+            `,
+        author: 'whoami',
+        company: 'blackhatworld.com',
+        logo: clientWhoamiImg,
+        logoWidth: 36,
+    },
+    {
+        content: `
+            I&nbsp;have used it&nbsp;for almost 2&nbsp;weeks now.
+            Website speed is&nbsp;incredible. It&rsquo;s like a
+            website on&nbsp;a&nbsp;local host The design is
+            very minimalistic. It&rsquo;s so&nbsp;easy to
+            navigate and become familiar with the
+            website. All features are present and
+            working.
+            `,
+        author: '1264815',
+        company: 'blackhatworld.com',
+        logo: client1264815Img,
+        logoWidth: 36,
+    },
+    {
+        content: `
+            The sign-up process was very easy and
+            was done in&nbsp;seconds. There are multiple
+            ways to&nbsp;protect your account, this can
+            be&nbsp;done without verification with phone
+            numbers so&nbsp;that&rsquo;s great.
+            `,
+        author: 'Rowa',
+        company: 'hackforums.net',
+        logo: clientRowaImg,
+        logoWidth: 36,
+    },
+]
+
 export default function Home() {
     return (
         <>
             <Header variant="primary" />
             <HomeBanner />
-            <JournalistsBanner />
+
+            {/* Testimonials */}
+            <QuoteSlider
+                className={styles.reviews}
+                items={testimonials}
+                renderItem={(item) => (
+                    <>
+                        <p className='fst-italic' dangerouslySetInnerHTML={{__html: item.content}} />
+                        <div className='d-flex border-top pt-2 align-items-center'>
+                            <div className="flex-grow-1">
+                                <strong className={styles.author}>{item.author}</strong><br />
+                                <span className={styles.company}>{item.company}</span>
+                            </div>
+                            <img src={item.logo} width={item.logoWidth} className="flex-shrink-0" />
+                        </div>
+                    </>
+                )}
+            >
+                <h1>
+                    Why Journalists <span className='d-none d-md-inline'>Love&nbsp;Us</span><span className='d-md-none'>love&nbsp;us</span>
+                </h1>
+                <p className='lead opacity-50 py-3'>
+                    we&nbsp;have collected a&nbsp;professional team of&nbsp;science and security experts
+                </p>
+            </QuoteSlider>
 
             <CardBanner 
                 className={classNames(styles.bestTime, 'bg-dark text-bg-dark')}
-                footer={<img src={bestTimeLogosMobileImg} className='w-100 mt-4 d-md-none' />}
+                footer={<img src={bestTimeLogosMobileImg} className='w-100 mt-4 d-md-none mb-4' />}
             >
                 <div className='text-center'>
-                    <h3>The best time to improve your privacy was yesterday,</h3>
+                    <h4 className='d-md-none fw-normal'>The best time to improve your privacy was yesterday,</h4>
+                    <h3 className='d-none d-md-block'>The best time to improve your privacy was yesterday,</h3>
                     <h2>The Second Best Time is Now!</h2>
                 </div>
 
@@ -64,10 +240,6 @@ export default function Home() {
             </CardBanner>
 
             <CardBanner className={classNames(styles.features, 'bg-secondary-subtle mt-md-4 user-select-none')}>
-                {/* <img src={lockImg} className={styles.lockImg} /> */}
-
-                {/* <div className={styles.circle} /> */}
-
                 <div className='row'>
                     <div className='col-12 col-md-7 col-lg-6 order-2 order-md-1'>
                         <h1>Private and anonymous email</h1>
@@ -83,7 +255,9 @@ export default function Home() {
 
                     <div className={classNames(
                         styles.lockImgRow,
-                        'col-12 col-md-5 col-lg-6 order-1 d-flex align-items-start justify-content-center justify-content-md-end'
+                        'col-12 col-md-5 col-lg-6 order-1',
+                        'mb-3 mb-md-0',
+                        'd-flex align-items-start justify-content-center justify-content-md-end'
                     )}>
                         <img src={lockImg} className={styles.lockImg} />
                     </div>
@@ -150,15 +324,19 @@ export default function Home() {
                     We&rsquo;d love to&nbsp;have you here!
                 </h1>
 
-                <ul className='list-unstyled d-inline-flex flex-wrap justify-content-center mt-5'>
+                <ul className='list-unstyled d-inline-flex flex-wrap mt-5 justify-content-center'>
                 {socialLinks.map(link => (
                     <li>
-                        <a href='' className='btn p-3 d-inline-flex align-items-center justify-content-center' role='button'>
+                        <a 
+                            href='' 
+                            className={classNames(styles.link, 'btn p-3 d-inline-flex align-items-center justify-content-center')}
+                            role='button'
+                        >
                             <link.icon />
 
-                            <div className='text-start mx-3'>
-                                <span>Follow Us on {link.title}</span><br />
-                                <span className='strong'>{link.id}</span>
+                            <div className='text-start mx-3 flex-grow-1'>
+                                <span className={classNames(styles.followUs)}>Follow Us on {link.title}</span><br />
+                                <span className={styles.username}>{link.id}</span>
                             </div>
                         </a>
                     </li>
@@ -166,6 +344,42 @@ export default function Home() {
                 </ul>
             </CardBanner>
             
+            <QuoteSlider
+                className={styles.reviews}
+                items={reviews}
+                renderItem={(item) => (
+                    <>
+                        <p className='fst-italic' dangerouslySetInnerHTML={{__html: item.content}} />
+                        <div className='d-flex border-top pt-2 align-items-center'>
+                            <div className="flex-grow-1">
+                                <strong className={styles.author}>{item.author}</strong><br />
+                                <span className={styles.company}>{item.company}</span>
+                            </div>
+                            <img src={item.logo} width={item.logoWidth} className="flex-shrink-0" />
+                        </div>
+                    </>
+                )}
+            > 
+                <h1>What Customers Say About Mailum</h1>
+                <p className='lead opacity-50 py-3'>
+                    we&nbsp;have collected a&nbsp;professional team of&nbsp;science and security experts
+                </p>
+            </QuoteSlider>
+
+            <Banner className='bg-primary text-bg-primary text-center'>
+                <h1 className='d-none d-md-block'>
+                    Take action, Sign up&nbsp;Now<br />
+                    to&nbsp;protect your online presence
+                </h1>
+                <h1 className='d-md-none'>
+                    Become a&nbsp;Premium Member and Unlock so&nbsp;many secure feature
+                </h1>
+                <p className='lead opacity-50 mt-3 mb-4'>
+                    Choose the best fitting plan, any upgrade plan is&nbsp;FREE for 7&nbsp;DAYS!
+                </p>
+
+                <a href="#" className='btn btn-light wide fw-bold d-block d-md-inline'>Get Encrypted Email</a>
+            </Banner>
 
             <Footer />
         </>

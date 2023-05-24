@@ -1,7 +1,4 @@
 @import '@/_variables.scss';
-// @import 'bootstrap/scss/_functions.scss';
-// @import 'bootstrap/scss/_variables.scss';
-// @import 'bootstrap/scss/mixins/_breakpoints.scss';
 
 .container {
     background: url('../assets/quote-big.svg') no-repeat 20% 90px;
@@ -21,10 +18,26 @@
 .slider {
     position: relative;
     overflow-y: visible !important;
-    margin: 0 -13px;
+    margin-left: -1rem;
+    margin-right: -1rem;
+
     :global {
+        .slick-track {
+            display: flex;
+            align-items: center;
+        }
+        
         .slick-slide {
-            padding: 0 13px;
+            padding: 0 1rem;
+        }
+
+        @include media-breakpoint-down(md) {
+            .slick-list {
+                overflow: visible;
+            }
+            .slick-slide .card {
+                box-shadow: 0 1rem 3rem rgba(#555, .1);
+            }
         }
     }
 }
@@ -32,7 +45,7 @@
 .sliderWrapper {
     display: flex;
     flex-direction: column;
-
+ 
     .nav {
         :global {
             button {

@@ -19,7 +19,7 @@ export default function SocialBanner() {
                 </h1>
 
             {links.map(link => (
-                <a class="d-flex align-items-center text-decoration-none mt-4 mb-4" href="">
+                <a class="d-inline-flex align-items-center text-decoration-none mt-4 mb-4 pe-3" href="">
                     <link.icon className="flex-shrink-0" />
                     <small className="flex-grow-1 ms-3 lh-sm">
                         <div className={classNames(styles.followUs, 'text-body-secondary')}>Follow Us on {link.title}</div>

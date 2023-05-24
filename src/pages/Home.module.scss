@@ -1,5 +1,14 @@
 @import '@/_variables.scss';
 
+.reviews {
+    .author {
+        font-size: 0.75rem;
+    }
+    .company {
+        font-size: 0.6875rem;
+    }
+}
+
 .features {
     position: relative;
     
@@ -7,7 +16,10 @@
         margin-top: 130px;
 
         .lockImgRow {
-            margin-top: -150px;
+            margin-top: -135px;
+        }
+        .lockImg {
+            width: 220px;
         }
     }
 
@@ -28,7 +40,8 @@
         margin-top: 150px;
 
         :global(img) {
-            margin-top: -170px;
+            margin-top: -150px;
+            width: 220px;
         }
     }
 }
@@ -57,6 +70,26 @@
                 &:after {
                     visibility: visible;
                 }
+            }
+        }
+    }
+    .link {
+        width: 280px;
+    }
+
+    .followUs {
+        font-size: 0.6875rem;
+    }
+    .username {
+        font-size: 0.75rem;
+        font-weight: 500;
+    }
+}
+.peaceOfMind {
+    :global {
+        @include media-breakpoint-down(md) {
+            img {
+                width: 220px;
             }
         }
     }

@@ -1,4 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap");
+// @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Display:wght@400;500;600;700&display=swap");
+@import url("https://cdn.jsdelivr.net/npm/@xz/fonts@1/serve/plus-jakarta-display.min.css");
 
 @import "./_variables.scss";
 
@@ -28,7 +29,7 @@ h4 {
 }
 
 :root {
-    --bs-body-font-family: "Plus Jakarta Sans", sans-serif;
+    --bs-body-font-family: "Plus Jakarta Display", sans-serif;
     --bs-border-radius: 0.75rem;
     --bs-border-width: 1px;
     --bs-border-color: #dee2e655;
@@ -37,12 +38,16 @@ h4 {
     --bs-dark-rgb: 23, 24, 27;
 }
 
+.card {
+    --bs-card-border-color: rgba(234, 236, 241, 1);
+}
+
 .card-body {
     --bs-card-spacer-x: 1rem;
     --bs-card-spacer-y: 1rem;
     @include media-breakpoint-up(md) {
-        --bs-card-spacer-x: 2rem;
-        --bs-card-spacer-y: 2rem;
+        --bs-card-spacer-x: 1.5rem;
+        --bs-card-spacer-y: 1.5rem;
     }
 }
 

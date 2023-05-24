@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host 0.0.0.0",
     "build": "npm run build:client && npm run build:server",
     "build:client": "vite build --outDir dist/client --base /mailum/",
     "build:server": "vite build --ssr src/entry-server.jsx --outDir dist/server --base /mailum/",

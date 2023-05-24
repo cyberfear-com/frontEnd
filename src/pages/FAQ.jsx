@@ -171,14 +171,24 @@ export default function FAQ() {
             <div className='bg-primary text-light'>
                 <div className="container text-center py-5">
                     <div className="m-4">
-                        <h1>
-                            Become a Premium Member and<br />
+                        <h1 className='d-none d-md-block'>
+                            Become a&nbsp;Premium Member and<br />
                             Unlock All Premium Features
                         </h1>
+                        <h1 className='d-md-none'>
+                            Become a&nbsp;Premium Member and Unlock so&nbsp;many secure feature
+                        </h1>
 
-                        <p className="lead opacity-50 mt-3 mb-4 pb-2">Choose the best fitting plan, or create a forever-free account!</p>
+                        <p className="lead opacity-50 mt-3 mb-4 pb-2">
+                            <span className='d-none d-md-inline'>Choose the best fitting plan, or&nbsp;create a&nbsp;forever-free account!</span>
+                            <span className='d-md-none'>Choose the best fitting plan, any upgrade plan is&nbsp;FREE for 7&nbsp;DAYS!</span>
+                        </p>
 
-                        <a href="" className="btn btn-lg btn-light small"><strong>Sign up Now</strong></a>
+                        <a href="" className="btn btn-light small fw-bold">
+                            <span className='d-none d-md-inline'>Sign up Now</span>
+                            <span className='d-md-none'>Upgrade Now</span>
+                            
+                        </a>
                     </div>
                 </div>
             </div>

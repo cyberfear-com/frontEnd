@@ -1,4 +1,9 @@
 import classNames from 'classnames'
+import Slider from 'react-slick'
+import "slick-carousel/slick/slick.css"
+import "slick-carousel/slick/slick-theme.css"
+import { useRef } from 'react'
+
 import Header from '@/components/Header.jsx'
 import HomeBanner from '@/components/HomeBanner.jsx'
 import Banner from '@/components/Banner.jsx'
@@ -31,7 +36,9 @@ import { ReactComponent as Feature10SVG } from '@/assets/feature-10.svg'
 import { ReactComponent as TwitterLogoSVG } from '@/assets/twitter-logo.svg'
 import { ReactComponent as FacebookLogoSVG } from '@/assets/facebook-logo.svg'
 import { ReactComponent as RedditLogoSVG } from '@/assets/reddit-logo.svg'
-import puzzleImg from '@/assets/puzzle.png'
+import sliderImage1 from '@/assets/slider-image-1.png'
+import sliderImage2 from '@/assets/slider-image-2.png'
+import sliderImage3 from '@/assets/slider-image-3.png'
 import safeImg from '@/assets/safe.png'
 import styles from './Home.module.scss'
 import CardBanner from '../components/CardBanner'
@@ -195,7 +202,46 @@ const reviews = [
     },
 ]
 
+const slides = [
+    {
+        header: `The Most Air-Tight Encryption Available`,
+        content: `
+            Mailum is&nbsp;the only email service encrypting all 4&nbsp;elements of&nbsp;an&nbsp;email and its metadata.
+            While other services only encrypt the email body, we&nbsp;encrypt body, subject, sender, recipient, and timestamp to&nbsp;protect your online privacy from unauthorized access.
+            `,
+        image: sliderImage1
+    },
+    {
+        header: 'Get Up&nbsp;and Running Right Away',
+        content: `
+            Designed to&nbsp;safeguard both personal
+            and business information we&rsquo;ve made
+            it&nbsp;easy to&nbsp;get started in&nbsp;minutes.
+            Simply sign up&nbsp;using a&nbsp;username and
+            password and start sending and
+            receiving secure emails without
+            making it&nbsp;complicated.
+            `,
+        image: sliderImage2
+    },
+    {
+        header: 'User-Friendly and Hassle-Free',
+        content: `
+            The idea of&nbsp;Encryption is&nbsp;not
+            complicated as&nbsp;it&nbsp;sounds. Having a
+            user-friendly and simple interface,
+            Mailum is&nbsp;an&nbsp;ideal choice as&nbsp;your
+            daily, hassle-free mailbox.<br />
+            It&nbsp;is&nbsp;just as&nbsp;easy and intuitive as
+            Gmail, (minus the spying element.)
+            `,
+        image: sliderImage3
+    }
+]
+
 export default function Home() {
+    const sliderRef = useRef(null)
+
     return (
         <>
             <Header variant="primary" />
@@ -281,20 +327,32 @@ export default function Home() {
                 </ul>
             </CardBanner>
 
-            <CardBanner className={classNames(styles.bottomSlider, 'bg-primary text-bg-primary')}>
-                <div className='row justify-content-center'>
-                    <div className='col-12 col-md-4 col-lg-3 d-flex align-items-center justify-content-center justify-content-md-end'>
-                        <img src={puzzleImg} width='300' style={{maxWidth: '100%', height: 'auto'}} />
+            
+            <Slider
+                ref={sliderRef}
+                className={styles.slider}
+                infinite={true}
+                slidesToShow={1}
+                slidesToScroll={1}
+                arrows={false}
+                speed={200}
+                dots={true}
+            >        
+            {slides.map((item, index) => (
+                <CardBanner className={classNames(styles.bottomSlider, 'bg-primary text-bg-primary')}>
+                    <div className='row justify-content-center align-items-center'>
+                        <div className='col-12 col-md-4 col-lg-4 d-flex align-items-center justify-content-center justify-content-md-end'>
+                            <img src={item.image} width='300' style={{maxWidth: '100%', height: 'auto'}} />
+                        </div>
+                        <div className='col-12 col-md-8 col-lg-6'>
+                            <h1 dangerouslySetInnerHTML={{__html: item.header}} />
+                            <p className='lead opacity-50' dangerouslySetInnerHTML={{__html: item.content}} />
+                        </div>
+                        <div className='col-1 d-none d-lg-block'></div>
                     </div>
-                    <div className='col-12 col-md-8 col-lg-6'>
-                        <h1>The Most Air-Tight Encryption Available</h1>
-                        <p className='lead opacity-50'>
-                            Mailum is&nbsp;the only email service encrypting all 4&nbsp;elements of&nbsp;an&nbsp;email and its metadata.
-                            While other services only encrypt the email body, we&nbsp;encrypt body, subject, sender, recipient, and timestamp to&nbsp;protect your online privacy from unauthorized access.
-                        </p>
-                    </div>
-                </div>
-            </CardBanner>
+                </CardBanner>
+            ))}
+            </Slider>
 
             <div className={classNames(styles.peaceOfMind, 'container my-5')}>
                 <div className='row'>
@@ -304,10 +362,10 @@ export default function Home() {
                             Without Relying on Trust!
                         </h1>
 
-                        <p>
+                        <p className='lead opacity-50'>
                             Our top priority while building Mailum was to&nbsp;create an&nbsp;email service that is&nbsp;not based on&nbsp;reliance. We&nbsp;came up&nbsp;with a&nbsp;solution named &laquo;Local Code&raquo;.
                         </p>
-                        <p>
+                        <p className='lead opacity-50'>
                             We&nbsp;provide users with the ability to&nbsp;host the Mailum website on&nbsp;their computers locally.
                             This allows users to&nbsp;have an&nbsp;absolute certainty that scripts loaded by&nbsp;their browsers have neither been maliciously modified nor been altered.
                         </p>

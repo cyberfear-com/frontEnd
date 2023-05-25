@@ -94,3 +94,44 @@
         }
     }
 }
+
+.slider {
+    :global {
+        .slick-track {
+            display: flex;
+            align-items: stretch;
+
+            .slick-slide {
+                height: auto;
+                display: flex;
+                // width: 100% !important;
+                align-items: stretch;
+                justify-content: stretch;
+                > div {
+                    display: flex;
+                    width: 100%;
+
+                    > .container-fluid { 
+                        display: flex;
+                        
+                        > * {
+                            flex: 1;
+                            // min-width: 100vw/;
+                            width: 100%;
+                        }
+                    }
+                }
+            }
+        }
+
+        .slick-dots {
+            position: absolute;
+            bottom: 16px;
+
+            li button:before {
+                font-size: 7px;
+                color: white;
+            }
+        }
+    }
+}

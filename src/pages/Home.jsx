@@ -382,9 +382,9 @@ export default function Home() {
                     We&rsquo;d love to&nbsp;have you here!
                 </h1>
 
-                <ul className='list-unstyled d-inline-flex flex-wrap mt-5 justify-content-center'>
+                <ul className='list-unstyled d-inline-flex flex-wrap mt-4 justify-content-center'>
                 {socialLinks.map(link => (
-                    <li>
+                    <li className='mt-3'>
                         <a 
                             href='' 
                             className={classNames(styles.link, 'btn p-3 d-inline-flex align-items-center justify-content-center')}

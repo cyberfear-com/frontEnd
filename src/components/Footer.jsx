@@ -42,7 +42,7 @@ export default function Footer() {
                     </div>
                 </div>
             </div>
-            <div className="border-top">
+            <div className="border-top border-light border-opacity-10">
                 <div className="container pb-4">
                     <div className='d-flex flex-wrap justify-content-between small mx-n2'>
                         <div className='mt-4 px-2'>

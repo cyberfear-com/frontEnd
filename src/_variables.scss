@@ -2,6 +2,9 @@
 @import 'bootstrap/scss/_variables.scss';
 @import 'bootstrap/scss/mixins/_breakpoints.scss';
 
+$primary: #2277F7;
+
+
 $h1-font-size: 3rem;
 $h2-font-size: 2.25rem;
 $h3-font-size: 2rem;
@@ -52,3 +55,4 @@ $grid-breakpoints: (
   xl: 1200px,
   xxl: 1400px
 );
+

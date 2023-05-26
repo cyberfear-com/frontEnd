@@ -1,6 +1,7 @@
 // @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Display:wght@400;500;600;700&display=swap");
 @import url("https://cdn.jsdelivr.net/npm/@xz/fonts@1/serve/plus-jakarta-display.min.css");
 
+
 @import "./_variables.scss";
 
 @import "bootstrap/scss/bootstrap";
@@ -36,6 +37,9 @@ h4 {
 
     --bs-dark: #17181B;
     --bs-dark-rgb: 23, 24, 27;
+
+    --bs-primary: #2277F7;
+    --bs-primary-rgb: 34, 119, 247;
 }
 
 .card {

@@ -32,11 +32,12 @@ export default function Header({ variant = 'default' }) {
           <nav className={classNames('navbar py-3 py-md-4 navbar-expand-lg', styles.navbar, navbarExpanded && styles.expanded)}>
             <div className={styles.headline}>
               <a href="/" className='text-reset'>
-                <MailumSVG />
+                <MailumSVG className={styles.brand} />
               </a>
 
               <a 
                 className={classNames(
+                  styles.tryButton,
                   'btn small fw-bold d-lg-none',
                   variant == 'primary' ? 'btn-light' : 'btn-primary'
                 )}
@@ -45,6 +46,10 @@ export default function Header({ variant = 'default' }) {
               <button 
                 onClick={() => {
                   setNavbarExpanded(!navbarExpanded)
+                }}
+                onTouchEnd={(event) => {
+                  setNavbarExpanded(!navbarExpanded)
+                  event.preventDefault()
                 }}
                 className={classNames(
                   variant == 'primary' ? 'text-light': 'text-body',

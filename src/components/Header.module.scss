@@ -35,18 +35,19 @@
         flex-wrap: nowrap !important;
         flex-direction: column;
         align-items: stretch !important;
-        max-height: 100vh;
+        // max-height: 100%;
 
 
         :global(.navbar-extra) {
             overflow: hidden;
             height: 0;
-            transition: height .35s ease;
+            max-height: 0;
+            transition: max-height .35s ease;
         }
 
         &.expanded {
             :global(.navbar-extra) {
-                height: 100vh;
+                height: auto;
                 max-height: 100vh;
             }
         }
@@ -89,5 +90,15 @@
                 border-color: rgba(255, 255, 255, 0.1);
             }
         }
+    }
+ }
+
+ @include media-breakpoint-down(md) {
+    .brand {
+        width: 100px;
+    }
+    .tryButton {
+        padding-left: 16px !important;
+        padding-right: 16px !important;
     }
  }

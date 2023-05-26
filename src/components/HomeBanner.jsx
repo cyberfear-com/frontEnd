@@ -1,7 +1,7 @@
 import { ReactComponent as AppleStoreIconSVG } from '@/assets/apple-store-icon.svg'
 import { ReactComponent as GooglePlayIconSVG } from '@/assets/google-play-icon.svg'
 import { ReactComponent as FDroidIconSVG } from '@/assets/f-droid-icon.svg'
-import mailumUI from '@/assets/mailum-ui.png'
+import mailumUI from '@/assets/mailum-ui.webp'
 import classNames from 'classnames'
 import styles from './HomeBanner.module.scss'
 

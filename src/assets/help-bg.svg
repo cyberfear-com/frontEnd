@@ -1,0 +1,18 @@
+<svg width="1376" height="412" viewBox="0 0 1376 412" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <mask id="mask0_1_42" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0"
+        width="1376" height="412">
+        <rect width="1376" height="412" fill="#F4F4F4" />
+    </mask>
+    <g mask="url(#mask0_1_42)">
+        <rect width="1376" height="412" fill="#2277F6" />
+        <line x1="282.5" y1="-180" x2="282.5" y2="590" stroke="white" stroke-opacity="0.04" />
+        <line x1="82.5001" y1="-180" x2="82.5" y2="590" stroke="white" stroke-opacity="0.04" />
+        <line x1="417.5" y1="-180" x2="417.5" y2="590" stroke="white" stroke-opacity="0.04" />
+        <line x1="1160.5" y1="-180" x2="1160.5" y2="590" stroke="white" stroke-opacity="0.04" />
+        <line x1="960.5" y1="-180" x2="960.5" y2="590" stroke="white" stroke-opacity="0.04" />
+        <line x1="1295.5" y1="-180" x2="1295.5" y2="590" stroke="white" stroke-opacity="0.04" />
+        <line x1="729.5" y1="-180" x2="729.5" y2="590" stroke="white" stroke-opacity="0.04" />
+        <line x1="529.5" y1="-180" x2="529.5" y2="590" stroke="white" stroke-opacity="0.04" />
+        <line x1="864.5" y1="-180" x2="864.5" y2="590" stroke="white" stroke-opacity="0.04" />
+    </g>
+</svg>

@@ -21,6 +21,7 @@
 
 @include media-breakpoint-down(lg) {
     .navbar {
+        height: 80px;
         .headline {
             display: flex;
             align-items: center;
@@ -46,6 +47,7 @@
         }
 
         &.expanded {
+            height: auto;
             :global(.navbar-extra) {
                 height: auto;
                 max-height: 100vh;

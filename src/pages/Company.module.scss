@@ -1,0 +1,54 @@
+@import '@/_variables';
+
+.storyBanner {
+    position: relative;
+    overflow: hidden;;
+    .bg {
+        position: absolute;
+        width: 50%;   
+        top: 50%;
+        transform: translateY(-50%) translateX(-5%);
+    }
+
+    .mobileBg {
+        position: relative;
+        right: -2rem;
+        top: -2rem;
+        float: right;
+        width: calc(150%);
+    }
+
+    @include media-breakpoint-down(sm) {
+        .mobileBg {
+            right: 0;
+        }
+    }
+}
+
+.missionImg {
+    width: 512px;
+}
+
+.missionMobileImg {
+    max-width: 294px;
+    width: 100%;
+}
+
+.technologyBanner {
+    position: relative; 
+    .bg {
+        width: 100%;
+    }
+
+    @include media-breakpoint-down(md) {
+        text-align: center;
+        .bg {
+            max-width: 422px;
+        }
+    }
+}
+
+.serverImg {
+    width: 100%;
+    max-width: 424px;
+}

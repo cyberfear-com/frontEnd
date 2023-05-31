@@ -1,0 +1,135 @@
+@import '@/_variables';
+
+.periodSelector {
+    margin-left: -0.5rem;
+    margin-right: -0.5rem;
+    button {
+        padding-left: 5rem;
+        padding-right: 5rem;
+        font-weight: 500;
+        position: relative;
+
+        &.active {
+            background-color: $primary;
+            color: #fff;
+        }
+        &:not(&.active) {
+            border: 1px solid var(--bs-light-border-subtle);
+        }
+
+        &.oneYear {
+            :global(.badge) {
+                color: rgba(255, 97, 87, 1);
+                background: rgba(255, 240, 239, 1); 
+            }
+        }
+
+        &.twoYear {
+            :global(.badge) {
+                color: #fff;
+                background: rgba(255, 97, 87, 1);
+            }
+        }
+
+        @include media-breakpoint-down(lg) {
+            padding-left: 3.5rem;
+            padding-right: 3.5rem;
+        }
+
+        @include media-breakpoint-down(md) {
+            padding-left: 2rem;
+            padding-right: 2rem;
+
+            :global(.badge) {
+                margin: 0 !important;
+                position: absolute;
+                top: 0;
+                left: 50%;
+                transform: translateX(-50%) translateY(-50%);
+            }
+        }
+    }
+
+    @include media-breakpoint-down(sm) {
+        margin-left: -0.5rem;
+        margin-right: -0.5rem;
+        width: 100%;
+        button {
+            padding-left: 0;
+            padding-right: 0;
+        }
+    }
+}
+
+.planCardsContainer {
+    margin-bottom: 5rem;
+}
+
+.planCard {
+    :global(.badge) {
+        font-size: 0.625rem;
+    }
+
+    ul.features {
+        > li {
+            display: flex;
+            // align-items: center;
+            line-height: 24px;
+            margin-bottom: 1rem;
+
+            &:before {
+                content: '';
+                background-color: $primary;
+                -webkit-mask-image: url(../assets/pricing-tick.svg);
+                mask-image: url(../assets/pricing-tick.svg);
+                width: 24px;
+                height: 24px;
+                min-width: 24px;
+                display: inline-block;
+                margin-right: 0.5rem;
+            }
+
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    &.featured {
+        background: url(../assets/pricing-featured-plan.svg) no-repeat center center;
+        background-size: cover;
+
+        ul.features {
+            > li:before {
+                background-color: #fff;
+            }
+        }
+    }
+}
+
+.banner1 {
+    position: relative;
+    overflow: hidden;
+    
+    .bg {
+        width: 150%;
+        transform: rotate(-12.3deg) translateY(-25%);
+
+        @include media-breakpoint-between(md, lg) {
+            // width: 1
+        }
+
+        @include media-breakpoint-up(md) {
+            width: 180%;
+            position: absolute;
+            top: 0;
+            right: 0;
+            transform: rotate(-12.3deg) translateX(45%) translateY(-5%);
+        }
+
+        @include media-breakpoint-up(lg) {
+            width: 120%;
+            transform: rotate(-12.3deg) translateX(23%) translateY(-12%);
+        }
+    }
+}

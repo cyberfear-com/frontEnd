@@ -63,11 +63,11 @@ export default function Header({ variant = 'default' }) {
 
             <div className='navbar-extra' id='navbarExtra'>
               <ul class="navbar-nav flex-grow-1 justify-content-center mb-md-0 small">
-                <li className='navbar-item'><a href="#" class="nav-link px-2 text-reset">Pricing</a></li>
-                <li className='navbar-item'><a href="#" class="nav-link px-2 text-reset">GitHub</a></li>
-                <li className='navbar-item'><a href="#" class="nav-link px-2 text-reset">Company</a></li>
-                <li className='navbar-item'><a href="#" class="nav-link px-2 text-reset">Resources</a></li>
-                <li className='navbar-item'><a href="#" class="nav-link px-2 text-reset">Contact</a></li>
+                <li className='navbar-item fw-medium'><a href="#" class="nav-link px-2 text-reset">Pricing</a></li>
+                <li className='navbar-item fw-medium'><a href="#" class="nav-link px-2 text-reset">GitHub</a></li>
+                <li className='navbar-item fw-medium'><a href="#" class="nav-link px-2 text-reset">Company</a></li>
+                <li className='navbar-item fw-medium'><a href="#" class="nav-link px-2 text-reset">Resources</a></li>
+                <li className='navbar-item fw-medium'><a href="#" class="nav-link px-2 text-reset">Contact</a></li>
               </ul>
               
               <ul className='navbar-nav buttons'>

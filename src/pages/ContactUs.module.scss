@@ -1,0 +1,102 @@
+@import '@/_variables';
+
+.layout {
+    min-height: 100vh;
+}
+
+.iconField {
+    position: relative;
+    &::before {
+        position: absolute;
+        left: 1rem;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        top: 3px; // adjust, centrify
+    }
+
+    :global {
+        .form-control {
+            padding-left: calc(1.5rem + 24px) !important;
+        }
+        label {
+            left: calc(0.5rem + 24px) !important;
+        }
+        select {
+            padding-left: calc(1.5rem + 24px) !important;
+        }
+    }   
+    
+    &.email::before {
+        content: url(../assets/email-icon.svg);
+    }
+}
+
+.question {
+    position: relative;
+    .charLeft {
+        font-size: 0.75rem;
+        position: absolute;
+        bottom: 0.5rem;
+        right: 1rem;
+    }
+}
+
+.bg {
+    background: url(../assets/contact-us-bg.svg) no-repeat center center;
+    background-size: cover;
+    padding: 0 !important;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 45% !important;
+    height: 100%;
+
+    .phoneWithText {
+        position: absolute;
+        right: 50%;
+        top: 50%;
+        transform: translateY(-50%) translateX(50%);
+        max-width: 450px;
+        width: 100%;
+        padding: 0 1rem;
+    }
+
+    .phone {
+        width: 100%;
+        max-width: 382px;
+    }
+}
+
+.phone {
+    -webkit-filter: drop-shadow(0 51.6px 44.35px rgba(#000, .25));
+    filter: drop-shadow(0 51.6px 44.35px rgba(#000, .25));
+
+    @include media-breakpoint-up(md) {
+        -webkit-filter: drop-shadow(0 128px 110px rgba(#000, .25));
+        filter: drop-shadow(0 128px 110px rgba(#000, .25));
+    }
+}
+
+.bgMobile {
+    background: url(../assets/contact-us-bg.svg) no-repeat center center;
+    background-size: cover;
+    overflow: hidden;
+
+    :global(.container) {
+        position: relative;
+    }
+
+    :global(h4) {
+        max-width: 80%;
+    }
+
+    .phone {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%) translateX(33%);
+        height: 140%;
+        max-height: 300px;
+    }
+}

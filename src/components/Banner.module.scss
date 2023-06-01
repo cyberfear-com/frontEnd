@@ -1,6 +1,7 @@
 @import '@/_variables.scss';
 
 .banner {
+    position: relative;
     :global(.container) {
         padding-top: 6rem;
         padding-bottom: 6rem;

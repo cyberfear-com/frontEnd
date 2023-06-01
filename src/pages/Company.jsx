@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import classNames from 'classnames'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
@@ -13,7 +14,19 @@ import TechnologyImg from '@/assets/technology.png'
 import ServerImg from '@/assets/server.png'
 import styles from './Company.module.scss'
 
+import Tooltip from 'bootstrap/js/src/tooltip'
+
 export default function Company() {
+    const tooltipsContainerRef = useRef(null)
+
+    useEffect(() => {
+        const tooltipTriggerList = tooltipsContainerRef.current.querySelectorAll('[data-bs-toggle="tooltip"]')
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new Tooltip(tooltipTriggerEl))
+        return () => {
+            tooltipList.map(t => t.dispose())
+        }
+    }, [])
+
     return <>
         <Header />
 
@@ -29,7 +42,7 @@ export default function Company() {
         </Banner>
 
         <CardBanner className={classNames(styles.storyBanner, 'bg-primary text-bg-primary')}>
-            <div className='row'>
+            <div className='row' ref={tooltipsContainerRef}>
                 <div className='d-md-none col-12'>
                     <img className={classNames(styles.mobileBg, 'mb-3')} src={MailumUI3Img} />
                 </div>
@@ -38,12 +51,55 @@ export default function Company() {
                         The Mailum Story
                     </h1>
 
-                    <p className='opacity-50'>
-                        We&nbsp;wanted to&nbsp;have an&nbsp;absolute certainty that our emails remain private and inaccessible to&nbsp;third party. 
-                        Unfortunately, every service we&nbsp;looked&nbsp;at, had some crucial drawbacks. 
-                        It&nbsp;was either incomplete encryption, IP-logs , custodial keys (service operators could decrypt user&rsquo;s emails) or&nbsp;were closed-source.
+                    <p>
+                        <span className='opacity-75'>We&nbsp;wanted to&nbsp;have an&nbsp;absolute certainty that our emails remain private and inaccessible to&nbsp;third party. 
+                        Unfortunately, every service we&nbsp;looked&nbsp;at, had some crucial </span> 
+                        <a
+                            role='button'
+                            className='fw-medium'
+                            data-bs-toggle='tooltip'
+                            data-bs-placement='auto'
+                            data-bs-html='true'
+                            data-bs-title='<div class="fw-medium small text-secondary">DRAWBACKS /</div><div>Quaerat sequi et cupiditate possimus unde doloribus quia voluptatibus magnam</div>'
+                        >drawbacks</a>
+                        <span className='opacity-75'>. It&nbsp;was either incomplete </span>
+                        <a 
+                            role='button'
+                            className='fw-medium'
+                            data-bs-toggle='tooltip'
+                            data-bs-placement='top'
+                            data-bs-html='true'
+                            data-bs-title='<div class="fw-medium small text-secondary">ENCRYPTION /</div><div>Quaerat sequi et cupiditate possimus unde doloribus quia voluptatibus magnam</div>' 
+                        >encryption</a>
+                        <span className='opacity-75'>, </span> 
+                        <a 
+                            role='button'
+                            className='fw-medium'
+                            data-bs-toggle='tooltip'
+                            data-bs-placement='top'
+                            data-bs-html='true'
+                            data-bs-title='<div class="fw-medium small text-secondary">IP-LOGS /</div><div>Quaerat sequi et cupiditate possimus unde doloribus quia voluptatibus magnam</div>'
+                        >IP-logs</a>
+                        <span className='opacity-75'>, </span>
+                        <a
+                            role='button'
+                            className='fw-medium'
+                            data-bs-toggle='tooltip'
+                            data-bs-placement='top'
+                            data-bs-html='true'
+                            data-bs-title='<div class="fw-medium small text-secondary">CUSTODIAL KEYS /</div><div>Quaerat sequi et cupiditate possimus unde doloribus quia voluptatibus magnam</div>'
+                        >custodial keys</a><span className='opacity-75'> (service operators could decrypt user&rsquo;s emails) or&nbsp;were </span>
+                        <a
+                            role='button'
+                            className='fw-medium'
+                            data-bs-toggle='tooltip'
+                            data-bs-placement='top'
+                            data-bs-html='true'
+                            data-bs-title='<div class="fw-medium small text-secondary">CLOSED-SOURCE /</div><div>Quaerat sequi et cupiditate possimus unde doloribus quia voluptatibus magnam</div>'
+                        >closed-source</a>
+                        <span className='opacity-75'>.</span>
                     </p>
-                    <p className='opacity-50 mb-0'>
+                    <p className='opacity-75 mb-0'>
                         Having a&nbsp;programming and security background, we&nbsp;decided to&nbsp;create Mailum&nbsp;&mdash; an&nbsp;open source secure email.
                     </p>
                 </div>

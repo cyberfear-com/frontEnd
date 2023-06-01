@@ -23,6 +23,20 @@
             right: 0;
         }
     }
+
+    a[data-bs-toggle=tooltip] {
+        color: currentColor;
+        text-decoration: none;
+
+        &:after {
+            content: url(../assets/question-icon.svg);
+            margin-left: 2px;
+        }
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
 }
 
 .missionImg {

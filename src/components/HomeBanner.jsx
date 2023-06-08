@@ -1,7 +1,8 @@
 import { ReactComponent as AppleStoreIconSVG } from '@/assets/apple-store-icon.svg'
 import { ReactComponent as GooglePlayIconSVG } from '@/assets/google-play-icon.svg'
 import { ReactComponent as FDroidIconSVG } from '@/assets/f-droid-icon.svg'
-import mailumUI from '@/assets/mailum-ui.webp'
+import mailumUiImg from '@/assets/mailum-ui.webp'
+import mailumUiMobileImg from '@/assets/mailum-ui-mobile.webp'
 import classNames from 'classnames'
 import styles from './HomeBanner.module.scss'
 
@@ -27,7 +28,7 @@ const downloadLinks = [
 export default function HomeBanner() {
     return (
         <div className={classNames(styles.root, "bg-primary text-bg-primary pt-5 text-center")}>
-            <div className="container">
+            <div className='container overflow-hidden'>
                 <div className="row">
                     <div className="col-lg-8 col-12 mx-auto">
                         <h1>
@@ -75,8 +76,23 @@ export default function HomeBanner() {
                         </ul>
                     </div>
                 </div>
-                <div className='d-flex justify-content-center overflow-hidden'>
-                    <img src={mailumUI} className={classNames(styles.uiImage)} />
+                <div className='d-flex justify-content-center'>
+                    <picture>
+                        <source
+                            srcset={mailumUiImg}
+                            // width="1176"
+                            // height="771"
+                            media="(min-width: 768px)"
+                        />
+                        <source
+                            srcset={mailumUiMobileImg}
+                            media="(max-width: 767px)"
+                            // width="1214"
+                            // height="865"
+                        />
+                        <img src={mailumUiMobileImg} className={styles.uiImage} />
+                    </picture>
+                    {/* <img src={mailumUI} className={classNames(styles.uiImage)} /> */}
                 </div>
             </div>
         </div>

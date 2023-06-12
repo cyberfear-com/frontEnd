@@ -92,8 +92,11 @@ export default function Testimonials() {
                 </>
             )}
         >
-            <h1>
-                Why Journalists <span className='d-none d-md-inline'>Love&nbsp;Us</span><span className='d-md-none'>love&nbsp;us</span>
+            <h2 className='d-none d-md-block'>
+            Why Journalists Love&nbsp;Us
+            </h2>
+            <h1 className='d-md-none'>
+                Why Journalists love&nbsp;us
             </h1>
             <p className='lead opacity-50 py-3'>
                 we&nbsp;have collected a&nbsp;professional team of&nbsp;science and security experts

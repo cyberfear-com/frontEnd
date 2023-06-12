@@ -11,6 +11,7 @@
 @include media-breakpoint-up(lg) {
     .navbar {
         align-items: center;
+        height: 92px;
     }
     :global(.navbar-extra) {
         display: flex;

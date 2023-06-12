@@ -5,8 +5,14 @@ import styles from './NeedMoreHelpForm.module.scss'
 export default function NeedMoreHelpForm() {
     return (
         <>
-            <h1>You Need More <span className="text-primary">Help?</span></h1>
-            <p className="lead opacity-50">One of our workspace experts will reach out to you based on the category of your question.</p>
+            <h2 className='d-none d-md-block'>
+                You Need More <span className="text-primary">Help?</span>
+            </h2>
+            <h3 className='d-md-none'>
+                You Need More <span className="text-primary">Help?</span>
+            </h3>
+
+            <p className="opacity-50">One of our workspace experts will reach out to you based on the category of your question.</p>
             <form className='mt-5'>
                 <div className={classNames(styles.iconField, styles.name, 'form-floating mb-3')}>
                     <input type="text" className="form-control" id="name" placeholder="Enter your name" />

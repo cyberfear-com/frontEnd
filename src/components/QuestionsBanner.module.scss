@@ -1,6 +1,11 @@
+@import '@/_variables';
+
 .banner {
-    background: url(../assets/questions-banner.jpg) no-repeat center center;
-    background-size: cover;
-    // padding: 6rem;
+    background: var(--bs-primary) url(../assets/questions-banner.png) no-repeat center center;
+    background-size: auto 100%;
     position: relative;
+
+    @include media-breakpoint-down(md) {
+        background-image: url(../assets/questions-banner-mobile.png);
+    }
 }

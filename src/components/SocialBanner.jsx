@@ -14,9 +14,19 @@ export default function SocialBanner() {
     return (
         <div className={classNames(styles.banner, 'bg-light rounded-5 p-3 p-md-5')}>
             <div className="m-4">
-                <h1>
+                <div className='small fw-medium opacity-40 text-center text-md-start'>
+                    SOCIAL MEDIA
+                </div>
+
+                <h4 className='d-none d-md-block'>
                     Reach Us on Your Favorite <span className="text-primary">Social Media Platform</span>
-                </h1>
+                </h4>
+                
+
+                <h2 className='d-md-none text-center'>
+                    
+                    Reach Us on Your Favorite <span className="text-primary">Social Media Platform</span>
+                </h2>
 
             {links.map(link => (
                 <a class="d-inline-flex align-items-center text-decoration-none mt-4 mb-4 pe-3" href="">

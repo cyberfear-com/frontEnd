@@ -19,14 +19,6 @@ import Tooltip from 'bootstrap/js/src/tooltip'
 export default function Company() {
     const tooltipsContainerRef = useRef(null)
 
-    useEffect(() => {
-        const tooltipTriggerList = tooltipsContainerRef.current.querySelectorAll('[data-bs-toggle="tooltip"]')
-        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new Tooltip(tooltipTriggerEl))
-        return () => {
-            tooltipList.map(t => t.dispose())
-        }
-    }, [])
-
     return <>
         <Header />
 
@@ -60,7 +52,7 @@ export default function Company() {
                             data-bs-toggle='tooltip'
                             data-bs-placement='auto'
                             data-bs-html='true'
-                            data-bs-title='<div class="fw-medium small text-secondary">DRAWBACKS /</div><div>Quaerat sequi et cupiditate possimus unde doloribus quia voluptatibus magnam</div>'
+                            data-bs-title='<div class="fw-medium small opacity-60">DRAWBACKS /</div><div class="fw-medium">Quaerat sequi et cupiditate possimus unde doloribus quia voluptatibus magnam</div>'
                         >drawbacks</a>
                         <span className='opacity-75'>. It&nbsp;was either incomplete </span>
                         <a 
@@ -69,7 +61,7 @@ export default function Company() {
                             data-bs-toggle='tooltip'
                             data-bs-placement='top'
                             data-bs-html='true'
-                            data-bs-title='<div class="fw-medium small text-secondary">ENCRYPTION /</div><div>Quaerat sequi et cupiditate possimus unde doloribus quia voluptatibus magnam</div>' 
+                            data-bs-title='<div class="fw-medium small opacity-60">ENCRYPTION /</div><div class="fw-medium">Quaerat sequi et cupiditate possimus unde doloribus quia voluptatibus magnam</div>' 
                         >encryption</a>
                         <span className='opacity-75'>, </span> 
                         <a 
@@ -78,7 +70,7 @@ export default function Company() {
                             data-bs-toggle='tooltip'
                             data-bs-placement='top'
                             data-bs-html='true'
-                            data-bs-title='<div class="fw-medium small text-secondary">IP-LOGS /</div><div>Quaerat sequi et cupiditate possimus unde doloribus quia voluptatibus magnam</div>'
+                            data-bs-title='<div class="fw-medium small opacity-60">IP-LOGS /</div><div class="fw-medium">Quaerat sequi et cupiditate possimus unde doloribus quia voluptatibus magnam</div>'
                         >IP-logs</a>
                         <span className='opacity-75'>, </span>
                         <a
@@ -87,7 +79,7 @@ export default function Company() {
                             data-bs-toggle='tooltip'
                             data-bs-placement='top'
                             data-bs-html='true'
-                            data-bs-title='<div class="fw-medium small text-secondary">CUSTODIAL KEYS /</div><div>Quaerat sequi et cupiditate possimus unde doloribus quia voluptatibus magnam</div>'
+                            data-bs-title='<div class="fw-medium small opacity-60">CUSTODIAL KEYS /</div><div class="fw-medium">Quaerat sequi et cupiditate possimus unde doloribus quia voluptatibus magnam</div>'
                         >custodial keys</a><span className='opacity-75'> (service operators could decrypt user&rsquo;s emails) or&nbsp;were </span>
                         <a
                             role='button'
@@ -95,7 +87,7 @@ export default function Company() {
                             data-bs-toggle='tooltip'
                             data-bs-placement='top'
                             data-bs-html='true'
-                            data-bs-title='<div class="fw-medium small text-secondary">CLOSED-SOURCE /</div><div>Quaerat sequi et cupiditate possimus unde doloribus quia voluptatibus magnam</div>'
+                            data-bs-title='<div class="fw-medium small opacity-60">CLOSED-SOURCE /</div><div class="fw-medium">Quaerat sequi et cupiditate possimus unde doloribus quia voluptatibus magnam</div>'
                         >closed-source</a>
                         <span className='opacity-75'>.</span>
                     </p>
@@ -171,7 +163,7 @@ export default function Company() {
         <Banner className='text-center'>
             <img src={ServerImg} className={styles.serverImg} />
             <h1 className='fw-medium mt-4'>Mailum Servers&rsquo; Location</h1>
-            <p className='text-secondary'>
+            <p className='opacity-50'>
                 Our servers are located <span className='fw-medium'>outside of 14-eyes surveillance network</span>, specifically in Hungary, Europe.
                 We pick our locations carefully with privacy laws in mind.
             </p>

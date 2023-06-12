@@ -10,7 +10,8 @@
     "build:server": "vite build --ssr src/entry-server.jsx --outDir dist/server --base /mailum/",
     "generate": "vite build --outDir dist/static --base /mailum/ && npm run build:server && node prerender",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "postbuild": "purgecss --css dist/client/assets/*.css --content dist/client/index.html dist/client/assets/*.js --output dist/client/assets"
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
@@ -25,6 +26,7 @@
     "swiper": "^9.3.1"
   },
   "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^5.0.0",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react": "^4.0.0",

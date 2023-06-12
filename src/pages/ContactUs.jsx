@@ -21,7 +21,7 @@ export default function ContactUs() {
             <div className='row'>
                 <div className='col-12 col-md-6'>
                     <h2 className='mb-3'>Contact Us</h2>
-                    <p className='lead text-secondary'>
+                    <p className='lead opacity-50'>
                         Please provide the email address so&nbsp;we&nbsp;can contact you
                     </p>
 

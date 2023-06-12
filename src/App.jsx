@@ -1,4 +1,6 @@
+import { useEffect } from 'react'
 import { Link, Route, Routes } from 'react-router-dom'
+import Tooltip from 'bootstrap/js/src/tooltip'
 
 // Auto generates routes from files under ./pages
 // https://vitejs.dev/guide/features.html#glob-import
@@ -14,19 +16,16 @@ const routes = Object.keys(pages).map((path) => {
 })
 
 export function App() {
+  useEffect(() => {
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new Tooltip(tooltipTriggerEl))
+    return () => {
+        tooltipList.map(t => t.dispose())
+    }
+  }, [])
+
   return (
     <>
-      {/* <nav>
-        <ul>
-          {routes.map(({ name, path }) => {
-            return (
-              <li key={path}>
-                <Link to={path}>{name}</Link>
-              </li>
-            )
-          })}
-        </ul>
-      </nav> */}
       <Routes>
         {routes.map(({ path, component: RouteComp }) => {
           return <Route key={path} path={path} element={<RouteComp />}></Route>

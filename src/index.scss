@@ -21,12 +21,27 @@
     }   
 }
 
-h3 {
-    font-weight: 600;
-}
+// Headers
+@include media-breakpoint-down(sm) {
+    h1 {
+        font-size: 2.25rem;
+    }
+    h2 {
+        font-size: 1.75rem;
+    }
+    h3 {
+        font-size: 1.5rem;
+    }
+    h4 {
+        font-size: 1.25rem;
+    }
+    h5 {
+        font-size: 1rem;
+    }
 
-h4 {
-    font-weight: 500;
+    .lead {
+        font-size: 1rem;
+    }
 }
 
 :root {
@@ -38,11 +53,8 @@ h4 {
     --bs-dark: #17181B;
     --bs-dark-rgb: 23, 24, 27;
 
-    --bs-primary: #2277F7;
+    --bs-primary: #2277F6;
     --bs-primary-rgb: 34, 119, 247;
-
-    --bs-secondary: #676767;
-    --bs-secondary-rgb: 103, 103, 103;
 }
 
 .card {
@@ -104,4 +116,11 @@ h4 {
         text-align: left !important;
         // padding: 1rem;
     }
+
+    &.dark {
+        --bs-tooltip-bg: var(--bs-primary);
+        --bs-tooltip-color: var(--bs-white);
+    }
 }
+
+

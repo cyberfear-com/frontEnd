@@ -339,6 +339,10 @@ export default function FAQ() {
                     </div>
                   </div>
 
+                  <div className={classNames(styles.otherQuestionsHeader, 'text-center my-3')}>
+                    <small className={classNames(styles.caption, 'text-muted')}>Other Questions in This Category</small>
+                  </div>
+
                   {otherQuestions.map((question, index) => (
                     <div className="card mt-2" key={index}>
                       <div className="card-body py-4">

@@ -349,3 +349,41 @@ ul.questions {
         }
     }
 }
+
+.otherQuestionsHeader {
+    position: relative;
+
+    &:before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background: rgba(0, 0, 0, 0.1);
+    }
+
+    .caption {
+        position: relative;
+        background: #fff;
+
+        &:before {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 100%;
+            left: -40px;
+            top: 0;
+            background-image: linear-gradient(to right, transparent 0%, #fff 80%);
+        }
+        &:after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 100%;
+            right: -40px;
+            top: 0;
+            background-image: linear-gradient(to left, transparent 0%, #fff 80%);
+        }
+    }
+}

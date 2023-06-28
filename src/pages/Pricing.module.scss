@@ -70,6 +70,13 @@
         font-size: 0.625rem;
     }
 
+    h5 {
+        font-size: 1.375rem;
+        @include media-breakpoint-down(md) {
+            font-size: 1.125rem;
+        }
+    }
+
     ul.features {
         > li {
             display: flex;

@@ -194,7 +194,11 @@ export default function Home() {
       <div className={classNames(styles.peaceOfMind, "container my-5")}>
         <div className="row">
           <div className="col-12 col-md-7 col-lg-8 order-2 order-md-1 mt-3 mt-md-0">
-            <h1>
+            <h2 className='d-none d-md-block'>
+              <span className="text-primary">Peace of Mind</span><br />
+              Without Relying on Trust!
+            </h2>
+            <h1 className='d-md-none'>
               <span className="text-primary">Peace of Mind</span><br />
               Without Relying on Trust!
             </h1>

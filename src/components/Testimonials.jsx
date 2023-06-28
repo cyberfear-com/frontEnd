@@ -74,7 +74,10 @@ export const testimonials = [
     }
 ]
 
-export default function Testimonials() {
+export default function Testimonials({
+    titleDesktop = 'Why Journalists Love&nbsp;Us',
+    titleMobile = 'Why Journalists love&nbsp;us',
+}) {
     return (
         <QuoteSlider
             className={styles.items}
@@ -92,13 +95,9 @@ export default function Testimonials() {
                 </>
             )}
         >
-            <h2 className='d-none d-md-block'>
-            Why Journalists Love&nbsp;Us
-            </h2>
-            <h1 className='d-md-none'>
-                Why Journalists love&nbsp;us
-            </h1>
-            <p className='lead opacity-50 py-3'>
+            <h2 className='d-none d-md-block' dangerouslySetInnerHTML={{ __html: titleDesktop }} />
+            <h1 className='d-md-none' dangerouslySetInnerHTML={{ __html: titleMobile }} />
+            <p className='opacity-50 py-3'>
                 we&nbsp;have collected a&nbsp;professional team of&nbsp;science and security experts
             </p>
         </QuoteSlider>

@@ -20,7 +20,7 @@ export default function ContactUs() {
         <Banner className='flex-grow-1 d-flex align-items-center'>
             <div className='row'>
                 <div className='col-12 col-md-6'>
-                    <h2 className='mb-3'>Contact Us</h2>
+                    <h3 className='mb-3'>Contact Us</h3>
                     <p className='lead opacity-50'>
                         Please provide the email address so&nbsp;we&nbsp;can contact you
                     </p>

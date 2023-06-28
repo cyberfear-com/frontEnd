@@ -95,7 +95,7 @@ export default function CustomerReviews() {
             )}
         > 
             <h2 className='d-none d-md-block'>What Customers Say About Mailum</h2>
-            <h1 className='d-md-none'>What Customers Say About Mailum</h1>
+            <h1 className='d-md-none'>What Customers say about Mailum</h1>
 
             <p className='opacity-50 py-3'>
                 we&nbsp;have collected a&nbsp;professional team of&nbsp;science and security experts

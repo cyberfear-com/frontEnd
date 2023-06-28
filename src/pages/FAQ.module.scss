@@ -23,23 +23,19 @@
             }
         
             &::after {
-                transform: rotate(-90deg);
                 opacity: 40%;
-                content: url(../assets/rquote.svg);
-                // position: absolute;
-                // right: 0;
-                // top: 0;
-                width: auto;
+                content: url(../assets/chevron.svg);
+                width: 24px;
+                height: 24px;
                 display: block;
                 flex-shrink: 0;
-                // height: 100%;
             }
         }
     }
     
     .header:global(.collapsed) {
         &::after {
-            transform: rotate(90deg);
+            transform: rotate(180deg);
         }
     }
 
@@ -56,7 +52,9 @@ ul.questions {
     flex-direction: column;
     margin-top: -0.75rem;
     margin-bottom: -0.75rem;
+
     > li {
+        opacity: 80%;
         padding-top: .75rem;
         padding-bottom: .75rem;
         list-style: none;
@@ -88,6 +86,10 @@ ul.questions {
         // Disable .collapsing
         transition: none !important;
         height: auto !important;
+
+        > li {
+            opacity: 60%;
+        }
     }
 }
 
@@ -117,6 +119,12 @@ ul.questions {
 .bannerWrapper {
     position: relative;
         z-index: 1010;
+
+    .search {
+        input[type=text] {
+            background-color: #428cf6 !important;
+        }
+    }
 }
 
 @include media-breakpoint-down(md) {
@@ -327,6 +335,17 @@ ul.questions {
                     }
                 }
             }
+        }
+    }
+}
+
+.activeQuestion {
+    .answer {
+        // background: $gray;
+    }
+    @include media-breakpoint-down(md) {
+        .question {        
+            font-size: 1.125rem;
         }
     }
 }

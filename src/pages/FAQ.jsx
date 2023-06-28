@@ -120,13 +120,11 @@ export default function FAQ() {
             />
           </div>
 
-          <h1 className='d-none d-md-block'>How Can We&nbsp;Help You?</h1>
-          <h1 className='d-md-none fw-medium'>How Can We&nbsp;Help You?</h1>
+          <h1 className='d-none d-md-block'>How Can We Help You?</h1>
+          <h1 className='d-md-none fw-medium'>How Can We Help&nbsp;You?</h1>
 
           <p className="lead opacity-50 mt-3 mb-4">
-            Below you’ll find answers to the questions we
-            <br />
-            get asked the most about the Mailum.
+            Below you&rsquo;ll find answers to&nbsp;the questions we&nbsp;get asked the most about the Mailum.
           </p>
         </div>
 
@@ -249,7 +247,6 @@ export default function FAQ() {
                             setQuestionAt(itemIndex);
                             modal.show();
                           }}
-                          className="opacity-50"
                         >
                           <span>{item.question}</span>
                         </li>
@@ -310,7 +307,7 @@ export default function FAQ() {
           </div>
         </div>
       </div>
-      <div className="modal" ref={modalRef} tabIndex={-1}>
+      <div className={classNames(styles.modal, 'modal')} ref={modalRef} tabIndex={-1}>
         <div className="modal-dialog modal-xl">
           <div className="modal-content">
             <div className="modal-body p-3 p-md-5">
@@ -331,12 +328,12 @@ export default function FAQ() {
                     />
                   </header>
 
-                  <div className="card mt-3 mt-md-4">
+                  <div className={classNames(styles.activeQuestion, 'card mt-3 mt-md-4')}>
                     <div className="card-body">
-                      <h4 className="card-title">
+                      <h5 className={classNames(styles.question, 'card-title fw-medium px-3')}>
                         {faqGroups[groupAt].questions[questionAt].question}
-                      </h4>
-                      <p className="mb-0">
+                      </h5>
+                      <p className={classNames(styles.answer, 'bg-secondary-subtle p-3 mb-0 rounded-3')}>
                         {faqGroups[groupAt].questions[questionAt].answer}
                       </p>
                     </div>
@@ -348,7 +345,7 @@ export default function FAQ() {
                         <h6
                           className={classNames(
                             styles.cardToggle,
-                            "card-title mb-0 collapsed"
+                            'card-title mb-0 collapsed fw-medium'
                           )}
                           data-bs-toggle="collapse"
                           data-bs-target={`#q${index}`}

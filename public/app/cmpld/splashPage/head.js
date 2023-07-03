@@ -99,7 +99,7 @@ define(["react"], function (React) {
                                     "a",
                                     {
                                         className: "nav-link dark-btn-menu",
-                                        href: "mailbox.html#login"
+                                        href: "mailbox/#login"
                                     },
                                     "Login"
                                 )
@@ -111,7 +111,7 @@ define(["react"], function (React) {
                                     "a",
                                     {
                                         className: "nav-link white-btn-menu",
-                                        href: "mailbox.html#signup"
+                                        href: "mailbox/#signup"
                                     },
                                     "Sign Up"
                                 )

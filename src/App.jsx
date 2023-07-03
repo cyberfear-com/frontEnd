@@ -8,9 +8,11 @@ const pages = import.meta.glob('./pages/*.jsx', { eager: true })
 
 const routes = Object.keys(pages).map((path) => {
   const name = path.match(/\.\/pages\/(.*)\.jsx$/)[1]
+  const nameDashed = name.replace(/[A-Z]/g, m => "-" + m.toLowerCase()).slice(1)
+  console.log(name, nameDashed)
   return {
     name,
-    path: name === 'Home' ? '/' : `/${name.toLowerCase()}`,
+    path: name === 'Home' ? '/' : `/${nameDashed}`,
     component: pages[path].default,
   }
 })

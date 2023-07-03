@@ -5,13 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
-    "build": "npm run build:client && npm run build:server",
-    "build:client": "vite build --outDir dist/client --base /mailum/",
-    "build:server": "vite build --ssr src/entry-server.jsx --outDir dist/server --base /mailum/",
-    "generate": "vite build --outDir dist/static --base /mailum/ && npm run build:server && node prerender",
+    "build": "vite build",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "postbuild": "purgecss --css dist/client/assets/*.css --content dist/client/index.html dist/client/assets/*.js --output dist/client/assets"
+    "postbuild": "purgecss --css dist/assets/*.css --content dist/index.html dist/assets/*.js --output dist/assets"
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",

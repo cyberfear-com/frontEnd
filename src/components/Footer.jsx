@@ -29,7 +29,7 @@ export default function Footer() {
                             </div>
                             <div className="col flex-shrink-0">
                                 <h6 className='small fw-medium'>About</h6>
-                                <ul class={classNames(styles.links, 'list-unstyled small opacity-50')}>
+                                <ul className={classNames(styles.links, 'list-unstyled small opacity-50')}>
                                     <li><a href="">Help Center</a></li>
                                     <li className='mt-2'><a href="">FAQ</a></li>
                                 </ul>

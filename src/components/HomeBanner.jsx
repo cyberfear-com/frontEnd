@@ -70,8 +70,8 @@ export default function HomeBanner() {
                 "list-unstyled d-flex flex-wrap justify-content-center my-4"
               )}
             >
-              {downloadLinks.map((info) => (
-                <li>
+              {downloadLinks.map((info, index) => (
+                <li key={index}>
                   <a
                     href={info.url}
                     className="
@@ -82,7 +82,7 @@ export default function HomeBanner() {
                   >
                     <info.iconClass className="flex-shrink-0" />
                     <div className="flex-grow-1 ms-2 text-start">
-                      <small class="opacity-50">Download on the</small>
+                      <small className='opacity-50'>Download on the</small>
                       <strong>{info.source}</strong>
                     </div>
                   </a>

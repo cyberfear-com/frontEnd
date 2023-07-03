@@ -14,8 +14,6 @@ import TechnologyImg from "@/assets/technology.png";
 import ServerImg from "@/assets/server.png";
 import styles from "./Company.module.scss";
 
-import Tooltip from "bootstrap/js/src/tooltip";
-
 export default function Company() {
   const tooltipsContainerRef = useRef(null);
 
@@ -25,19 +23,19 @@ export default function Company() {
 
       <Banner className="text-center">
         <h1 className="d-none d-md-block">
-          <span className="text-primary">Peace of&nbsp;Mind</span>
+          <span className="text-primary">Without Privacy</span>
           <br />
-          Without Relying on&nbsp;Trust
+          There&rsquo;s No&nbsp;Freedom
         </h1>
         <h3 className="d-md-none">
-          <span className="text-primary">Peace of&nbsp;Mind</span>
+          <span className="text-primary">Without Privacy</span>
           <br />
-          Without Relying on&nbsp;Trust
+          There&rsquo;s No&nbsp;Freedom
         </h3>
 
         <p className="lead opacity-50">
-          Mailum is&nbsp;committed to&nbsp;keeping the Internet
-          an&nbsp;anonymous space free from surveillance.
+          Everyone has the right to&nbsp;be&nbsp;free from interference and intrusion.
+          <br class="d-none d-lg-inline" /> While agreements and promises may break, cryptography has got your back.
         </p>
       </Banner>
 
@@ -125,9 +123,9 @@ export default function Company() {
               <span className="opacity-75">.</span>
             </p>
             <p className="opacity-75 mb-0">
-              Having a&nbsp;programming and security background, we&nbsp;decided
-              to&nbsp;create Mailum&nbsp;&mdash; an&nbsp;open source secure
-              email.
+              Having a&nbsp;programming and security background, 
+                we&nbsp;decided to&nbsp;build a&nbsp;mailbox with zero-access encryption, 
+                which ensures that no&nbsp;one but you can access your data.
             </p>
           </div>
           <div className="col-md-6 d-none d-md-block">
@@ -171,34 +169,35 @@ export default function Company() {
 
       <CardBanner className='bg-secondary-subtle text-center'>
         <h3 className='d-none d-md-block fw-medium'>
-          Join our mission to&nbsp;
+          Join our mission and&nbsp;
           <span className='text-primary'>
-            keeping the Internet
-            <br />
-            an&nbsp;anonymous space free from surveillance.
+            keep<br />
+            your data in&nbsp;your own hands.
           </span>
         </h3>
         <h2 className='d-md-none fw-medium'>
           Join our mission to&nbsp;
           <span className='text-primary'>
-            keeping the Internet
-            <br />
-            an&nbsp;anonymous space free from surveillance.
+            keep<br />
+            your data in&nbsp;your own hands.
           </span>
         </h2>
 
         <p className="opacity-50">
-          Choose the best fitting plan, or create a forever-free account
+          &laquo;Having nothing to&nbsp;hide&raquo; does not work anymore.
+          <wbr /> Your internet activity is&nbsp;an&nbsp;asset used to&nbsp;influence your purchases, attention and votes.
+          <wbr /> Email service can see what and when you buy, who you talk&nbsp;to, which websites you sign up&nbsp;at.
+          <wbr /> Encrypted email service cannot access any of&nbsp;those information.
         </p>
 
-        <a className="btn btn-primary wide fw-medium">Sign up Now</a>
+        <a className="btn btn-primary wide fw-medium">Create Encrypted Email</a>
       </CardBanner>
 
       <Banner className={styles.technologyBanner}>
         <div className="row g-3 align-items-center">
           <div className="col-12 col-md-6 order-2 order-md-1">
-            <h4 className='d-none d-md-block fw-medium'>Mailum Technologies</h4>
-            <h3 className='d-md-none fw-medium'>Mailum Technologies</h3>
+            <h4 className='d-none d-lg-block fw-medium'>Don&rsquo;t Trust Our Servers?<br />Host It&nbsp;Yourself</h4>
+            <h3 className='d-lg-none fw-medium'>Don&rsquo;t Trust Our Servers? Host It&nbsp;Yourself</h3>
 
             <p className="opacity-50">
               Our top priority while building Mailum was to create an email
@@ -218,7 +217,7 @@ export default function Company() {
             </p>
 
             <a href="" className="btn btn-primary wide">
-              See Source on Github
+              Get Source on GitHub
             </a>
           </div>
           <div className="col-12 col-md-6 order-md-2">
@@ -233,14 +232,9 @@ export default function Company() {
         <img src={ServerImg} className={styles.serverImg} />
         <h2 className='d-none d-md-block fw-medium mt-4'>Mailum Servers&rsquo; Location</h2>
         <h3 className='d-md-none mt-4'>Mailum Servers&rsquo; Location</h3>
-
         <p className="opacity-50">
-          Our servers are located{" "}
-          <span className="fw-medium">
-            outside of 14-eyes surveillance network
-          </span>
-          , specifically in Hungary, Europe. We pick our locations carefully
-          with privacy laws in mind.
+          Our servers are located <span className="fw-medium">outside of&nbsp;14-eyes surveillance network</span>, specifically in&nbsp;Poland.
+          We&nbsp;pick our locations carefully with privacy laws in&nbsp;mind.
         </p>
       </Banner>
 

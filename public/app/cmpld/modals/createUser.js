@@ -660,7 +660,7 @@ define(["app", "react"], function (app, React) {
                                             React.createElement(
                                                 "a",
                                                 {
-                                                    href: "mailbox.html#login",
+                                                    href: "mailbox/#login",
                                                     className: "text-decoration-underline"
                                                 },
                                                 "Already a user"

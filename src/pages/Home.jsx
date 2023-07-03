@@ -35,16 +35,16 @@ import Testimonials from "../components/Testimonials";
 import BestTimeBanner from "../components/BestTimeBanner";
 
 const features = [
-  { title: "Zero-knowledge E2EE", image: Feature1SVG },
-  { title: "PGP support", image: Feature2SVG },
-  { title: "TOR support", image: Feature3SVG },
-  { title: "No ads", image: Feature4SVG },
-  { title: "No external trackers", image: Feature5SVG },
-  { title: "No IP-logs", image: Feature6SVG },
-  { title: "Offshore servers location", image: Feature7SVG },
-  { title: "Anonymous payment methods", image: Feature8SVG },
-  { title: "No KYC, no phone verifications", image: Feature9SVG },
-  { title: "Open-source code", image: Feature10SVG },
+  { title: "Zero-knowledge E2EE", image: Feature1SVG, description: 'Zero knowledge End-to-End-Encryption refers to&nbsp;policies and architecture that eliminate the possibility for the system or&nbsp;staff to&nbsp;access your email data.' },
+  { title: "PGP support", image: Feature2SVG, description: 'Your friends use PGP encryption? Great! You can easily add their keys at&nbsp;Mailum and communicate securely.' },
+  { title: "TOR support", image: Feature3SVG, description: "We&nbsp;are TOR enthusiasts and you&rsquo;re welcomed to&nbsp;visit our onion address." },
+  { title: "No ads", image: Feature4SVG, description: "Finally free yourself from unwanted ads and spam mail lists. We&nbsp;do&nbsp;not feed you with ads even in&nbsp;Free accounts. We&nbsp;do&nbsp;not sell your data. We&nbsp;are funded by&nbsp;your subscriptions." },
+  { title: "No external trackers", image: Feature5SVG, description: "No&nbsp;Google/Facebook analytics. We&nbsp;do&nbsp;not use external scripts. We&nbsp;do&nbsp;not use external captchas." },
+  { title: "No IP-logs", image: Feature6SVG, description: "We&nbsp;do&nbsp;not log&nbsp;IP addresses. Registration and usage are anonymous." },
+  { title: "Offshore servers location", image: Feature7SVG, description: "Outside of&nbsp;USA and 14&nbsp;eyes surveillence alliance." },
+  { title: "Anonymous payment methods", image: Feature8SVG, description: "Apart from PayPal and Credit Cards, we&nbsp;accept over 50&nbsp;crypto-currencies such as&nbsp;BTC (BitCoin), XMR (Monero) and many more." },
+  { title: "No KYC, no phone verifications", image: Feature9SVG, description: "We&nbsp;will not ask you for your&nbsp;ID and we&nbsp;will not force you to&nbsp;add a&nbsp;phone number. You may add 2FA." },
+  { title: "Open-source code", image: Feature10SVG, description: "Check our GitHub to&nbsp;see the code." },
 ];
 
 const socialLinks = [
@@ -98,7 +98,10 @@ export default function Home() {
       <Header variant="primary" />
       <HomeBanner />
       <Testimonials />
-      <BestTimeBanner />
+      <BestTimeBanner 
+        firstLine='The best time to&nbsp;improve your privacy was yesterday.'
+        secondLine='The second best time is&nbsp;now.'
+      />
 
       <CardBanner
         className={classNames(
@@ -106,16 +109,16 @@ export default function Home() {
           "bg-secondary-subtle mt-md-4 user-select-none"
         )}
       >
-        <div className="row">
-          <div className="col-12 col-md-7 col-lg-6 order-2 order-md-1">
+        <div className='row' key={1}>
+          <div className='col-12 col-md-7 col-lg-6 order-2 order-md-1'>
             <h1>Private and anonymous email</h1>
 
-            <p className="lead opacity-50">
+            <p className='lead opacity-50'>
               Our privacy is quickly becoming a thing of the past. Privacy
               enables you to control who can access information about your
               private life and activities. Stand your ground and take it back.
             </p>
-            <p className="lead fw-bold opacity-50">
+            <p className='lead fw-bold opacity-50'>
               Mailum is committed to keeping the Internet an anonymous space
               free from surveillance.
             </p>
@@ -139,10 +142,19 @@ export default function Home() {
             "list-unstyled mt-5 mb-n4 mb-sm-0 text-lg-center small fw-bold",
             "row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-5 g-2 g-sm-3 g-xl-4"
           )}
+          key={2}
         >
-          {features.map((feature) => (
-            <li>
-              <div className="card h-100 border-0">
+          {features.map((feature, index) => (
+            <li key={index}>
+              <div
+                className="card h-100 border-0"
+                data-bs-toggle="tooltip"
+                data-bs-placement="bottom"
+                data-bs-custom-class="dark"
+                data-bs-html="true"
+                data-bs-trigger="hover"
+                data-bs-title={`<div class="fw-medium">${feature.description}</div>`}
+              >
                 <div className="card-body d-flex d-lg-block align-items-center">
                   <feature.image />
                   <div className="mt-lg-2 ms-3 ms-lg-0">{feature.title}</div>
@@ -169,6 +181,7 @@ export default function Home() {
               styles.bottomSlider,
               "bg-primary text-bg-primary"
             )}
+            key={index}
           >
             <div className="row justify-content-center align-items-center">
               <div className="col-12 col-md-4 col-lg-4 d-flex align-items-center justify-content-center justify-content-md-end">
@@ -191,16 +204,16 @@ export default function Home() {
         ))}
       </Slider>
 
-      <div className={classNames(styles.peaceOfMind, "container my-5")}>
+      <div className={classNames(styles.peaceOfMind, "container my-6")}>
         <div className="row">
           <div className="col-12 col-md-7 col-lg-8 order-2 order-md-1 mt-3 mt-md-0">
             <h2 className='d-none d-md-block'>
               <span className="text-primary">Peace of Mind</span><br />
-              Without Relying on Trust!
+              Without Relying on&nbsp;Trust!
             </h2>
             <h1 className='d-md-none'>
               <span className="text-primary">Peace of Mind</span><br />
-              Without Relying on Trust!
+              Without Relying on&nbsp;Trust!
             </h1>
 
             <p className="lead">
@@ -254,8 +267,8 @@ export default function Home() {
         </h3>
 
         <ul className="list-unstyled d-inline-flex flex-wrap mt-4 justify-content-center">
-          {socialLinks.map((link) => (
-            <li className="mt-3">
+          {socialLinks.map((link, index) => (
+            <li className='mt-3' key={index}>
               <a
                 href=""
                 className={classNames(
@@ -288,15 +301,13 @@ export default function Home() {
 
       <Banner className='bg-primary text-bg-primary text-center'>
         <h4 className='fw-medium d-none d-md-block'>
-          Take action, Sign up&nbsp;Now<br />
-          to&nbsp;protect your online presence
+          Sign up&nbsp;now to&nbsp;protect your online presence
         </h4>
         <h3 className='d-md-none fw-medium'>
-          Become a&nbsp;Premium Member and Unlock so&nbsp;many secure feature
+          Sign up&nbsp;now to&nbsp;protect your online presence
         </h3>
         <p className='opacity-50 mt-3 mb-4'>
-          Choose the best fitting plan, any upgrade plan is&nbsp;FREE for
-          7&nbsp;DAYS!
+          Create a&nbsp;free-forever account and make sure your emails are secure.
         </p>
 
         <a href="#" className='btn btn-light wide fw-bold d-block d-md-inline'>

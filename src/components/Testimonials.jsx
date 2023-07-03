@@ -75,8 +75,8 @@ export const testimonials = [
 ]
 
 export default function Testimonials({
-    titleDesktop = 'Why Journalists Love&nbsp;Us',
-    titleMobile = 'Why Journalists love&nbsp;us',
+    titleDesktop = 'Trusted by&nbsp;Security Experts',
+    titleMobile = 'Trusted by&nbsp;Security Experts',
 }) {
     return (
         <QuoteSlider
@@ -98,7 +98,7 @@ export default function Testimonials({
             <h2 className='d-none d-md-block' dangerouslySetInnerHTML={{ __html: titleDesktop }} />
             <h1 className='d-md-none' dangerouslySetInnerHTML={{ __html: titleMobile }} />
             <p className='opacity-50 py-3'>
-                we&nbsp;have collected a&nbsp;professional team of&nbsp;science and security experts
+                The Verdict is&nbsp;in: Mailum is&nbsp;the go-to service to&nbsp;take back your digital privacy.
             </p>
         </QuoteSlider>
     )

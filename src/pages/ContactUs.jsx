@@ -28,7 +28,7 @@ export default function ContactUs() {
                     <form className='mt-5'>
                         <div className={classNames(styles.iconField, styles.email, 'form-floating mb-3')}>
                             <input type="email" className="form-control" id="email" placeholder="Enter your name" />
-                            <label for="email">Enter your email address</label>
+                            <label htmlFor="email">Enter your email address</label>
                         </div>
                         <div className={classNames(styles.question, 'mb-3')}>
                             <textarea className='form-control' id='question' rows='6' placeholder="Let's talk" />
@@ -36,7 +36,7 @@ export default function ContactUs() {
                         </div>
                         
                         <div className="d-grid mt-4">
-                            <button type="submit" class="btn btn-primary btn-block">Send Message</button>
+                            <button type="submit" className='btn btn-primary btn-block'>Send Message</button>
                         </div>
                     </form>
                 </div>

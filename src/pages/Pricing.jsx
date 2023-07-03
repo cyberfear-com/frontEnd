@@ -19,11 +19,11 @@ export default function Pricing() {
     <>
       <Header />
 
-      <CardBanner className="text-center">
+      <CardBanner className='text-center'>
         <h3>
-          Get Started Now, <span class="text-primary">Pick a&nbsp;Plan</span>
+          Get Started Now, <span className='text-primary'>Pick a&nbsp;Plan</span>
         </h3>
-        <p className="lead opacity-50 mb-4">
+        <p className='lead opacity-50 mb-4'>
           Protect confidential emails and information
         </p>
 

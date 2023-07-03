@@ -461,7 +461,7 @@ define(["react", "app", "validation", "cmpld/modals/paymentGate"], function (
                                     ) : null}
                                     <div className="col-sm-12">
                                         <div className="forgot-link">
-                                            <a href="mailbox.html#forgotPassword">
+                                            <a href="mailbox/#forgotPassword">
                                                 Forgot Password?
                                             </a>
                                         </div>

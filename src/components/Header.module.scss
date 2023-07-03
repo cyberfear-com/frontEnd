@@ -1,5 +1,12 @@
 @import '@/_variables.scss';
 
+.brand {
+    width: 118px;
+    @include media-breakpoint-down(md) {
+        width: 100px;
+    }
+}
+
 .header {
     :global {
         .navbar-collapse ul {
@@ -96,9 +103,6 @@
  }
 
  @include media-breakpoint-down(md) {
-    .brand {
-        width: 100px;
-    }
     .tryButton {
         padding-left: 16px !important;
         padding-right: 16px !important;

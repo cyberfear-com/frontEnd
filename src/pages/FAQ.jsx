@@ -209,7 +209,7 @@ export default function FAQ() {
           {faqGroups.map((group, index) => {
             const Icon = icons[index];
             return (
-              <div className="col mt-2 mt-md-4">
+              <div className="col mt-2 mt-md-4" key={index}>
                 <div className="card h-100">
                   <div className="card-body text-left">
                     <div

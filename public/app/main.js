@@ -315,7 +315,7 @@ require([
 		 */
     app.restartApp = function () {
         // window.location.href = "/index.html";
-        window.location.href = "mailbox.html#login";
+        window.location.href = "mailbox/#login";
         window.location.reload();
     };
 

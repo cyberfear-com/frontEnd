@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import 'bootstrap/js/src/collapse'
 import { ReactComponent as MailumSVG } from '@/assets/mailum.svg'
 import { ReactComponent as NavbarToggleSVG } from '@/assets/navbar-toggle-icon.svg'
@@ -62,11 +62,21 @@ export default function Header({ variant = 'default' }) {
 
           <div className='navbar-extra' id='navbarExtra'>
             <ul className='navbar-nav flex-grow-1 justify-content-center mb-md-0 small'>
-              <li className='navbar-item fw-medium'><Link to="/pricing" className='nav-link px-2 text-reset'>Pricing</Link></li>
-              <li className='navbar-item fw-medium'><a href="#" className='nav-link px-2 text-reset'>GitHub</a></li>
-              <li className='navbar-item fw-medium'><Link to="/company" className='nav-link px-2 text-reset'>Company</Link></li>
-              <li className='navbar-item fw-medium'><Link to="/faq" className='nav-link px-2 text-reset'>FAQ</Link></li>
-              <li className='navbar-item fw-medium'><Link to="/contact-us" className='nav-link px-2 text-reset'>Contact</Link></li>
+              <li className='navbar-item fw-medium'>
+                <NavLink to="/pricing" className='nav-link px-3 text-reset' activeClassName='active'>Pricing</NavLink>
+              </li>
+              <li className='navbar-item fw-medium'>
+                <a href="#" className='nav-link px-3 text-reset'>GitHub</a>
+              </li>
+              <li className='navbar-item fw-medium'>
+                <NavLink to="/company" className='nav-link px-3 text-reset' activeClassName='active'>Company</NavLink>
+              </li>
+              <li className='navbar-item fw-medium'>
+                <NavLink to="/faq" className='nav-link px-3 text-reset' activeClassName='active'>FAQ</NavLink>
+              </li>
+              <li className='navbar-item fw-medium'>
+                <NavLink to="/contact-us" className='nav-link px-3 text-reset' activeClassName='active'>Contact</NavLink>
+              </li>
             </ul>
             
             <ul className='navbar-nav buttons'>

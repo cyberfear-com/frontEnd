@@ -18,12 +18,22 @@
 @include media-breakpoint-up(lg) {
     .navbar {
         align-items: center;
-        height: 92px;
+        height: 80px;
     }
     :global(.navbar-extra) {
         display: flex;
         width: 100%;
         align-items: center;
+    }
+
+    :global {
+        .nav-link {
+            opacity: .5;
+
+            &.active {
+                opacity: 1;
+            }
+        }
     }
 }
 

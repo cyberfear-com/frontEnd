@@ -25,18 +25,22 @@ export default function ContactUs() {
                         Please provide the email address so&nbsp;we&nbsp;can contact you
                     </p>
 
-                    <form className='mt-5'>
-                        <div className={classNames(styles.iconField, styles.email, 'form-floating mb-3')}>
-                            <input type="email" className="form-control" id="email" placeholder="Enter your name" />
-                            <label htmlFor="email">Enter your email address</label>
+                    <form className='mt-5' novalidate>
+                        <div className={classNames(styles.iconField, styles.email, 'mb-3')}>
+                            <input 
+                                type='email'
+                                className='form-control'
+                                id='email'
+                                placeholder='Enter your email address'
+                            />
                         </div>
                         <div className={classNames(styles.question, 'mb-3')}>
                             <textarea className='form-control' id='question' rows='6' placeholder="Let's talk" />
                             <small className={classNames(styles.charLeft, 'opacity-40')}>800 characters left</small>
                         </div>
                         
-                        <div className="d-grid mt-4">
-                            <button type="submit" className='btn btn-primary btn-block'>Send Message</button>
+                        <div className='d-grid mt-4'>
+                            <button disabled={true} type='submit' className='btn btn-primary btn-block'>Send Message</button>
                         </div>
                     </form>
                 </div>

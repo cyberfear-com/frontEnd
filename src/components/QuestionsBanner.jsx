@@ -1,10 +1,11 @@
 import classNames from 'classnames'
 import CardBanner from './CardBanner'
 import styles from './QuestionsBanner.module.scss'
+import { ReactComponent as CopyIconSVG } from '@/assets/copy-icon.svg'
 
 export default function QuestionBanner() {
     return (
-        <CardBanner className={classNames(styles.banner, 'text-light rounded-5 text-center')}>
+        <CardBanner className={classNames(styles.banner, 'text-light rounded-5 text-center mt-5')}>
             <h3 className='d-none d-md-block fw-medium'>You Have Different Questions?</h3>
             <h2 className='d-md-none'>You Have Different Questions?</h2>
 
@@ -12,7 +13,11 @@ export default function QuestionBanner() {
                 Our team will answer all your questions. get in touch if you need more help
             </p>
 
-            <a href="mailto:info@mailum.com" className="btn btn-primary">info@mailum.com</a>
+            <a href="mailto:info@mailum.com" className="btn btn-primary">
+                info@mailum.com
+
+                <CopyIconSVG />
+            </a>
         </CardBanner>
     )
 }

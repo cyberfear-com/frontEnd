@@ -12,6 +12,9 @@
     :global {
         .form-control {
             padding-left: calc(1.5rem + 24px) !important;
+            &[type=file] {
+                padding-left: 1rem !important;
+            }
         }
         label {
             left: calc(0.5rem + 24px) !important;

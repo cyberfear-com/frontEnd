@@ -5,6 +5,31 @@
     background-size: auto 100%;
     position: relative;
 
+    :global(.btn) {
+        // background-color: rgba(var(--bs-primary-rgb), 0.5);
+        background-color: #fff;
+        color: #555;
+        font-weight: 400;
+        text-align: left;
+        position: relative;
+        padding-left: 16px;
+        padding-right: 16px;
+        width: 250px;
+
+        svg {
+            position: absolute;
+            right: 16px;
+            border-left: 1px solid rgba(255,255,255,.25);
+            padding-left: 8px;
+            box-sizing: content-box;
+            opacity: .5;
+        }
+
+        @include media-breakpoint-down(md) {
+            width: 100%;
+        }
+    }
+
     @include media-breakpoint-down(md) {
         background-image: url(../assets/questions-banner-mobile.png);
     }

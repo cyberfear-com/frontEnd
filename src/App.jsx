@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Link, Route, Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import Tooltip from 'bootstrap/js/src/tooltip'
 
 // Auto generates routes from files under ./pages
@@ -8,7 +8,7 @@ const pages = import.meta.glob('./pages/*.jsx', { eager: true })
 
 const routes = Object.keys(pages).map((path) => {
   const name = path.match(/\.\/pages\/(.*)\.jsx$/)[1]
-  const nameDashed = name.replace(/[A-Z]/g, m => "-" + m.toLowerCase()).slice(1)
+  const nameDashed = name.replace(/[^A-Z][A-Z]/g, m => m[0] + "-" + m[1]).toLowerCase()
   console.log(name, nameDashed)
   return {
     name,

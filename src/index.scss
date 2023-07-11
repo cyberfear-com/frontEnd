@@ -125,3 +125,12 @@
 }
 
 
+
+input[type=file]::file-selector-button {
+    font-size: 0;
+    border: none !important;
+}
+
+input[type=file] {
+    padding-left: 1rem !important;
+}

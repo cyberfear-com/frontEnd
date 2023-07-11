@@ -1,9 +1,8 @@
-@import 'bootstrap/scss/_functions.scss';
-@import 'bootstrap/scss/_variables.scss';
-@import 'bootstrap/scss/mixins/_breakpoints.scss';
+$box-shadow-lg: 0 1rem 3rem rgba(#555, .1) !default;
 
+$form-file-button-hover-bg: transparent;
+$form-file-button-bg: transparent;
 $enable-cssgrid: true;
-$primary: #2277F7;
 
 $h1-font-size: 3rem;
 $h2-font-size: 2.5rem;
@@ -26,8 +25,6 @@ $border-color-translucent: rgba(0, 0, 0, 0.1);
 
 $display-line-height: 1.6;
 $enable-negative-margins: true;
-
-$box-shadow-lg: 0 1rem 3rem rgba(#555, .175) !default;
 
 $secondary-bg-subtle: #F7F8FA;
 
@@ -62,5 +59,10 @@ $grid-breakpoints: (
   xxl: 1400px
 );
 
-
 $navbar-mobile-height: 80px;
+
+@import 'bootstrap/scss/_functions.scss';
+@import 'bootstrap/scss/_variables.scss';
+@import 'bootstrap/scss/mixins/_breakpoints.scss';
+
+$primary: #2277F7;

@@ -269,7 +269,7 @@ export default function FAQ() {
               <NeedMoreHelpForm />
             </div>
           </div>
-          <div className="col mt-5 mt-lg-0 p-lg-5">
+          <div className="col mt-5 mt-lg-0 px-lg-5">
             <SocialBanner />
           </div>
         </div>
@@ -300,7 +300,7 @@ export default function FAQ() {
               </span>
             </p>
 
-            <a href='' className='btn btn-light small fw-bold'>
+            <a href='' className='btn btn-light small fw-bold d-block d-md-inline'>
               <span className='d-none d-md-inline'>Sign up Now</span>
               <span className='d-md-none'>Upgrade Now</span>
             </a>

@@ -190,7 +190,7 @@ export default function Company() {
           <wbr /> Encrypted email service cannot access any of&nbsp;those information.
         </p>
 
-        <a className="btn btn-primary wide fw-medium">Create Encrypted Email</a>
+        <a className="btn btn-primary wide fw-medium mt-2">Create Encrypted Email</a>
       </CardBanner>
 
       <Banner className={styles.technologyBanner}>

@@ -971,7 +971,7 @@ define(['react', 'app', 'summernote', 'select2'], function (React, app, summerno
 				var c = 1;
 				$.each(fileObj, function (fName, fData) {
 
-					linkbody += '<div style="clear:both; margin-top:5px;">' + app.transform.from64str(fName) + ' <a href="' + app.defaults.get('domain') + '/api/dFV2/' + fData['fileName'] + "1/p/" + app.transform.bin2hex(app.transform.from64bin(fData['key'])) + '" target="_blank">Click to download file</a></div>';
+					linkbody += '<div style="clear:both; margin-top:5px;">' + app.transform.from64str(fName) + ' <a href="' + app.defaults.get('domainVPS') + '/api/dFV2/' + fData['fileName'] + "1/p/" + app.transform.bin2hex(app.transform.from64bin(fData['key'])) + '" target="_blank">Click to download file</a></div>';
 					c++;
 				});
 

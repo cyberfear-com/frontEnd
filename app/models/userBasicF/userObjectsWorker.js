@@ -2036,20 +2036,11 @@ define([
 					//console.log('update Folder');
 
 					var oldEncryptedFolder=app.userObjects.get("EncryptedFolderObject");
-					//console.log(jQuery.extend(true, {}, app.userObjects.get("EncryptedFolderObject")));
 					var folders=jQuery.extend(true, {}, app.user.get("DecryptedFolderObject"));
-
-					//console.log(app.user.get("DecryptedFolderObject"));
-
 					folders[0]['data']=app.user.get("folders");
-					//folders[0]['hash']=app.transform.SHA512(JSON.stringify(folders[0]['data']));
-					//folders[0]['nonce']=parseInt(folders[0]['nonce'])+1;
-
 
 					var changedFolders={};
-					//changedFolders[0]=folders[0];
 					$.each(folders, function( index, foldData ) {
-
 						//if(index>0){
 							foldData['hash']=app.transform.SHA512(JSON.stringify(foldData['data']));
 
@@ -2058,14 +2049,12 @@ define([
 							folders[index]['nonce']=parseInt(folders[index]['nonce'])+1;
 							changedFolders[index]=folders[index];
 							//changedFolders.push(folders[index]);
-
 						}else if(foldData['hash']!=oldEncryptedFolder[index]['hash']){
 							folders[index]['hash']=app.transform.SHA512(JSON.stringify(folders[index]['data']));
 							folders[index]['nonce']=parseInt(folders[index]['nonce'])+1;
 							changedFolders[index]=folders[index];
 							//changedFolders.push(folders[index]);
 						}
-
 					//	}
 					});
 
@@ -2081,19 +2070,13 @@ define([
 							"nonce":foldData['nonce']
 						};
 					});
-
-
 					var post={};
-
 					post['folderData']=JSON.stringify(newFolderObj);
 
 
-					app.serverCall.ajaxRequest('folderSettings',post,function(result){
-
+			/*		app.serverCall.ajaxRequest('folderSettings',post,function(result){
 						if(result['response']=='success'){
-
 							if(result['data']=='saved'){
-
 								$.each(newFolderObj, function( index, foldData ) {
 									oldEncryptedFolder[index]=foldData;
 								});
@@ -2114,7 +2097,7 @@ define([
 							}
 						}
 						callback(result);
-					});
+					});*/
 
 
 					break;

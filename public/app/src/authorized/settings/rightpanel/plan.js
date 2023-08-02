@@ -416,7 +416,7 @@ define([
                 elements,
                 confirmParams: {
                     // Make sure to change this to your payment completion page
-                    return_url: "https://cyber.com/index.html",
+                    return_url: "https://cyber.com",
                 },
                 redirect: "if_required",
             });

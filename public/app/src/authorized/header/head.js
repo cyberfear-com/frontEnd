@@ -190,7 +190,7 @@ define([
                                     <span>Go Premium</span>
                                 </a>
                             </div>
-                            <div className="icon-notification">
+                            <div className="icon-notification hidden">
                                 <button
                                     onClick={this.handleClick.bind(
                                         this,

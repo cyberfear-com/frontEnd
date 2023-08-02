@@ -1790,7 +1790,7 @@ define(["react", "app", "quill", "select2"], function (
                     <div className="compose-ec">
                         <div className="the-header">
                             <div className="c-title">
-                                <h3>New message</h3>
+                                <h3>New message1</h3>
                             </div>
                             <div className="c-actions">
                                 <button

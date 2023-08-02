@@ -68,7 +68,7 @@ define([
                 <div className="information-table-row" key="1b">
                     <label>Invitation Link:</label>
                     <div className="information-row-right with-btn">
-                        https://cyberfear.com/index.html#createUser/
+                        https://cyber.com/mailbox/#signup/
                         {app.user.get("userPlan")["coupon"]}
                         <button
                             className="copy-btn"

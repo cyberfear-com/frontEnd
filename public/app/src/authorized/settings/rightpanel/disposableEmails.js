@@ -445,7 +445,7 @@ define([
 
                                     button1visible: "d-none",
                                     signature:
-                                        '<div>Sent using Encrypted Email Service -&nbsp;<a href="https://cyberfear.com/index.html#createUser/' +
+                                        '<div>Sent using Encrypted Email Service -&nbsp;<a href="https://cyber.com/mailbox/#signup/' +
                                         app.user.get("userPlan")["coupon"] +
                                         '" target="_blank">CyberFear.com</a></div>',
                                 });

@@ -44,7 +44,7 @@ define(["react"], function (React) {
                             >
                                 MENU
                             </button>
-                            <a className="navbar-brand" href="index.html">
+                            <a className="navbar-brand" href="/">
                                 <img src="img/logo.svg" className="logo" />
                             </a>
                         </div>

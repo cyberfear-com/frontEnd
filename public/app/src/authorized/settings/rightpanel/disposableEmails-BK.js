@@ -100,7 +100,7 @@ define(['react','app','dataTable','dataTableBoot'], function (React,app,DataTabl
 			//console.log(name,email,domain);
 
             app.user.set({"inProcess":true});
-            
+
 			var changeObj={};
 			var firPart={};
 			var secPart={};
@@ -423,7 +423,7 @@ define(['react','app','dataTable','dataTableBoot'], function (React,app,DataTabl
 									secondTab:"",
 
 									button1visible:'hidden',
-									signature:'<div>Sent using Encrypted Email Service -&nbsp;<a href="https://cyberfear.com/index.html#createUser/'+app.user.get("userPlan")['coupon']+'" target="_blank">CyberFear.com</a></div>'
+									signature:'<div>Sent using Encrypted Email Service -&nbsp;<a href="https://cyber.com/mailbox/#signup/'+app.user.get("userPlan")['coupon']+'" target="_blank">mailum.com</a></div>'
 
 								}
 							);

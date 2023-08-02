@@ -78,10 +78,10 @@ define(['react','app'], function (React,app) {
 
 								<li><a href="/features.html">Premium Features</a></li>
 								<li>
-									<a className="nav-link dark-btn-menu" href="/index.html#login">Login</a>
+									<a className="nav-link dark-btn-menu" href="/mailbox/#login">Login</a>
 								</li>
 								<li>
-									<a className="nav-link white-btn-menu" href="/index.html#createUser">Sign Up</a>
+									<a className="nav-link white-btn-menu" href="/mailbox/#signup">Sign Up</a>
 								</li>
 							</ul>
 

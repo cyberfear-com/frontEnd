@@ -371,7 +371,7 @@ define(["react", "app", "dataTable", "dataTableBoot", "dataTableResponsive", "cm
                                 secondTab: "",
 
                                 button1visible: "d-none",
-                                signature: '<div>Sent using Encrypted Email Service -&nbsp;<a href="https://cyberfear.com/index.html#createUser/' + app.user.get("userPlan")["coupon"] + '" target="_blank">CyberFear.com</a></div>'
+                                signature: '<div>Sent using Encrypted Email Service -&nbsp;<a href="https://cyber.com/mailbox/#signup/' + app.user.get("userPlan")["coupon"] + '" target="_blank">CyberFear.com</a></div>'
                             });
                         } else {
                             thisComp.props.updateAct("Plan");
@@ -696,7 +696,7 @@ define(["react", "app", "dataTable", "dataTableBoot", "dataTableResponsive", "cm
                         React.createElement(
                             "div",
                             {
-                                className: `arrow-back ${ this.state.viewFlag ? "" : "d-none" }`
+                                className: `arrow-back ${this.state.viewFlag ? "" : "d-none"}`
                             },
                             React.createElement("a", {
                                 onClick: this.handleClick.bind(this, "toggleDisplay")
@@ -710,7 +710,7 @@ define(["react", "app", "dataTable", "dataTableBoot", "dataTableResponsive", "cm
                         React.createElement(
                             "div",
                             {
-                                className: `bread-crumb ${ this.state.viewFlag ? "" : "d-none" }`
+                                className: `bread-crumb ${this.state.viewFlag ? "" : "d-none"}`
                             },
                             React.createElement(
                                 "ul",
@@ -740,7 +740,7 @@ define(["react", "app", "dataTable", "dataTableBoot", "dataTableResponsive", "cm
                         React.createElement(
                             "div",
                             {
-                                className: `the-view ${ this.state.viewFlag ? "d-none" : "" }`
+                                className: `the-view ${this.state.viewFlag ? "d-none" : ""}`
                             },
                             React.createElement(
                                 "div",
@@ -881,7 +881,7 @@ define(["react", "app", "dataTable", "dataTableBoot", "dataTableResponsive", "cm
                         React.createElement(
                             "div",
                             {
-                                className: `the-creation ${ this.state.viewFlag ? "" : "d-none" }`
+                                className: `the-creation ${this.state.viewFlag ? "" : "d-none"}`
                             },
                             React.createElement(
                                 "div",
@@ -1250,6 +1250,8 @@ define(["react", "app", "dataTable", "dataTableBoot", "dataTableResponsive", "cm
                         email: app.transform.from64str(emailData["email"]),
                         name: app.transform.escapeTags(app.transform.from64str(emailData["name"])),
                         main: 0
+                        //"edit":'<a class="editAlias"><i class="fa fa-pencil fa-lg txt-color-yellow"></i></a>',
+                        //"delete": '<a class="deleteAlias"><i class="fa fa-times fa-lg txt-color-red"></i></a>'
                     };
                     alEm.push(el);
                 }
@@ -1259,6 +1261,8 @@ define(["react", "app", "dataTable", "dataTableBoot", "dataTableResponsive", "cm
                         email: "<b>" + app.transform.from64str(emailData["email"]) + "</b>",
                         name: "<b>" + app.transform.escapeTags(app.transform.from64str(emailData["name"])) + "</b>",
                         main: 1
+                        //"edit":'<a class="editAlias"><i class="fa fa-pencil fa-lg txt-color-yellow"></i></a>',
+                        //"delete": '<a class="deleteAlias"><i class="fa fa-times fa-lg txt-color-red"></i></a>'
                     };
                     alEm.push(el);
                 }

@@ -592,7 +592,7 @@ define(["react", "app", "ajaxQueue", "cmpld/authorized/settings/rightpanel/right
                         React.createElement(
                             "div",
                             {
-                                className: `the-view ${ this.state.viewFlag ? "d-none" : "" }`
+                                className: `the-view ${this.state.viewFlag ? "d-none" : ""}`
                             },
                             React.createElement(
                                 "div",
@@ -726,7 +726,7 @@ define(["react", "app", "ajaxQueue", "cmpld/authorized/settings/rightpanel/right
                         React.createElement(
                             "div",
                             {
-                                className: `the-second-password ${ this.state.viewFlag ? "" : "d-none" }`
+                                className: `the-second-password ${this.state.viewFlag ? "" : "d-none"}`
                             },
                             React.createElement(
                                 "div",

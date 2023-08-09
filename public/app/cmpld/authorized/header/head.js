@@ -218,7 +218,7 @@ define(["react", "app", "accounting", "cmpld/authorized/mailbox/notifications"],
                         ),
                         React.createElement(
                             "div",
-                            { className: "icon-notification" },
+                            { className: "icon-notification hidden" },
                             React.createElement(
                                 "button",
                                 {

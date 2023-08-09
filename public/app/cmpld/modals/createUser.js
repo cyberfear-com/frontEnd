@@ -337,7 +337,7 @@ define(["app", "react"], function (app, React) {
                 React.createElement(
                     "div",
                     {
-                        className: `loading-screen welcome ${ this.state.working ? "d-flex" : "d-none" }`
+                        className: `loading-screen welcome ${this.state.working ? "d-flex" : "d-none"}`
                     },
                     React.createElement(
                         "div",
@@ -709,7 +709,7 @@ define(["app", "react"], function (app, React) {
                 React.createElement(
                     "div",
                     {
-                        className: `modal modal-sheet position-fixed ${ this.state.accountCreationStatus ? "d-block" : "d-none" } bg-secondary bg-opacity-75 py-5`,
+                        className: `modal modal-sheet position-fixed ${this.state.accountCreationStatus ? "d-block" : "d-none"} bg-secondary bg-opacity-75 py-5`,
                         tabindex: "-1",
                         role: "dialog",
                         id: "modalSheet"

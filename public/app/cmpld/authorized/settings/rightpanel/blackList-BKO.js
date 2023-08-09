@@ -307,7 +307,8 @@ define(["react", "app"], function (React, app) {
         /**
          *
          * @returns {JSX}
-         */render: function () {
+         */
+        render: function () {
             return React.createElement(
                 "div",
                 { id: "rightSettingPanel" },

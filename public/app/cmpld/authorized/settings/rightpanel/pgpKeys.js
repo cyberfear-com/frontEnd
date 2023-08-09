@@ -165,6 +165,8 @@ define(["react", "app", "dataTable", "dataTableBoot", "cmpld/authorized/settings
                 //maxlength: 900,
                 //greaterThanZero:true
                 privPass: true
+                //pubBit2strong:true,
+                //pubmatch:true
             });
 
             $("#pubK").rules("add", {
@@ -523,6 +525,7 @@ define(["react", "app", "dataTable", "dataTableBoot", "cmpld/authorized/settings
 
                 keyDate: keys[id]["date"],
                 keyModified: keys[id]["keysModified"]
+                //keyFingerprint:app.transform.keyFingerprint(keys[id]['publicKey'])
             });
         },
 
@@ -730,7 +733,7 @@ define(["react", "app", "dataTable", "dataTableBoot", "cmpld/authorized/settings
                         React.createElement(
                             "div",
                             {
-                                className: `arrow-back ${ this.state.viewFlag ? "" : "d-none" }`
+                                className: `arrow-back ${this.state.viewFlag ? "" : "d-none"}`
                             },
                             React.createElement("a", {
                                 onClick: this.handleClick.bind(this, "toggleDisplay")
@@ -744,7 +747,7 @@ define(["react", "app", "dataTable", "dataTableBoot", "cmpld/authorized/settings
                         React.createElement(
                             "div",
                             {
-                                className: `bread-crumb ${ this.state.viewFlag ? "" : "d-none" }`
+                                className: `bread-crumb ${this.state.viewFlag ? "" : "d-none"}`
                             },
                             React.createElement(
                                 "ul",
@@ -774,7 +777,7 @@ define(["react", "app", "dataTable", "dataTableBoot", "cmpld/authorized/settings
                         React.createElement(
                             "div",
                             {
-                                className: `the-view ${ this.state.viewFlag ? "d-none" : "" }`
+                                className: `the-view ${this.state.viewFlag ? "d-none" : ""}`
                             },
                             React.createElement(
                                 "div",
@@ -822,7 +825,7 @@ define(["react", "app", "dataTable", "dataTableBoot", "cmpld/authorized/settings
                             React.createElement(
                                 "div",
                                 {
-                                    className: `table-row ${ this.state.firstPanelClass }`
+                                    className: `table-row ${this.state.firstPanelClass}`
                                 },
                                 React.createElement(
                                     "div",
@@ -935,7 +938,7 @@ define(["react", "app", "dataTable", "dataTableBoot", "cmpld/authorized/settings
                         React.createElement(
                             "div",
                             {
-                                className: `the-creation ${ this.state.viewFlag ? "" : "d-none" }`
+                                className: `the-creation ${this.state.viewFlag ? "" : "d-none"}`
                             },
                             React.createElement(
                                 "div",

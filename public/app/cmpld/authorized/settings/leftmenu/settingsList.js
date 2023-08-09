@@ -275,7 +275,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                     "button",
                                     {
                                         type: "button",
-                                        className: `btn dropdown-toggle ${ this.state.activeParentLink === `profile` ? "active" : "" }`,
+                                        className: `btn dropdown-toggle ${this.state.activeParentLink === `profile` ? "active" : ""}`,
                                         "data-bs-toggle": "dropdown",
                                         "aria-expanded": "false"
                                     },
@@ -306,7 +306,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                     React.createElement(
                                         "li",
                                         {
-                                            className: `${ this.state.activeLink === `Contacts` ? "active" : "" }`
+                                            className: `${this.state.activeLink === `Contacts` ? "active" : ""}`
                                         },
                                         React.createElement(
                                             "a",
@@ -319,7 +319,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                     React.createElement(
                                         "li",
                                         {
-                                            className: `${ this.state.activeLink === `Aliases` ? "active" : "" }`
+                                            className: `${this.state.activeLink === `Aliases` ? "active" : ""}`
                                         },
                                         React.createElement(
                                             "a",
@@ -332,7 +332,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                     React.createElement(
                                         "li",
                                         {
-                                            className: `${ this.state.activeLink === `Disposable-Aliases` ? "active" : "" }`
+                                            className: `${this.state.activeLink === `Disposable-Aliases` ? "active" : ""}`
                                         },
                                         React.createElement(
                                             "a",
@@ -345,7 +345,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                     React.createElement(
                                         "li",
                                         {
-                                            className: `${ this.state.activeLink === `Custom-Domain` ? "active" : "" }`
+                                            className: `${this.state.activeLink === `Custom-Domain` ? "active" : ""}`
                                         },
                                         React.createElement(
                                             "a",
@@ -358,7 +358,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                     React.createElement(
                                         "li",
                                         {
-                                            className: `${ this.state.activeLink === `Delete-Account` ? "active" : "" }`
+                                            className: `${this.state.activeLink === `Delete-Account` ? "active" : ""}`
                                         },
                                         React.createElement(
                                             "a",
@@ -377,7 +377,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                     "button",
                                     {
                                         type: "button",
-                                        className: `btn dropdown-toggle ${ this.state.activeParentLink === `security` ? "active" : "" }`,
+                                        className: `btn dropdown-toggle ${this.state.activeParentLink === `security` ? "active" : ""}`,
                                         "data-bs-toggle": "dropdown",
                                         "aria-expanded": "false"
                                     },
@@ -408,7 +408,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                     React.createElement(
                                         "li",
                                         {
-                                            className: `${ this.state.activeLink === `Password` ? "active" : "" }`
+                                            className: `${this.state.activeLink === `Password` ? "active" : ""}`
                                         },
                                         React.createElement(
                                             "a",
@@ -421,7 +421,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                     React.createElement(
                                         "li",
                                         {
-                                            className: `${ this.state.activeLink === `2-Step` ? "active" : "" }`
+                                            className: `${this.state.activeLink === `2-Step` ? "active" : ""}`
                                         },
                                         React.createElement(
                                             "a",
@@ -434,7 +434,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                     React.createElement(
                                         "li",
                                         {
-                                            className: `${ this.state.activeLink === `PGP-Keys` ? "active" : "" }`
+                                            className: `${this.state.activeLink === `PGP-Keys` ? "active" : ""}`
                                         },
                                         React.createElement(
                                             "a",
@@ -447,7 +447,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                     React.createElement(
                                         "li",
                                         {
-                                            className: `${ this.state.activeLink === `Session-Timeout` ? "active" : "" }`
+                                            className: `${this.state.activeLink === `Session-Timeout` ? "active" : ""}`
                                         },
                                         React.createElement(
                                             "a",
@@ -466,7 +466,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                     "button",
                                     {
                                         type: "button",
-                                        className: `btn dropdown-toggle ${ this.state.activeParentLink === `mailbox` ? "active" : "" }`,
+                                        className: `btn dropdown-toggle ${this.state.activeParentLink === `mailbox` ? "active" : ""}`,
                                         "data-bs-toggle": "dropdown",
                                         "aria-expanded": "false"
                                     },
@@ -501,7 +501,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                     React.createElement(
                                         "li",
                                         {
-                                            className: `${ this.state.activeLink === `Folders` ? "active" : "" }`
+                                            className: `${this.state.activeLink === `Folders` ? "active" : ""}`
                                         },
                                         React.createElement(
                                             "a",
@@ -514,7 +514,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                     React.createElement(
                                         "li",
                                         {
-                                            className: `${ this.state.activeLink === `Filter` ? "active" : "" }`
+                                            className: `${this.state.activeLink === `Filter` ? "active" : ""}`
                                         },
                                         React.createElement(
                                             "a",
@@ -527,7 +527,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                     React.createElement(
                                         "li",
                                         {
-                                            className: `${ this.state.activeLink === `BlackList` ? "active" : "" }`
+                                            className: `${this.state.activeLink === `BlackList` ? "active" : ""}`
                                         },
                                         React.createElement(
                                             "a",
@@ -540,7 +540,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                     React.createElement(
                                         "li",
                                         {
-                                            className: `${ this.state.activeLink === `Layout` ? "active" : "" }`
+                                            className: `${this.state.activeLink === `Layout` ? "active" : ""}`
                                         },
                                         React.createElement(
                                             "a",
@@ -559,7 +559,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                     "button",
                                     {
                                         type: "button",
-                                        className: `btn dropdown-toggle ${ this.state.activeParentLink === `premium` ? "active" : "" }`,
+                                        className: `btn dropdown-toggle ${this.state.activeParentLink === `premium` ? "active" : ""}`,
                                         "data-bs-toggle": "dropdown",
                                         "aria-expanded": "false"
                                     },
@@ -590,7 +590,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                     React.createElement(
                                         "li",
                                         {
-                                            className: `${ this.state.activeLink === `Plan` ? "active" : "" }`
+                                            className: `${this.state.activeLink === `Plan` ? "active" : ""}`
                                         },
                                         React.createElement(
                                             "a",
@@ -603,7 +603,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                     React.createElement(
                                         "li",
                                         {
-                                            className: `${ this.state.activeLink === `Coupon` ? "active" : "" }`
+                                            className: `${this.state.activeLink === `Coupon` ? "active" : ""}`
                                         },
                                         React.createElement(
                                             "a",
@@ -737,7 +737,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                                     React.createElement(
                                                         "li",
                                                         {
-                                                            className: `${ this.state.activeLink === `Contacts` ? "active" : "" }`
+                                                            className: `${this.state.activeLink === `Contacts` ? "active" : ""}`
                                                         },
                                                         React.createElement(
                                                             "a",
@@ -750,7 +750,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                                     React.createElement(
                                                         "li",
                                                         {
-                                                            className: `${ this.state.activeLink === `Aliases` ? "active" : "" }`
+                                                            className: `${this.state.activeLink === `Aliases` ? "active" : ""}`
                                                         },
                                                         React.createElement(
                                                             "a",
@@ -763,7 +763,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                                     React.createElement(
                                                         "li",
                                                         {
-                                                            className: `${ this.state.activeLink === `Disposable-Aliases` ? "active" : "" }`
+                                                            className: `${this.state.activeLink === `Disposable-Aliases` ? "active" : ""}`
                                                         },
                                                         React.createElement(
                                                             "a",
@@ -776,7 +776,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                                     React.createElement(
                                                         "li",
                                                         {
-                                                            className: `${ this.state.activeLink === `Custom-Domain` ? "active" : "" }`
+                                                            className: `${this.state.activeLink === `Custom-Domain` ? "active" : ""}`
                                                         },
                                                         React.createElement(
                                                             "a",
@@ -789,7 +789,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                                     React.createElement(
                                                         "li",
                                                         {
-                                                            className: `${ this.state.activeLink === `Delete-Account` ? "active" : "" }`
+                                                            className: `${this.state.activeLink === `Delete-Account` ? "active" : ""}`
                                                         },
                                                         React.createElement(
                                                             "a",
@@ -846,7 +846,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                                     React.createElement(
                                                         "li",
                                                         {
-                                                            className: `${ this.state.activeLink === `Password` ? "active" : "" }`
+                                                            className: `${this.state.activeLink === `Password` ? "active" : ""}`
                                                         },
                                                         React.createElement(
                                                             "a",
@@ -859,7 +859,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                                     React.createElement(
                                                         "li",
                                                         {
-                                                            className: `${ this.state.activeLink === `2-Step` ? "active" : "" }`
+                                                            className: `${this.state.activeLink === `2-Step` ? "active" : ""}`
                                                         },
                                                         React.createElement(
                                                             "a",
@@ -872,7 +872,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                                     React.createElement(
                                                         "li",
                                                         {
-                                                            className: `${ this.state.activeLink === `PGP-Keys` ? "active" : "" }`
+                                                            className: `${this.state.activeLink === `PGP-Keys` ? "active" : ""}`
                                                         },
                                                         React.createElement(
                                                             "a",
@@ -885,7 +885,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                                     React.createElement(
                                                         "li",
                                                         {
-                                                            className: `${ this.state.activeLink === `Session-Timeout` ? "active" : "" }`
+                                                            className: `${this.state.activeLink === `Session-Timeout` ? "active" : ""}`
                                                         },
                                                         React.createElement(
                                                             "a",
@@ -942,7 +942,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                                     React.createElement(
                                                         "li",
                                                         {
-                                                            className: `${ this.state.activeLink === `Folders` ? "active" : "" }`
+                                                            className: `${this.state.activeLink === `Folders` ? "active" : ""}`
                                                         },
                                                         React.createElement(
                                                             "a",
@@ -955,7 +955,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                                     React.createElement(
                                                         "li",
                                                         {
-                                                            className: `${ this.state.activeLink === `Filter` ? "active" : "" }`
+                                                            className: `${this.state.activeLink === `Filter` ? "active" : ""}`
                                                         },
                                                         React.createElement(
                                                             "a",
@@ -968,7 +968,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                                     React.createElement(
                                                         "li",
                                                         {
-                                                            className: `${ this.state.activeLink === `BlackList` ? "active" : "" }`
+                                                            className: `${this.state.activeLink === `BlackList` ? "active" : ""}`
                                                         },
                                                         React.createElement(
                                                             "a",
@@ -981,7 +981,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                                     React.createElement(
                                                         "li",
                                                         {
-                                                            className: `${ this.state.activeLink === `Layout` ? "active" : "" }`
+                                                            className: `${this.state.activeLink === `Layout` ? "active" : ""}`
                                                         },
                                                         React.createElement(
                                                             "a",
@@ -1038,7 +1038,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                                     React.createElement(
                                                         "li",
                                                         {
-                                                            className: `${ this.state.activeLink === `Plan` ? "active" : "" }`
+                                                            className: `${this.state.activeLink === `Plan` ? "active" : ""}`
                                                         },
                                                         React.createElement(
                                                             "a",
@@ -1051,7 +1051,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                                     React.createElement(
                                                         "li",
                                                         {
-                                                            className: `${ this.state.activeLink === `Coupon` ? "active" : "" }`
+                                                            className: `${this.state.activeLink === `Coupon` ? "active" : ""}`
                                                         },
                                                         React.createElement(
                                                             "a",
@@ -1075,7 +1075,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                         React.createElement(
                                             "a",
                                             {
-                                                className: `accordion-button icon-setting collapsed ${ this.state.activeLink === `Profile` ? "active" : "" }`,
+                                                className: `accordion-button icon-setting collapsed ${this.state.activeLink === `Profile` ? "active" : ""}`,
                                                 onClick: this.handleClick.bind(this, "Profile")
                                             },
                                             "Setting"

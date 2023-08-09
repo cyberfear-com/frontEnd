@@ -7,14 +7,14 @@ export default function Privacy() {
         <Header />
 
         <div className='container my-5'>
-	        <h1>Privacy Policy for CyberFear</h1>
-            <p>At CyberFear, accessible from https://cyberfear.com, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by CyberFear and how we use it.</p>
+	        <h1>Privacy Policy for Mailum</h1>
+            <p>At Mailum, accessible from https://mailum.com, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by Mailum and how we use it.</p>
             <p>If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us.</p>
-            <p>This Privacy Policy applies only to our online activities and is valid for visitors to our website with regards to the information that they shared and/or collect in CyberFear. This policy is not applicable to any information collected offline or via channels other than this website.</p>
+            <p>This Privacy Policy applies only to our online activities and is valid for visitors to our website with regards to the information that they shared and/or collect in Mailum. This policy is not applicable to any information collected offline or via channels other than this website.</p>
 
             <h2>Consent</h2>
             <p>By using our website, you hereby consent to our Privacy Policy and agree to its terms.</p>
-            
+
             <h2>Information we collect</h2>
             <p>The personal information that you are asked to provide, and the reasons why you are asked to provide it, will be made clear to you at the point we ask you to provide your personal information.</p>
             <p>If you contact us directly, we may receive additional information about you such as your email address, the contents of the message and/or attachments you may send us, and any other information you may choose to provide.</p>
@@ -28,15 +28,15 @@ export default function Privacy() {
             </ul>
 
             <h2>Log Files</h2>
-            <p>CyberFear does not log visitors therefore we do not have log files containing visitor's information.</p>
+            <p>Mailum does not log visitors therefore we do not have log files containing visitor's information.</p>
             <p>We do not log IP addresses with the exception of registration anti-flood. Upon registration we keep an IP address for exactly 5 minutes during which you cannot register another account from this IP. Once 5 minutes passes, the IP entry is gone. During these 5 minutes the IP entry is not tied to any other information, therefore we cannot tell who this IP belongs to.</p>
 
             <h2>Cookies</h2>
             <p>We use cookies for session identification.</p>
 
             <h2>Advertising Partners Privacy Policies</h2>
-            <p>CyberFear website does not contain any external tracking scripts or cookies.</p>
-    
+            <p>Mailum website does not contain any external tracking scripts or cookies.</p>
+
             <h2>CCPA Privacy Rights (Do Not Sell My Personal Information)</h2>
             <p>Under the CCPA, among other rights, California consumers have the right to:</p>
             <p>Request that a business that collects a consumer's personal data disclose the categories and specific pieces of personal data that a business has collected about consumers.</p>
@@ -56,7 +56,7 @@ export default function Privacy() {
 
             <h2>Children's Information</h2>
             <p>Another part of our priority is adding protection for children while using the internet. We encourage parents and guardians to observe, participate in, and/or monitor and guide their online activity.</p>
-            <p>CyberFear does not knowingly collect any Personal Identifiable Information from children under the age of 13. If you think that your child provided this kind of information on our website, we strongly encourage you to contact us immediately and we will do our best efforts to promptly remove such information from our records.</p>
+            <p>Mailum does not knowingly collect any Personal Identifiable Information from children under the age of 13. If you think that your child provided this kind of information on our website, we strongly encourage you to contact us immediately and we will do our best efforts to promptly remove such information from our records.</p>
 	    </div>
 
         <Footer />

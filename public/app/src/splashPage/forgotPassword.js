@@ -440,7 +440,8 @@ define(["react", "app"], function (React, app) {
                                             />
                                             <input
                                                 name="tokenFile"
-                                                className="form-control"
+                                                className={"form-control "+(this.state.tokenError == ""
+                                                    ? (this.state.token.length>0 && this.state.emailError == "")?"is-valid":"":"is-invalid") }
                                                 id="appendbutton"
                                                 type="text"
                                                 placeholder="2. secret token"
@@ -448,6 +449,7 @@ define(["react", "app"], function (React, app) {
                                                 value={this.state.token}
                                                 style={{
                                                     textOverflow: "ellipsis",
+                                                    padding: "10px 20px 10px 15px"
                                                 }}
                                             />
                                             <div className="input-group-btn">
@@ -484,10 +486,11 @@ define(["react", "app"], function (React, app) {
                                         </div>
                                         <label
                                             className={
-                                                "control-label pull-left has-error" +
-                                                (this.state.tokenError == ""
+                                                "control-label pull-left " +
+                                                (this.state
+                                                    .tokenError == ""
                                                     ? "d-none"
-                                                    : "")
+                                                    : "invalid-feedback")
                                             }
                                             htmlFor="tokenFile"
                                         >
@@ -500,9 +503,10 @@ define(["react", "app"], function (React, app) {
                                         <div
                                             className={
                                                 "form-group text-left " +
-                                                (this.state.oneStep
+                                                (this.state.tokenError == ""?
+                                                    this.state.oneStep
                                                     ? ""
-                                                    : "d-none")
+                                                    : "d-none":"d-none")
                                             }
                                         >
                                             Because you are using single

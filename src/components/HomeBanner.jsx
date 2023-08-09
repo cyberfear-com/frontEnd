@@ -58,7 +58,7 @@ export default function HomeBanner() {
             </p>
 
             <a
-              href="#"
+              href="/mailbox/#signup"
               className="btn btn-light wide fw-bold d-block d-md-inline"
             >
               Try for Free

@@ -82,7 +82,7 @@ define(["react", "app"], function (React, app) {
                                                 dataAngel: "50",
                                                 style: {
                                                     strokeDasharray: "264",
-                                                    strokeDashoffset: `${ 264 - parseInt(264 * app.userObjects.get("modalpercentage") / 100) }`
+                                                    strokeDashoffset: `${264 - parseInt(264 * app.userObjects.get("modalpercentage") / 100)}`
                                                 }
                                             })
                                         )

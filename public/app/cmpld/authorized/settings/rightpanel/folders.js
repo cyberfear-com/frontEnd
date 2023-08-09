@@ -242,7 +242,7 @@ define(["react", "app", "dataTable", "dataTableBoot", "cmpld/authorized/settings
             colorPicker.on(["color:init", "color:change"], function (color) {
                 try {
                     document.getElementById("labelColour").value = color.hexString;
-                    thisComp.setState({ labelColor: `${ color.hexString }` });
+                    thisComp.setState({ labelColor: `${color.hexString}` });
                 } catch (e) {
                     console.log(e);
                 }
@@ -254,7 +254,7 @@ define(["react", "app", "dataTable", "dataTableBoot", "cmpld/authorized/settings
             colorPicker.on(["color:init", "color:change"], function (color) {
                 try {
                     document.getElementById("folderColour").value = color.hexString;
-                    thisComp.setState({ folderColor: `${ color.hexString }` });
+                    thisComp.setState({ folderColor: `${color.hexString}` });
                 } catch (e) {
                     console.log(e);
                 }
@@ -390,6 +390,8 @@ define(["react", "app", "dataTable", "dataTableBoot", "cmpld/authorized/settings
                         expireFolder: "-1",
                         deleteFolderClass: "d-none"
 
+                        //button1:{text:"Add Label",enabled:true,iClass:"",onClick:"addLabel"},
+                        //dataSet:this.state.labelSet
                     });
                     break;
 
@@ -416,6 +418,10 @@ define(["react", "app", "dataTable", "dataTableBoot", "cmpld/authorized/settings
                         button5text: "Add",
                         deleteFolderClass: "d-none"
 
+                        //button1:{text:"Add Label",enabled:false,iClass:"",onClick:"addLabel", class:'btn btn-primary pull-right hidden'},
+
+                        //button1:{text:"Add Label",enabled:true,iClass:"",onClick:"addLabel"},
+                        //dataSet:this.state.labelSet
                     });
                     break;
 
@@ -525,11 +531,11 @@ define(["react", "app", "dataTable", "dataTableBoot", "cmpld/authorized/settings
                     var parentTableId = $(event.target).parents("table").attr("id");
                     if (parentTableId != undefined) {
                         if (event.target.checked) {
-                            $(`#${ parentTableId }`).find(".container-checkbox input").prop("checked", true);
-                            $(`#${ parentTableId }`).find("tr").addClass("selected");
+                            $(`#${parentTableId}`).find(".container-checkbox input").prop("checked", true);
+                            $(`#${parentTableId}`).find("tr").addClass("selected");
                         } else {
-                            $(`#${ parentTableId }`).find(".container-checkbox input").prop("checked", false);
-                            $(`#${ parentTableId }`).find("tr").removeClass("selected");
+                            $(`#${parentTableId}`).find(".container-checkbox input").prop("checked", false);
+                            $(`#${parentTableId}`).find("tr").removeClass("selected");
                         }
                     }
 
@@ -652,6 +658,8 @@ define(["react", "app", "dataTable", "dataTableBoot", "cmpld/authorized/settings
 
                         deleteFolderClass: folders[event]["isMain"] ? "d-none" : "btn btn-danger"
 
+                        //button1:{text:"Add Label",enabled:true,iClass:"",onClick:"addLabel"},
+                        //dataSet:this.state.labelSet
                     });
 
                     break;
@@ -857,7 +865,7 @@ define(["react", "app", "dataTable", "dataTableBoot", "cmpld/authorized/settings
                         React.createElement(
                             "div",
                             {
-                                className: `table-row ${ this.state.firstPanelClass }`
+                                className: `table-row ${this.state.firstPanelClass}`
                             },
                             React.createElement(
                                 "div",
@@ -974,7 +982,7 @@ define(["react", "app", "dataTable", "dataTableBoot", "cmpld/authorized/settings
                         React.createElement(
                             "div",
                             {
-                                className: `table-row ${ this.state.thirdPanelClass }`
+                                className: `table-row ${this.state.thirdPanelClass}`
                             },
                             React.createElement(
                                 "div",
@@ -1101,7 +1109,7 @@ define(["react", "app", "dataTable", "dataTableBoot", "cmpld/authorized/settings
                                         React.createElement(
                                             "div",
                                             {
-                                                className: `col-md-6 ${ this.state.inputLabelClass }`
+                                                className: `col-md-6 ${this.state.inputLabelClass}`
                                             },
                                             React.createElement("input", {
                                                 type: "text",
@@ -1116,7 +1124,7 @@ define(["react", "app", "dataTable", "dataTableBoot", "cmpld/authorized/settings
                                         React.createElement(
                                             "div",
                                             {
-                                                className: `col-md-6 ${ this.state.inputLabelClass }`
+                                                className: `col-md-6 ${this.state.inputLabelClass}`
                                             },
                                             React.createElement("input", {
                                                 type: "text",

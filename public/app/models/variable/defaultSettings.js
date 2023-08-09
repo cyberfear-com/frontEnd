@@ -9,10 +9,10 @@ define([
             this.set({"secondPassfield":"111111"});
 
 
-            this.set({"dev":false});
+            this.set({"dev":true});
             this.set({'defaultPage':'mail/Inbox'});
 
-            this.set({'domain':'https://cyberfear.com'});
+            this.set({'domain':'https://mailum.com'});
             this.set({'apidomain':'https://cyber.com/api'});
             this.set({"domainMail":"@cyberfear.com"});
             this.set({"hashToken":"cyberFear"});

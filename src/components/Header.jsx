@@ -27,14 +27,14 @@ export default function Header({ variant = 'default' }) {
       variant == 'primary' ? 'bg-primary text-bg-primary' : 'bg-body'
     )}>
       <div className='container'>
-        
+
         <nav className={classNames('navbar py-3 navbar-expand-lg', styles.navbar, navbarExpanded && styles.expanded)}>
           <div className={styles.headline}>
             <a href="/" className='text-reset'>
               <MailumSVG className={styles.brand} />
             </a>
 
-            <a 
+            <a
               className={classNames(
                 styles.tryButton,
                 'btn small fw-bold d-lg-none',
@@ -42,7 +42,7 @@ export default function Header({ variant = 'default' }) {
               )}
             >Create Email Account</a>
 
-            <button 
+            <button
               onClick={() => {
                 setNavbarExpanded(!navbarExpanded)
               }}
@@ -66,24 +66,24 @@ export default function Header({ variant = 'default' }) {
                 <NavLink to="/pricing" className='nav-link px-3 text-reset' activeClassName='active'>Pricing</NavLink>
               </li>
               <li className='navbar-item fw-medium'>
-                <a href="#" className='nav-link px-3 text-reset'>GitHub</a>
+                <a href="https://github.com/cyberfear-com" rel="noreferrer" target="_blank" className='nav-link px-3 text-reset'>GitHub</a>
               </li>
               <li className='navbar-item fw-medium'>
                 <NavLink to="/company" className='nav-link px-3 text-reset' activeClassName='active'>Company</NavLink>
               </li>
-              <li className='navbar-item fw-medium'>
+              <li className='navbar-item fw-medium d-none'>
                 <NavLink to="/faq" className='nav-link px-3 text-reset' activeClassName='active'>FAQ</NavLink>
               </li>
               <li className='navbar-item fw-medium'>
                 <NavLink to="/contact-us" className='nav-link px-3 text-reset' activeClassName='active'>Contact</NavLink>
               </li>
             </ul>
-            
+
             <ul className='navbar-nav buttons'>
               <li>
                 <a
-                  href="/mailbox/#login" 
-                  type="button" 
+                  href="/mailbox/#login"
+                  type="button"
                   className={classNames(
                     'btn fw-bold me-2 text-nowrap',
                     variant == 'primary' ? 'btn-primary bg-light bg-opacity-10' : 'btn-outline-primary border-secondary-subtle'
@@ -92,8 +92,8 @@ export default function Header({ variant = 'default' }) {
               </li>
               <li>
                 <a
-                  href='/mailbox/#signup' 
-                  type="button" 
+                  href='/mailbox/#signup'
+                  type="button"
                   className={classNames(
                     'btn fw-bold text-nowrap',
                     variant == 'primary' ? 'btn-light' : 'btn-primary'

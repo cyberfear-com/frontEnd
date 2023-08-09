@@ -538,7 +538,7 @@ define(["react", "app", "dataTable", "dataTableBoot", "cmpld/authorized/settings
                             React.createElement(
                                 "div",
                                 {
-                                    className: `arrow-back ${ this.state.viewFlag ? "" : "d-none" }`
+                                    className: `arrow-back ${this.state.viewFlag ? "" : "d-none"}`
                                 },
                                 React.createElement("a", {
                                     onClick: this.handleClick.bind(this, "toggleDisplay")
@@ -552,7 +552,7 @@ define(["react", "app", "dataTable", "dataTableBoot", "cmpld/authorized/settings
                             React.createElement(
                                 "div",
                                 {
-                                    className: `bread-crumb ${ this.state.viewFlag ? "" : "d-none" }`
+                                    className: `bread-crumb ${this.state.viewFlag ? "" : "d-none"}`
                                 },
                                 React.createElement(
                                     "ul",
@@ -582,7 +582,7 @@ define(["react", "app", "dataTable", "dataTableBoot", "cmpld/authorized/settings
                             React.createElement(
                                 "div",
                                 {
-                                    className: `the-view ${ this.state.viewFlag ? "d-none" : "" }`
+                                    className: `the-view ${this.state.viewFlag ? "d-none" : ""}`
                                 },
                                 React.createElement(
                                     "div",
@@ -749,7 +749,7 @@ define(["react", "app", "dataTable", "dataTableBoot", "cmpld/authorized/settings
                             React.createElement(
                                 "div",
                                 {
-                                    className: `the-creation ${ this.state.viewFlag ? "" : "d-none" }`
+                                    className: `the-creation ${this.state.viewFlag ? "" : "d-none"}`
                                 },
                                 React.createElement(
                                     "div",
@@ -851,7 +851,7 @@ define(["react", "app", "dataTable", "dataTableBoot", "cmpld/authorized/settings
                                                             "div",
                                                             {
                                                                 className: `
-                                                            key-list ${ !this.state.pgpOn ? "d-none" : "" }`
+                                                            key-list ${!this.state.pgpOn ? "d-none" : ""}`
                                                             },
                                                             React.createElement(
                                                                 "ul",

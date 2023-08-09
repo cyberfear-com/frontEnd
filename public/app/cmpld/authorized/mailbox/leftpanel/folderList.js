@@ -395,7 +395,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                 React.createElement(
                     "div",
                     {
-                        className: `left-side ${ this.state.menuExpanded ? "expanded" : "shrinked" }`,
+                        className: `left-side ${this.state.menuExpanded ? "expanded" : "shrinked"}`,
                         id: "folderMenu"
                     },
                     React.createElement(
@@ -485,7 +485,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                         "li",
                                         {
                                             key: "liM_" + this.state.mainFolders[folderData]["index"],
-                                            className: `${ this.state.mainFolders[folderData]["role"] == "Inbox" ? "active" : "" }`
+                                            className: `${this.state.mainFolders[folderData]["role"] == "Inbox" ? "active" : ""}`
                                         },
                                         React.createElement(
                                             "a",
@@ -864,7 +864,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                         "li",
                                         {
                                             key: "liM_" + this.state.mainFolders[folderData]["index"],
-                                            className: `${ this.state.mainFolders[folderData]["role"] == "Inbox" ? "active" : "" }`
+                                            className: `${this.state.mainFolders[folderData]["role"] == "Inbox" ? "active" : ""}`
                                         },
                                         React.createElement(
                                             "a",

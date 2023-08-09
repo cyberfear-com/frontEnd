@@ -77,7 +77,7 @@ define(["react", "app", "accounting", "cmpld/authorized/settings/rightpanel/righ
                 React.createElement(
                     "div",
                     { className: "information-row-right with-btn" },
-                    "https://cyberfear.com/index.html#createUser/",
+                    "https://cyber.com/mailbox/#signup/",
                     app.user.get("userPlan")["coupon"],
                     React.createElement("button", {
                         className: "copy-btn",
@@ -299,7 +299,7 @@ define(["react", "app", "accounting", "cmpld/authorized/settings/rightpanel/righ
                         React.createElement(
                             "div",
                             {
-                                className: `table-row ${ this.state.panel1Class }`
+                                className: `table-row ${this.state.panel1Class}`
                             },
                             React.createElement(
                                 "div",

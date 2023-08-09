@@ -223,7 +223,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                 elements,
                 confirmParams: {
                     // Make sure to change this to your payment completion page
-                    return_url: "https://cyber.com/index.html"
+                    return_url: "https://cyber.com"
                 },
                 redirect: "if_required"
             });
@@ -376,8 +376,8 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                 title: "Monthly",
                 desc: "For most businesses that want to optimize web queries",
                 price: `$
-                    ${ app.user.get("userPlan")["trueMonthPrice"] / 100 }`,
-                per: `${ discm } month`,
+                    ${app.user.get("userPlan")["trueMonthPrice"] / 100}`,
+                per: `${discm} month`,
                 methodType: "month",
                 features: ["All Limited Links", "Own Analytics Platform", "Chat Support", "Optimize Hashtags", "Unlimited Users"]
             }, {
@@ -385,8 +385,8 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                 title: "Yearly",
                 desc: "For most businesses that want to optimize web queries",
                 price: `$
-                    ${ app.user.get("userPlan")["trueYearPrice"] / 100 }`,
-                per: `${ discy } month`,
+                    ${app.user.get("userPlan")["trueYearPrice"] / 100}`,
+                per: `${discy} month`,
                 methodType: "year",
                 features: ["All Limited Links", "Own Analytics Platform", "Chat Support", "Optimize Hashtags", "Unlimited Users"]
             }];
@@ -407,7 +407,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                         "div",
                         {
                             id: "paymentPackagesModalContent",
-                            className: `modal-content rounded-4 shadow px-4 py-4 ${ this.state.paymentPackagesModalActive ? "d-block" : "d-none" }`
+                            className: `modal-content rounded-4 shadow px-4 py-4 ${this.state.paymentPackagesModalActive ? "d-block" : "d-none"}`
                         },
                         React.createElement(
                             "div",
@@ -428,13 +428,13 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                     React.createElement(
                                         "button",
                                         {
-                                            className: `${ this.state.currentTab === paymentTab.tabId ? "active" : "" }`,
-                                            id: `${ paymentTab.id }-tab`,
+                                            className: `${this.state.currentTab === paymentTab.tabId ? "active" : ""}`,
+                                            id: `${paymentTab.id}-tab`,
                                             "data-bs-toggle": "tab",
-                                            "data-bs-target": `#${ paymentTab.id }-tab-pane`,
+                                            "data-bs-target": `#${paymentTab.id}-tab-pane`,
                                             type: "button",
                                             role: "tab",
-                                            "aria-controls": `${ paymentTab.id }-tab-pane`,
+                                            "aria-controls": `${paymentTab.id}-tab-pane`,
                                             "aria-selected": this.state.currentTab === paymentTab.tabId ? true : false,
                                             onClick: this.handleTabChange.bind(this, paymentTab.tabId)
                                         },
@@ -466,7 +466,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                             React.createElement(
                                 "div",
                                 {
-                                    className: `${ this.state.currentTab === "monthly" ? "tab-pane fade show active" : "tab-pane fade" }`,
+                                    className: `${this.state.currentTab === "monthly" ? "tab-pane fade show active" : "tab-pane fade"}`,
                                     id: "monthly-tab-pane",
                                     role: "tabpanel",
                                     "aria-labelledby": "monthly-tab",
@@ -550,13 +550,13 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                         "div",
                         {
                             id: "paymentMethodsModalContent",
-                            className: `modal-content rounded-4 shadow pb-4 ${ this.state.paymentPackagesModalActive ? "d-none" : "d-block" }`
+                            className: `modal-content rounded-4 shadow pb-4 ${this.state.paymentPackagesModalActive ? "d-none" : "d-block"}`
                         },
                         React.createElement(
                             "div",
                             {
                                 className: `
-                                    ${ this.state.membr == "free" ? "d-none" : "panel panel-default" }
+                                    ${this.state.membr == "free" ? "d-none" : "panel panel-default"}
                                 `
                             },
                             React.createElement(
@@ -589,7 +589,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                         React.createElement(
                                             "div",
                                             {
-                                                className: `radio ${ this.state.paym == "bitc" ? "selected" : "" }`
+                                                className: `radio ${this.state.paym == "bitc" ? "selected" : ""}`
                                             },
                                             React.createElement(
                                                 "label",
@@ -714,7 +714,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                         React.createElement(
                                             "div",
                                             {
-                                                className: `radio ${ this.state.paym == "perfectm" ? "selected" : "" }`
+                                                className: `radio ${this.state.paym == "perfectm" ? "selected" : ""}`
                                             },
                                             React.createElement(
                                                 "label",
@@ -817,7 +817,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                         React.createElement(
                                             "div",
                                             {
-                                                className: `radio ${ this.state.paym == "stripe" ? "selected" : "" }`
+                                                className: `radio ${this.state.paym == "stripe" ? "selected" : ""}`
                                             },
                                             React.createElement(
                                                 "label",
@@ -1118,7 +1118,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                             React.createElement(
                                 "div",
                                 {
-                                    className: `loading-screen welcome ${ this.state.membr != "free" ? "d-none" : "d-flex" }`
+                                    className: `loading-screen welcome ${this.state.membr != "free" ? "d-none" : "d-flex"}`
                                 },
                                 React.createElement(
                                     "div",
@@ -1185,7 +1185,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                             React.createElement(
                                 "div",
                                 {
-                                    className: `group-btn type-pay_now px-4 ${ this.state.membr != "free" ? "" : "d-none" }`
+                                    className: `group-btn type-pay_now px-4 ${this.state.membr != "free" ? "" : "d-none"}`
                                 },
                                 React.createElement(
                                     "button",

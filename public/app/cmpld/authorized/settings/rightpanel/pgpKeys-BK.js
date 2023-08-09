@@ -216,6 +216,9 @@ define(['react', 'app', 'dataTable', 'dataTableBoot'], function (React, app, Dat
 					//	"typ":emailData['addrType']==2?3:emailData['addrType']==3?2:emailData['addrType']==1?1:4
 					//},
 					"bit": emailData['keyLength']
+					//"public":'<a class="viewKey"><i class="fa fa-eye-slash fa-lg viewKey"></i></a>',
+					//"edit": '<a class="editKey"><i class="fa fa-pencil fa-lg txt-color-greenDark"></i></a>'
+
 				};
 				alEm.push(el);
 			});
@@ -315,6 +318,7 @@ define(['react', 'app', 'dataTable', 'dataTableBoot'], function (React, app, Dat
 
 						keyDate: keys[id]['date'],
 						keyModified: keys[id]['keysModified']
+						//keyFingerprint:app.transform.keyFingerprint(keys[id]['publicKey'])
 					});
 
 					break;

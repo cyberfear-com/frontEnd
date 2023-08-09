@@ -143,7 +143,7 @@ define([
                 body = <LoginPage />;
             }
             if (this.props.page == "signup") {
-                body = <CreateUser />;
+                body = <CreateUser coupon={this.props.coupon}/>;
             }
             // if (this.props.page == "contact") {
             //     body = <ContactUs />;

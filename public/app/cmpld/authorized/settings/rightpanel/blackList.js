@@ -357,7 +357,8 @@ define(["react", "app", "cmpld/authorized/settings/rightpanel/rightTop"], functi
         /**
          *
          * @returns {JSX}
-         */render: function () {
+         */
+        render: function () {
             return React.createElement(
                 "div",
                 { id: "rightSettingPanel" },
@@ -370,7 +371,7 @@ define(["react", "app", "cmpld/authorized/settings/rightpanel/rightTop"], functi
                         React.createElement(
                             "div",
                             {
-                                className: `arrow-back ${ this.state.secondTab === "bingo" ? "" : "d-none" }`
+                                className: `arrow-back ${this.state.secondTab === "bingo" ? "" : "d-none"}`
                             },
                             React.createElement("a", {
                                 onClick: this.handleClick.bind(this, "showFirst")
@@ -384,7 +385,7 @@ define(["react", "app", "cmpld/authorized/settings/rightpanel/rightTop"], functi
                         React.createElement(
                             "div",
                             {
-                                className: `bread-crumb  ${ this.state.secondTab === "bingo" ? "" : "d-none" }`
+                                className: `bread-crumb  ${this.state.secondTab === "bingo" ? "" : "d-none"}`
                             },
                             React.createElement(
                                 "ul",
@@ -414,7 +415,7 @@ define(["react", "app", "cmpld/authorized/settings/rightpanel/rightTop"], functi
                         React.createElement(
                             "div",
                             {
-                                className: `table-row ${ this.state.firstPanelClass }`
+                                className: `table-row ${this.state.firstPanelClass}`
                             },
                             React.createElement(
                                 "div",

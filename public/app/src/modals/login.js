@@ -1,4 +1,5 @@
-define(['react','app','validation'], function (React,app,Validation) {
+// eslint-disable-next-line no-undef
+define(['react','app','validation',"ajaxQueue"], function (React,app,Validation,ajaxQueue) {
 	return React.createClass({
         /**
          *
@@ -8,6 +9,8 @@ define(['react','app','validation'], function (React,app,Validation) {
 			return {
 				compSafe:false,
 				secondFactorInput:false,
+				domainList: ["@mailum.com","@cyberfear.com","test@com.com"],
+				domain:"@mailum.com",
 				fac2Text:"",
 				fac2Type:""
 
@@ -54,7 +57,6 @@ define(['react','app','validation'], function (React,app,Validation) {
             if(app.defaults.get('dev')===true){
                 this.handleClick('login');
             }
-
 		},
 
         /**
@@ -130,7 +132,6 @@ define(['react','app','validation'], function (React,app,Validation) {
 						//app.userObjects.retrieveUserObject();
 
 						app.auth.Login(email,password,factor2,function(result){
-
 							if(result=='needGoogle'){
 								thisComp.setState({
 									secondFactorInput:true
@@ -147,13 +148,14 @@ define(['react','app','validation'], function (React,app,Validation) {
 								thisComp.setState({
 									fac2Type:2
 								});
+							}else if(result=='noinet'){
+								console.log('result');
 							}
 						});
-
 					}
 					break;
 				case 'enterLogin':
-					if(event.keyCode==13){
+					if(event.keyCode==13 || app.defaults.get("dev")){
 						this.handleClick('login');
 					}
 					break;

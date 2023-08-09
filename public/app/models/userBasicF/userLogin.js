@@ -119,9 +119,12 @@ define(["app"], function (app) {
                     } else if (result["data"] == "limitIsReached") {
                         app.notifications.systemMessage("limitIsReached");
                     }
+                }else if(result["response"] == "fail"){
+                    callback("wrngUsrOrPass");
+
                 } else {
                     // app.notifications.systemMessage('wrngUsrOrPass');
-                    callback("wrngUsrOrPass");
+                    callback("noinet");
                 }
             });
         },

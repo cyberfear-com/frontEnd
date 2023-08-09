@@ -87,7 +87,7 @@ export default function Pricing() {
                   <hr className="text-body-tertiary" />
 
                   <p className="fs-7 opacity-50">
-                    For most businesses that want to&nbsp;optimize web queries
+                    Try us
                   </p>
 
                   <ul
@@ -96,16 +96,18 @@ export default function Pricing() {
                       "list-unstyled small mb-5"
                     )}
                   >
-                    <li>All Limited Links</li>
-                    <li>Own Analytics Platform</li>
-                    <li>Chat Support</li>
+                    <li>Full Encryption</li>
+                    <li>Space: 0.05GB</li>
+                    <li>Email Address: 1</li>
+                    <li>Receiving: Unlimited</li>
+                    <li>Sending: 2 emails/hour</li>
                   </ul>
 
                   <div className="flex-grow-1"></div>
                   {/* spacer */}
 
-                  <button className="btn fw-normal text-center w-100 btn-outline-primary">
-                    Try for Free
+                  <button className="btn fw-normal text-center w-100 btn-light">
+                    <a className="text-decoration-none"  href="/mailbox/#signup">Try for Free</a>
                   </button>
                 </div>
               </div>
@@ -122,16 +124,33 @@ export default function Pricing() {
                 <h5 className='opacity-75 mb-4 fw-medium'>Basic</h5>
 
                 <h3 className='fw-medium'>
-                  $2.00
-                  <span className='fs-6 fw-medium opacity-50 text-nowrap'>
+                  {period === "monthly" && (
+                      <span>$2.00
+                        <span className='fs-6 fw-medium opacity-50 text-nowrap'>
                     &nbsp;/&nbsp;month
                   </span>
+                        </span>
+                    )}
+                  {period === "1year" && (
+                      <span>${Math.round((24-24*0.3)*100)/100} (<strike className="small">$24</strike>)
+                    <span className='fs-6 fw-medium opacity-50 text-nowrap'>
+                    &nbsp;/&nbsp;year
+                    </span>
+                        </span>
+                    )}
+                  {period === "2year" && (
+                      <span>${Math.round((48-48*0.4)*100)/100} (<strike className="small">$48</strike>)
+                    <span className='fs-6 fw-medium opacity-50 text-nowrap'>
+                    &nbsp;/&nbsp;year
+                    </span>
+                        </span>
+                  )}
                 </h3>
 
                 <hr className="text-body-tertiary" />
 
                 <p className="fs-7 opacity-50">
-                  For most businesses that want to&nbsp;optimize web queries
+                  For users&nbsp; emailing occasionally
                 </p>
 
                 <ul
@@ -140,17 +159,19 @@ export default function Pricing() {
                     "list-unstyled small mb-5"
                   )}
                 >
-                  <li>All Limited Links</li>
-                  <li>Own Analytics Platform</li>
-                  <li>Chat Support</li>
-                  <li>Optimize Hashtags</li>
+                  <li>Full Encryption</li>
+                  <li>Space: 2GB</li>
+                  <li>Email Address: 2</li>
+                  <li>Receiving: Unlimited</li>
+                  <li>Sending: 60 emails/hour</li>
+                  <li>Own Domain: 2</li>
                 </ul>
 
                 <div className="flex-grow-1"></div>
                 {/* spacer */}
 
-                <button className="btn fw-normal text-center w-100 btn-outline-primary">
-                  Get Started
+                <button className="btn fw-normal text-center w-100 btn-light">
+                  <a className="text-decoration-none" href="/mailbox/#signup">Get Started</a>
                 </button>
               </div>
             </div>
@@ -175,16 +196,33 @@ export default function Pricing() {
                 </div>
 
                 <h3 className="fw-medium">
-                  $6.00
-                  <span className="fs-6 fw-medium opacity-50 text-nowrap">
+                  {period === "monthly" && (
+                      <span>$6.00
+                        <span className='fs-6 fw-medium opacity-50 text-nowrap'>
                     &nbsp;/&nbsp;month
                   </span>
+                        </span>
+                  )}
+                  {period === "1year" && (
+                      <span>${Math.round((72.00-72.00*0.3)*100)/100} (<strike className="small">$72.00</strike>)
+                    <span className='fs-6 fw-medium opacity-50 text-nowrap'>
+                    &nbsp;/&nbsp;year
+                    </span>
+                        </span>
+                  )}
+                  {period === "2year" && (
+                      <span>${Math.round((144-144*0.4)*100)/100} (<strike className="small">$144</strike>)
+                    <span className='fs-6 fw-medium opacity-50 text-nowrap'>
+                    &nbsp;/&nbsp;year
+                    </span>
+                        </span>
+                  )}
                 </h3>
 
                 <hr className="text-body-tertiary" />
 
                 <p className="fs-7 opacity-50">
-                  For most businesses that want to&nbsp;optimize web queries
+                  Users using email daily
                 </p>
 
                 <ul
@@ -193,15 +231,16 @@ export default function Pricing() {
                     "list-unstyled small mb-5"
                   )}
                 >
-                  <li>All Limited Links</li>
-                  <li>Own Analytics Platform</li>
-                  <li>Chat Support</li>
-                  <li>Optimize Hashtags</li>
-                  <li>Unlimited Users</li>
+                  <li>Full Encryption</li>
+                  <li>Space: 10GB</li>
+                  <li>Email Address: 10</li>
+                  <li>Receiving: Unlimited</li>
+                  <li>Sending: Unlimited</li>
+                  <li>Own Domain: 10</li>
                 </ul>
 
                 <button className="btn fw-normal text-center w-100 btn-light">
-                  Choose plan
+                  <a className="text-decoration-none" href="/mailbox/#signup">Get Started</a>
                 </button>
               </div>
             </div>
@@ -217,16 +256,33 @@ export default function Pricing() {
                 <h5 className='opacity-75 mb-4 fw-medium'>Pro</h5>
 
                 <h3 className="fw-medium">
-                  $12.00
-                  <span className="fs-6 fw-medium opacity-50 text-nowrap">
+                  {period === "monthly" && (
+                      <span>$12.00
+                        <span className='fs-6 fw-medium opacity-50 text-nowrap'>
                     &nbsp;/&nbsp;month
                   </span>
+                        </span>
+                  )}
+                  {period === "1year" && (
+                      <span>${Math.round((144-144*0.3)*100)/100} (<strike className="small">$144</strike>)
+                    <span className='fs-6 fw-medium opacity-50 text-nowrap'>
+                    &nbsp;/&nbsp;year
+                    </span>
+                        </span>
+                  )}
+                  {period === "2year" && (
+                      <span>${Math.round((288-288*0.4)*100)/100} (<strike className="small">$288</strike>)
+                    <span className='fs-6 fw-medium opacity-50 text-nowrap'>
+                    &nbsp;/&nbsp;year
+                    </span>
+                        </span>
+                  )}
                 </h3>
 
                 <hr className="text-body-tertiary" />
 
                 <p className="fs-7 opacity-50">
-                  For most businesses that want to&nbsp;optimize web queries
+                  Best in class
                 </p>
 
                 <ul
@@ -235,18 +291,19 @@ export default function Pricing() {
                     "list-unstyled small mb-5"
                   )}
                 >
-                  <li>All Limited Links</li>
-                  <li>Own Analytics Platform</li>
-                  <li>Chat Support</li>
-                  <li>Optimize Hashtags</li>
-                  <li>Unlimited Users</li>
+                  <li>Full Encryption</li>
+                  <li>Space: 100GB</li>
+                  <li>Email Address: 100</li>
+                  <li>Receiving: Unlimited</li>
+                  <li>Sending: Unlimited</li>
+                  <li>Own Domain: 100</li>
                 </ul>
 
                 <div className="flex-grow-1"></div>
                 {/* spacer */}
 
-                <button className="btn fw-normal text-center w-100 btn-outline-primary">
-                  Choose plan
+                <button className="btn fw-normal text-center w-100 btn-light">
+                  <a className="text-decoration-none" href="/mailbox/#signup">Get Started</a>
                 </button>
               </div>
             </div>
@@ -293,7 +350,7 @@ export default function Pricing() {
         </div>
       </CardBanner>
 
-      <Testimonials 
+      <Testimonials
         titleDesktop="Trusted by&nbsp;Security Experts"
       />
 

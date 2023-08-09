@@ -50,7 +50,7 @@ define(["react"], function (React) {
                         ),
                         React.createElement(
                             "a",
-                            { className: "navbar-brand", href: "index.html" },
+                            { className: "navbar-brand", href: "/" },
                             React.createElement("img", { src: "img/logo.svg", className: "logo" })
                         )
                     ),

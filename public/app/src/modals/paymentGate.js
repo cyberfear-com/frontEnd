@@ -421,48 +421,68 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                 {
                     id: "free",
                     title: "Free",
-                    desc: "For most businesses that want to optimize web queries",
+                    desc: "Try us",
                     price: "$0.00",
                     per: "per month",
                     methodType: "free",
                     features: [
-                        "All Limited Links",
-                        "Own Analytics Platform",
-                        "Chat Support",
-                        "Optimize Hashtags",
-                        "Unlimited Users",
+                       "Full Encryption",
+                        "Space: 0.05GB",
+                        "Email Address: 1",
+                        "Receiving: Unlimited",
+                        "Sending: 2 emails/hour",
                     ],
                 },
                 {
-                    id: "monthly",
-                    title: "Monthly",
-                    desc: "For most businesses that want to optimize web queries",
+                    id: "basic",
+                    title: "Basic",
+                    desc: "For users  emailing occasionally",
                     price: `$
                     ${app.user.get("userPlan")["trueMonthPrice"] / 100}`,
                     per: `${discm} month`,
                     methodType: "month",
                     features: [
-                        "All Limited Links",
-                        "Own Analytics Platform",
-                        "Chat Support",
-                        "Optimize Hashtags",
-                        "Unlimited Users",
+                        "Full Encryption",
+                        "Space: 2GB",
+                        "Email Address: 2",
+                        "Receiving: Unlimited",
+                        "Sending: 60 emails/hour",
+                        "Own Domain: 2",
                     ],
                 },
                 {
-                    id: "yearly",
-                    title: "Yearly",
-                    desc: "For most businesses that want to optimize web queries",
+                    id: "medium",
+                    title: "Medium",
+                    desc: "Users using email daily",
                     price: `$
                     ${app.user.get("userPlan")["trueYearPrice"] / 100}`,
                     per: `${discy} month`,
                     methodType: "year",
                     features: [
-                        "All Limited Links",
-                        "Own Analytics Platform",
-                        "Chat Support",
-                        "Optimize Hashtags",
-                        "Unlimited Users",
+                        "Full Encryption",
+                        "Space: 10GB",
+                        "Email Address: 10",
+                        "Receiving: Unlimited",
+                        "Sending: Unlimited",
+                        "Own Domain: 10",
+                    ],
+                },
+                ,
+                {
+                    id: "pro",
+                    title: "Pro",
+                    desc: "Best in class",
+                    price: `$
+                    ${app.user.get("userPlan")["trueYearPrice"] / 100}`,
+                    per: `${discy} month`,
+                    methodType: "year",
+                    features: [
+                        "Full Encryption",
+                        "Space: 10GB",
+                        "Email Address: 100",
+                        "Receiving: Unlimited",
+                        "Sending: Unlimited",
+                        "Own Domain: 100",
                     ],
                 },
             ];
@@ -552,13 +572,13 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                     id="monthly-tab-pane"
                                     role="tabpanel"
                                     aria-labelledby="monthly-tab"
-                                    tabindex="0"
+                                    tabIndex="0"
                                 >
                                     <div className="row gx-4">
                                         {paymentTabContents.map(
                                             (paymentContentTab, index) => (
                                                 <div
-                                                    className="col-md-6 col-lg-4"
+                                                    className="col-md-5 col-lg-3"
                                                     key={index}
                                                 >
                                                     <div className="pricing-box">

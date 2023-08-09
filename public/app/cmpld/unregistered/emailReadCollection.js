@@ -76,6 +76,7 @@ define(['react', 'app', 'cmpld/unregistered/Body/emailRead', 'cmpld/unregistered
 
             var emailDecrypted = {
                 body: app.transform.fromAes64(key, emailData['email'])
+                // meta: app.transform.fromAes64(key, emailEncrypted['meta'])
             };
             //console.log(emailDecrypted);
 

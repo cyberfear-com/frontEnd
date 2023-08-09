@@ -322,6 +322,8 @@ define(['react', 'app', 'summernote', 'select2'], function (React, app, summerno
 					return markup;
 				}
 
+				//templateResult:
+
 			});
 		},
 

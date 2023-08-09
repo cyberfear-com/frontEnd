@@ -13,7 +13,7 @@ export default function BecomePremium() {
         Start free and upgrade if&nbsp;you need more features.
       </p>
 
-      <a href="#" className="btn btn-light wide fw-bold d-block d-md-inline">
+      <a href="/mailbox/#signup" className="btn btn-light wide fw-bold d-block d-md-inline">
         Upgrade Now
       </a>
     </Banner>

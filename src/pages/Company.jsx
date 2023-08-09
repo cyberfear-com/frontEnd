@@ -123,8 +123,8 @@ export default function Company() {
               <span className="opacity-75">.</span>
             </p>
             <p className="opacity-75 mb-0">
-              Having a&nbsp;programming and security background, 
-                we&nbsp;decided to&nbsp;build a&nbsp;mailbox with zero-access encryption, 
+              Having a&nbsp;programming and security background,
+                we&nbsp;decided to&nbsp;build a&nbsp;mailbox with zero-access encryption,
                 which ensures that no&nbsp;one but you can access your data.
             </p>
           </div>
@@ -190,7 +190,7 @@ export default function Company() {
           <wbr /> Encrypted email service cannot access any of&nbsp;those information.
         </p>
 
-        <a className="btn btn-primary wide fw-medium mt-2">Create Encrypted Email</a>
+        <a className="btn btn-primary wide fw-medium mt-2" href="/mailbox/#signup">Create Encrypted Email</a>
       </CardBanner>
 
       <Banner className={styles.technologyBanner}>
@@ -202,7 +202,7 @@ export default function Company() {
             <p className="opacity-50">
               Our top priority while building Mailum was to create an email
               service that is <b>not based on reliance</b>. We came up with a
-              solution named <a href="">“Local&nbsp;Code”</a>.
+              solution named <a href="https://github.com/cyberfear-com" target="_blank" rel="noreferrer">“Local&nbsp;Code”</a>.
             </p>
 
             <p className="opacity-50">
@@ -216,7 +216,7 @@ export default function Company() {
               can explore our GitHub:
             </p>
 
-            <a href="" className="btn btn-primary wide">
+            <a href="https://github.com/cyberfear-com" target="_blank" rel="noreferrer" className="btn btn-primary wide">
               Get Source on GitHub
             </a>
           </div>

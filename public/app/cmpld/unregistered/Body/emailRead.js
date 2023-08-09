@@ -18,6 +18,8 @@ define(['react', 'app'], function (React, app) {
 				rawHeadVisible: "",
 				toggleHTMLtext: 'html',
 				renderFull: false
+				//emailHasPin
+
 			};
 		},
 		componentWillUnmount: function () {

@@ -24,6 +24,9 @@ define([
             "login": "loginPage",
             "pricing": "firstTimeLogin",
             "signup": "createUser",
+            "signup/:coupon": "createUserCoupon",
+
+            //"signup/:coupon": "createUser",
             // "contactUs" : "contactUs",
             "contact": "reachUs",
             "requestInvitation": "requestInvitation",
@@ -40,7 +43,7 @@ define([
             "settings/:options(/:msg)": "settings",
             "updateAccount/:options(/:msg)": "updateAccount",
             "logOut": "logOut",
-            "createUser/:coupon": "createUserCoupon",
+           // "signup/:coupon": "createUserCoupon",
         },
         execute: function (callback, args) {
             //var tt=setTimeout(function(){
@@ -139,7 +142,7 @@ define([
         },
         createUser: function () {
             React.render(
-                <SplashCollection page={"signup"} />,
+                <SplashCollection page={"signup"} coupon=""/>,
                 document.getElementById("loginBody")
             );
         },
@@ -248,10 +251,11 @@ define([
         },
         createUserCoupon: function (msg) {
             //MemorizeCouponCodeV2
+            console.log('111');
 
-            $.ajax({
+         /*   $.ajax({
                 method: "POST",
-                url: app.defaults.get("apidomain") + "/MemorizeCouponCodeV2",
+                url: app.defaults.get("apidomain") + "/checkCouponExistV2",
                 data: {
                     coupon: msg,
                 },
@@ -261,23 +265,23 @@ define([
                 },
             }).done(function (msg) {
                 if (msg === "false") {
-                    /*thisComp.setState({
+                    /!*thisComp.setState({
 							couponError: "coupon not valid",
 							couponSucc:false
-						});*/
+						});*!/
                 } else if (msg === "true") {
-                    /*thisComp.setState({
+                    /!*thisComp.setState({
 							couponError: "",
 							couponSucc:true
-						});*/
+						});*!/
                 }
-            });
-
+            });*/
             React.render(
-                <SplashCollection page={"index"} />,
-                document.getElementById("mainBody")
+                <SplashCollection page={"signup"} coupon={msg}/>,
+                document.getElementById("loginBody")
             );
-            $("#createAccount-modal").modal("show");
+
+           // $("#createAccount-modal").modal("show");
             $("#coupon").val(msg);
         },
 

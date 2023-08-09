@@ -241,7 +241,7 @@ define(["react", "app", "validation", "cmpld/modals/paymentGate"], function (Rea
                 React.createElement(
                     "div",
                     {
-                        className: `loading-screen welcome ${ this.state.working ? "d-flex" : "d-none" }`
+                        className: `loading-screen welcome ${this.state.working ? "d-flex" : "d-none"}`
                     },
                     React.createElement(
                         "div",
@@ -397,7 +397,7 @@ define(["react", "app", "validation", "cmpld/modals/paymentGate"], function (Rea
                                         { className: "form-group" },
                                         React.createElement("button", {
                                             tabIndex: "-1",
-                                            className: `form-icon ${ this.state.inPasswordViewMode ? "eye-close" : "eye" }`,
+                                            className: `form-icon ${this.state.inPasswordViewMode ? "eye-close" : "eye"}`,
                                             type: "button",
                                             onClick: this.handlePasswordView.bind(this)
                                         }),

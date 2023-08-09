@@ -6,6 +6,7 @@ import styles from './ContactUs.module.scss'
 import PhoneImg from '@/assets/phone.png'
 
 export default function ContactUs() {
+
     return <div className={classNames('d-flex flex-column', styles.layout)}>
         <Header />
 
@@ -25,22 +26,23 @@ export default function ContactUs() {
                         Please provide the email address so&nbsp;we&nbsp;can contact you
                     </p>
 
-                    <form className='mt-5' novalidate>
+                    <form className='mt-5' action="api/submitBug" method="POST">
                         <div className={classNames(styles.iconField, styles.email, 'mb-3')}>
-                            <input 
+                            <input
                                 type='email'
                                 className='form-control'
                                 id='email'
+                                name="email"
                                 placeholder='Enter your email address'
                             />
                         </div>
                         <div className={classNames(styles.question, 'mb-3')}>
-                            <textarea className='form-control' id='question' rows='6' placeholder="Let's talk" />
+                            <textarea className='form-control' id='question' rows='6' name="comment" placeholder="Let's talk" />
                             <small className={classNames(styles.charLeft, 'opacity-40')}>800 characters left</small>
                         </div>
-                        
+
                         <div className='d-grid mt-4'>
-                            <button disabled={true} type='submit' className='btn btn-primary btn-block'>Send Message</button>
+                            <button disabled={false} type='submit' className='btn btn-primary btn-block'>Send Message</button>
                         </div>
                     </form>
                 </div>

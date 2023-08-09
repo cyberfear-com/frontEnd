@@ -22,6 +22,8 @@ define(['react', 'app'], function (React, app) {
 				renderFull: false,
 				pgpEncrypted: false,
 				decryptedEmail: false
+				//emailHasPin
+
 			};
 		},
 		componentWillUnmount: function () {

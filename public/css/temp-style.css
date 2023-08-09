@@ -2608,7 +2608,7 @@ textarea.form-control.is-valid {
     z-index: 3;
 }
 .invalid-feedback {
-    display: none;
+ /*   display: none;*/
     width: 100%;
     margin-top: 0.25rem;
     font-size: 0.875em;
@@ -12500,7 +12500,7 @@ footer .footer-bottom-row .copyright {
     float: left;
     max-width: 645px;
     position: relative;
-    margin: 64px 0 0 0;
+    margin: 0px 0 0 0;
 }
 .pricing-top .nav-tabs {
     text-align: center;
@@ -12558,7 +12558,7 @@ footer .footer-bottom-row .copyright {
 .tab-content {
     width: 100%;
     float: left;
-    margin: 24px 0 44px 0;
+    margin: 0px 0 44px 0;
 }
 .tab-content .tab-pane {
     width: 100%;
@@ -19687,7 +19687,7 @@ header .menu-icon.on-left-side {
     width: 100%;
     height: 10px;
 }
-/* 
+/*
 .loading-skeleton .skeleton::after {
     position: absolute;
     top: 0;

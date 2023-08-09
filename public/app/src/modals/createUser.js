@@ -6,6 +6,8 @@ define(["app", "react"], function (app, React) {
                 newPass: "",
                 newPassRep: "",
                 coupon: "",
+                domainList: ["@mailum.com","@cyberfear.com"],
+                domain:"@mailum.com",
 
                 emailError: "",
                 newPassError: "",
@@ -28,6 +30,13 @@ define(["app", "react"], function (app, React) {
 
         componentDidMount: function () {
             $("#createAccount-modal").on("shown.bs.modal", function () {});
+         if(this.props.coupon.length>0){
+             this.setState({
+                 coupon:this.props.coupon
+             },function(){
+                 this.checkCouponTyping();
+             })
+         }
         },
         handleChange: function (action, event) {
             switch (action) {
@@ -38,14 +47,20 @@ define(["app", "react"], function (app, React) {
                             coupon: event.target.value,
                         },
                         function () {
-                            thisComp.checkCouponTyping();
+                                thisComp.checkCouponTyping();
+
                         }
                     );
                     break;
+                case "changeDomain":
+                    this.setState({
+                        domain:event.target.value
+                    },function () {
+                        this.checkEmailTyping();
+                    })
+                    break;
                 case "email":
-                    var thisComp = this;
                     var email = event.target.value;
-                    console.log(email.length);
                     if (email.indexOf("@") !== -1) {
                         this.setState({
                             emailError:
@@ -70,7 +85,7 @@ define(["app", "react"], function (app, React) {
                             email: event.target.value,
                         },
                         function () {
-                            thisComp.checkEmailTyping();
+                            this.checkEmailTyping();
                         }
                     );
 
@@ -81,7 +96,7 @@ define(["app", "react"], function (app, React) {
                     if (newPass.length < 6) {
                         this.setState({
                             newPassError:
-                                "Please use password bigger than 6 characters",
+                                "Please use password longer than 6 characters",
                             newPassSucc: false,
                             repPassError: "",
                             repPassSucc: false,
@@ -174,13 +189,12 @@ define(["app", "react"], function (app, React) {
 
         generateUser: function () {
             var thisComp = this;
-
             this.checkFields().then(function (msg) {
                 var userAddress = thisComp.state.email
                     .toLowerCase()
                     .split("@")[0];
                 var email =
-                    userAddress + app.defaults.get("domainMail").toLowerCase();
+                    userAddress + thisComp.state.domain.toLowerCase();
 
                 var pass = app.transform.SHA512(
                     app.globalF.makeDerivedFancy(
@@ -203,6 +217,7 @@ define(["app", "react"], function (app, React) {
                         userObj["salt"] = app.transform.bin2hex(salt);
                         userObj["coupon"] = thisComp.state.coupon;
 
+                        console.log(userObj);
                         $.ajax({
                             method: "POST",
                             url:
@@ -216,14 +231,13 @@ define(["app", "react"], function (app, React) {
                         }).then(function (msg) {
                             if (msg["response"] === "fail") {
                                 if (msg["data"] === "limitIsReached") {
-                                    // app.notifications.systemMessage('once5min');
                                     thisComp.setState({
-                                        accountCreationError: "once5min",
+                                        accountCreationError: "Please wait 5 minutes before creating another account",
                                     });
                                 } else {
                                     // app.notifications.systemMessage('tryAgain');
                                     thisComp.setState({
-                                        accountCreationError: "tryAgain",
+                                        accountCreationError: "Please try again.",
                                     });
                                 }
                             } else if (msg["response"] === "success") {
@@ -239,6 +253,13 @@ define(["app", "react"], function (app, React) {
                             });
 
                             // console.log(msg)
+                        }).fail(function(jqXhr) {
+                            thisComp.setState({
+                                accountCreationError: "Server in unavailable. Please check your connection and try again.",
+                                working: false,
+                                buttonTag: "",
+                                buttonText: "SIGN UP",
+                            });
                         });
                     });
             });
@@ -247,7 +268,7 @@ define(["app", "react"], function (app, React) {
         },
         checkCouponTyping: function () {
             var thisComp = this;
-            if (thisComp.state.coupon.length >= 0) {
+            if(this.state.coupon.length==16 || this.state.coupon.length==32) {
                 $.ajax({
                     method: "POST",
                     url: app.defaults.get("apidomain") + "/checkCouponExistV2",
@@ -274,6 +295,16 @@ define(["app", "react"], function (app, React) {
                         });
                     }
                 });
+            }else if(this.state.coupon.length==0){
+                thisComp.setState({
+                    couponError: "",
+                    couponSucc: true,
+                });
+            } else{
+                thisComp.setState({
+                    couponError: "coupon not valid",
+                    couponSucc: false,
+                });
             }
         },
 
@@ -285,8 +316,8 @@ define(["app", "react"], function (app, React) {
                     url: app.defaults.get("apidomain") + "/checkEmailExistV2",
                     data: {
                         fromEmail:
-                            this.state.email +
-                            app.defaults.get("domainMail").toLowerCase(),
+                            thisComp.state.email +
+                            thisComp.state.domain.toLowerCase(),
                     },
                     dataType: "text",
                 }).done(function (msg) {
@@ -303,37 +334,46 @@ define(["app", "react"], function (app, React) {
                             emailError: "",
                         });
                     }
-                });
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    app.notifications.systemMessage("tryAgain");
+                    // Request failed. Show error message to user.
+                    // errorThrown has error message.
+                })
             }
         },
 
         checkEmail: function () {
             var thisComp = this;
-            $.ajax({
-                method: "POST",
-                url: app.defaults.get("apidomain") + "/checkEmailExistV2",
-                data: {
-                    fromEmail: this.state.email + "@CyberFear.com",
-                },
-                dataType: "text",
-            }).done(function (msg) {
-                if (msg === "false") {
-                    thisComp.setState({
-                        emailError: "email exists",
-                    });
-                } else if (msg === "true") {
-                    thisComp.generateUser();
-                } else if (JSON.parse(msg)["email"] != undefined) {
-                    thisComp.setState({
-                        emailError: JSON.parse(msg)["email"],
-                    });
-                } else {
-                    // app.notifications.systemMessage('tryAgain');
-                    thisComp.setState({
-                        accountCreationError: "tryAgain",
-                    });
-                }
+            this.checkFields().then(function (msg) {
+                $.ajax({
+                    method: "POST",
+                    url: app.defaults.get("apidomain") + "/checkEmailExistV2",
+                    data: {
+                        fromEmail: thisComp.state.email + thisComp.state.domain,
+                    },
+                    dataType: "text",
+                }).done(function (msg) {
+                    console.log(msg);
+                    if (msg === "false") {
+                        thisComp.setState({
+                            emailError: "email exists",
+                        });
+                    } else if (msg === "true") {
+                        thisComp.generateUser();
+                    } else if (JSON.parse(msg)["email"] != undefined) {
+                        thisComp.setState({
+                            emailError: JSON.parse(msg)["email"],
+                        });
+                    } else {
+                        // app.notifications.systemMessage('tryAgain');
+                        thisComp.setState({
+                            accountCreationError: "tryAgain",
+                        });
+                    }
+                });
             });
+
+
         },
         handleClick: function (i, e) {
             this.setState({
@@ -425,7 +465,7 @@ define(["app", "react"], function (app, React) {
                         <div
                             className="modal-content"
                             onKeyDown={this.handleClick.bind(
-                                this,
+                                null,
                                 "enterCreateUser"
                             )}
                         >
@@ -440,26 +480,18 @@ define(["app", "react"], function (app, React) {
                                 >
                                     <div className="row">
                                         <div className="col-sm-7">
-                                            <div
-                                                className={
-                                                    "form-group " +
-                                                    (this.state.emailError != ""
-                                                        ? "has-error"
-                                                        : "") +
-                                                    (this.state.emailSucc
-                                                        ? "has-success"
-                                                        : "")
-                                                }
-                                            >
+                                            <div className="form-group ">
                                                 <input
                                                     type="text"
                                                     name="email"
                                                     id="userEmail"
-                                                    className="form-control input-lg"
+                                                    autoComplete="username"
+                                                    className={"form-control input-lg "+(this.state.emailError == ""
+                                                ? (this.state.email.length>2)?"is-valid":"":"is-invalid") }
                                                     placeholder="choose email"
                                                     maxLength="160"
                                                     onChange={this.handleChange.bind(
-                                                        this,
+                                                        null,
                                                         "email"
                                                     )}
                                                     value={this.state.email}
@@ -471,7 +503,7 @@ define(["app", "react"], function (app, React) {
                                                         (this.state
                                                             .emailError == ""
                                                             ? "hidden"
-                                                            : "")
+                                                            : "invalid-feedback")
                                                     }
                                                     htmlFor="resetEmail"
                                                 >
@@ -484,43 +516,29 @@ define(["app", "react"], function (app, React) {
                                                 <select
                                                     className="form-select"
                                                     aria-label="Default select example"
+                                                    onChange={this.handleChange.bind(
+                                                        null,
+                                                        "changeDomain"
+                                                    )}
+                                                    defaultValue={this.state.domainList[0]}
                                                 >
-                                                    <option selected="">
-                                                        @cyberfear.com
-                                                    </option>
-                                                    <option value="1">
-                                                        @cyberfear.com
-                                                    </option>
-                                                    <option value="2">
-                                                        @cyberfear.com
-                                                    </option>
-                                                    <option value="3">
-                                                        @cyberfear.com
-                                                    </option>
+                                                    {this.state.domainList.map( (x,y) =>
+                                                    <option key={y}>{x}</option> )}
                                                 </select>
                                             </div>
                                         </div>
                                         <div className="col-sm-12">
-                                            <div
-                                                className={
-                                                    "form-group " +
-                                                    (this.state.newPassError !=
-                                                    ""
-                                                        ? "has-error"
-                                                        : "") +
-                                                    (this.state.newPassSucc
-                                                        ? "has-success"
-                                                        : "")
-                                                }
-                                            >
+                                            <div className="form-group">
                                                 <input
-                                                    className="form-control input-lg"
+                                                    className={"form-control input-lg "+(this.state.newPassError == ""
+                                                        ? this.state.newPass.length>5?"is-valid":"":"is-invalid") }
                                                     name="password"
                                                     id="userPassword"
                                                     type="password"
                                                     placeholder="password"
+                                                    autoComplete="new-password"
                                                     onChange={this.handleChange.bind(
-                                                        this,
+                                                        null,
                                                         "newPass"
                                                     )}
                                                     value={this.state.newPass}
@@ -531,7 +549,7 @@ define(["app", "react"], function (app, React) {
                                                         (this.state
                                                             .newPassError == ""
                                                             ? "hidden"
-                                                            : "")
+                                                            : "invalid-feedback")
                                                     }
                                                     htmlFor="newPass"
                                                 >
@@ -540,26 +558,18 @@ define(["app", "react"], function (app, React) {
                                             </div>
                                         </div>
                                         <div className="col-sm-12">
-                                            <div
-                                                className={
-                                                    "form-group " +
-                                                    (this.state.repPassError !=
-                                                    ""
-                                                        ? "has-error"
-                                                        : "") +
-                                                    (this.state.repPassSucc
-                                                        ? "has-success"
-                                                        : "")
-                                                }
-                                            >
+                                            <div className="form-group">
                                                 <input
-                                                    className="form-control input-lg"
+                                                    className={"form-control input-lg "+(this.state.repPassError == ""
+                                                        ? this.state.newPassRep.length>5?"is-valid":"":"is-invalid") }
+
                                                     name="passwordrepeat"
                                                     id="userPasswordRepeat"
                                                     type="password"
+                                                    autoComplete="new-password"
                                                     placeholder="repeat password"
                                                     onChange={this.handleChange.bind(
-                                                        this,
+                                                        null,
                                                         "newPassRep"
                                                     )}
                                                     value={
@@ -572,8 +582,9 @@ define(["app", "react"], function (app, React) {
                                                         (this.state
                                                             .repPassError == ""
                                                             ? "hidden"
-                                                            : "")
+                                                            : "invalid-feedback")
                                                     }
+
                                                     htmlFor="newPassRep"
                                                 >
                                                     {this.state.repPassError}
@@ -589,7 +600,7 @@ define(["app", "react"], function (app, React) {
                                                     type="text"
                                                     placeholder="I'm no robot"
                                                     onChange={this.handleChange.bind(
-                                                        this,
+                                                        null,
                                                         "norobot"
                                                     )}
                                                     value={this.state.norobot}
@@ -610,25 +621,15 @@ define(["app", "react"], function (app, React) {
                                         </div>
                                         <div className="col-sm-12">
                                             <div
-                                                className={
-                                                    "form-group " +
-                                                    (this.state.couponError !=
-                                                    ""
-                                                        ? "has-error"
-                                                        : "") +
-                                                    (this.state.couponSucc
-                                                        ? "has-success"
-                                                        : "")
-                                                }
-                                            >
+                                                className="form-group ">
                                                 <input
-                                                    className="form-control input-lg"
-                                                    name="password"
+                                                    className={"form-control input-lg "+(this.state.couponError==""?this.state.coupon.length==0?"":"is-valid":"is-invalid")}
+                                                    name="coupon"
                                                     id="coupon"
                                                     type="text"
                                                     placeholder="if you have please enter coupon code here"
                                                     onChange={this.handleChange.bind(
-                                                        this,
+                                                        null,
                                                         "coupon"
                                                     )}
                                                     value={this.state.coupon}
@@ -638,10 +639,10 @@ define(["app", "react"], function (app, React) {
                                                         "control-label pull-left " +
                                                         (this.state
                                                             .couponError == ""
-                                                            ? "hidden"
-                                                            : "")
+                                                            ? "valid-feedback"
+                                                            : "invalid-feedback")
                                                     }
-                                                    htmlFor="newPass"
+                                                    htmlFor="coupon"
                                                 >
                                                     {this.state.couponError}
                                                 </label>
@@ -651,13 +652,7 @@ define(["app", "react"], function (app, React) {
                                         "" ? (
                                             <div className="col-sm-12">
                                                 <div className="bg-danger px-4 py-2 rounded text-white text-center mb-2 fs-6">
-                                                    {this.state
-                                                        .accountCreationError ===
-                                                    "once5min" ? (
-                                                        <span>{`Please wait 5 minutes before creating another account`}</span>
-                                                    ) : (
-                                                        <span>{`An error occured while trying to create user, please try again in another 5 minutes`}</span>
-                                                    )}
+                                                    <span>{this.state.accountCreationError}</span>
                                                 </div>
                                             </div>
                                         ) : null}
@@ -667,7 +662,7 @@ define(["app", "react"], function (app, React) {
                                                 type="button"
                                                 disabled={this.state.working}
                                                 onClick={this.handleClick.bind(
-                                                    this,
+                                                    null,
                                                     "createUser"
                                                 )}
                                             >
@@ -682,7 +677,7 @@ define(["app", "react"], function (app, React) {
                                                 By clicking “Create Account” you
                                                 agree with our{" "}
                                                 <a
-                                                    href="/terms.html"
+                                                    href="/terms"
                                                     target="_blank"
                                                     style={{
                                                         fontWeight: "700",
@@ -693,7 +688,7 @@ define(["app", "react"], function (app, React) {
                                                 </a>{" "}
                                                 <br />
                                                 <a
-                                                    href="mailbox/#login"
+                                                    href="/mailbox/#login"
                                                     className="text-decoration-underline"
                                                 >
                                                     Already a user
@@ -740,7 +735,7 @@ define(["app", "react"], function (app, React) {
                                 ? "d-block"
                                 : "d-none"
                         } bg-secondary bg-opacity-75 py-5`}
-                        tabindex="-1"
+                        tabIndex="-1"
                         role="dialog"
                         id="modalSheet"
                     >
@@ -755,9 +750,7 @@ define(["app", "react"], function (app, React) {
                                         className="btn-close"
                                         data-bs-dismiss="modal"
                                         aria-label="Close"
-                                        onClick={this.handleModalClose.bind(
-                                            this
-                                        )}
+                                        onClick={this.handleModalClose}
                                     ></button>
                                 </div>
                                 <div className="modal-body py-0">
@@ -777,9 +770,7 @@ define(["app", "react"], function (app, React) {
                                     <button
                                         type="button"
                                         className="btn btn-lg btn-dark mx-0 mb-2 fs-6"
-                                        onClick={this.handleDownloadToken.bind(
-                                            this
-                                        )}
+                                        onClick={this.handleDownloadToken}
                                     >
                                         Download Token
                                     </button>

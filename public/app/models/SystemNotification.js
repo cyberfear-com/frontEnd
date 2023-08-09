@@ -159,7 +159,7 @@ define(["app", "SmartNotification"], function (app, SmartNotification) {
                     break;
 
                 case "tryAgain":
-                    this.noAnswer("Error. Please try again.");
+                    this.noAnswer("Connection Error. Please try again.");
                     break;
                 case "saved":
                     this.Answer("Saved.");
@@ -203,7 +203,7 @@ define(["app", "SmartNotification"], function (app, SmartNotification) {
                 content: "",
                 color: "#fff", // #A65858 / #2277F6
                 iconSmall: "fa fa-times",
-                timeout: 7000,
+                timeout: 3000,
             });
         },
 
@@ -213,7 +213,7 @@ define(["app", "SmartNotification"], function (app, SmartNotification) {
                 content: "",
                 color: "#B4990D",
                 iconSmall: "fa fa-times",
-                timeout: 8000,
+                timeout: 5000,
             });
         },
 

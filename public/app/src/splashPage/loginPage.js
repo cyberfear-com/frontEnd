@@ -1,8 +1,9 @@
-define(["react", "app", "validation", "cmpld/modals/paymentGate"], function (
+define(["react", "app", "validation", "cmpld/modals/paymentGate","ajaxQueue"], function (
     React,
     app,
     Validation,
-    PaymentGate
+    PaymentGate,
+    ajaxQueue
 ) {
     return React.createClass({
         /**
@@ -17,6 +18,8 @@ define(["react", "app", "validation", "cmpld/modals/paymentGate"], function (
                 fac2Type: "",
                 domainSelectFlag: false,
                 incorrectCredentials: false,
+                domainList: ["@mailum.com","@cyberfear.com","test@com.com"],
+                domain:"@mailum.com",
                 firstTimeUser: false,
 
                 working: false,
@@ -61,9 +64,13 @@ define(["react", "app", "validation", "cmpld/modals/paymentGate"], function (
             });
 
             if (app.defaults.get("dev") === true) {
-                this.handleClick("login");
+             //   this.handleClick("login");
                 // this.handleUserNameChange();
             }
+           // if(app.defaults.get("dev")){
+           //     this.handleClick('login','');
+          //  }
+
         },
         /**
          *
@@ -119,7 +126,10 @@ define(["react", "app", "validation", "cmpld/modals/paymentGate"], function (
                     break;
 
                 case "login":
-                    event.preventDefault();
+                   // if(!app.defaults.get("dev")){
+                  //      event.preventDefault();
+                   // }
+
                     var thisComp = this;
                     createUserFormValidator.form();
 
@@ -179,7 +189,8 @@ define(["react", "app", "validation", "cmpld/modals/paymentGate"], function (
                                     thisComp.setState({
                                         fac2Type: 1,
                                     });
-                                } else if (result == "needYubi") {
+                                }
+                                if (result == "needYubi") {
                                     thisComp.setState({
                                         secondFactorInput: true,
                                     });
@@ -187,6 +198,14 @@ define(["react", "app", "validation", "cmpld/modals/paymentGate"], function (
                                     thisComp.setState({
                                         fac2Type: 2,
                                     });
+                                }
+                                if(result=='noinet'){
+                                    $.ajaxQueue.clear();
+                                    /*thisComp.setState({
+                                        working: false,
+                                        buttonTag: "",
+                                        buttonText: "SIGN IN",
+                                    });*/
                                 }
                             }
                         );
@@ -222,7 +241,7 @@ define(["react", "app", "validation", "cmpld/modals/paymentGate"], function (
             }
         },
         handlePasswordView: function (event) {
-            event.preventDefault();
+            //event.preventDefault();
             let _inPasswordViewMode = false;
             if (this.state.inPasswordViewMode) {
                 $("#LoginUser_password").prop("type", "password");
@@ -317,10 +336,11 @@ define(["react", "app", "validation", "cmpld/modals/paymentGate"], function (
                                                 name="email"
                                                 id="LoginForm_username"
                                                 placeholder="Email"
+                                                autoComplete="usernam"
                                                 defaultValue={app.defaults.get(
                                                     "userName"
                                                 )}
-                                                onChange={this.handleUserNameChange.bind()}
+                                                onChange={this.handleUserNameChange}
                                             />
                                         </div>
                                     </div>
@@ -330,25 +350,15 @@ define(["react", "app", "validation", "cmpld/modals/paymentGate"], function (
                                                 className="form-select"
                                                 aria-label="Domain select"
                                                 id="LoginForm_domain"
-                                                defaultValue={`0`}
+                                                defaultValue={this.state.domain}
                                                 disabled={
                                                     this.state.domainSelectFlag
                                                         ? true
                                                         : null
                                                 }
                                             >
-                                                <option value="0">
-                                                    @cyberfear.com
-                                                </option>
-                                                <option value="1">
-                                                    @cyberfear.com
-                                                </option>
-                                                <option value="2">
-                                                    @cyberfear.com
-                                                </option>
-                                                <option value="3">
-                                                    @cyberfear.com
-                                                </option>
+                                                {this.state.domainList.map( (x,y) =>
+                                                    <option key={y}>{x}</option> )}
                                             </select>
                                         </div>
                                     </div>
@@ -363,14 +373,13 @@ define(["react", "app", "validation", "cmpld/modals/paymentGate"], function (
                                                         : "eye"
                                                 }`}
                                                 type="button"
-                                                onClick={this.handlePasswordView.bind(
-                                                    this
-                                                )}
+                                                onClick={this.handlePasswordView}
                                             ></button>
                                             <input
                                                 type="password"
                                                 className="form-control with-icon"
                                                 name="pP"
+                                                autoComplete="current-password"
                                                 id="LoginUser_password"
                                                 placeholder="Password"
                                                 defaultValue={app.defaults.get(
@@ -454,14 +463,13 @@ define(["react", "app", "validation", "cmpld/modals/paymentGate"], function (
                                     {this.state.incorrectCredentials ? (
                                         <div className="col-sm-12">
                                             <div className="bg-danger px-4 py-2 rounded text-white text-center mb-2 fs-6">
-                                                Wrong username / password.
-                                                Please try again
+                                                Wrong username or password.
                                             </div>
                                         </div>
                                     ) : null}
                                     <div className="col-sm-12">
                                         <div className="forgot-link">
-                                            <a href="mailbox/#forgotPassword">
+                                            <a href="/mailbox/#forgotPassword">
                                                 Forgot Password?
                                             </a>
                                         </div>

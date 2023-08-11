@@ -2074,7 +2074,7 @@ define([
 					post['folderData']=JSON.stringify(newFolderObj);
 
 
-			/*		app.serverCall.ajaxRequest('folderSettings',post,function(result){
+					app.serverCall.ajaxRequest('folderSettings',post,function(result){
 						if(result['response']=='success'){
 							if(result['data']=='saved'){
 								$.each(newFolderObj, function( index, foldData ) {
@@ -2097,7 +2097,7 @@ define([
 							}
 						}
 						callback(result);
-					});*/
+					});
 
 
 					break;

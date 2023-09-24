@@ -13,6 +13,7 @@ define(['react','app','xss','jsui','cmpld/unregistered/header/head',
 
 	return React.createClass({
 		getInitialState : function() {
+			console.log('!!!!')
 			return {
 				dfd: ""
 			};

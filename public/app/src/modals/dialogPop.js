@@ -59,6 +59,7 @@ define(["react", "app"], function (React, app) {
                                 <div className="icon-wrapper">
                                     <div className="icon-background">
                                         <img
+                                            id="dialogIcon"
                                             src="/images/delete-pop.png"
                                             alt="delete icon"
                                         />

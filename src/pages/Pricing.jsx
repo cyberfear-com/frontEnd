@@ -40,7 +40,7 @@ export default function Pricing() {
             )}
             onClick={() => setPeriod("monthly")}
           >
-            Monthly
+            Monthly (cancel anytime)
           </button>
           <button
             type="button"
@@ -51,7 +51,7 @@ export default function Pricing() {
             )}
             onClick={() => setPeriod("1year")}
           >
-            1 Year
+            1 Year commitment
             <span className="badge ms-2">Save 30%</span>
           </button>
           <button
@@ -63,7 +63,7 @@ export default function Pricing() {
             )}
             onClick={() => setPeriod("2year")}
           >
-            2 Years
+            2 Years commitment
             <span className="badge ms-2">Save 40%</span>
           </button>
         </div>
@@ -101,6 +101,7 @@ export default function Pricing() {
                     <li>Email Address: 1</li>
                     <li>Receiving: Unlimited</li>
                     <li>Sending: 2 emails/hour</li>
+                    <li>Own Domain: 0</li>
                   </ul>
 
                   <div className="flex-grow-1"></div>
@@ -132,16 +133,16 @@ export default function Pricing() {
                         </span>
                     )}
                   {period === "1year" && (
-                      <span>${Math.round((24-24*0.3)*100)/100} (<strike className="small">$24</strike>)
+                      <span>${Math.round((24-24*0.3)*100/12)/100} (<strike className="small">${Math.round(24*100/12)/100}</strike>)
                     <span className='fs-6 fw-medium opacity-50 text-nowrap'>
-                    &nbsp;/&nbsp;year
+                    &nbsp;/&nbsp;month
                     </span>
                         </span>
                     )}
                   {period === "2year" && (
-                      <span>${Math.round((48-48*0.4)*100)/100} (<strike className="small">$48</strike>)
+                      <span>${Math.round((48-48*0.4)*100/24)/100} (<strike className="small">${Math.round(48*100/24)/100}</strike>)
                     <span className='fs-6 fw-medium opacity-50 text-nowrap'>
-                    &nbsp;/&nbsp;year
+                    &nbsp;/&nbsp;month
                     </span>
                         </span>
                   )}
@@ -182,17 +183,20 @@ export default function Pricing() {
               period === "monthly" ? "g-col-md-6 g-col-lg-3" : "g-col-md-4"
             )}
           >
+
             <div
               className={classNames(
                 styles.planCard,
-                styles.featured,
-                "card h-100 text-bg-primary"
+                  period === "monthly"?styles.featured+" card h-100 text-bg-primary":"card h-100",
               )}
             >
               <div className='card-body p-4'>
                 <div className='d-flex align-items-center justify-content-between mb-4'>
-                  <h5 className='opacity-75 m-0 fw-medium'>Medium</h5>
-                  <span className='badge bg-primary'>POPULAR</span>
+                  <h5 className='opacity-75 mb-2 fw-medium'>Medium</h5>
+                  {period === "monthly" && (
+                      <span className='badge bg-primary'>POPULAR</span>
+                      )}
+
                 </div>
 
                 <h3 className="fw-medium">
@@ -204,16 +208,16 @@ export default function Pricing() {
                         </span>
                   )}
                   {period === "1year" && (
-                      <span>${Math.round((72.00-72.00*0.3)*100)/100} (<strike className="small">$72.00</strike>)
+                      <span>${Math.round((72.00-72.00*0.3)*100/12)/100} (<strike className="small">${Math.round(72.00*100/12)/100}</strike>)
                     <span className='fs-6 fw-medium opacity-50 text-nowrap'>
-                    &nbsp;/&nbsp;year
+                    &nbsp;/&nbsp;month
                     </span>
                         </span>
                   )}
                   {period === "2year" && (
-                      <span>${Math.round((144-144*0.4)*100)/100} (<strike className="small">$144</strike>)
+                      <span>${Math.round((144-144*0.4)*100/24)/100} (<strike className="small">${Math.round(144*100/24)/100}</strike>)
                     <span className='fs-6 fw-medium opacity-50 text-nowrap'>
-                    &nbsp;/&nbsp;year
+                    &nbsp;/&nbsp;month
                     </span>
                         </span>
                   )}
@@ -264,16 +268,16 @@ export default function Pricing() {
                         </span>
                   )}
                   {period === "1year" && (
-                      <span>${Math.round((144-144*0.3)*100)/100} (<strike className="small">$144</strike>)
+                      <span>${Math.round((144-144*0.3)*100/12)/100} (<strike className="small">${Math.round(144*100/12)/100}</strike>)
                     <span className='fs-6 fw-medium opacity-50 text-nowrap'>
-                    &nbsp;/&nbsp;year
+                    &nbsp;/&nbsp;month
                     </span>
                         </span>
                   )}
                   {period === "2year" && (
-                      <span>${Math.round((288-288*0.4)*100)/100} (<strike className="small">$288</strike>)
+                      <span>${Math.round((288-288*0.4)*100/24)/100} (<strike className="small">${Math.round(288*100/24)/100}</strike>)
                     <span className='fs-6 fw-medium opacity-50 text-nowrap'>
-                    &nbsp;/&nbsp;year
+                    &nbsp;/&nbsp;month
                     </span>
                         </span>
                   )}

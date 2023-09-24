@@ -398,10 +398,10 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
         createEncryptionKey256: function () {
             var key = forge.random.getBytesSync(32);
             var newKey = forge.pkcs5.pbkdf2(
-                key,
-                app.user.get("salt"),
-                4096,
-                32
+                key, // secret
+                app.user.get("salt"), // salt
+                4096, // iterations
+                32 // length (bytes) 32bytes = 256bits
             );
             return newKey;
         },
@@ -811,13 +811,19 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
             return mainFolderList;
         },
 
-        syncUpdates: function () {
-            //   console.log('syncUpdates');
+        syncUpdates: function (forceRefresh) {
+               console.log('syncUpdates');
+
 
             app.globalF.countEmailsSize();
 
+            let len=Object.keys(app.user.get("emails")["folders"]).length;
+
             app.user.set({
+                needRefresh:(app.user.get("emailsCount")!=len ||forceRefresh==true),
                 emailListRefresh: !app.user.get("emailListRefresh"),
+                emailsCount:len
+
             });
             // console.log(app.user.get('emailListRefresh'));
         },
@@ -920,7 +926,7 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
             //console.log(folderKey);
 
             /*
-			console.log(message); 
+			console.log(message);
 			 $.each(message, function( index, emailData ) {
 			 console.log(index);
 			 console.log(emailData);
@@ -3643,18 +3649,25 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                 callback();
             } else {
                 if (oneStep) {
-                    $("#secPassText").html("Provide Password");
+                    $("#askPassHeader").html("Provide Password");
                 } else {
-                    $("#secPassText").html("Provide Second Password");
+                    $("#askPassHeader").html("Provide Second Password");
                 }
 
-                $("#secondPass").modal({
-                    backdrop: "static",
-                    keyboard: true,
+                $("#askPassClose").on("click", function () {
+                    app.auth.logout();
                 });
 
-                $("#submitSecPass").on("click", function () {
-                    var secret = $("#second_passField").val();
+
+                $("#askforPass").modal("show");
+
+               /* $("#secondPass").modal({
+                    backdrop: "static",
+                    keyboard: true,
+                });*/
+
+                $("#askPasSub").on("click", function () {
+                    var secret = $("#askPasInput").val();
 
                     secret = app.globalF.makeDerived(
                         secret,
@@ -3669,11 +3682,21 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                         //				app.user.set({'secondPassword':app.transform.SHA512(secret)});
                         //}
 
-                        $("#secondPass").modal("hide");
-                        $("#second_passField").val("");
+                        $("#askforPass").modal("hide");
+                        $("#askPasInput").val("");
+
+                        $("#askPasSub").off("click");
+                        $("#passLabel").addClass("d-none");
+                        $("#passLabel").removeClass("invalid-feedback");
+                        $("#passLabel").html("");
+                        $("#askPasInput").val('');
                         callback();
                     } else {
-                        app.notifications.systemMessage("wrngPass");
+                        $("#passLabel").removeClass("d-none");
+                        $("#passLabel").addClass("invalid-feedback");
+                        $("#passLabel").html("Wrong Password");
+
+                       // app.notifications.systemMessage("wrngPass");
                     }
                 });
             }
@@ -3757,6 +3780,11 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
 
                     case "addDomain":
                         if (userPlan["planData"]["cDomain"] <= count) {
+
+                            $("#infoModHeader").html(
+                                "Please upgrade your plan."
+                            );
+
                             $("#infoModBody").html(
                                 "You've reached your plan limit. Please upgrade plan."
                             );

@@ -1092,6 +1092,10 @@ define(["react", "app", "quill", "select2"], function (
                     }
                 });
 
+                console.log("PIN");
+                console.log(this.state.enablePin);
+                console.log(this.state.pinText);
+                console.log(this.state.userPin);
                 if (
                     Object.keys(outsiders).length == 1 &&
                     this.state.enablePin === true &&
@@ -1423,10 +1427,14 @@ define(["react", "app", "quill", "select2"], function (
                     });
                     break;
                 case "showPin":
+                    var thisComp=this;
                     this.setState({
-                        showPin:
-                            this.state.showPin === "d-none" ? "" : "d-none",
+                        showPin:this.state.showPin === "d-none" ? "" : "d-none",
+                        enablePin: !this.state.enablePin
+                    }, function(){
+                        thisComp.verifyIfencrypted();
                     });
+
                     break;
                 case "attachFile":
                     fileSelector.click();

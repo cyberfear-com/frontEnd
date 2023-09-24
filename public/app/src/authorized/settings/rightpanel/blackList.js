@@ -73,7 +73,7 @@ define([
                             var el = {
                                 DT_RowId: index,
                                 checkbox:
-                                    '<label class="container-checkbox"><input type="checkbox" name="inbox-email" /><span class="checkmark"></span></label>',
+                                    '<label class="container-checkbox d-none"><input type="checkbox" name="inbox-email" /><span class="checkmark"></span></label>',
                                 text: {
                                     display:
                                         "Sender`s " +
@@ -85,7 +85,7 @@ define([
                                 },
                                 delete: '<button class="table-icon delete-button"></button>',
                                 options:
-                                    '<div class="dropdown"><button class="btn btn-secondary dropdown-toggle table-icon" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button></div>',
+                                    '<div class="dropdown d-none"><button class="btn btn-secondary dropdown-toggle table-icon" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button></div>',
                             };
 
                             alEm.push(el);
@@ -541,7 +541,7 @@ define([
                                         <thead>
                                             <tr>
                                                 <th scope="col">
-                                                    <label className="container-checkbox">
+                                                    <label className="container-checkbox d-none">
                                                         <input
                                                             type="checkbox"
                                                             onChange={this.handleClick.bind(
@@ -554,10 +554,10 @@ define([
                                                 </th>
                                                 <th>Filters</th>
                                                 <th scope="col">
-                                                    <button className="trash-btn"></button>
+                                                    <button className="trash-btn d-none"></button>
                                                 </th>
                                                 <th scope="col">
-                                                    <div className="dropdown">
+                                                    <div className="dropdown d-none">
                                                         <button
                                                             className="btn btn-secondary dropdown-toggle ellipsis-btn"
                                                             type="button"

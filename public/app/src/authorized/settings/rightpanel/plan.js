@@ -23,8 +23,6 @@ define([
 
                 editPlanButtonClass: "",
                 saveButtonClass: "d-none",
-                toPay: 0,
-                forPlan: "",
 
                 mobileViewClass: "d-block-xs",
                 desktopViewClass: "d-none-xs",
@@ -63,18 +61,65 @@ define([
                 bitcoinPay: "d-none",
                 paypalPay: "d-none",
                 monthChargeClass: "d-none",
-                planSelector: 1,
                 howMuch: 0,
                 paymentVersion: 0,
                 currentPlan: 0,
                 setWarning: false,
                 paym: "",
                 stripeId: "",
+                planTab:[],
+                duration:app.user.get("userPlan")['period'],
+                planSelector:app.user.get("userPlan")['planSelected'],
+                initialPeriod:app.user.get("userPlan")['period'],
             };
         },
 
-        handleClick: async function (i) {
+        handleClick: async function (i,id=null) {
             switch (i) {
+                case "choosePlan":
+                    console.log('plan is:')
+                    var price=0;
+                    var planList=app.user.get("userPlan")['planList'];
+
+                    if(this.state.duration=="2 years"){
+                        price=(planList[this.state.planSelector]['price']-planList[this.state.planSelector]['price']*(app.user.get("userPlan")['planList'][this.state.planSelector]['2ydisc']+app.user.get("userPlan")['inviteDiscount'])/100)/100*24-app.user.get("userPlan")['currentPlanBalance']/100;
+
+                    }else if(this.state.duration=="1 year"){
+                        price=(planList[this.state.planSelector]['price']-planList[this.state.planSelector]['price']*(app.user.get("userPlan")['planList'][this.state.planSelector]['1ydisc']+app.user.get("userPlan")['inviteDiscount'])/100)/100*12-app.user.get("userPlan")['currentPlanBalance']/100;
+                    }else{
+                        price=(planList[this.state.planSelector]['price']-(planList[this.state.planSelector]['price']*app.user.get("userPlan")['inviteDiscount'])/100)/100-app.user.get("userPlan")['currentPlanBalance']/100;
+                    }
+
+                    price=price+app.user.get("userPlan")['balance']/100
+                    this.setState({
+                        type:'',
+                        price:accounting.formatMoney(price,"",2)
+                    })
+                   // price=accounting.formatMoney(price,"",2);
+                    //console.log(this.state.selectedPlan, this.state.period,price);
+
+                    this.handleClick('showSecond');
+                    break;
+                case "selectPeriod":
+
+                    console.log(id);
+
+                    this.setState({
+                        duration: id,
+                    });
+                    break;
+                case "selectPlan":
+                    //console.log('pressed');
+
+                    console.log(event.target.id);
+                    console.log(this.state.duration);
+
+                      this.setState({
+                          planSelector: event.target.id,
+                          initialPeriod:this.state.duration
+                     });
+                    break;
+
                 case "upgradeMember":
                     var thisComp = this;
                     thisComp.setState({
@@ -87,168 +132,33 @@ define([
                     thisComp.handleClick("showSecond");
                     break;
 
-                case "setGB":
-                    var thisComp = this;
-                    //if save
-                    if (this.state.boxButtonText == "Save") {
-                        var post = {
-                            howMuch: thisComp.state.boxSize,
-                            planSelector: "bSize",
-                        };
+                case "fill":
+                    this.setState({
+                        price:accounting.formatMoney(app.user.get("userPlan")["renewAmount"]/100,""),
+                        planSelector:app.user.get("userPlan")["planSelected"],
+                        duration:app.user.get("userPlan")["period"],
+                        type: 'refill',
+                    },function(){
+                        console.log(this.state);
+                    });
 
-                        app.serverCall.ajaxRequest(
-                            "savePlan",
-                            post,
-                            function (result) {
-                                if (result["response"] == "success") {
-                                    app.notifications.systemMessage("saved");
-                                    thisComp.presetValues();
-                                    thisComp.setState({
-                                        boxBy: "",
-                                        boxButtonText: "",
-                                    });
-                                } else if (
-                                    result["response"] == "fail" &&
-                                    result["data"] == "insBal"
-                                ) {
-                                } else if (
-                                    result["response"] == "fail" &&
-                                    result["data"] == "failToSave"
-                                ) {
-                                }
-                            }
-                        );
-                    }
-
-                    if (this.state.boxButtonText == "Pay Now") {
-                        thisComp.setState({
-                            toPay: this.state.GBpayNow,
-                            forPlan: "Mail Storage",
-                            howMuch: thisComp.state.boxSize,
-                        });
-                        thisComp.handleClick("showSecond");
-                    }
-                    //if pay
-
-                    break;
-
-                case "setDom":
-                    var thisComp = this;
-                    //if save
-                    if (this.state.domButtonText == "Save") {
-                        console.log(this.state.cDomain);
-
-                        var post = {
-                            howMuch: thisComp.state.cDomain,
-                            planSelector: "cDomain",
-                        };
-
-                        app.serverCall.ajaxRequest(
-                            "savePlan",
-                            post,
-                            function (result) {
-                                if (result["response"] == "success") {
-                                    app.notifications.systemMessage("saved");
-                                    //thisComp.handleClick('showFirst');
-
-                                    thisComp.presetValues();
-                                    thisComp.setState({
-                                        domBy: "",
-                                        domButtonText: "",
-                                    });
-                                } else if (
-                                    result["response"] == "fail" &&
-                                    result["data"] == "insBal"
-                                ) {
-                                    //	$('#infoModHead').html("Insufficient Funds");
-                                    //	$('#infoModBody').html("You are over your available balance by: <b>$"+result['need']+"</b> <br/>Please add more funds or select different plan.");
-                                    //	$('#infoModal').modal('show');
-                                } else if (
-                                    result["response"] == "fail" &&
-                                    result["data"] == "failToSave"
-                                ) {
-                                    //	app.notifications.systemMessage('tryAgain');
-                                }
-                            }
-                        );
-                    }
-
-                    if (this.state.domButtonText == "Pay Now") {
-                        thisComp.setState({
-                            toPay: this.state.dompayNow,
-                            forPlan: "Custom Domain",
-                            howMuch: thisComp.state.cDomain,
-                        });
-                        thisComp.handleClick("showSecond");
-                    }
-                    //if pay
-
-                    break;
-
-                case "setAl":
-                    var thisComp = this;
-                    //if save
-                    if (this.state.alButtonText == "Save") {
-                        var post = {
-                            howMuch: thisComp.state.aliases,
-                            planSelector: "alias",
-                        };
-
-                        app.serverCall.ajaxRequest(
-                            "savePlan",
-                            post,
-                            function (result) {
-                                if (result["response"] == "success") {
-                                    app.notifications.systemMessage("saved");
-                                    //thisComp.handleClick('showFirst');
-
-                                    thisComp.presetValues();
-                                    thisComp.setState({
-                                        alBy: "",
-                                        alButtonText: "",
-                                    });
-                                } else if (
-                                    result["response"] == "fail" &&
-                                    result["data"] == "insBal"
-                                ) {
-                                    //	$('#infoModHead').html("Insufficient Funds");
-                                    //	$('#infoModBody').html("You are over your available balance by: <b>$"+result['need']+"</b> <br/>Please add more funds or select different plan.");
-                                    //	$('#infoModal').modal('show');
-                                } else if (
-                                    result["response"] == "fail" &&
-                                    result["data"] == "failToSave"
-                                ) {
-                                    //	app.notifications.systemMessage('tryAgain');
-                                }
-                            }
-                        );
-                    }
-
-                    if (this.state.alButtonText == "Pay Now") {
-                        //console.log(app.user.get("userId"))
-                        thisComp.setState({
-                            toPay: this.state.alpayNow,
-                            forPlan: "Email Aliases",
-                            howMuch: thisComp.state.aliases,
-                        });
-                        thisComp.handleClick("showSecond");
-                    }
-                    //if pay
-
+                    this.handleClick("showSecond");
                     break;
 
                 case "renew":
-                    var thisComp = this;
-
-                    thisComp.setState({
-                        toPay: app.user.get("userPlan")["renewAmount"],
-                        forPlan: "Subscription Renewal",
-                        howMuch: 1,
+                    //var thisComp = this;
+                    this.setState({
+                        price:accounting.formatMoney(app.user.get("userPlan")["renewAmount"]/100,""),
+                        planSelector:app.user.get("userPlan")["planSelected"],
+                        duration:app.user.get("userPlan")["period"],
+                        type: 'renewal',
+                    },function(){
+                        console.log(this.state);
                     });
 
-                    thisComp.handleClick("showSecond");
-
+                    this.handleClick("showSecond");
                     break;
+
 
                 case "payEnough":
                     var thisComp = this;
@@ -301,20 +211,18 @@ define([
                     this.setState({
                         firstPanelClass: "panel-body d-none",
                         firstTab: "",
-
                         secondTab: "",
                         secondPanelClass: "panel-body d-none",
-
                         thirdTab: "active",
                         thirdPanelClass: "panel-body",
                     });
                     break;
 
                 case "stripe":
+
                     this.setState(
                         {
                             paym: "stripe",
-                            location: "plan",
                             email: app.user.get("loginEmail"),
                         },
                         async function () {
@@ -350,15 +258,10 @@ define([
                                             purchase_units: [
                                                 {
                                                     amount: {
-                                                        value: thisComp.state
-                                                            .toPay,
+                                                        value: thisComp.state.price,
                                                     },
-                                                    custom_id:
-                                                        app.user.get("userId"),
-                                                    description:
-                                                        thisComp.state.forPlan +
-                                                        "_" +
-                                                        thisComp.state.howMuch,
+                                                    custom_id:app.user.get("userId"),
+                                                    description:thisComp.state.planSelector+" plan "+ thisComp.state.type +" for " + thisComp.state.duration,
                                                 },
                                             ],
                                             application_context: {
@@ -475,50 +378,97 @@ define([
             return post;
         },
 
+        createPlanTab:(that)=>{
+            let entry=[];
+           var thisComp=that;
+
+            var planList=app.user.get("userPlan")['planList'];
+            //console.log(app.user.get("userPlan"));
+            var slog={
+                free:"Try us",
+                basic:"For users emailing occasionally",
+                medium:"Users using email daily",
+                pro:"Best in class"
+            }
+
+           Object.keys(planList).forEach(function(key) {
+
+               var price=0;
+               if(thisComp.state.duration=="2 years"){
+                   price=(planList[key]['price']-planList[key]['price']*(app.user.get("userPlan")['planList'][key]['2ydisc']+app.user.get("userPlan")['inviteDiscount'])/100)/100;
+                   console.log(app.user.get("userPlan")['planList'][key]['2ydisc']+app.user.get("userPlan")['inviteDiscount']);
+               }else if(thisComp.state.duration=="1 year"){
+                   price=(planList[key]['price']-planList[key]['price']*(app.user.get("userPlan")['planList'][key]['1ydisc']+app.user.get("userPlan")['inviteDiscount'])/100)/100;
+               }else{
+                   price=(planList[key]['price']-(planList[key]['price']*app.user.get("userPlan")['inviteDiscount'])/100)/100;
+               }
+
+               price=accounting.formatMoney(price);
+
+
+              // console.log(key);
+             //  console.log(app.user.get("userPlan")['planSelected'],app.user.get("userPlan")['period']);
+              // console.log(thisComp.state.period,thisComp.state.selectedPlan);
+              // console.log(thisComp.state.period!="1 month" && key=='free');
+              //checked={thisComp.state.selectedPlan==key && thisComp.state.initialPeriod==thisComp.state.period}
+               entry.push(
+                   <div className={(thisComp.state.duration!="1 month" && key=='free')?"d-none":"radio-box"}>
+                       <input
+                           type="radio"
+                           className="btn-check"
+                           key={key}
+                           name="plan"
+                           id={key}
+                           value={key}
+                           autoComplete="off"
+                           onChange={thisComp.handleClick.bind(
+                               null,
+                               "selectPlan"
+                           )}
+                           disabled={app.user.get("userPlan")['planSelected']==key && app.user.get("userPlan")['period']==thisComp.state.duration}
+                           checked={thisComp.state.planSelector==key && thisComp.state.initialPeriod==thisComp.state.duration}
+                       />
+                       <label
+                           className="btn btn-outline-primary"
+                           htmlFor={key}
+                       >
+                           {" "}
+                           <span className="dot"></span>{" "}
+                           <span className={app.user.get("userPlan")['planSelected']==key && app.user.get("userPlan")['period']==thisComp.state.duration?"plan-name font-weight-bold":"plan-name"}>
+                                                                    {key}
+                                                                </span>{" "}
+                           <span className="plan-text">
+                               {app.user.get("userPlan")['planSelected']==key && app.user.get("userPlan")['period']==thisComp.state.duration?"Current plan":slog[key]}
+
+                                                                </span>{" "}
+                           <span className="plan-price">
+                                                                    {price}{" "}
+                               <span className="duration">
+                                                                        / Month
+                                                                    </span>
+                                                                </span>{" "}
+                       </label>
+                   </div>
+               );
+
+           })
+            return entry;
+        },
         handleChange: function (i, event) {
             var thisComp = this;
+            console.log('pressed11');
             switch (i) {
-                case "changeGB":
-                    thisComp.setState(
-                        {
-                            showButton: true,
-                            planSelector: "bSize",
-                            howMuch: event.target.value,
-                            boxSize: event.target.value,
-                        },
-                        function () {
-                            this.calculateNewPrice(function (result) {});
-                        }
-                    );
+
+                case "selectPlan":
+
+                    console.log('pressed');
+
+                    console.log(event.target);
+
+                  //  this.setState({
+                  //      selectedPlan: event.target.value,
+                  //  });
                     break;
-                case "changeDomain":
-                    thisComp.setState(
-                        {
-                            planSelector: "cDomain",
-                            howMuch: event.target.value,
-                            cDomain: event.target.value,
-                        },
-                        function () {
-                            this.calculateNewPrice(function (result) {});
-                        }
-                    );
-
-                    break;
-
-                case "changeAl":
-                    thisComp.setState(
-                        {
-                            planSelector: "alias",
-                            howMuch: event.target.value,
-                            aliases: event.target.value,
-                        },
-                        function () {
-                            this.calculateNewPrice(function (result) {});
-                        }
-                    );
-
-                    break;
-
                 //this.calculateNewPrice();
             }
         },
@@ -526,7 +476,7 @@ define([
         componentWillUnmount: function () {
             app.user.off("change:userPlan");
         },
-        calculateNewPrice: function () {
+      /*  calculateNewPrice: function () {
             var thisComp = this;
             var post = this.getPlansDataPost();
 
@@ -742,7 +692,7 @@ define([
                 }
             );
         },
-
+*/
         presetValues: function () {
             var thisComp = this;
 
@@ -763,12 +713,7 @@ define([
                 var dateStarted = new Date(
                     currentPlan["created"] * 1000
                 ).getTime();
-                var goodOld = new Date(2015, 11, 19).getTime();
 
-                var amount = 2;
-                if (goodOld > dateStarted) {
-                    amount = 5;
-                }
 
                 if (
                     app.user.get("userPlan")["pastDue"] == 1 &&
@@ -805,7 +750,6 @@ define([
                     alButtonText: "",
 
                     dispEmails: decodedPlan["dispos"],
-
                     pgpStrength: decodedPlan["pgpStr"],
                     attSize: decodedPlan["attSize"],
                     importPGP: decodedPlan["pgpImport"],
@@ -816,9 +760,8 @@ define([
                     folderExpiration: decodedPlan["folderExpire"],
                     secLog: decodedPlan["secLog"],
                     filtEmail: decodedPlan["filter"],
-                    claimAmount: amount,
+
                     //isAlrdClaimed:currentPlan['creditUsed'],
-                    isAlrdClaimed: true,
 
                     cycleEnd: timeEnd.toLocaleDateString(),
                     cycleStart: timeStart.toLocaleDateString(),
@@ -833,7 +776,7 @@ define([
         componentDidMount: function () {
             var thisComp = this;
 
-            this.presetValues();
+           // this.presetValues();
             app.user.on(
                 "change:userPlan",
                 function () {
@@ -842,11 +785,6 @@ define([
                         domButtonText: "",
                         alButtonText: "",
                         boxBy: "",
-                        GBpayNow: "",
-                        dompayNow: "",
-                        alpayNow: "",
-                        domBy: "",
-                        alBy: "",
                         boxWarning: "",
                         domWarning: "",
                         alWarning: "",
@@ -854,10 +792,13 @@ define([
                         cDomain:
                             app.user.get("userPlan")["planData"]["cDomain"],
                         aliases: app.user.get("userPlan")["planData"]["alias"],
+                        duration:app.user.get("userPlan")["period"],
                     });
                 },
                 this
             );
+            console.log(app.user.get("userPlan"))
+          //  this.createPlanTab();
         },
 
         componentWillUnmount: function () {
@@ -885,12 +826,6 @@ define([
             //console.log(app.user.get("userPlan"));
             //console.log(app.user.get('balanceShort'));
             var ys = "";
-            if (
-                app.user.get("userPlan")["priceFullProrated"] > 0 &&
-                app.user.get("userPlan")["pastDue"] == 0
-            ) {
-                ys = "Partialy PAID";
-            }
 
             if (app.user.get("userPlan")["pastDue"] == 1) {
                 ys = "UNPAID";
@@ -903,23 +838,53 @@ define([
             //if pastdue and alrd paid then missing balance
 
             options.push(
-                <div className="information-table-row" key="1c">
-                    <label>Start date:</label>
+                <div className="information-table-row" key="1a">
+                    <label>Balance Due at renewal:</label>
                     <div className="information-row-right">
-                        {new Date(
+                        <b>{accounting.formatMoney(
+                            app.user.get("userPlan")["balance"]/100+app.user.get("userPlan")["priceAfterDiscount"]/100-app.user.get("userPlan")["currentPlanBalance"]/100
+                        )}</b>
+                    </div>
+                </div>
+            );
+
+          /*  options.push(
+                <div className="information-table-row" key="1b">
+                    <label>Period Start date:</label>
+                    <div className="information-row-right">
+                        <b>{new Date(
                             app.user.get("userPlan")["cycleStart"] * 1000
-                        ).toLocaleDateString()}
+                        ).toLocaleDateString()}</b>
+                    </div>
+                </div>
+            );*/
+
+            options.push(
+                <div className="information-table-row" key="1c">
+                    <label>Period Start date:</label>
+                    <div className="information-row-right">
+                        <b>{new Date(
+                            app.user.get("userPlan")["cycleStart"] * 1000
+                        ).toLocaleDateString()}</b>
                     </div>
                 </div>
             );
 
             options.push(
                 <div className="information-table-row" key="1cc">
-                    <label>End date:</label>
+                    <label>Period End date:</label>
                     <div className="information-row-right">
-                        {new Date(
+                        <b>{new Date(
                             app.user.get("userPlan")["cycleEnd"] * 1000
-                        ).toLocaleDateString()}
+                        ).toLocaleDateString()}</b>
+                    </div>
+                </div>
+            );
+            options.push(
+                <div className="information-table-row" key="1cs">
+                    <label>Period Length:</label>
+                    <div className="information-row-right">
+                        <b>{(app.user.get("userPlan")["cycleEnd"]-app.user.get("userPlan")["cycleStart"]>51536000)?"2 years":app.user.get("userPlan")["cycleEnd"]-app.user.get("userPlan")["cycleStart"]>=31536000?"1 year":"1 month"}</b>
                     </div>
                 </div>
             );
@@ -934,30 +899,14 @@ define([
             );
 
             options.push(
-                <div className="information-table-row" key="2a">
-                    <label>
-                        {app.user.get("userPlan")["planSelected"] == 1
-                            ? "Yearly"
-                            : "Monthly"}{" "}
-                        Cost:
-                    </label>
-                    <div className="information-row-right">
-                        {accounting.formatMoney(
-                            app.user.get("userPlan")["monthlyCharge"]
-                        )}
-                    </div>
-                </div>
-            );
-
-            options.push(
                 <div className="information-table-row" key="2c">
                     <label>
-                        <b>Paid This Cycle:</b>
+                        Paid This Cycle:
                     </label>
                     <div className="information-row-right">
-                        {accounting.formatMoney(
-                            app.user.get("userPlan")["alrdPaid"]
-                        )}
+                        <b>{accounting.formatMoney(
+                            app.user.get("userPlan")["alrdPaid"]/100
+                        )}</b>
                     </div>
                 </div>
             );
@@ -965,36 +914,26 @@ define([
             //if(app.user.get("userPlan")['balance']>0){
             options.push(
                 <div
-                    className="information-table-row"
                     key="3a"
                     className={
-                        app.user.get("userPlan")["balance"] == 0 ? "d-none" : ""
+                        app.user.get("userPlan")["balance"] == 0 ? "d-none" : "information-table-row"
                     }
                 >
                     <label>Previous Unpaid Balance:</label>
                     <div className="information-row-right">
-                        {accounting.formatMoney(
-                            app.user.get("userPlan")["balance"]
-                        )}
+                        <b>{accounting.formatMoney(
+                            app.user.get("userPlan")["balance"]/100
+                        )}</b>
                     </div>
                 </div>
             );
-
             options.push(
-                <div
-                    className="information-table-row"
-                    key="3b"
-                    className={
-                        app.user.get("userPlan")["currentPlanBalance"] == 0
-                            ? "d-none"
-                            : ""
-                    }
-                >
+                <div className="information-table-row" key="3b">
                     <label>Unused Credit:</label>
                     <div className="information-row-right">
-                        {accounting.formatMoney(
-                            app.user.get("userPlan")["currentPlanBalance"]
-                        )}
+                        <b>{accounting.formatMoney(
+                            app.user.get("userPlan")["currentPlanBalance"]/100
+                        )}</b>
                     </div>
                 </div>
             );
@@ -1003,11 +942,11 @@ define([
                 <div className="information-table-row" key="3c">
                     <label>Rewards:</label>
                     <div className="information-row-right">
-                        {accounting.formatMoney(
+                        <b>{accounting.formatMoney(
                             app.user.get("userPlan")["rewardCollected"],
                             "$",
                             3
-                        )}
+                        )}</b>
                     </div>
                 </div>
             );
@@ -1027,6 +966,15 @@ define([
                 boxDif =
                     " => " + (bxS > 1000 ? bxS / 1000 + " Gb" : bxS + " MB");
             }
+            options.push(
+                <div className="information-table-row" key="1a">
+                    <label>Plan Name:</label>
+                    <div className="information-row-right">
+                        {app.user.get("userPlan")["planSelected"]}
+                    </div>
+                </div>
+            );
+
             options.push(
                 <div className="information-table-row" key="1">
                     <label>Mailbox Size:</label>
@@ -1063,16 +1011,53 @@ define([
                 </div>
             );
 
+            options.push(
+                <div className="information-table-row" key="4">
+                    <label>Disposable emails:</label>
+                    <div className="information-row-right">
+                        {app.user.get("userPlan")["planData"]["dispos"]}
+                    </div>
+                </div>
+            );
+            options.push(
+                <div className="information-table-row" key="5">
+                    <label>Sending Limits:</label>
+                    <div className="information-row-right">
+                        {app.user.get("userPlan")["planData"]["sendLimits"]} / hour
+                    </div>
+                </div>
+            );
+
+            options.push(
+                <div className="information-table-row" key="6">
+                    <label>Recipient Per Mail:</label>
+                    <div className="information-row-right">
+                        {app.user.get("userPlan")["planData"]["recipPerMail"]}
+                    </div>
+                </div>
+            );
+
             return options;
         },
         render: function () {
             var classFullSettSelect = "col-xs-12";
+            var st3 = {
+                width:
+                    (accounting.toFixed(
+                            app.user.get("mailboxSize") / 1024 / 1024,
+                            2
+                        ) *
+                        100) /
+                    app.user.get("userPlan")["planData"]["bSize"] +
+                    "%",
+            };
+
 
             return (
                 <div id="rightSettingPanel">
                     <div className="setting-middle upgrade-plan">
                         <div className="middle-top">
-                            <h2>Upgrade</h2>
+                            <h2>Plan</h2>
                         </div>
                         <div className="middle-content">
                             <div className="mid-nav">
@@ -1142,7 +1127,7 @@ define([
                                             app.user.get("userPlan")[
                                                 "needRenew"
                                             ]
-                                                ? "txt-color-red"
+                                                ? "txt-color-red mb-2"
                                                 : "d-none"
                                         }
                                     >
@@ -1178,7 +1163,7 @@ define([
                                                 <div className="col-5">
                                                     <div className="plan-details">
                                                         <span className="icon-plan">
-                                                            Free
+                                                            {!isNaN(parseInt(app.user.get("userPlan")["planSelected"]))?"Old":app.user.get("userPlan")["planSelected"]}
                                                         </span>{" "}
                                                         Plan
                                                     </div>
@@ -1186,7 +1171,7 @@ define([
                                                 <div className="col-7">
                                                     <div className="pricing">
                                                         <sup>$</sup>
-                                                        <span>0.00</span>
+                                                        <span>{accounting.formatMoney(app.user.get("userPlan")["truMonthCharge"]/100,"")}</span>
                                                         <sup className="sup-opacity">
                                                             / Month
                                                         </sup>
@@ -1204,8 +1189,8 @@ define([
                                                                     "mailboxSize"
                                                                 ) /
                                                                     1024 /
-                                                                    1024 /
-                                                                    1024,
+                                                                    1024/
+                                                                1024,
                                                                 2
                                                             )}{" "}
                                                             GB{" "}
@@ -1220,7 +1205,7 @@ define([
                                                             </span>
                                                         </div>
                                                         <div className="storage-bar">
-                                                            <span></span>
+                                                            <span style={st3}></span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1240,7 +1225,7 @@ define([
                                                                 "userPlan"
                                                             )["pastDue"] !== 1
                                                                 ? "txt-color-red"
-                                                                : "d-none"
+                                                                : "d-non"
                                                         }
                                                         style={{
                                                             marginBottom:
@@ -1249,7 +1234,7 @@ define([
                                                     >
                                                         <button
                                                             type="button"
-                                                            className="btn-blue"
+                                                            className={!isNaN(parseInt(app.user.get("userPlan")["planSelected"])) || app.user.get("userPlan")["planSelected"]=="free"?"btn-blue":"d-none"}
                                                             onClick={this.handleClick.bind(
                                                                 this,
                                                                 "upgradeMember"
@@ -1274,16 +1259,22 @@ define([
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="upgrade-details-right">
+                                    <div
+                                        className={app.user.get("userPlan")["planSelected"]=="free" || app.user.get("userPlan")["planSelected"]=="3"?"d-none":"upgrade-details-right"}>
                                         <div className="title">
                                             Next payment
                                         </div>
                                         <div className="date">
-                                            on Nov 30, 2022
+                                            on {new Date(
+                                            app.user.get("userPlan")["cycleEnd"] * 1000
+                                        ).toLocaleDateString("en-US",{year: "numeric", month: "short",day: "numeric"})}
                                         </div>
-                                        <div className="btn-box">
-                                            <button className="btn-border">
-                                                Payments
+                                        <div className={app.user.get("userPlan")["needRenew"]||app.user.get("userPlan")["pastDue"]?"btn-box":"d-none"}>
+                                            <button className="btn-border"
+                                                    onClick={app.user.get("userPlan")["needRenew"]?this.handleClick.bind(this,"renew"):app.user.get("userPlan")["pastDue"]?this.handleClick.bind(this,"fill"):""}
+                                            >
+
+                                                {app.user.get("userPlan")["needRenew"]?"Renew":app.user.get("userPlan")["pastDue"]?"Fill Balance":""}
                                             </button>
                                         </div>
                                     </div>
@@ -1359,682 +1350,7 @@ define([
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="float-none"></div>
-                                        <div className="accordion-item">
-                                            <h2
-                                                className="accordion-header"
-                                                id="plan-details-add-remove-features"
-                                            >
-                                                <button
-                                                    type="button"
-                                                    className="accordion-button"
-                                                    data-bs-toggle="collapse"
-                                                    data-bs-target="#plan-details-add-remove-features-collapse"
-                                                    aria-expanded="true"
-                                                    aria-controls="plan-details-add-remove-features-collapse"
-                                                >
-                                                    Add/Remove features:
-                                                    <span className="icon"></span>
-                                                </button>
-                                            </h2>
-                                            <div
-                                                id="plan-details-add-remove-features-collapse"
-                                                className="accordion-collapse collapse show"
-                                                aria-labelledby="plan-details-add-remove-features"
-                                                data-bs-parent="#plan-details-add-remove-features-data"
-                                            >
-                                                <div className="accordion-body">
-                                                    <span className="col-lg-12">
-                                                        * - current Plan
-                                                    </span>
-                                                    <div className="row">
-                                                        <div className="col-md-12 col-lg-4">
-                                                            <div className="panel panel-default">
-                                                                <div className="panel-body disable">
-                                                                    <h5>
-                                                                        <b>
-                                                                            Mailbox
-                                                                            Space
-                                                                        </b>
-                                                                    </h5>
-                                                                    <div className="form-horizontal margin-left-0">
-                                                                        <label>
-                                                                            Set
-                                                                            Space
-                                                                            in
-                                                                            GB:
-                                                                        </label>
-                                                                        <div>
-                                                                            <select
-                                                                                className="form-select"
-                                                                                onChange={this.handleChange.bind(
-                                                                                    this,
-                                                                                    "changeGB"
-                                                                                )}
-                                                                                value={
-                                                                                    this
-                                                                                        .state
-                                                                                        .boxSize
-                                                                                }
-                                                                                disabled={
-                                                                                    app.user.get(
-                                                                                        "userPlan"
-                                                                                    )[
-                                                                                        "planSelected"
-                                                                                    ] ==
-                                                                                    1
-                                                                                        ? false
-                                                                                        : true
-                                                                                }
-                                                                                key="editor1"
-                                                                            >
-                                                                                <option value="1000">
-                                                                                    {app.user.get(
-                                                                                        "userPlan"
-                                                                                    )[
-                                                                                        "planData"
-                                                                                    ][
-                                                                                        "bSize"
-                                                                                    ] ==
-                                                                                    1000
-                                                                                        ? "1 GB*"
-                                                                                        : "1 GB"}
-                                                                                </option>
-                                                                                <option value="5000">
-                                                                                    {app.user.get(
-                                                                                        "userPlan"
-                                                                                    )[
-                                                                                        "planData"
-                                                                                    ][
-                                                                                        "bSize"
-                                                                                    ] ==
-                                                                                    5000
-                                                                                        ? "5 GB*"
-                                                                                        : "5 GB"}
-                                                                                </option>
-                                                                                <option value="10000">
-                                                                                    {app.user.get(
-                                                                                        "userPlan"
-                                                                                    )[
-                                                                                        "planData"
-                                                                                    ][
-                                                                                        "bSize"
-                                                                                    ] ==
-                                                                                    10000
-                                                                                        ? "10 GB*"
-                                                                                        : "10 GB"}
-                                                                                </option>
-                                                                                <option value="15000">
-                                                                                    {app.user.get(
-                                                                                        "userPlan"
-                                                                                    )[
-                                                                                        "planData"
-                                                                                    ][
-                                                                                        "bSize"
-                                                                                    ] ==
-                                                                                    15000
-                                                                                        ? "15 GB*"
-                                                                                        : "15 GB"}
-                                                                                </option>
-                                                                            </select>
-                                                                        </div>
-                                                                        <label
-                                                                            className={
-                                                                                this
-                                                                                    .state
-                                                                                    .boxBy !=
-                                                                                ""
-                                                                                    ? ""
-                                                                                    : "d-none"
-                                                                            }
-                                                                        >
-                                                                            {
-                                                                                this
-                                                                                    .state
-                                                                                    .boxBy
-                                                                            }
-                                                                            :{" "}
-                                                                        </label>
-                                                                        <label
-                                                                            className={
-                                                                                this
-                                                                                    .state
-                                                                                    .boxBy !=
-                                                                                ""
-                                                                                    ? ""
-                                                                                    : "d-none"
-                                                                            }
-                                                                        >
-                                                                            {
-                                                                                this
-                                                                                    .state
-                                                                                    .GBprice
-                                                                            }{" "}
-                                                                            /
-                                                                            Year
-                                                                        </label>
 
-                                                                        <label
-                                                                            className={
-                                                                                this
-                                                                                    .state
-                                                                                    .GBpayNow !==
-                                                                                ""
-                                                                                    ? ""
-                                                                                    : "d-none"
-                                                                            }
-                                                                        >
-                                                                            Amount
-                                                                            to
-                                                                            pay
-                                                                            now:{" "}
-                                                                        </label>
-                                                                        <label
-                                                                            className={
-                                                                                this
-                                                                                    .state
-                                                                                    .GBpayNow !==
-                                                                                ""
-                                                                                    ? ""
-                                                                                    : "d-none"
-                                                                            }
-                                                                        >
-                                                                            $
-                                                                            {
-                                                                                this
-                                                                                    .state
-                                                                                    .GBpayNow
-                                                                            }
-                                                                        </label>
-
-                                                                        <div className="float-none"></div>
-                                                                        <span
-                                                                            className={
-                                                                                this
-                                                                                    .state
-                                                                                    .boxWarning
-                                                                                    ? "txt-color-red"
-                                                                                    : "d-none"
-                                                                            }
-                                                                        >
-                                                                            Your
-                                                                            current
-                                                                            email
-                                                                            box
-                                                                            larger
-                                                                            than
-                                                                            requested
-                                                                            size,
-                                                                            please
-                                                                            delete
-                                                                            emails
-                                                                            or
-                                                                            increase
-                                                                            the
-                                                                            size
-                                                                        </span>
-
-                                                                        <div className="col-lg-12 margin-top-20">
-                                                                            <button
-                                                                                type="button"
-                                                                                className={
-                                                                                    this
-                                                                                        .state
-                                                                                        .boxButtonText !=
-                                                                                        "" &&
-                                                                                    !this
-                                                                                        .state
-                                                                                        .boxWarning
-                                                                                        ? "btn btn-primary pull-right"
-                                                                                        : "d-none"
-                                                                                }
-                                                                                onClick={this.handleClick.bind(
-                                                                                    this,
-                                                                                    "setGB"
-                                                                                )}
-                                                                            >
-                                                                                {
-                                                                                    this
-                                                                                        .state
-                                                                                        .boxButtonText
-                                                                                }
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div className="col-md-12 col-lg-4">
-                                                            <div className="panel panel-default">
-                                                                <div className="panel-body">
-                                                                    <h5>
-                                                                        <b>
-                                                                            Custom
-                                                                            Domain
-                                                                        </b>
-                                                                    </h5>
-                                                                    <div className="form-horizontal margin-left-0">
-                                                                        <label className="">
-                                                                            Number
-                                                                            Of
-                                                                            Domains:
-                                                                        </label>
-
-                                                                        <div className="">
-                                                                            <select
-                                                                                className="form-select"
-                                                                                onChange={this.handleChange.bind(
-                                                                                    this,
-                                                                                    "changeDomain"
-                                                                                )}
-                                                                                value={
-                                                                                    this
-                                                                                        .state
-                                                                                        .cDomain
-                                                                                }
-                                                                                disabled={
-                                                                                    app.user.get(
-                                                                                        "userPlan"
-                                                                                    )[
-                                                                                        "planSelected"
-                                                                                    ] ==
-                                                                                    1
-                                                                                        ? false
-                                                                                        : true
-                                                                                }
-                                                                            >
-                                                                                <option value="0">
-                                                                                    {app.user.get(
-                                                                                        "userPlan"
-                                                                                    )[
-                                                                                        "planData"
-                                                                                    ][
-                                                                                        "cDomain"
-                                                                                    ] ==
-                                                                                    0
-                                                                                        ? "0*"
-                                                                                        : "0"}
-                                                                                </option>
-                                                                                <option value="1">
-                                                                                    {app.user.get(
-                                                                                        "userPlan"
-                                                                                    )[
-                                                                                        "planData"
-                                                                                    ][
-                                                                                        "cDomain"
-                                                                                    ] ==
-                                                                                    1
-                                                                                        ? "1*"
-                                                                                        : "1"}
-                                                                                </option>
-                                                                                <option value="2">
-                                                                                    {app.user.get(
-                                                                                        "userPlan"
-                                                                                    )[
-                                                                                        "planData"
-                                                                                    ][
-                                                                                        "cDomain"
-                                                                                    ] ==
-                                                                                    2
-                                                                                        ? "2*"
-                                                                                        : "2"}
-                                                                                </option>
-                                                                                <option value="3">
-                                                                                    {app.user.get(
-                                                                                        "userPlan"
-                                                                                    )[
-                                                                                        "planData"
-                                                                                    ][
-                                                                                        "cDomain"
-                                                                                    ] ==
-                                                                                    3
-                                                                                        ? "3*"
-                                                                                        : "3"}
-                                                                                </option>
-                                                                            </select>
-                                                                        </div>
-                                                                        <label
-                                                                            className={
-                                                                                this
-                                                                                    .state
-                                                                                    .domBy !=
-                                                                                ""
-                                                                                    ? ""
-                                                                                    : "d-none"
-                                                                            }
-                                                                        >
-                                                                            {
-                                                                                this
-                                                                                    .state
-                                                                                    .domBy
-                                                                            }
-                                                                            :
-                                                                        </label>
-                                                                        <label
-                                                                            className={
-                                                                                this
-                                                                                    .state
-                                                                                    .domBy !=
-                                                                                ""
-                                                                                    ? ""
-                                                                                    : "d-none"
-                                                                            }
-                                                                        >
-                                                                            {
-                                                                                this
-                                                                                    .state
-                                                                                    .Domprice
-                                                                            }{" "}
-                                                                            /
-                                                                            Year
-                                                                        </label>
-                                                                        <label
-                                                                            className={
-                                                                                this
-                                                                                    .state
-                                                                                    .dompayNow !==
-                                                                                ""
-                                                                                    ? ""
-                                                                                    : "d-none"
-                                                                            }
-                                                                        >
-                                                                            Amount
-                                                                            to
-                                                                            pay
-                                                                            now:{" "}
-                                                                        </label>
-                                                                        <label
-                                                                            className={
-                                                                                this
-                                                                                    .state
-                                                                                    .dompayNow !==
-                                                                                ""
-                                                                                    ? ""
-                                                                                    : "d-none"
-                                                                            }
-                                                                        >
-                                                                            $
-                                                                            {
-                                                                                this
-                                                                                    .state
-                                                                                    .dompayNow
-                                                                            }
-                                                                        </label>
-                                                                        <div className="float-none"></div>
-                                                                        <span
-                                                                            className={
-                                                                                this
-                                                                                    .state
-                                                                                    .domWarning
-                                                                                    ? "txt-color-red"
-                                                                                    : "d-none"
-                                                                            }
-                                                                        >
-                                                                            Your
-                                                                            currently
-                                                                            have
-                                                                            more
-                                                                            domain
-                                                                            registered
-                                                                            than
-                                                                            new
-                                                                            plan
-                                                                            allowed,
-                                                                            please
-                                                                            remove
-                                                                            unneeded
-                                                                            domain(s)
-                                                                            or
-                                                                            increase
-                                                                            plan
-                                                                        </span>
-                                                                        <div className="col-lg-12 margin-top-20">
-                                                                            <button
-                                                                                type="button"
-                                                                                className={
-                                                                                    this
-                                                                                        .state
-                                                                                        .domButtonText !=
-                                                                                        "" &&
-                                                                                    !this
-                                                                                        .state
-                                                                                        .domWarning
-                                                                                        ? "btn btn-primary pull-right"
-                                                                                        : "d-none"
-                                                                                }
-                                                                                onClick={this.handleClick.bind(
-                                                                                    this,
-                                                                                    "setDom"
-                                                                                )}
-                                                                            >
-                                                                                {
-                                                                                    this
-                                                                                        .state
-                                                                                        .domButtonText
-                                                                                }
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div className="col-md-12 col-lg-4">
-                                                            <div className="panel panel-default">
-                                                                <div className="panel-body">
-                                                                    <h5>
-                                                                        <b>
-                                                                            Custom
-                                                                            Alias
-                                                                        </b>
-                                                                    </h5>
-                                                                    <div className="form-horizontal margin-left-0">
-                                                                        <label className="">
-                                                                            Number
-                                                                            of
-                                                                            aliases:
-                                                                        </label>
-
-                                                                        <div className="">
-                                                                            <select
-                                                                                className="form-select"
-                                                                                onChange={this.handleChange.bind(
-                                                                                    this,
-                                                                                    "changeAl"
-                                                                                )}
-                                                                                value={
-                                                                                    this
-                                                                                        .state
-                                                                                        .aliases
-                                                                                }
-                                                                                disabled={
-                                                                                    app.user.get(
-                                                                                        "userPlan"
-                                                                                    )[
-                                                                                        "planSelected"
-                                                                                    ] ==
-                                                                                    1
-                                                                                        ? false
-                                                                                        : true
-                                                                                }
-                                                                            >
-                                                                                <option value="0">
-                                                                                    {app.user.get(
-                                                                                        "userPlan"
-                                                                                    )[
-                                                                                        "planData"
-                                                                                    ][
-                                                                                        "alias"
-                                                                                    ] ==
-                                                                                    0
-                                                                                        ? "0*"
-                                                                                        : "0"}
-                                                                                </option>
-                                                                                <option value="1">
-                                                                                    {app.user.get(
-                                                                                        "userPlan"
-                                                                                    )[
-                                                                                        "planData"
-                                                                                    ][
-                                                                                        "alias"
-                                                                                    ] ==
-                                                                                    1
-                                                                                        ? "1*"
-                                                                                        : "1"}
-                                                                                </option>
-                                                                                <option value="5">
-                                                                                    {app.user.get(
-                                                                                        "userPlan"
-                                                                                    )[
-                                                                                        "planData"
-                                                                                    ][
-                                                                                        "alias"
-                                                                                    ] ==
-                                                                                    5
-                                                                                        ? "5*"
-                                                                                        : "5"}
-                                                                                </option>
-                                                                                <option value="10">
-                                                                                    {app.user.get(
-                                                                                        "userPlan"
-                                                                                    )[
-                                                                                        "planData"
-                                                                                    ][
-                                                                                        "alias"
-                                                                                    ] ==
-                                                                                    10
-                                                                                        ? "10*"
-                                                                                        : "10"}
-                                                                                </option>
-                                                                            </select>
-                                                                        </div>
-                                                                        <label
-                                                                            className={
-                                                                                this
-                                                                                    .state
-                                                                                    .alBy !=
-                                                                                ""
-                                                                                    ? ""
-                                                                                    : "d-none"
-                                                                            }
-                                                                        >
-                                                                            {
-                                                                                this
-                                                                                    .state
-                                                                                    .alBy
-                                                                            }
-                                                                            :
-                                                                        </label>
-                                                                        <label
-                                                                            className={
-                                                                                this
-                                                                                    .state
-                                                                                    .alBy !=
-                                                                                ""
-                                                                                    ? ""
-                                                                                    : "d-none"
-                                                                            }
-                                                                        >
-                                                                            {
-                                                                                this
-                                                                                    .state
-                                                                                    .alprice
-                                                                            }{" "}
-                                                                            /
-                                                                            Year
-                                                                        </label>
-                                                                        <label
-                                                                            className={
-                                                                                this
-                                                                                    .state
-                                                                                    .alpayNow !==
-                                                                                ""
-                                                                                    ? ""
-                                                                                    : "d-none"
-                                                                            }
-                                                                        >
-                                                                            Amount
-                                                                            to
-                                                                            pay
-                                                                            now:{" "}
-                                                                        </label>
-                                                                        <label
-                                                                            className={
-                                                                                this
-                                                                                    .state
-                                                                                    .alpayNow !==
-                                                                                ""
-                                                                                    ? ""
-                                                                                    : "d-none"
-                                                                            }
-                                                                        >
-                                                                            $
-                                                                            {
-                                                                                this
-                                                                                    .state
-                                                                                    .alpayNow
-                                                                            }
-                                                                        </label>
-                                                                        <span
-                                                                            className={
-                                                                                this
-                                                                                    .state
-                                                                                    .alWarning
-                                                                                    ? "txt-color-red"
-                                                                                    : "d-none"
-                                                                            }
-                                                                        >
-                                                                            Your
-                                                                            currently
-                                                                            have
-                                                                            more
-                                                                            aliases
-                                                                            registered
-                                                                            than
-                                                                            plan
-                                                                            you
-                                                                            selected,
-                                                                            please
-                                                                            remove
-                                                                            unneeded
-                                                                            aliase(s)
-                                                                            or
-                                                                            increase
-                                                                            plan
-                                                                        </span>
-                                                                        <div className="col-lg-12 margin-top-20">
-                                                                            <button
-                                                                                type="button"
-                                                                                className={
-                                                                                    this
-                                                                                        .state
-                                                                                        .alButtonText !=
-                                                                                        "" &&
-                                                                                    !this
-                                                                                        .state
-                                                                                        .alWarning
-                                                                                        ? "btn btn-primary pull-right"
-                                                                                        : "d-none"
-                                                                                }
-                                                                                onClick={this.handleClick.bind(
-                                                                                    this,
-                                                                                    "setAl"
-                                                                                )}
-                                                                            >
-                                                                                {
-                                                                                    this
-                                                                                        .state
-                                                                                        .alButtonText
-                                                                                }
-                                                                            </button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                         <div className="float-none"></div>
                                     </div>
                                 </div>
@@ -2064,7 +1380,7 @@ define([
                                             "showFirst"
                                         )}
                                     >
-                                        Pay With CoinPayments
+                                        CoinPayments
                                     </button>
                                     <button
                                         type="submit"
@@ -2075,7 +1391,7 @@ define([
                                             "showFirst"
                                         )}
                                     >
-                                        Pay With Perfect Money
+                                        Perfect Money
                                     </button>
                                     <button
                                         type="submit"
@@ -2085,7 +1401,16 @@ define([
                                             "stripe"
                                         )}
                                     >
-                                        Pay With stripe (Credit / Debit Card)
+                                        Stripe (Credit / Debit Card)
+                                    </button>
+                                    <button
+                                        className="btn-blue fixed-width-btn"
+                                        onClick={this.handleClick.bind(
+                                            this,
+                                            "payPal"
+                                        )}
+                                    >
+                                        PayPal
                                     </button>
                                 </div>
 
@@ -2153,14 +1478,16 @@ define([
                                             role="presentation"
                                         >
                                             <button
-                                                className="nav-link active"
+                                                className={this.state.duration=="1 month"?"nav-link active":"nav-link"}
                                                 id="monthly-tab"
                                                 data-bs-toggle="tab"
                                                 data-bs-target="#monthly"
                                                 type="button"
                                                 role="tab"
+                                                value="1 month"
                                                 aria-controls="Monthly"
-                                                aria-selected="true"
+                                                aria-selected={this.state.duration=="1 month"?true:false}
+                                                onClick={this.handleClick.bind(null,'selectPeriod',"1 month")}
                                             >
                                                 Monthly
                                             </button>
@@ -2170,18 +1497,20 @@ define([
                                             role="presentation"
                                         >
                                             <button
-                                                className="nav-link"
+                                                className={this.state.duration=="1 year"?"nav-link active":"nav-link"}
                                                 id="year-tab"
                                                 data-bs-toggle="tab"
-                                                data-bs-target="#year"
+                                                data-bs-target="#monthly"
                                                 type="button"
+                                                value="1 year"
                                                 role="tab"
                                                 aria-controls="year"
-                                                aria-selected="false"
+                                                aria-selected={this.state.duration=="1 year"?true:false}
+                                                onClick={this.handleClick.bind(null,'selectPeriod',"1 year")}
                                             >
                                                 <strong>1 Year</strong>
                                                 <span className="low-opacity">
-                                                    Save 30%
+                                                    {"Save "+app.user.get("userPlan")["planList"]['basic']["1ydisc"]+"%"}
                                                 </span>
                                             </button>
                                         </li>
@@ -2190,18 +1519,20 @@ define([
                                             role="presentation"
                                         >
                                             <button
-                                                className="nav-link"
+                                                className={this.state.duration=="2 years"?"nav-link active":"nav-link"}
                                                 id="year-2-tab"
                                                 data-bs-toggle="tab"
-                                                data-bs-target="#year-2"
+                                                data-bs-target="#monthly"
                                                 type="button"
+                                                value="2 years"
                                                 role="tab"
                                                 aria-controls="year-2"
-                                                aria-selected="false"
+                                                aria-selected={this.state.duration=="2 years"?"true":"false"}
+                                                onClick={this.handleClick.bind(null,'selectPeriod',"2 years")}
                                             >
                                                 <strong>2 Years</strong>
                                                 <span className="low-opacity">
-                                                    Save 40%
+                                                    {"Save "+app.user.get("userPlan")["planList"]['basic']["2ydisc"]+"%"}
                                                 </span>
                                             </button>
                                         </li>
@@ -2223,121 +1554,7 @@ define([
                                                         role="group"
                                                         aria-label="Basic radio toggle button group"
                                                     >
-                                                        <div className="radio-box">
-                                                            <input
-                                                                type="radio"
-                                                                className="btn-check"
-                                                                name="plan"
-                                                                id="free"
-                                                                autocomplete="off"
-                                                                defaultChecked={
-                                                                    true
-                                                                }
-                                                            />
-                                                            <label
-                                                                className="btn btn-outline-primary"
-                                                                htmlFor="free"
-                                                            >
-                                                                {" "}
-                                                                <span className="dot"></span>{" "}
-                                                                <span className="plan-name">
-                                                                    Free
-                                                                </span>{" "}
-                                                                <span className="plan-text">
-                                                                    Current plan
-                                                                </span>{" "}
-                                                                <span className="plan-price">
-                                                                    $0.00{" "}
-                                                                    <span className="duration">
-                                                                        / Month
-                                                                    </span>
-                                                                </span>{" "}
-                                                            </label>
-                                                        </div>
-                                                        <div className="radio-box">
-                                                            <input
-                                                                type="radio"
-                                                                className="btn-check"
-                                                                name="plan"
-                                                                id="basic"
-                                                                autocomplete="off"
-                                                            />
-                                                            <label
-                                                                className="btn btn-outline-primary"
-                                                                htmlFor="basic"
-                                                            >
-                                                                {" "}
-                                                                <span className="dot"></span>{" "}
-                                                                <span className="plan-name">
-                                                                    Basic
-                                                                </span>{" "}
-                                                                <span className="plan-text">
-                                                                    Current plan
-                                                                </span>{" "}
-                                                                <span className="plan-price">
-                                                                    $24{" "}
-                                                                    <span className="duration">
-                                                                        / Month
-                                                                    </span>
-                                                                </span>{" "}
-                                                            </label>
-                                                        </div>
-                                                        <div className="radio-box">
-                                                            <input
-                                                                type="radio"
-                                                                className="btn-check"
-                                                                name="plan"
-                                                                id="standard"
-                                                                autocomplete="off"
-                                                            />
-                                                            <label
-                                                                className="btn btn-outline-primary"
-                                                                htmlFor="standard"
-                                                            >
-                                                                {" "}
-                                                                <span className="dot"></span>{" "}
-                                                                <span className="plan-name">
-                                                                    Standard
-                                                                </span>{" "}
-                                                                <span className="plan-text">
-                                                                    Current plan
-                                                                </span>{" "}
-                                                                <span className="plan-price">
-                                                                    $60{" "}
-                                                                    <span className="duration">
-                                                                        / Month
-                                                                    </span>
-                                                                </span>{" "}
-                                                            </label>
-                                                        </div>
-                                                        <div className="radio-box">
-                                                            <input
-                                                                type="radio"
-                                                                className="btn-check"
-                                                                name="plan"
-                                                                id="professional"
-                                                                autocomplete="off"
-                                                            />
-                                                            <label
-                                                                className="btn btn-outline-primary"
-                                                                htmlFor="professional"
-                                                            >
-                                                                {" "}
-                                                                <span className="dot"></span>{" "}
-                                                                <span className="plan-name">
-                                                                    Professional
-                                                                </span>{" "}
-                                                                <span className="plan-text">
-                                                                    Current plan
-                                                                </span>{" "}
-                                                                <span className="plan-price">
-                                                                    $180{" "}
-                                                                    <span className="duration">
-                                                                        / Month
-                                                                    </span>
-                                                                </span>{" "}
-                                                            </label>
-                                                        </div>
+                                                        {this.createPlanTab(this)}
                                                     </div>
                                                 </div>
                                                 <div className="tab-content-right">
@@ -2345,378 +1562,46 @@ define([
                                                     <div className="plan-features">
                                                         <ul>
                                                             <li>
-                                                                1 GB Storage
+                                                                {app.user.get("userPlan")["planList"][this.state.planSelector]["bSize"]/1000}&nbsp;
+                                                                GB Storage
                                                             </li>
                                                             <li>
-                                                                60/hour sending
+                                                                {app.user.get("userPlan")["planList"][this.state.planSelector]["sendLimits"]}&nbsp;emails
+                                                                /hour sending
                                                                 limit
                                                             </li>
-                                                            <li>
-                                                                1 Custom aliases
+                                                            <li className={app.user.get("userPlan")["planList"][this.state.planSelector]["alias"]==0?"not-include":""}>
+                                                                {app.user.get("userPlan")["planList"][this.state.planSelector]["alias"]==0?"":app.user.get("userPlan")["planList"][this.state.planSelector]["alias"]}&nbsp;
+                                                                Aliases
                                                             </li>
-                                                            <li>
-                                                                10 Custom Disp.
+                                                            <li className={app.user.get("userPlan")["planList"][this.state.planSelector]["dispos"]==0?"not-include":""}>
+                                                                {app.user.get("userPlan")["planList"][this.state.planSelector]["dispos"]==0?"":app.user.get("userPlan")["planList"][this.state.planSelector]["dispos"]} &nbsp; Disposable
                                                                 aliases
                                                             </li>
-                                                            <li>Inbox rules</li>
-                                                            <li className="not-include">
-                                                                Custom domain
+                                                            <li>{app.user.get("userPlan")["planList"][this.state.planSelector]["recipPerMail"]}&nbsp; Recipient per mail</li>
+                                                            <li className={app.user.get("userPlan")["planList"][this.state.planSelector]["cDomain"]==0?"not-include":""}>
+                                                                {app.user.get("userPlan")["planList"][this.state.planSelector]["cDomain"]==0?"":app.user.get("userPlan")["planList"][this.state.planSelector]["cDomain"]}&nbsp;
+                                                                Custom domain(s)
                                                             </li>
                                                         </ul>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div className="form-section-bottom">
-                                                <div className="compare-plans">
+                                                <div className="compare-plans d-none">
                                                     <button>
                                                         Compare plans
                                                     </button>
                                                 </div>
                                                 <div className="btn-row">
-                                                    <button className="btn-blue fixed-width-btn">
+                                                    <button className="btn-blue fixed-width-btn"
+                                                    onClick={this.handleClick.bind(null,'choosePlan')}>
                                                         Choose plan
                                                     </button>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div
-                                            className="tab-pane fade"
-                                            id="year"
-                                            role="tabpanel"
-                                            aria-labelledby="year-tab"
-                                        >
-                                            <div className="tab-content-top">
-                                                <div className="tab-content-left">
-                                                    <div
-                                                        className="btn-group"
-                                                        role="group"
-                                                        aria-label="Basic radio toggle button group"
-                                                    >
-                                                        <div className="radio-box">
-                                                            <input
-                                                                type="radio"
-                                                                className="btn-check"
-                                                                name="year-plan"
-                                                                id="year-free"
-                                                                autocomplete="off"
-                                                                defaultChecked={
-                                                                    true
-                                                                }
-                                                            />
-                                                            <label
-                                                                className="btn btn-outline-primary"
-                                                                htmlFor="year-free"
-                                                            >
-                                                                {" "}
-                                                                <span className="dot"></span>{" "}
-                                                                <span className="plan-name">
-                                                                    Free
-                                                                </span>{" "}
-                                                                <span className="plan-text">
-                                                                    Current plan
-                                                                </span>{" "}
-                                                                <span className="plan-price">
-                                                                    $0.00{" "}
-                                                                    <span className="duration">
-                                                                        / Month
-                                                                    </span>
-                                                                </span>{" "}
-                                                            </label>
-                                                        </div>
-                                                        <div className="radio-box">
-                                                            <input
-                                                                type="radio"
-                                                                className="btn-check"
-                                                                name="year-plan"
-                                                                id="year-basic"
-                                                                autocomplete="off"
-                                                            />
-                                                            <label
-                                                                className="btn btn-outline-primary"
-                                                                htmlFor="year-basic"
-                                                            >
-                                                                {" "}
-                                                                <span className="dot"></span>{" "}
-                                                                <span className="plan-name">
-                                                                    Basic
-                                                                </span>{" "}
-                                                                <span className="plan-text">
-                                                                    Current plan
-                                                                </span>{" "}
-                                                                <span className="plan-price">
-                                                                    $24{" "}
-                                                                    <span className="duration">
-                                                                        / Month
-                                                                    </span>
-                                                                </span>{" "}
-                                                            </label>
-                                                        </div>
-                                                        <div className="radio-box">
-                                                            <input
-                                                                type="radio"
-                                                                className="btn-check"
-                                                                name="year-plan"
-                                                                id="year-standard"
-                                                                autocomplete="off"
-                                                            />
-                                                            <label
-                                                                className="btn btn-outline-primary"
-                                                                htmlFor="year-standard"
-                                                            >
-                                                                {" "}
-                                                                <span className="dot"></span>{" "}
-                                                                <span className="plan-name">
-                                                                    Standard
-                                                                </span>{" "}
-                                                                <span className="plan-text">
-                                                                    Current plan
-                                                                </span>{" "}
-                                                                <span className="plan-price">
-                                                                    $60{" "}
-                                                                    <span className="duration">
-                                                                        / Month
-                                                                    </span>
-                                                                </span>{" "}
-                                                            </label>
-                                                        </div>
-                                                        <div className="radio-box">
-                                                            <input
-                                                                type="radio"
-                                                                className="btn-check"
-                                                                name="year-plan"
-                                                                id="year-professional"
-                                                                autocomplete="off"
-                                                            />
-                                                            <label
-                                                                className="btn btn-outline-primary"
-                                                                htmlFor="year-professional"
-                                                            >
-                                                                {" "}
-                                                                <span className="dot"></span>{" "}
-                                                                <span className="plan-name">
-                                                                    Professional
-                                                                </span>{" "}
-                                                                <span className="plan-text">
-                                                                    Current plan
-                                                                </span>{" "}
-                                                                <span className="plan-price">
-                                                                    $180{" "}
-                                                                    <span className="duration">
-                                                                        / Month
-                                                                    </span>
-                                                                </span>{" "}
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="tab-content-right">
-                                                    <h3>Features:</h3>
-                                                    <div className="plan-features">
-                                                        <ul>
-                                                            <li>
-                                                                1 GB Storage
-                                                            </li>
-                                                            <li>
-                                                                60/hour sending
-                                                                limit
-                                                            </li>
-                                                            <li>
-                                                                1 Custom aliases
-                                                            </li>
-                                                            <li>
-                                                                10 Custom Disp.
-                                                                aliases
-                                                            </li>
-                                                            <li>Inbox rules</li>
-                                                            <li className="not-include">
-                                                                Custom domain
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="form-section-bottom">
-                                                <div className="compare-plans">
-                                                    <button>
-                                                        Compare plans
-                                                    </button>
-                                                </div>
-                                                <div className="btn-row">
-                                                    <button className="btn-blue fixed-width-btn">
-                                                        Choose plan
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div
-                                            className="tab-pane fade"
-                                            id="year-2"
-                                            role="tabpanel"
-                                            aria-labelledby="year-2-tab"
-                                        >
-                                            <div className="tab-content-top">
-                                                <div className="tab-content-left">
-                                                    <div
-                                                        className="btn-group"
-                                                        role="group"
-                                                        aria-label="Basic radio toggle button group"
-                                                    >
-                                                        <div className="radio-box">
-                                                            <input
-                                                                type="radio"
-                                                                className="btn-check"
-                                                                name="year-2-plan"
-                                                                id="year-2-free"
-                                                                autocomplete="off"
-                                                                defaultChecked={
-                                                                    true
-                                                                }
-                                                            />
-                                                            <label
-                                                                className="btn btn-outline-primary"
-                                                                htmlFor="year-2-free"
-                                                            >
-                                                                {" "}
-                                                                <span className="dot"></span>{" "}
-                                                                <span className="plan-name">
-                                                                    Free
-                                                                </span>{" "}
-                                                                <span className="plan-text">
-                                                                    Current plan
-                                                                </span>{" "}
-                                                                <span className="plan-price">
-                                                                    $0.00{" "}
-                                                                    <span className="duration">
-                                                                        / Month
-                                                                    </span>
-                                                                </span>{" "}
-                                                            </label>
-                                                        </div>
-                                                        <div className="radio-box">
-                                                            <input
-                                                                type="radio"
-                                                                className="btn-check"
-                                                                name="year-2-plan"
-                                                                id="year-2-basic"
-                                                                autocomplete="off"
-                                                            />
-                                                            <label
-                                                                className="btn btn-outline-primary"
-                                                                htmlFor="year-2-basic"
-                                                            >
-                                                                {" "}
-                                                                <span className="dot"></span>{" "}
-                                                                <span className="plan-name">
-                                                                    Basic
-                                                                </span>{" "}
-                                                                <span className="plan-text">
-                                                                    Current plan
-                                                                </span>{" "}
-                                                                <span className="plan-price">
-                                                                    $24{" "}
-                                                                    <span className="duration">
-                                                                        / Month
-                                                                    </span>
-                                                                </span>{" "}
-                                                            </label>
-                                                        </div>
-                                                        <div className="radio-box">
-                                                            <input
-                                                                type="radio"
-                                                                className="btn-check"
-                                                                name="year-2-plan"
-                                                                id="year-2-standard"
-                                                                autocomplete="off"
-                                                            />
-                                                            <label
-                                                                className="btn btn-outline-primary"
-                                                                htmlFor="year-2-standard"
-                                                            >
-                                                                {" "}
-                                                                <span className="dot"></span>{" "}
-                                                                <span className="plan-name">
-                                                                    Standard
-                                                                </span>{" "}
-                                                                <span className="plan-text">
-                                                                    Current plan
-                                                                </span>{" "}
-                                                                <span className="plan-price">
-                                                                    $60{" "}
-                                                                    <span className="duration">
-                                                                        / Month
-                                                                    </span>
-                                                                </span>{" "}
-                                                            </label>
-                                                        </div>
-                                                        <div className="radio-box">
-                                                            <input
-                                                                type="radio"
-                                                                className="btn-check"
-                                                                name="year-2-plan"
-                                                                id="year-2-professional"
-                                                                autocomplete="off"
-                                                            />
-                                                            <label
-                                                                className="btn btn-outline-primary"
-                                                                htmlFor="year-2-professional"
-                                                            >
-                                                                {" "}
-                                                                <span className="dot"></span>{" "}
-                                                                <span className="plan-name">
-                                                                    Professional
-                                                                </span>{" "}
-                                                                <span className="plan-text">
-                                                                    Current plan
-                                                                </span>{" "}
-                                                                <span className="plan-price">
-                                                                    $180{" "}
-                                                                    <span className="duration">
-                                                                        / Month
-                                                                    </span>
-                                                                </span>{" "}
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="tab-content-right">
-                                                    <h3>Features:</h3>
-                                                    <div className="plan-features">
-                                                        <ul>
-                                                            <li>
-                                                                1 GB Storage
-                                                            </li>
-                                                            <li>
-                                                                60/hour sending
-                                                                limit
-                                                            </li>
-                                                            <li>
-                                                                1 Custom aliases
-                                                            </li>
-                                                            <li>
-                                                                10 Custom Disp.
-                                                                aliases
-                                                            </li>
-                                                            <li>Inbox rules</li>
-                                                            <li className="not-include">
-                                                                Custom domain
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="form-section-bottom">
-                                                <div className="compare-plans">
-                                                    <button>
-                                                        Compare plans
-                                                    </button>
-                                                </div>
-                                                <div className="btn-row">
-                                                    <button className="btn-blue fixed-width-btn">
-                                                        Choose plan
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -2736,12 +1621,12 @@ define([
                             <input
                                 type="hidden"
                                 name="PAYEE_NAME"
-                                value="Cyber Fear"
+                                value="Mailum"
                             />
                             <input
                                 type="hidden"
                                 name="PAYMENT_AMOUNT"
-                                value={this.state.toPay}
+                                value={this.state.price}
                             />
                             <input
                                 type="hidden"
@@ -2751,12 +1636,12 @@ define([
                             <input
                                 type="hidden"
                                 name="STATUS_URL"
-                                value="https://cyberfear.com/api/PerfectPaidstatus"
+                                value="https://mailum.com/api/PerfectPaidstatus"
                             />
                             <input
                                 type="hidden"
                                 name="PAYMENT_URL"
-                                value="https://cyberfear.com/api/Pe"
+                                value="https://mailum.com/api/Pe"
                             />
                             <input
                                 type="hidden"
@@ -2766,7 +1651,7 @@ define([
                             <input
                                 type="hidden"
                                 name="NOPAYMENT_URL"
-                                value="https://cyberfear.com/api/Pe"
+                                value="https://mailum.com/api/Pe"
                             />
                             <input
                                 type="hidden"
@@ -2786,17 +1671,18 @@ define([
                             <input
                                 type="hidden"
                                 name="paymentFor"
-                                value={this.state.forPlan}
+                                value={this.state.planSelector}
                             />
+
                             <input
                                 type="hidden"
-                                name="howMuch"
-                                value={this.state.howMuch}
+                                name="description"
+                                value={this.state.planSelector+" plan "+ this.state.type +" for " + this.state.duration}
                             />
                             <input
                                 type="hidden"
                                 name="BAGGAGE_FIELDS"
-                                value="userId paymentFor howMuch"
+                                value="userId paymentFor description"
                             />
                         </form>
 
@@ -2834,20 +1720,16 @@ define([
                                 name="merchant"
                                 value={app.defaults.get("coinMecrh")}
                             />
-                            <input
-                                type="hidden"
-                                name="item_amount"
-                                value={this.state.howMuch}
-                            />
+
                             <input
                                 type="hidden"
                                 name="item_name"
-                                value={this.state.forPlan}
+                                value={this.state.planSelector}
                             />
                             <input
                                 type="hidden"
                                 name="item_desc"
-                                value={this.state.forPlan}
+                                value={this.state.planSelector+" plan "+ this.state.type +" for " + this.state.duration}
                             />
                             <input
                                 type="hidden"
@@ -2858,7 +1740,7 @@ define([
                             <input
                                 type="hidden"
                                 name="amountf"
-                                value={this.state.toPay}
+                                value={this.state.price}
                             />
                             <input
                                 type="hidden"
@@ -2868,12 +1750,12 @@ define([
                             <input
                                 type="hidden"
                                 name="success_url"
-                                value="https://cyberfear.com/api/Pe"
+                                value="https://mailum.com/api/Pe"
                             />
                             <input
                                 type="hidden"
                                 name="cancel_url"
-                                value="https://cyberfear.com/api/Pe"
+                                value="https://mailum.com/api/Pe"
                             />
                         </form>
                     </div>

@@ -35,6 +35,8 @@ define([
             "donateUs": "donate",
             ":whatever": "notfound",
 
+            //https://cyber.com/index.html#retrieveEmailV2/650f4e1680b12c99008b4568
+
             //password protected routes
             "mail/:directory(/:msg)": "mail",
             "retrieveEmailV2/:emailId": "pinMail",
@@ -134,12 +136,6 @@ define([
                 document.getElementById("loginBody")
             );
         },
-        firstTimeLogin: function () {
-            React.render(
-                <SplashCollection page={"firstTimeLogin"} />,
-                document.getElementById("pricingBody")
-            );
-        },
         createUser: function () {
             React.render(
                 <SplashCollection page={"signup"} coupon=""/>,
@@ -186,7 +182,7 @@ define([
                 )
             );
 
-            $('link[rel=stylesheet][href="/css/main.css"]').remove();
+           // $('link[rel=stylesheet][href="/css/main.css"]').remove();
 
             React.render(
                 <SplashCollection page={"forgotSecret"} />,
@@ -218,6 +214,18 @@ define([
                 );
             });
         },
+        firstTimeLogin: function () {
+            if (app.user.get("userLogedIn")) {
+            } else {
+                app.restartApp();
+            }
+
+            React.render(
+                <SplashCollection page={"firstTimeLogin"} />,
+                document.getElementById("pricingBody")
+            );
+        },
+
         mail: function (options, msg) {
             if (app.user.get("userLogedIn")) {
             } else {
@@ -292,7 +300,7 @@ define([
             ) {
                 React.render(
                     <UnregCollection page={"readEmail"} emailId={msg} />,
-                    document.getElementById("mainBody")
+                    document.getElementById("wrapper")
                 );
             });
         },

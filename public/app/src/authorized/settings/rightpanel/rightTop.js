@@ -31,7 +31,7 @@ define(["react", "app", "cmpld/authorized/mailbox/notifications"], function (
             return (
                 <div className="setting-right-top">
                     <div className="top-data">
-                        <div className="dropdown icon-notification">
+                        <div className="dropdown icon-notification d-none">
                             <button
                                 className="btn btn-secondary"
                                 type="button"
@@ -60,7 +60,7 @@ define(["react", "app", "cmpld/authorized/mailbox/notifications"], function (
                         <div className="back-to-inbox-link">
                             <a
                                 onClick={this.handleClick.bind(
-                                    this,
+                                    null,
                                     "back-to-inbox"
                                 )}
                             >

@@ -186,6 +186,7 @@ define([
 
                 if(toCCkeys.keys.length>0){
                     var key=app.globalF.createEncryptionKey256();
+
                     var toCCmeta={
                         'attachment':   0,
                         'to' :          draft['meta']['to'],

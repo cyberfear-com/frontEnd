@@ -411,7 +411,9 @@ define([
 
                             //app.userObjects.updateObjects();
                         } else {
-                            app.notifications.systemMessage("wrngPass");
+                            $("#passLabel").removeClass("d-none");
+                            $("#passLabel").addClass("invalid-feedback");
+                            $("#passLabel").html("Wrong Password");
                         }
                     });
 
@@ -447,7 +449,7 @@ define([
                     break;
                 case "save2Pass":
                     var thisComp = this;
-                    console.log(event);
+                    //console.log(event);
 
                     var pass = app.globalF.makeDerived(
                         event,
@@ -530,9 +532,13 @@ define([
                         );
                     } else {
                         if (app.user.get("oneStep")) {
-                            app.notifications.systemMessage("wrngPass");
+                            $("#passLabel").removeClass("d-none");
+                            $("#passLabel").addClass("invalid-feedback");
+                            $("#passLabel").html("Wrong Password");
                         } else {
-                            app.notifications.systemMessage("wrngSecPass");
+                            $("#passLabel").removeClass("d-none");
+                            $("#passLabel").addClass("invalid-feedback");
+                            $("#passLabel").html("Wrong Password");
                         }
                     }
                     break;
@@ -721,6 +727,7 @@ define([
                                                         name="fpass"
                                                         className="form-control with-icon icon-lock"
                                                         id="newPass"
+                                                        autoComplete="new-password"
                                                         placeholder="New password"
                                                         onChange={this.handleChange.bind(
                                                             this,
@@ -739,6 +746,7 @@ define([
                                                         name="fpassrep"
                                                         className="form-control with-icon icon-lock"
                                                         id="newPassRep"
+                                                        autoComplete="new-password"
                                                         placeholder="Repeat password"
                                                         onChange={this.handleChange.bind(
                                                             this,
@@ -915,10 +923,8 @@ define([
                                                     type="button"
                                                     className="btn-blue fixed-width-btn"
                                                     onClick={this.handleClick.bind(
-                                                        this,
-                                                        this.state
-                                                            .saveButton2Panel
-                                                            .onClick
+                                                        null,
+                                                        this.state.saveButton2Panel.onClick
                                                     )}
                                                 >
                                                     Save
@@ -1010,9 +1016,31 @@ define([
                     });
                     break;
                 case "remPass":
+                    let stateP=this.state.remeberPassword;
                     this.setState({
-                        remeberPassword: !this.state.remeberPassword,
+                        remeberPassword: !stateP,
                     });
+
+                        app.user.set({"remeberPassword": !stateP});
+
+                        if(!stateP){
+                            app.user.set({"password":''});
+                            app.user.set({"secondPassword":''});
+                        }
+                        app.userObjects.updateObjects('userProfile','',function(response){
+                            //restore copy of the object if failed to save
+                            if(response==='success'){
+                                //app.user.set({"DecryptedProfileObject":profile});
+                                //app.userObjects.set({"EncryptedProfileObject":newProfObj});
+                                //console.log('ura');
+                            }else if(response==='failed'){
+
+                            }else if(response==='nothing'){
+
+                            }
+
+                        });
+
                     break;
             }
         },

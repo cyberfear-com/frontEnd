@@ -478,7 +478,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                                 this.state.activeLink ===
                                                 `Session-Timeout`
                                                     ? "active"
-                                                    : ""
+                                                    : "d-none"
                                             }`}
                                         >
                                             <a
@@ -578,7 +578,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                                 this.state.activeLink ===
                                                 `Layout`
                                                     ? "active"
-                                                    : ""
+                                                    : "d-none"
                                             }`}
                                         >
                                             <a
@@ -631,7 +631,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                                     "Plan"
                                                 )}
                                             >
-                                                Upgrade
+                                                Plans
                                             </a>
                                         </li>
                                         <li
@@ -920,7 +920,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                                                     .activeLink ===
                                                                 `Session-Timeout`
                                                                     ? "active"
-                                                                    : ""
+                                                                    : "d-none"
                                                             }`}
                                                         >
                                                             <a
@@ -1023,7 +1023,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                                                     .activeLink ===
                                                                 `Layout`
                                                                     ? "active"
-                                                                    : ""
+                                                                    : "d-none"
                                                             }`}
                                                         >
                                                             <a
@@ -1080,7 +1080,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                                                     "Plan"
                                                                 )}
                                                             >
-                                                                Upgrade
+                                                                Plans
                                                             </a>
                                                         </li>
                                                         <li

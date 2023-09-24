@@ -89,11 +89,12 @@ define([
                     },
                 },
             });
+/*
 
             this.setState({
                 aliasForm: $("#addNewAliasForm").validate({
                     errorElement: "span",
-                    errorClass: "help-block",
+                    errorClass: "invalid",
                     highlight: function (element) {
                         $(element)
                             .closest(".form-group")
@@ -119,7 +120,8 @@ define([
                     },
                 }),
             });
-
+*/
+            this.setState({ aliasForm: $("#addNewAliasForm").validate() });
             try {
                 $("#domainName").rules("add", {
                     required: true,
@@ -163,6 +165,12 @@ define([
             }
 
             //this.handleClick('showThird');
+        },
+
+        removeRefreshClass: function (_element) {
+            setTimeout(function () {
+                _element.classList.remove("spin-animation");
+            }, 500);
         },
 
         generateKeys: (thisComp) => {
@@ -213,12 +221,12 @@ define([
                                     res["suspended"];
 
                                 var good =
-                                    '<i class="fa fa-check text-success fa-lg"></i>';
-
+                                    '<button class="check-button refresh-on-hover"><i></i></button>';
+//spin-animation
                                 var alert =
-                                    '<i class="fa fa-exclamation-triangle text-warning fa-lg"></i>';
+                                    '<button class="warning-button refresh-on-hover"><i></i></button>';
                                 var danger =
-                                    '<i class="fa fa-exclamation-triangle text-danger fa-lg"></i>';
+                                    '<button class="warning-button refresh-on-hover"><i></i></button>';
 
                                 var suspMessage =
                                     'data-toggle="tooltip" data-placement="top" title="Account Pending"';
@@ -243,30 +251,27 @@ define([
                                 ) {
                                     var inf = danger;
                                 }
-
                                 var el = {
                                     DT_RowId: domain64,
                                     checkbox:
-                                        '<label class="container-checkbox"><input type="checkbox" name="inbox-email" /><span class="checkmark"></span></label>',
+                                        '<label class="container-checkbox d-none"><input type="checkbox" name="inbox-email" /><span class="checkmark"></span></label>',
                                     domain: app.transform.from64str(domain64),
-                                    check: '<button class="check-button"></button>',
+                                    check: inf,
                                     delete:
-                                        '<button class="table-icon delete-button">' +
-                                        inf +
-                                        "</button>",
+                                        '<button class="table-icon delete-button"></button>',
                                     options:
-                                        '<div class="dropdown"><button class="btn btn-secondary dropdown-toggle table-icon" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button></div>',
+                                        '<div class="dropdown d-none"><button class="btn btn-secondary dropdown-toggle table-icon" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button></div>',
                                 };
                             } else {
                                 var el = {
                                     DT_RowId: domain64,
                                     checkbox:
-                                        '<label class="container-checkbox"><input type="checkbox" name="inbox-email" /><span class="checkmark"></span></label>',
+                                        '<label class="container-checkbox d-none"><input type="checkbox" name="inbox-email" /><span class="checkmark"></span></label>',
                                     domain: app.transform.from64str(domain64),
                                     check: '<button class="check-button"></button>',
                                     delete: '<button class="table-icon delete-button deleteDomain"></button>',
                                     options:
-                                        '<div class="dropdown"><button class="btn btn-secondary dropdown-toggle table-icon" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button></div>',
+                                        '<div class="dropdown d-none"><button class="btn btn-secondary dropdown-toggle table-icon" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button></div>',
                                 };
                             }
 
@@ -319,6 +324,13 @@ define([
                     $temp.remove();
 
                     break;
+                case "copyVerfString":
+                    var $temp = $("<input>");
+                    $("body").append($temp);
+                    $temp.val("mailum="+this.state.verfString).select();
+                    document.execCommand("copy");
+                    $temp.remove();
+                    break;
                 case "copyClipboard":
                     if (!navigator.clipboard) {
                     } else {
@@ -341,21 +353,20 @@ define([
 
                     if (this.state.subdomain !== "") {
                         item.push(
-                            <option
-                                key={app.transform.to64str(
-                                    this.state.subdomain.toLowerCase()
-                                )}
-                                value={this.state.subdomain.toLowerCase()}
-                            >
-                                {this.state.subdomain.toLowerCase()}
-                            </option>
+                            {
+                                key:app.transform.to64str(this.state.subdomain.toLowerCase()),
+                                value:this.state.subdomain.toLowerCase(),
+                                name:this.state.subdomain.toLowerCase()
+                            }
                         );
                         this.setState({
                             subdomainList: item,
                             tmpDom: this.state.subdomain.toLowerCase(),
                             subdomain: "",
                         });
+                        this.handleClick("updateDomain",this);
                     }
+
                     break;
 
                 case "showFirst":
@@ -389,20 +400,15 @@ define([
 
                 case "addNewDomain":
                     var thisComp = this;
+                    this.setState({
+                        viewFlag: !this.state.viewFlag,
+                    });
+
                     app.globalF.checkPlanLimits(
                         "addDomain",
                         Object.keys(app.user.get("customDomains")).length,
                         function (result) {
                             if (result) {
-                                thisComp.generateKeys(thisComp);
-
-                                thisComp.setState({
-                                    firstPanelClass: "panel-body d-none",
-                                    secondPanelClass: "panel-body",
-                                    firstTab: "active",
-
-                                    button1visible: "d-none",
-                                });
                             } else {
                                 //console.log(this.props.activePage);
                                 //this.props.activePage("Plan");
@@ -418,16 +424,8 @@ define([
 
                     break;
 
-                case "showThird":
+                case "editDomain":
                     this.setState({
-                        firstPanelClass: "panel-body d-none",
-                        secondPanelClass: "panel-body d-none",
-                        thirdPanelClass: "panel-body",
-
-                        firstTab: "active",
-
-                        button1visible: "d-none",
-
                         newdomain: "",
                         domainBase: "",
                         domainHash: "",
@@ -457,21 +455,21 @@ define([
                     }
 
                     var item = [];
-
+                    var tmpArr = [];
                     if (
                         domains[id]["subdomain"] !== undefined &&
                         domains[id]["subdomain"].length > 0
                     ) {
+
                         $.each(
                             domains[id]["subdomain"],
                             function (ind, subdm64) {
                                 item.push(
-                                    <option
-                                        key={subdm64}
-                                        value={app.transform.from64str(subdm64)}
-                                    >
-                                        {app.transform.from64str(subdm64)}
-                                    </option>
+                                    {
+                                        key:subdm64,
+                                        value:app.transform.from64str(subdm64),
+                                        name:app.transform.from64str(subdm64)
+                                    }
                                 );
                             }
                         );
@@ -513,7 +511,10 @@ define([
                         } else {
                             custDomain["subdomain"] = [];
                         }
+                        console.log(tmpArr);
 
+                        console.log('custDomain');
+                        console.log(custDomain);
                         app.user.set({
                             newDomain: {
                                 id: this.state.domainID,
@@ -548,10 +549,10 @@ define([
                                             });
                                         });
 
-                                        thisComp.handleClick("showFirst");
+                                        //thisComp.handleClick("showFirst");
                                     } else if (result["data"] == "newerFound") {
                                         //app.notifications.systemMessage('newerFnd');
-                                        thisComp.handleClick("showFirst");
+                                        //thisComp.handleClick("showFirst");
                                     }
                                 }
                             }
@@ -564,93 +565,116 @@ define([
                     break;
 
                 case "saveNewDomain":
+                    console.log('sdsdsd');
                     var emfValidator = this.state.aliasForm;
+                    $("#settings-spinner")
+                        .removeClass("d-none")
+                        .addClass("d-block");
+
                     var thisComp = this;
                     emfValidator.form();
+                    //11.com
 
-                    if (emfValidator.numberOfInvalids() == 0) {
-                        $("#settings-spinner")
-                            .removeClass("d-none")
-                            .addClass("d-block");
-                        app.user.set({
-                            newDomain: {
-                                id: app.transform.to64str(
-                                    thisComp.state.newdomain
-                                ),
-                                domain: this.state.newdomain,
-                                subdomain: "",
-                                vrfString: thisComp.state.domainBase,
-                                dkimPrivateKey: thisComp.state.txtArea2value,
-                                dkimDNSRecord: thisComp.state.dkimAnswer,
-                                sec: thisComp.state.domainBase,
-                                spf: false,
-                                mxRec: false,
-                                owner: false,
-                                dkim: false,
-                                alReg: false,
-                                pending: true,
-                                suspended: false,
-                                obsolete: false,
-                            },
-                        });
+                    console.log(emfValidator.numberOfInvalids());
 
-                        //console.log(app.user);
+                    setTimeout(function (){
 
-                        app.userObjects.updateObjects(
-                            "savePendingDomain",
-                            "",
-                            function (result) {
-                                if (result["response"] == "success") {
-                                    if (result["data"] == "saved") {
-                                        thisComp.getCustomDomain(function (
-                                            result
-                                        ) {
-                                            thisComp.setState({
-                                                dataSet: result,
-                                            });
-                                        });
+                        if (emfValidator.numberOfInvalids() == 0) {
 
-                                        thisComp.handleClick("showFirst");
-                                    } else if (result["data"] == "newerFound") {
-                                        //app.notifications.systemMessage('newerFnd');
-                                        thisComp.handleClick("showFirst");
-                                    }
-                                }
-                            }
-                        );
-                        $("#settings-spinner")
-                            .removeClass("d-block")
-                            .addClass("d-none");
-                    }
+                            thisComp.generateKeys(thisComp);
+
+                            /* thisComp.setState({
+                                 firstPanelClass: "panel-body d-none",
+                                 secondPanelClass: "panel-body",
+                                 firstTab: "active",
+
+                                 button1visible: "d-none",
+                             });*/
+
+                            app.user.set({
+                                newDomain: {
+                                    id: app.transform.to64str(
+                                        thisComp.state.newdomain
+                                    ),
+                                    domain: thisComp.state.newdomain,
+                                    subdomain: "",
+                                    vrfString: thisComp.state.domainBase,
+                                    dkimPrivateKey: thisComp.state.txtArea2value,
+                                    dkimDNSRecord: thisComp.state.dkimAnswer,
+                                    sec: thisComp.state.domainBase,
+                                    spf: false,
+                                    mxRec: false,
+                                    owner: false,
+                                    dkim: false,
+                                    alReg: false,
+                                    pending: true,
+                                    suspended: false,
+                                    obsolete: false,
+                                },
+                            });
+
+                            console.log(app.user.get("newDomain"));
+
+                                     app.userObjects.updateObjects(
+                                         "savePendingDomain",
+                                         "",
+                                         function (result) {
+                                             if (result["response"] == "success") {
+                                                 if (result["data"] == "saved") {
+                                                     thisComp.getCustomDomain(function (
+                                                         result
+                                                     ) {
+                                                         thisComp.setState({
+                                                             dataSet: result,
+                                                         });
+                                                     });
+
+                                                     thisComp.handleClick("toggleDisplay");
+                                                 } else if (result["data"] == "newerFound") {
+                                                     //app.notifications.systemMessage('newerFnd');
+                                                     thisComp.handleClick("toggleDisplay");
+                                                 }
+                                             }
+                                         }
+                                     );
+                            $("#settings-spinner")
+                                .removeClass("d-block")
+                                .addClass("d-none");
+                        }else{
+                            $("#settings-spinner")
+                                .removeClass("d-block")
+                                .addClass("d-none");
+                        }
+
+                    }, 400);
+
 
                     break;
+
+                case "deletesubdomain":
+                    console.log('deleting');
+                    var items=this.state.subdomainList;
+
+                    items = items.filter(item => item['key'] !== event.target.id)
+
+                    this.setState({
+                        subdomainList:items
+                    },function(){
+                        this.handleClick("updateDomain",this);
+                    });
+
+                    break;
+
 
                 case "deleteDomain":
                     var thisComp = this;
 
                     var aliases = app.user.get("allKeys");
                     var dom = app.transform.from64str(thisComp.state.domainID);
-                    var alias = false;
-                    $.each(aliases, function (id, email) {
-                        var domain = app.globalF.getEmailDomain(
-                            app.transform.from64str(email["email"])
-                        );
-                        //console.log(domain);
-                        if (dom == domain) {
-                            alias = true;
-                        }
-                        //this.state.domainID
-                    });
-                    if (alias) {
-                        $("#infoModHead").html("Alias Exist");
-                        $("#infoModBody").html(
-                            "Please remove all aliases associated with this domain before deleting"
-                        );
-                        $("#infoModal").modal("show");
-                    } else {
+
                         $("#dialogModHead").html("Delete");
                         $("#dialogModBody").html(
-                            "If you deleting Custom Domain you won't be able to receive or send emails with it. Continue?"
+                            "If you delete Custom Domain you won't be able to receive or send emails with it. Continue?"
                         );
 
                         var id = this.state.domainID;
@@ -682,12 +706,12 @@ define([
                                                 });
                                             });
 
-                                            thisComp.handleClick("showFirst");
+                                            //thisComp.handleClick("showFirst");
                                         } else if (
                                             result["data"] == "newerFound"
                                         ) {
                                             //app.notifications.systemMessage('newerFnd');
-                                            thisComp.handleClick("showFirst");
+                                            //thisComp.handleClick("showFirst");
                                         }
                                     }
                                 }
@@ -700,40 +724,51 @@ define([
                         });
 
                         $("#dialogPop").modal("show");
-                    }
+
+
+                    break;
+
+                case "refreshDNSt":
+                    var thisComp = this;
+                    thisComp.getCustomDomain(function (result) {
+                        thisComp.setState({
+                            dataSet: result,
+                        });
+                    });
 
                     break;
 
                 case "refreshDNS":
                     var thisComp = this;
+                    const _event = event;
+                    _event.target.children[0].classList.add("spin-animation");
 
-                    thisComp.setState({
-                        refreshIclass: "fa fa-refresh fa-spin",
-                    });
+                    thisComp.removeRefreshClass(_event.target.children[0]);
 
                     thisComp.getCustomDomain(function (result) {
+
                         thisComp.setState({
                             dataSet: result,
                         });
+                       // console.log('ghghgh');
+                       // console.log(thisComp.state.domainID);
+                        if(thisComp.state.domainID!=""){
+                            thisComp.handleClick("editDomain", thisComp.state.domainID);
+                        }
+                        //
 
-                        app.user.set({ customDomainChanged: true });
+                        //app.user.set({ customDomainChanged: true });
                         //app.userObjects.updateObjects();
 
-                        setTimeout(function () {
-                            thisComp.handleClick(
-                                "showThird",
-                                thisComp.state.domainID
-                            );
-                            thisComp.setState({
-                                refreshIclass: "",
-                            });
-                        }, 1000);
+                        //setTimeout(function () {
+
+                      //  }, 1000);
                     });
 
                     break;
                 case "selectRow":
                     //domainID:""
-
+                    var thisComp = this;
                     // Select row
                     if (
                         $(event.target).prop("tagName").toUpperCase() ===
@@ -758,12 +793,40 @@ define([
 
                             if (id != undefined) {
                                 thisComp.setState({
-                                    domainID: $(event.target)
-                                        .parents("tr")
-                                        .attr("id"),
+                                    domainID: id,
+                                },function(){
+                                    thisComp.handleClick("deleteDomain", id);
                                 });
-                                thisComp.handleClick("deleteContact", id);
                             }
+                        }
+                        if(event.target.classList.contains("check-button") || event.target.classList.contains("warning-button")){
+                           // event.target.classList.add("spin-animation");
+                            const _event = event;
+                            var tt=event.target.classList;
+                            tt.add("spin-animation");
+                            thisComp.handleClick("refreshDNSt",event);
+                            setTimeout(function () {
+                                tt.remove("spin-animation");
+                            }, 500);
+                            console.log('checked');
+
+                        }
+                    }
+
+
+                    if ($(event.target).prop("tagName").toUpperCase() === "TD") {
+                        var id = $(event.target).parents("tr").attr("id");
+
+                        if (id != undefined) {
+                            this.setState({
+                                pageTitle: `Edit Domain`,
+                                button5click:"updateDomain",
+                                viewFlag: !this.state.viewFlag,
+                                showThird:true,
+                                thirdPanelClass:"panel-body",
+                                domainID: id,
+                            });
+                            thisComp.handleClick("editDomain", id);
                         }
                     }
 
@@ -782,6 +845,16 @@ define([
                 case "toggleDisplay":
                     this.setState({
                         viewFlag: !this.state.viewFlag,
+                        thirdPanelClass:"d-none",
+                        showThird:false,
+                        pageTitle: `Add Domain`,
+                        button5click:"updateDomain",
+                        domainID: "",
+                        newdomain: "",
+                        domain:"Add Domain",
+                        domainBase: "",
+                        domainHash: "",
+                        enableSub: false,
                     });
                     break;
             }
@@ -882,14 +955,14 @@ define([
                                             Custom domain
                                         </a>
                                     </li>
-                                    <li>Add domain</li>
+                                    <li>{this.state.pageTitle}</li>
                                 </ul>
                             </div>
                         </div>
                         <div className="middle-content">
                             <div
                                 className={`the-view ${
-                                    this.state.viewFlag ? "d-none" : ""
+                                    this.state.viewFlag || this.state.showThird ? "d-none" : ""
                                 }`}
                             >
                                 <div className="middle-content-top">
@@ -899,7 +972,7 @@ define([
                                             <a
                                                 onClick={this.handleClick.bind(
                                                     this,
-                                                    "toggleDisplay"
+                                                    "addNewDomain"
                                                 )}
                                             >
                                                 <span className="icon">+</span>{" "}
@@ -929,7 +1002,7 @@ define([
                                             <thead>
                                                 <tr>
                                                     <th scope="col">
-                                                        <label className="container-checkbox">
+                                                        <label className="container-checkbox d-none">
                                                             <input
                                                                 type="checkbox"
                                                                 onChange={this.handleClick.bind(
@@ -946,10 +1019,10 @@ define([
                                                     </th>
                                                     <th>&nbsp;</th>
                                                     <th scope="col">
-                                                        <button className="trash-btn"></button>
+                                                        <button className="trash-btn d-none"></button>
                                                     </th>
                                                     <th scope="col">
-                                                        <div className="dropdown">
+                                                        <div className="dropdown d-none">
                                                             <button
                                                                 className="btn btn-secondary dropdown-toggle ellipsis-btn"
                                                                 type="button"
@@ -984,17 +1057,13 @@ define([
                                 </div>
                             </div>
 
-                            <div
-                                className={`the-creation ${
-                                    this.state.viewFlag ? "" : "d-none"
-                                }`}
-                            >
+                            <div className={`the-creation ${this.state.viewFlag && !this.state.showThird? "" : "d-none"}`}>
                                 <div className="middle-content-top">
-                                    <h3>Add Domain</h3>
+                                    <h3>{this.state.domain}</h3>
                                 </div>
 
                                 <div className="form-section">
-                                    <form id="addNewAliasForm" className="">
+                                    <form id="addNewAliasForm">
                                         <div className={`row`}>
                                             <div className="col-12">
                                                 <div className="form-group">
@@ -1029,6 +1098,7 @@ define([
                                                 </div>
                                             </div>
                                         </div>
+                                    </form>
                                         <div className="form-section-bottom">
                                             <div className="btn-row">
                                                 <button
@@ -1044,284 +1114,229 @@ define([
                                                 <button
                                                     type="button"
                                                     className="btn-blue fixed-width-btn"
-                                                    onClick={this.handleClick.bind(
-                                                        this,
-                                                        "saveNewDomain"
-                                                    )}
+                                                    onClick={
+                                                        this.handleClick.bind(
+                                                            this,
+                                                            "saveNewDomain"
+                                                        )
+                                                    }
                                                 >
                                                     Add Domain
                                                 </button>
                                             </div>
                                         </div>
-                                    </form>
                                 </div>
 
                                 <div className="pull-right dialog_buttons"></div>
                             </div>
 
                             <div className={this.state.thirdPanelClass}>
-                                <h3>Info:</h3>
+                                <div className="middle-content-top">
+                                    <h3>Information</h3>
+                                </div>
+                                <div className="form-section">
 
-                                <table className=" table table-hover table-striped datatable table-light">
-                                    <tr>
-                                        <td className="col-xs-3">
-                                            <b>Domain:</b>
-                                        </td>
-                                        <td colSpan="2" className="col-xs-9">
-                                            {this.state.domain}
-                                        </td>
-                                    </tr>
+                                        <div className="information-table">
 
-                                    <tr>
-                                        <td className="col-xs-3">
-                                            <b>Subdomain:</b>
-                                        </td>
-                                        <td colSpan="2" className="col-xs-9">
-                                            <div className="col-xs-12 col-lg-6">
-                                                <div
-                                                    className="form-group"
-                                                    style={{
-                                                        marginBottom: "0px",
-                                                    }}
-                                                >
-                                                    <select
-                                                        className="form-control"
-                                                        value={
-                                                            this.state.tmpDom
-                                                        }
-                                                    >
-                                                        <option
-                                                            value="0"
-                                                            disabled
-                                                        >
-                                                            Enter subdomain
-                                                        </option>
-                                                        {
-                                                            this.state
-                                                                .subdomainList
-                                                        }
-                                                    </select>
-                                                </div>
-                                            </div>
-
-                                            <div className="col-xs-12 col-lg-6">
-                                                <div className="input-group">
-                                                    <input
-                                                        type="email"
-                                                        name="email"
-                                                        id="emNotInp"
-                                                        className="form-control"
-                                                        placeholder="subdomain"
-                                                        value={
-                                                            this.state.subdomain
-                                                        }
-                                                        onChange={this.handleChange.bind(
-                                                            this,
-                                                            "subdomain"
-                                                        )}
-                                                    />
-                                                    <span className="input-group-btn">
+                                            <div className="information-table-row">
+                                                <label>Domain:</label>
+                                                <div className="information-row-right">
+                                                    {this.state.domain}
+                                                    <div className="info-row-right float-end">
+                                                    <div className="referesh-btn ">
                                                         <button
-                                                            className="btn btn-default btn-success"
-                                                            type="button"
-                                                            style={{
-                                                                padding:
-                                                                    "7px 12px",
-                                                            }}
+                                                            id="referesh-btn"
+                                                            className="icon-btn"
                                                             onClick={this.handleClick.bind(
                                                                 this,
-                                                                "addSubdomain"
+                                                                "refreshDNS"
                                                             )}
                                                         >
-                                                            <i className="fa fa-plus fa-lg"></i>
+                                                            <i></i>
                                                         </button>
-                                                    </span>
+                                                    </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+                                            <div className="information-table-row">
+                                                <label>Status:</label>
+                                                <div className={
+                                                    this.state.status == "0"
+                                                        ? "text-success bold"
+                                                        : this.state.status == "1"
+                                                            ? "text-warning bold"
+                                                            : "text-danger bold"
+                                                }>
+                                                    {this.state.status == "0"
+                                                        ? "good"
+                                                        : this.state.status == "1"
+                                                            ? "pending"
+                                                            : this.state.status == "2"
+                                                                ? "obsolete"
+                                                                : this.state.status == "3"
+                                                                    ? "suspended"
+                                                                    : this.state.status == "4"
+                                                                        ? "Some Error"
+                                                                        : ""}
                                                 </div>
                                             </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <b>Verification String:</b>
-                                        </td>
-                                        <td colSpan="2">
-                                            {this.state.verfString}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <b>SPF:</b>
-                                        </td>
-                                        <td
-                                            colSpan="2"
-                                            className={
-                                                this.state.spf == "1"
-                                                    ? "text-success bold"
-                                                    : "text-danger bold"
-                                            }
-                                        >
-                                            {this.state.spf == "1"
-                                                ? "verified"
-                                                : "failed"}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <b>MX:</b>
-                                        </td>
-                                        <td
-                                            colSpan="2"
-                                            className={
-                                                this.state.mx == "1"
-                                                    ? "text-success bold"
-                                                    : "text-danger bold"
-                                            }
-                                        >
-                                            {this.state.mx == "1"
-                                                ? "verified"
-                                                : "failed"}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <b>Owner:</b>
-                                        </td>
-                                        <td
-                                            colSpan="2"
-                                            className={
-                                                this.state.owner == "1"
-                                                    ? "text-success bold"
-                                                    : "text-danger bold"
-                                            }
-                                        >
-                                            {this.state.owner == "1"
-                                                ? "verified"
-                                                : "failed"}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <b>DKIM:</b>
-                                        </td>
-                                        <td
-                                            colSpan="2"
-                                            className={
-                                                this.state.dkim == "1"
-                                                    ? "text-success bold"
-                                                    : "text-danger bold"
-                                            }
-                                        >
-                                            {this.state.dkim == "1"
-                                                ? "verified"
-                                                : "failed"}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <b>Status:</b>
-                                        </td>
-                                        <td
-                                            colSpan="2"
-                                            className={
-                                                this.state.status == "0"
-                                                    ? "text-success bold"
-                                                    : this.state.status == "1"
-                                                    ? "text-warning bold"
-                                                    : "text-danger bold"
-                                            }
-                                        >
-                                            {this.state.status == "0"
-                                                ? "good"
-                                                : this.state.status == "1"
-                                                ? "pending"
-                                                : this.state.status == "2"
-                                                ? "obsolete"
-                                                : this.state.status == "3"
-                                                ? "suspended"
-                                                : this.state.status == "4"
-                                                ? "Some Error"
-                                                : ""}
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <b>DKIM Record Host Field</b>
-                                        </td>
-                                        <td colSpan="2">default._domainkey</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <b>DKIM Record Answer Field</b>
-                                        </td>
-                                        <td className="col-md-6">
-                                            {this.state.dkimAnswer}
-                                        </td>
-                                        <td>
-                                            <div className="pull-right dialog_buttons col-md-3">
-                                                <button
-                                                    type="button"
-                                                    className="btn btn-primary pull-right"
-                                                    onClick={this.handleClick.bind(
-                                                        this,
-                                                        "copyToClipboard"
-                                                    )}
-                                                >
-                                                    Copy Text
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </table>
-                                <div className="clearfix"></div>
-                                <button
-                                    type="button"
-                                    className="btn btn-danger"
-                                    onClick={this.handleClick.bind(
-                                        this,
-                                        "deleteDomain"
-                                    )}
-                                >
-                                    Delete
-                                </button>
-                                <div className="pull-right dialog_buttons">
-                                    <button
-                                        type="button"
-                                        className="btn btn-success"
-                                        onClick={this.handleClick.bind(
-                                            this,
-                                            "updateDomain"
-                                        )}
-                                    >
-                                        <i
-                                            className={this.state.updateDomainI}
-                                        ></i>{" "}
-                                        Save Changes
-                                    </button>
 
-                                    <button
-                                        type="button"
-                                        className="btn btn-default"
-                                        onClick={this.handleClick.bind(
-                                            this,
-                                            "refreshDNS"
-                                        )}
-                                    >
-                                        <i
-                                            className={this.state.refreshIclass}
-                                        ></i>{" "}
-                                        Refresh DNS
-                                    </button>
-                                    <button
-                                        type="button"
-                                        className="btn btn-primary"
-                                        onClick={this.handleClick.bind(
-                                            this,
-                                            "showFirst"
-                                        )}
-                                    >
-                                        OK
-                                    </button>
+
+
+                                            <div className="information-table-row">
+                                                <label>Subdomain:</label>
+                                                <div className="information-row-right">
+                                                    <div className="input-group">
+                                                        <input
+                                                            type="email"
+                                                            name="email"
+                                                            id="emNotInp"
+                                                            className="form-control"
+                                                            placeholder="enter subdomain"
+                                                            value={
+                                                                this.state.subdomain
+                                                            }
+                                                            onChange={this.handleChange.bind(
+                                                                this,
+                                                                "subdomain"
+                                                            )}
+                                                        />
+                                                        <div className="add-contact-btn">
+                                                            <a
+                                                                onClick={this.handleClick.bind(
+                                                                    this,
+                                                                    "addSubdomain"
+                                                                )}
+                                                            >
+                                                                <span className="icon">+</span>{" "}
+                                                                Add subdomain
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="information-table-row">
+                                                <label>Subdomain List:</label>
+                                                <div className="information-row-right">
+                                                    <div className="col-xs-12 col-lg-6">
+                                                        <div
+                                                            className="form-group"
+                                                            style={{
+                                                                marginBottom: "0px",
+                                                            }}
+                                                        >
+                                                            <ul>
+                                                                {this.state.subdomainList.map((item) => (
+                                                                    <li className="mb-1" key={item.key}>{item.name+'.'+this.state.domain}
+                                                                        &nbsp;
+                                                                        <button id={item.key}
+                                                                            className="btn btn-light mb-1 ml-1"
+                                                                            onClick={this.handleClick.bind(
+                                                                                this,
+                                                                                "deletesubdomain"
+                                                                            )}
+                                                                        >delete
+                                                                        </button>
+
+                                                                    </li>
+                                                                ))}
+                                                                {this.state.subdomainList.length==0?<li key="0">&nbsp;</li>:""}
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="information-table-row" key="1">
+                                                <label>Verification String:</label>
+                                                <div className="information-row-right with-btn">
+                                                    {this.state.verfString}
+                                                    <button
+                                                        className="copy-btn"
+                                                        id="vrfctstrn-copy"
+                                                        onClick={this.handleClick.bind(
+                                                            this,
+                                                            "copyVerfString"
+                                                        )}
+                                                    ></button>
+                                                </div>
+                                            </div>
+                                            <div className="information-table-row">
+                                                <label>Keys SPF:</label>
+                                                <div className={
+                                                    this.state.spf == "1"
+                                                        ? "text-success bold"
+                                                        : "text-danger bold"
+                                                }>
+                                                    {this.state.spf == "1"
+                                                        ? "verified"
+                                                        : "failed"}
+                                                </div>
+                                            </div>
+                                            <div className="information-table-row">
+                                                <label>MX:</label>
+                                                <div className={
+                                                    this.state.mx == "1"
+                                                        ? "text-success bold"
+                                                        : "text-danger bold"
+                                                }>
+                                                    {this.state.mx == "1"
+                                                        ? "verified"
+                                                        : "failed"}
+                                                </div>
+                                            </div>
+                                            <div className="information-table-row">
+                                                <label>Owner:</label>
+                                                <div className={
+                                                    this.state.owner == "1"
+                                                        ? "text-success bold"
+                                                        : "text-danger bold"
+                                                }>
+                                                    {this.state.owner == "1"
+                                                        ? "verified"
+                                                        : "failed"}
+                                                </div>
+                                            </div>
+                                            <div className="information-table-row">
+                                                <label>DKIM:</label>
+                                                <div className={
+                                                        this.state.dkim == "1"
+                                                            ? "text-success bold"
+                                                            : "text-danger bold"
+                                                    }>
+                                                    {this.state.dkim == "1"
+                                                        ? "verified"
+                                                        : "failed"}
+                                                </div>
+                                            </div>
+
+                                            <div className="information-table-row">
+                                                <label>DKIM Record Host Field:</label>
+                                                <div className="information-row-right">
+                                                    default._domainkey
+                                                </div>
+                                            </div>
+
+                                            <div className="information-table-row" key="1c">
+                                                <label>DKIM Record Answer Field:</label>
+                                                <div className="information-row-right with-btn">
+                                                    {this.state.dkimAnswer}
+                                                    <button
+                                                        className="copy-btn"
+                                                        id="dkim-copy"
+                                                        onClick={this.handleClick.bind(
+                                                            this,
+                                                            "copyToClipboard"
+                                                        )}
+                                                    ></button>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>

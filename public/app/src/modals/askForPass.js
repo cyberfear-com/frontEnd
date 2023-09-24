@@ -5,10 +5,16 @@ define(["react", "app"], function (React, app) {
                 $("#askPasInput").focus();
                 //$( "#askPasSub" ).trigger( "click" ); //todo remove for dev
             });
+            $("#askPasInput").val(app.defaults.get("secondPassfield"));
 
             $("#askforPass").on("hide.bs.modal", function (event) {
                 //console.log('off');
                 $("#askPasSub").off("click");
+                $("#passLabel").addClass("d-none");
+                $("#passLabel").removeClass("invalid-feedback");
+                $("#passLabel").html("");
+                $("#askPasInput").val('');
+
             });
             //$('#askPasInput').focus();
         },
@@ -42,6 +48,7 @@ define(["react", "app"], function (React, app) {
                 <div
                     className="modal fade app-smodal"
                     id="askforPass"
+                    data-bs-backdrop="static"
                     onKeyDown={this.handleClick.bind(this, "enterPass")}
                 >
                     <div className="modal-dialog modal-dialog-centered">
@@ -52,6 +59,7 @@ define(["react", "app"], function (React, app) {
                                 </h4>
                                 <button
                                     type="button"
+                                    id="askPassClose"
                                     className="btn-close"
                                     data-bs-dismiss="modal"
                                     aria-label="Close"
@@ -83,9 +91,6 @@ define(["react", "app"], function (React, app) {
                                 </div>
                                 <h2 id="askPassHeader">Provide Password</h2>
                                 <div id="infoPass">
-                                    we have collected a professional team of{" "}
-                                    <br />
-                                    science and security experts
                                 </div>
                             </div>
 
@@ -94,9 +99,17 @@ define(["react", "app"], function (React, app) {
                                     <input
                                         type="password"
                                         id="askPasInput"
+                                        name="password"
                                         className="form-control"
                                         placeholder="Enter Password.."
                                     />
+                                    <label
+                                        id="passLabel"
+                                        className="control-label pull-left d-none"
+
+                                        htmlFor="password"
+                                    >
+                                    </label>
                                     <span className="input-icon">
                                         <svg
                                             width="20"

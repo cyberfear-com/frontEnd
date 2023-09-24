@@ -647,6 +647,7 @@ define(['react','app','dataTable','dataTableBoot'], function (React,app,DataTabl
          * @param {string} action
          * @param {object} event
          */
+
 		handleChange: function(action,event){
 			switch(action) {
 				case 'changePrivatePass':

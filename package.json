@@ -8,22 +8,26 @@
     "build": "vite build",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "postbuild": "purgecss --css dist/assets/*.css --content dist/index.html dist/assets/*.js --output dist/assets"
+    "postbuild": "purgecss --css dist/assets/*.css --content dist/index.html dist/assets/*.js --output dist/assets && node_modules/babel-cli/bin/babel.js --presets react public/app/src/ --watch --out-dir  dist/app/cmpld/"
   },
   "dependencies": {
+    "@popperjs/core": "^2.11.8",
     "babel-cli": "^6.18.0",
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-react": "^6.16.0",
-    "@popperjs/core": "^2.11.8",
     "bootstrap": "5.3.0-alpha3",
     "classnames": "^2.3.2",
+    "iro": "^0.9.3",
     "lunr": "^2.3.9",
+    "openpgp": "^5.9.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-quill": "^2.0.0",
     "react-router-dom": "^6.11.1",
     "react-slick": "^0.29.0",
     "slick-carousel": "^1.8.1",
-    "swiper": "^9.3.1"
+    "swiper": "^9.3.1",
+    "xss": "^1.0.14"
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^5.0.0",

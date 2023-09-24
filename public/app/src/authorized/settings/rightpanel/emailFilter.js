@@ -104,7 +104,7 @@ define([
                 var el = {
                     DT_RowId: index,
                     checkbox:
-                        '<label class="container-checkbox"><input type="checkbox" name="inbox-email" /><span class="checkmark"></span></label>',
+                        '<label class="container-checkbox d-none"><input type="checkbox" name="inbox-email" /><span class="checkmark"></span></label>',
                     text: {
                         display:
                             from +
@@ -114,10 +114,10 @@ define([
                             to,
                         index: index,
                     },
-                    edit: '<a class="table-icon edit-button"></a>',
+                    edit: '<a class="table-icon edit-button d-none"></a>',
                     delete: '<button class="table-icon delete-button"></button>',
                     options:
-                        '<div class="dropdown"><button class="btn btn-secondary dropdown-toggle table-icon" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button></div>',
+                        '<div class="dropdown d-none"><button class="btn btn-secondary dropdown-toggle table-icon" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button></div>',
                 };
 
                 alEm.push(el);
@@ -430,6 +430,7 @@ define([
                     break;
 
                 case "deleteRule":
+                    this.deleteRule(this.state.ruleId);
                     break;
 
                 case "selectRow":
@@ -454,7 +455,8 @@ define([
                     }
 
                     // Edit click functionality
-                    if ($(event.target).prop("tagName").toUpperCase() === "A") {
+                    console.log($(event.target));
+                    if ($(event.target).prop("tagName").toUpperCase() === "TD" || $(event.target).prop("tagName").toUpperCase() === "SPAN" || $(event.target).prop("tagName").toUpperCase() === "B") {
                         var id = $(event.target).parents("tr").attr("id");
 
                         if (id != undefined) {
@@ -618,7 +620,7 @@ define([
                                         <thead>
                                             <tr>
                                                 <th scope="col">
-                                                    <label className="container-checkbox">
+                                                    <label className="container-checkbox d-none">
                                                         <input
                                                             type="checkbox"
                                                             onChange={this.handleClick.bind(
@@ -632,10 +634,10 @@ define([
                                                 <th scope="col">Filters</th>
                                                 <th></th>
                                                 <th scope="col">
-                                                    <button className="trash-btn"></button>
+                                                    <button className="trash-btn d-none"></button>
                                                 </th>
                                                 <th scope="col">
-                                                    <div className="dropdown">
+                                                    <div className="dropdown d-none">
                                                         <button
                                                             className="btn btn-secondary dropdown-toggle ellipsis-btn"
                                                             type="button"

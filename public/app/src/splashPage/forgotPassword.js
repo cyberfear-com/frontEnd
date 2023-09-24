@@ -8,6 +8,7 @@ define(["react", "app"], function (React, app) {
                 newPass: "",
                 newPassRep: "",
                 salt: "",
+                accountCreationStatus:false,
 
                 emailError: "",
                 tokenError: "",
@@ -20,7 +21,7 @@ define(["react", "app"], function (React, app) {
                 secretSucc: false,
                 newPassSucc: false,
                 repPassSucc: false,
-                generateI: "",
+                generateI: "false",
 
                 oneStep: false,
             };
@@ -32,13 +33,12 @@ define(["react", "app"], function (React, app) {
         handleChange: function (action, event) {
             switch (action) {
                 case "email":
-                    var thisComp = this;
                     this.setState(
                         {
                             email: event.target.value,
                         },
-                        function () {
-                            thisComp.verifyAccountStep();
+                        function(){
+                            this.checkFields('email',this)
                         }
                     );
                     break;
@@ -55,14 +55,26 @@ define(["react", "app"], function (React, app) {
                     });
                     break;
                 case "newPass":
-                    this.setState({
-                        newPass: event.target.value,
-                    });
+                    this.setState(
+                        {
+                            newPass: event.target.value,
+                        },
+                        function(){
+                            this.checkFields('newPass',this),
+                                this.checkFields('newPassRep',this)
+                        }
+                    );
                     break;
                 case "newPassRep":
                     this.setState({
                         newPassRep: event.target.value,
-                    });
+                    },
+                        function(){
+                            this.checkFields('newPassRep',this)
+                        }
+                        );
+
+
                     break;
                 case "getFile":
                     var thisComp = this;
@@ -81,6 +93,113 @@ define(["react", "app"], function (React, app) {
 
                     break;
             }
+        },
+        handleDownloadToken: function () {
+            var toFile = app.user.get("downloadToken");
+
+            var element = document.createElement("a");
+            element.setAttribute(
+                "href",
+                "data:attachment/plain;charset=utf-8," + toFile
+            );
+            element.setAttribute("download", this.state.email+".key");
+
+            element.style.display = "none";
+
+            document.body.appendChild(element);
+
+            element.click();
+            document.body.removeChild(element);
+        },
+
+        checkButton:(that)=>{
+            if (
+                that.state.emailError == "" &&
+                that.state.tokenError == "" &&
+                that.state.newPassError == "" &&
+                that.state.repPassError == "" &&
+                that.state.newPass == that.state.newPassRep &&
+                that.state.email.length>0 &&
+                that.state.newPass.length>0
+            ) {
+                that.setState({
+                    generateI:""
+                });
+            }else{
+                that.setState({
+                    generateI:"true"
+                });
+            }
+        },
+        checkFields:(action,that)=>{
+
+            switch (action) {
+                case "email":
+                    if (that.state.email.length < 6) {
+                        that.setState({
+                            emailError: "minimum 6 character",
+                        },function(){
+                            that.checkButton(that)
+                        });
+                    } else if (that.state.email.length > 250) {
+                        that.setState({
+                            emailError: "maximum 250 character",
+                        },function(){
+                            that.checkButton(that)
+                        });
+                    } else {
+                        that.setState({
+                            emailError: "",
+                        },function(){
+                            that.checkButton(that)
+                        });
+                    }
+                    that.verifyAccountStep();
+
+                    break;
+                case "newPass":
+                    if (that.state.newPass.length < 6) {
+                        that.setState({
+                            newPassError:
+                                "Please use password longer than 6 characters",
+                            newPassSucc: false
+                        });
+                    } else if (that.state.newPass.length > 80) {
+                        that.setState({
+                            newPassError:
+                                "Please use password less than 80 characters",
+                            newPassSucc: false
+                        });
+                    } else {
+                        that.setState({
+                            newPassError: "",
+                            newPassSucc: true
+                        },function(){
+                            that.checkButton(that)
+                        });
+                    }
+                    break;
+                case "newPassRep":
+                    if (that.state.newPassRep.length>0 && that.state.newPass !== that.state.newPassRep) {
+                        that.setState({
+                            repPassError:
+                                "Please enter the same password as above",
+                            repPassSucc: false,
+                        },function(){
+                            that.checkButton(that)
+                        });
+                    } else {
+                        that.setState({
+                            repPassError: "",
+                            repPassSucc: true
+                        },function(){
+                            that.checkButton(that)
+                        });
+                    }
+                    break;
+
+            }
+
         },
         verifyAccountStep: function () {
             var post = {
@@ -104,6 +223,9 @@ define(["react", "app"], function (React, app) {
                     if (msg["response"] == "notFound") {
                         thisComp.setState({
                             tokenError: "Token is not assigned to this email. ",
+                            oneStep:false
+                        },function(){
+                            thisComp.checkButton(thisComp)
                         });
                     } else if (msg["response"] == "success") {
                         thisComp.setState({
@@ -111,14 +233,15 @@ define(["react", "app"], function (React, app) {
                             emailError: "",
                             emailSucc: true,
                             tokenSucc: true,
-                        });
-                        thisComp.setState({
                             oneStep:
                                 parseInt(msg["oneStep"]) === 0 ? false : true,
                             salt: app.transform.hex2bin(msg["saltS"]),
+                        },function(){
+                                thisComp.checkButton(thisComp)
                         });
                     } else {
                         app.notifications.systemMessage("tryAgain");
+                            thisComp.checkButton(thisComp)
                     }
                 });
             }
@@ -130,31 +253,9 @@ define(["react", "app"], function (React, app) {
                 case "resetPass":
                     var thisComp = this;
 
-                    this.setState(
-                        {
-                            emailError:
-                                this.state.email == "" ? "enter email" : "",
-                            tokenError:
-                                this.state.token == "" ? "provide token" : "",
-                            secretError:
-                                this.state.secret == "" && !this.state.oneStep
-                                    ? "enter second password"
-                                    : "",
-
-                            newPassError:
-                                this.state.newPass == ""
-                                    ? "enter password"
-                                    : this.state.newPass.length < 6
-                                    ? "password is too short. 6 min"
-                                    : this.state.newPass.length > 80
-                                    ? "password is too long. 80 "
-                                    : "",
-                            repPassError:
-                                this.state.newPassRep != this.state.newPass
-                                    ? "password should match"
-                                    : "",
-                        },
-                        function () {
+                    this.checkFields('email',this);
+                    this.checkFields('newPass',this);
+                    this.checkFields('newPassRep',this);
                             if (
                                 thisComp.state.emailError == "" &&
                                 thisComp.state.tokenError == "" &&
@@ -263,9 +364,6 @@ define(["react", "app"], function (React, app) {
                                     );
                                 }
                             }
-                        }
-                    );
-
                     break;
 
                 case "browseToken":
@@ -273,7 +371,14 @@ define(["react", "app"], function (React, app) {
                     break;
             }
         },
-
+        handleModalClose: function () {
+            this.setState({
+                accountCreationStatus: null,
+            });
+            Backbone.history.navigate("/login", {
+                trigger: true,
+            });
+        },
         changePass: function (email, tokenHash, tokenAesHash, newPass) {
             var post = {
                 email: email,
@@ -308,7 +413,7 @@ define(["react", "app"], function (React, app) {
         },
 
         resetPassAndSecret: function (
-            email,
+            oldEmail,
             tokenHash,
             tokenAesHash,
             newPass,
@@ -318,9 +423,9 @@ define(["react", "app"], function (React, app) {
             //generate new user
             // app.globalF.resetSecondPass();
 
-            var userAddress = email.toLowerCase().split("@")[0];
-            var email =
-                userAddress + app.defaults.get("domainMail").toLowerCase();
+           // var userAddress = email.toLowerCase().split("@")[0];
+            var email =oldEmail.toLowerCase();
+            //    userAddress + app.defaults.get("domainMail").toLowerCase();
 
             var pass = newPass;
             var folderKey = app.globalF.makeRandomBytes(32);
@@ -347,16 +452,9 @@ define(["react", "app"], function (React, app) {
                                 app.notifications.systemMessage("tryAgain");
                             }
                         } else if (msg["response"] === "success") {
-                            $("#tokenModHead").html(
-                                "Your account was successfully created!"
-                            );
-
-                            $("#forgPass-modal").modal("hide");
-                            $("#tokenModBody").html(
-                                'Before logging in, please <b>download the secret token</b>. You will need this token to reset your password or secret phrase. You can read more about it in our <a href="https://blog.cyberfear.com/reset-password" target="_blank">blog</a>'
-                            );
-
-                            $("#tokenModal").modal("show");
+                           thisComp.setState({
+                               accountCreationStatus:true
+                           });
                         }
 
                         thisComp.setState({
@@ -379,22 +477,13 @@ define(["react", "app"], function (React, app) {
                                     <h1>Reset Password</h1>
 
                                     <div className="form-section">
-                                        <div
-                                            className={
-                                                "form-group " +
-                                                (this.state.emailError != ""
-                                                    ? "has-error"
-                                                    : "") +
-                                                (this.state.emailSucc
-                                                    ? "has-success"
-                                                    : "")
-                                            }
-                                        >
+                                        <div className="form-group">
                                             <input
                                                 type="email"
                                                 name="resetEmail"
                                                 id="resetPass_email"
-                                                className="form-control"
+                                                className={"form-control "+(this.state.emailError == ""
+                                                    ? (this.state.email.length>6 && this.state.token.length>0 && this.state.tokenError == "")?"is-valid":this.state.token.length>0 && this.state.tokenError!= ""?"is-invalid":"":"is-invalid") }
                                                 placeholder="1. email address"
                                                 onChange={this.handleChange.bind(
                                                     this,
@@ -405,9 +494,10 @@ define(["react", "app"], function (React, app) {
                                             <label
                                                 className={
                                                     "control-label pull-left " +
-                                                    (this.state.emailError == ""
-                                                        ? "d-none"
-                                                        : "")
+                                                    (this.state
+                                                        .emailError == ""
+                                                        ? "hidden"
+                                                        : "invalid-feedback")
                                                 }
                                                 htmlFor="resetEmail"
                                             >
@@ -418,16 +508,7 @@ define(["react", "app"], function (React, app) {
                                         <div className="clearfix"></div>
 
                                         <div
-                                            className={
-                                                "input-group form-group " +
-                                                (this.state.tokenError != ""
-                                                    ? "has-error"
-                                                    : "") +
-                                                (this.state.tokenSucc
-                                                    ? "has-success"
-                                                    : "")
-                                            }
-                                        >
+                                            className="input-group form-group">
                                             <input
                                                 className="d-none"
                                                 id="tokenFile"
@@ -475,7 +556,7 @@ define(["react", "app"], function (React, app) {
                                                         }}
                                                         type="button"
                                                         onClick={this.handleClick.bind(
-                                                            this,
+                                                            null,
                                                             "browseToken"
                                                         )}
                                                     >
@@ -483,39 +564,38 @@ define(["react", "app"], function (React, app) {
                                                     </button>
                                                 </span>
                                             </div>
+                                            <label
+                                                className={
+                                                    "control-label pull-left " +
+                                                    (this.state
+                                                        .tokenError == ""
+                                                        ? "d-none"
+                                                        : "invalid-feedback")
+                                                }
+                                                htmlFor="tokenFile"
+                                            >
+                                                {this.state.tokenError}
+                                            </label>
+                                            <div className="clearfix"></div>
+                                            <div
+                                                className={
+                                                    "form-group text-left " +
+                                                    (this.state.tokenError == ""?
+                                                        this.state.oneStep
+                                                            ? ""
+                                                            : "d-none":"d-none")
+                                                }
+                                            >
+                                                Because you are using single
+                                                password for login and encrypting
+                                                your emails. Resetting your password
+                                                will permanently delete all your
+                                                existing emails and contacts.
+                                                <br /> Proceed with caution.
+                                            </div>
                                         </div>
-                                        <label
-                                            className={
-                                                "control-label pull-left " +
-                                                (this.state
-                                                    .tokenError == ""
-                                                    ? "d-none"
-                                                    : "invalid-feedback")
-                                            }
-                                            htmlFor="tokenFile"
-                                        >
-                                            {this.state.tokenError}
-                                        </label>
 
-                                        <div className="clearfix"></div>
 
-                                        <div className="clearfix"></div>
-                                        <div
-                                            className={
-                                                "form-group text-left " +
-                                                (this.state.tokenError == ""?
-                                                    this.state.oneStep
-                                                    ? ""
-                                                    : "d-none":"d-none")
-                                            }
-                                        >
-                                            Because you are using single
-                                            password for login and encrypting
-                                            your emails. Resetting your password
-                                            will permanently delete all your
-                                            existing emails and contacts.
-                                            <br /> Proceed with caution.
-                                        </div>
 
                                         <div
                                             className={
@@ -524,7 +604,7 @@ define(["react", "app"], function (React, app) {
                                                     ? "has-error"
                                                     : "") +
                                                 (this.state.oneStep
-                                                    ? "d-none"
+                                                    ? " d-none"
                                                     : "")
                                             }
                                         >
@@ -556,18 +636,12 @@ define(["react", "app"], function (React, app) {
                                 </fieldset>
                                 <hr />
                                 <fieldset>
-                                    <div
-                                        className={
-                                            "form-group " +
-                                            (this.state.newPassError != ""
-                                                ? "has-error"
-                                                : "")
-                                        }
-                                    >
+                                    <div className="form-group">
                                         <input
                                             type="password"
                                             name="newPass"
-                                            className="form-control input-lg"
+                                            className={"form-control input-lg "+(this.state.newPassError == ""
+                                                ? this.state.newPass.length>5?"is-valid":"":"is-invalid") }
                                             placeholder="4. new password"
                                             onChange={this.handleChange.bind(
                                                 this,
@@ -578,9 +652,10 @@ define(["react", "app"], function (React, app) {
                                         <label
                                             className={
                                                 "control-label pull-left " +
-                                                (this.state.newPassError == ""
-                                                    ? "d-none"
-                                                    : "")
+                                                (this.state
+                                                    .newPassError == ""
+                                                    ? "hidden"
+                                                    : "invalid-feedback")
                                             }
                                             htmlFor="newPass"
                                         >
@@ -599,7 +674,8 @@ define(["react", "app"], function (React, app) {
                                         <input
                                             type="password"
                                             name="newPassRep"
-                                            className="form-control input-lg"
+                                            className={"form-control input-lg "+(this.state.repPassError == ""
+                                                ? this.state.newPassRep.length>5?"is-valid":"":"is-invalid") }
                                             placeholder="5. repeat new password"
                                             onChange={this.handleChange.bind(
                                                 this,
@@ -610,9 +686,10 @@ define(["react", "app"], function (React, app) {
                                         <label
                                             className={
                                                 "control-label pull-left " +
-                                                (this.state.repPassError == ""
-                                                    ? "d-none"
-                                                    : "")
+                                                (this.state
+                                                    .repPassError == ""
+                                                    ? "hidden"
+                                                    : "invalid-feedback")
                                             }
                                             htmlFor="newPassRep"
                                         >
@@ -635,17 +712,66 @@ define(["react", "app"], function (React, app) {
                                 >
                                     RESET PASSWORD
                                 </button>
-
-                                <div className="login-bottom">
-                                    <div className="welcome-text">
-                                        {`Already have the login details?`}
+                                {{/*
+                                    <div className="login-bottom">
+                                        <div className="welcome-text">
+                                            {`Already have the login details?`}
+                                        </div>
+                                        <div className="btn-row">
+                                            <a
+                                                href="#login"
+                                                className="btn-gray-border"
+                                            >{`Sign in`}</a>
+                                        </div>
                                     </div>
-                                    <div className="btn-row">
-                                        <a
-                                            href="#login"
-                                            className="btn-gray-border"
-                                        >{`Sign in`}</a>
-                                    </div>
+                               */} }
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        className={`modal modal-sheet position-fixed ${
+                            this.state.accountCreationStatus
+                                ? "d-block"
+                                : "d-none"
+                        } bg-secondary bg-opacity-75 py-5`}
+                        tabIndex="-1"
+                        role="dialog"
+                        id="modalSheet"
+                    >
+                        <div className="modal-dialog" role="document">
+                            <div className="modal-content rounded-4 shadow px-4 py-4">
+                                <div className="modal-header border-bottom-0">
+                                    <h5 className="modal-title">
+                                        Your password has been successfully changed!
+                                    </h5>
+                                    <button
+                                        type="button"
+                                        className="btn-close"
+                                        data-bs-dismiss="modal"
+                                        aria-label="Close"
+                                        onClick={this.handleModalClose}
+                                    ></button>
+                                </div>
+                                <div className="modal-body py-0">
+                                    <p className="mb-2">
+                                        Before logging in, please <b>download the secret token</b>. You will need this token to reset your password or secret phrase. You can read more about it in our <a href="https://blog.cyberfear.com/reset-password" target="_blank">blog</a>
+                                    </p>
+                                    <button
+                                        type="button"
+                                        className="btn btn-lg btn-dark mx-0 mb-2 fs-6"
+                                        onClick={this.handleDownloadToken}
+                                    >
+                                        Download Token
+                                    </button>
+                                </div>
+                                <div className="modal-footer flex-column border-top-0">
+                                    <p>Once dwonloaded, please log in.</p>
+                                    <a
+                                        href="/mailbox/#login"
+                                        className="btn btn-lg btn-primary w-100 mx-0 fs-6"
+                                    >
+                                        Login
+                                    </a>
                                 </div>
                             </div>
                         </div>

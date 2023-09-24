@@ -12,15 +12,96 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                 stripeId: "",
                 currentTab: "monthly",
                 paymentPackagesModalActive: true,
+                paymentTabContents:[],
+                prices: {
+                }
             };
+        },
+
+        populatePlans: function () {
+            console.log(app.user.get('userPlan'));
+
+            this.setState({
+                paymentTabContents:[
+                    {
+                        id: "free",
+                        title: "Free",
+                        desc: "Try us",
+                        price:"",
+                        per: "",
+                        methodType: "free",
+                        features: [
+                            "Full Encryption",
+                            "Space: ",
+                            "Email Address: ",
+                            "Receiving: Unlimited",
+                            "Sending: ",
+                            "Own Domain: ",
+                        ],
+                    },
+                    {
+                        id: "basic",
+                        title: "Basic",
+                        desc: "For users  emailing occasionally",
+                        price: "",
+                        per: 'month',
+                        methodType: "month",
+                        features: [
+                            "Full Encryption",
+                            "Space: ",
+                            "Email Address: ",
+                            "Receiving: Unlimited",
+                            "Sending: ",
+                            "Own Domain: ",
+                        ],
+                    },
+                    {
+                        id: "medium",
+                        title: "Medium",
+                        desc: "Users using email daily",
+                        price: "",
+                        per: "month",
+                        methodType: "year",
+                        features: [
+                            "Full Encryption",
+                            "Space: ",
+                            "Email Address: ",
+                            "Receiving: Unlimited",
+                            "Sending: Unlimited",
+                            "Own Domain: ",
+                        ],
+                    },
+                    ,
+                    {
+                        id: "pro",
+                        title: "Pro",
+                        desc: "Best in class",
+                        price: "",
+                        per: "month",
+                        methodType: "year",
+                        features: [
+                            "Full Encryption",
+                            "Space: ",
+                            "Email Address: ",
+                            "Receiving: Unlimited",
+                            "Sending: Unlimited",
+                            "Own Domain: ",
+                        ],
+                    }
+                ]
+            });
+
         },
 
         componentDidMount: function () {
             var thisComp = this;
+
             app.user.on(
                 "change:userPlan",
                 function () {
-                    if (app.user.get("userPlan")["planSelected"] == 1) {
+                    thisComp.populatePlans();
+                    thisComp.setPrices();
+                  /*  if (app.user.get("userPlan")["planSelected"] == 1) {
                         var pl = "year";
                     } else if (app.user.get("userPlan")["planSelected"] == 2) {
                         var pl = "month";
@@ -33,10 +114,11 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                             app.user.get("userPlan")["monthlyCharge"] -
                             app.user.get("userPlan")["alrdPaid"],
                         membr: pl,
-                    });
+                    });*/
                 },
                 thisComp
             );
+
 
             /* $(".specButton").on({
                     mouseover:function(){
@@ -50,34 +132,43 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
         componentWillUnmount: function () {
             app.user.off("change:userPlan");
         },
-        setMembership: function (duration) {
+        setMembership: function (plan,period,finalPrice) {
+            console.log('setting price');
             var userObj = {};
             var thisComp = this;
 
-            userObj["planSelector"] = duration;
+            userObj["planSelector"] = plan;
+            userObj["period"] = period;
+            userObj["finalPrice"] = finalPrice;
             userObj["userToken"] = app.user.get("userLoginToken");
 
             $.ajax({
                 method: "POST",
-                url: app.defaults.get("apidomain") + "/SetMembershipPriceV2",
+                url: app.defaults.get("apidomain") + "/SetMembershipPriceV3",
                 data: userObj,
                 dataType: "json",
                 xhrFields: {
                     withCredentials: true,
                 },
             }).then(function (msg) {
+                console.log(msg);
                 if (msg["response"] === "fail") {
                     app.notifications.systemMessage("tryAgain");
                 } else if (msg["response"] === "success") {
+
                     app.userObjects.loadUserPlan(function () {
-                        thisComp.setState(
-                            {
-                                butDis: false,
-                            },
-                            function () {
-                                console.log(thisComp.state.mCharge);
-                                console.log(thisComp.state.paym);
-                                if (
+                        //thisComp.setState(
+                         //   {
+                         //       butDis: false,
+                        //    },
+                         //   function () {
+                                thisComp.setState({
+                                    mCharge:finalPrice,
+                                    plan:plan,
+                                    membr:period
+                                });
+
+                             /*   if (
                                     thisComp.state.paym == "stripe" &&
                                     thisComp.state.membr !== "free"
                                 ) {
@@ -89,9 +180,9 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                     payLoad["stripeId"] = this.state.stripeId;
 
                                     app.stripeCheckOut.updateStripe(payLoad);
-                                }
-                            }
-                        );
+                                }*/
+                            //}
+                       // );
                     });
                 }
 
@@ -101,24 +192,9 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
 
         handleChange: async function (action, event) {
             switch (action) {
-                case "year":
-                    this.setState({
-                        membr: "year",
-                        butDis: true,
-                    });
-                    this.setMembership("year");
-                    break;
-                case "month":
-                    this.setState({
-                        membr: "month",
-                        butDis: true,
-                    });
-                    this.setMembership("month");
-
-                    break;
 
                 case "free":
-                    this.setState({
+                /*    this.setState({
                         membr: "free",
                         butDis: true,
                     });
@@ -144,7 +220,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                         }
 
                         console.log(msg);
-                    });
+                    });*/
                     break;
 
                 case "perfectm":
@@ -163,12 +239,18 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                     break;
                 case "stripe":
                     var thisComp = this;
+
+/*                    location:that.state.location,//'NewMembership','plan'
+                        planSelector:that.state.forPlan, //free','basic','medium','pro'
+                    howMuch:that.state.howMuch, //1
+                    price: that.state.toPay, //usd
+                    */
+
                     this.setState(
                         {
                             paym: "stripe",
                             location: "NewMembership",
-                            email: app.user.get("loginEmail"),
-                            toPay: this.state.mCharge,
+                            toPay: this.state.mCharge/100,
                             forPlan: this.state.membr,
                             howMuch: 1,
                         },
@@ -206,7 +288,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                                 {
                                                     amount: {
                                                         value: thisComp.state
-                                                            .mCharge,
+                                                            .mCharge/100,
                                                     },
                                                     custom_id:
                                                         app.user.get("userId"),
@@ -303,17 +385,44 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
             });
         },
 
-        handleClick: function (action, event) {
+        handleClick: function (action, event,period) {
+
             this.setState({
                 paymentPackagesModalActive: false,
             });
             switch (action) {
+                case 'readytopay':
+                    console.log('readytopay');
+                    console.log(event);
+                    console.log(period);
+                    console.log(this.state.prices[event]);
+                    //calc total
+                    var finalPrice=0;
+                    //event; //pan type
+                    //period; //monthly, yearly-one, yearly-two
+
+                    if(period=="monthly"){
+                        finalPrice=this.state.prices[event];
+                    }else if(period=="yearly-one"){
+                        finalPrice=this.state.prices[event]*12;
+                    }else{
+                        finalPrice=this.state.prices[event]*24;
+                    }
+                    this.setMembership(event,period,finalPrice);
+                    break;
                 case "pay":
+                    //event.preventDefault();
+
                     if (this.state.paym !== "perfectm") {
                         app.user.set({
                             tempCoin: true,
                         });
                     }
+                    console.log('data submitted:')
+                    console.log(this.state.mCharge);
+                    console.log(this.state.membr);
+
+
                     break;
                 case "freemium":
                     $.ajax({
@@ -347,54 +456,60 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
             this.handleChange.bind(this, "free");
         },
 
-        handleMonthlyPayment: function () {
-            this.state.setState({
-                membr: "month",
-            });
-            this.handleChange.bind(this, "month");
-        },
-        handleYearlyPayment: function () {
-            this.state.setState({
-                membr: "year",
-            });
-            this.handleChange.bind(this, "year");
-        },
         handleTabChange: function (type, event) {
+           var thisComp=this;
             this.setState({
                 currentTab: type,
+            },function(){
+                thisComp.setPrices();
             });
-        },
 
+        },
         handleBackButton: function () {
             this.setState({
                 paymentPackagesModalActive: true,
             });
         },
+        setPrices: function (){
+            var price=[];
+
+            if(this.state.currentTab=="monthly"){
+                this.state.paymentTabContents.forEach(function(element)
+                {
+                    price[element.id] = app.user.get('userPlan')["planList"][element.id]['price']-app.user.get('userPlan')["planList"][element.id]['price']*app.user.get('userPlan')['inviteDiscount']/100;
+                });
+
+            }else if(this.state.currentTab=="yearly-one"){
+                //per="per year";
+                this.state.paymentTabContents.forEach((element) => (
+                    price[element.id]=app.user.get('userPlan')["planList"][element.id]['price']-app.user.get('userPlan')["planList"][element.id]['price']*(app.user.get('userPlan')["planList"][element.id]['1ydisc']+app.user.get('userPlan')['inviteDiscount'])/100
+                ));
+            }else{
+                // per="biannual";
+                this.state.paymentTabContents.forEach((element) => (
+                    price[element.id]=app.user.get('userPlan')["planList"][element.id]['price']-app.user.get('userPlan')["planList"][element.id]['price']*(app.user.get('userPlan')["planList"][element.id]['2ydisc']+app.user.get('userPlan')['inviteDiscount'])/100
+                ));
+            }
+            this.setState({
+                prices:price
+            })
+        },
 
         render: function () {
-            if (app.user.get("userPlan")["discountApplied"] > 0) {
-                var discy = accounting.formatMoney(
-                    (app.user.get("userPlan")["trueYearPrice"] *
-                        (100 - app.user.get("userPlan")["discountApplied"])) /
-                        10000
-                );
-                var discm = accounting.formatMoney(
-                    (app.user.get("userPlan")["trueMonthPrice"] *
-                        (100 - app.user.get("userPlan")["discountApplied"])) /
-                        10000
-                );
 
-                if (app.user.get("userPlan")["planSelected"] == 1) {
-                    var full =
-                        "$" + app.user.get("userPlan")["trueYearPrice"] / 100;
-                } else if (app.user.get("userPlan")["planSelected"] == 2) {
-                    var full =
-                        "$" + app.user.get("userPlan")["trueMonthPrice"] / 100;
-                }
-                var charge = false;
-            } else {
-                var charge = true;
-            }
+            var per="per month";
+
+            var space=[];
+            var aliases=[];
+            var sending=[];
+            var domain=[];
+            this.state.paymentTabContents.forEach(function(element)
+            {
+                space[element.id] = app.user.get('userPlan')["planList"][element.id]['bSize']/1000+"GB";
+                aliases[element.id]=app.user.get('userPlan')["planList"][element.id]['alias'];
+                sending[element.id]=app.user.get('userPlan')["planList"][element.id]['sendLimits']+ " emails/hour";
+                domain[element.id]=app.user.get('userPlan')["planList"][element.id]['cDomain'];
+            });
 
             const paymentTabs = [
                 {
@@ -414,76 +529,6 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                     label: "2 years",
                     tabId: "yearly-two",
                     offDesc: "Save 40%",
-                },
-            ];
-
-            const paymentTabContents = [
-                {
-                    id: "free",
-                    title: "Free",
-                    desc: "Try us",
-                    price: "$0.00",
-                    per: "per month",
-                    methodType: "free",
-                    features: [
-                       "Full Encryption",
-                        "Space: 0.05GB",
-                        "Email Address: 1",
-                        "Receiving: Unlimited",
-                        "Sending: 2 emails/hour",
-                    ],
-                },
-                {
-                    id: "basic",
-                    title: "Basic",
-                    desc: "For users  emailing occasionally",
-                    price: `$
-                    ${app.user.get("userPlan")["trueMonthPrice"] / 100}`,
-                    per: `${discm} month`,
-                    methodType: "month",
-                    features: [
-                        "Full Encryption",
-                        "Space: 2GB",
-                        "Email Address: 2",
-                        "Receiving: Unlimited",
-                        "Sending: 60 emails/hour",
-                        "Own Domain: 2",
-                    ],
-                },
-                {
-                    id: "medium",
-                    title: "Medium",
-                    desc: "Users using email daily",
-                    price: `$
-                    ${app.user.get("userPlan")["trueYearPrice"] / 100}`,
-                    per: `${discy} month`,
-                    methodType: "year",
-                    features: [
-                        "Full Encryption",
-                        "Space: 10GB",
-                        "Email Address: 10",
-                        "Receiving: Unlimited",
-                        "Sending: Unlimited",
-                        "Own Domain: 10",
-                    ],
-                },
-                ,
-                {
-                    id: "pro",
-                    title: "Pro",
-                    desc: "Best in class",
-                    price: `$
-                    ${app.user.get("userPlan")["trueYearPrice"] / 100}`,
-                    per: `${discy} month`,
-                    methodType: "year",
-                    features: [
-                        "Full Encryption",
-                        "Space: 10GB",
-                        "Email Address: 100",
-                        "Receiving: Unlimited",
-                        "Sending: Unlimited",
-                        "Own Domain: 100",
-                    ],
                 },
             ];
 
@@ -523,17 +568,8 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                                         : ""
                                                 }`}
                                                 id={`${paymentTab.id}-tab`}
-                                                data-bs-toggle="tab"
-                                                data-bs-target={`#${paymentTab.id}-tab-pane`}
                                                 type="button"
                                                 role="tab"
-                                                aria-controls={`${paymentTab.id}-tab-pane`}
-                                                aria-selected={
-                                                    this.state.currentTab ===
-                                                    paymentTab.tabId
-                                                        ? true
-                                                        : false
-                                                }
                                                 onClick={this.handleTabChange.bind(
                                                     this,
                                                     paymentTab.tabId
@@ -567,15 +603,14 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                     className={`${
                                         this.state.currentTab === "monthly"
                                             ? "tab-pane fade show active"
-                                            : "tab-pane fade"
+                                            : "tab-pane fade show active"
                                     }`}
                                     id="monthly-tab-pane"
                                     role="tabpanel"
-                                    aria-labelledby="monthly-tab"
                                     tabIndex="0"
                                 >
                                     <div className="row gx-4">
-                                        {paymentTabContents.map(
+                                        {this.state.paymentTabContents.map(
                                             (paymentContentTab, index) => (
                                                 <div
                                                     className="col-md-5 col-lg-3"
@@ -597,20 +632,22 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                                         <div className="pricing-box-middle">
                                                             <div className="price">
                                                                 {
-                                                                    paymentContentTab.price
+                                                                    accounting.formatMoney(this.state.prices[paymentContentTab.id]/100)
                                                                 }
                                                             </div>
                                                             <div className="per-month">
                                                                 {
-                                                                    paymentContentTab.per
+                                                                    per
                                                                 }
                                                             </div>
                                                             <div className="btn-row">
                                                                 <button
                                                                     className="btn-blue"
-                                                                    onClick={this.handleChange.bind(
-                                                                        this,
-                                                                        paymentContentTab.methodType
+                                                                    onClick={this.handleClick.bind(
+                                                                        null,
+                                                                        'readytopay',
+                                                                        paymentContentTab.id,
+                                                                        this.state.currentTab
                                                                     )}
                                                                     data-type={
                                                                         paymentContentTab.methodType
@@ -632,8 +669,15 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                                                                 _index
                                                                             }
                                                                         >
-                                                                            {
-                                                                                paymentFeature
+
+                                                                            {[
+                                                                                paymentFeature=="Space: "?paymentFeature+space[paymentContentTab.id]:
+                                                                                    paymentFeature=="Email Address: "?"Email Address: "+aliases[paymentContentTab.id]:
+                                                                                        paymentFeature=="Sending: "?"Sending: "+sending[paymentContentTab.id]:
+                                                                                            paymentFeature=="Own Domain: "?"Own Domain: "+domain[paymentContentTab.id]:paymentFeature,
+
+
+                                                                            ]
                                                                             }
                                                                         </li>
                                                                     )
@@ -697,7 +741,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                                                 "bitc"
                                                             }
                                                             onChange={this.handleChange.bind(
-                                                                this,
+                                                                null,
                                                                 "bitc"
                                                             )}
                                                         />
@@ -820,7 +864,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                                                 "perfectm"
                                                             }
                                                             onChange={this.handleChange.bind(
-                                                                this,
+                                                                null,
                                                                 "perfectm"
                                                             )}
                                                         />
@@ -896,18 +940,55 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                                     </span>
                                                 </label>
                                             </div>
-                                            {/*
-                                                <div className="clearfix"></div>
-                                                <div className="radio">
+                                            <div className="clearfix"></div>
+                                            <div
+                                                className={`radio ${
+                                                    this.state.paym == "paypal"
+                                                        ? "selected"
+                                                        : ""
+                                                }`}
+                                            >
                                                 <label>
-                                                <input className="margin-right-10" type="radio" name="optionsRadios" id="optionsRadios3"
-                                                value="option3"
-                                                checked={this.state.paym=='paypal'}
-                                                onChange={this.handleChange.bind(this, 'paypal')} />
-                                                &nbsp;PayPal
+                                                    <div className="te_text">
+                                                        <input
+                                                            className="margin-right-10"
+                                                            type="radio"
+                                                            name="optionsRadios"
+                                                            id="optionsRadios4"
+                                                            value="option3"
+                                                            checked={
+                                                                this.state
+                                                                    .paym ==
+                                                                "paypal"
+                                                            }
+                                                            onChange={this.handleChange.bind(
+                                                                null,
+                                                                "paypal"
+                                                            )}
+                                                        />
+                                                        <span className="selected-icon">
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                viewBox="0 0 48 48"
+                                                            >
+                                                                <path d="m19.95 26.75 11.95-12q.65-.65 1.55-.65t1.6.65q.7.75.7 1.65 0 .9-.7 1.6l-13.5 13.55q-.7.7-1.65.7t-1.6-.7L12.7 26q-.7-.7-.675-1.6.025-.9.775-1.65.65-.65 1.6-.65.95 0 1.65.65Z" />
+                                                            </svg>
+                                                        </span>
+                                                        <span className="labelled">
+                                                            Credit / Debit Card
+                                                            (PayPal)
+                                                        </span>
+                                                    </div>
+                                                    <span className="icon">
+                                                       <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="24" height="24" viewBox="0 0 26 26">
+<path d="M 4.71875 0.0625 L 0.1875 20.8125 L 6.1875 20.8125 L 7.65625 13.9375 L 11.9375 13.9375 C 16.03125 13.9375 19.429688 11.414063 20.34375 7.125 C 21.382813 2.269531 17.898438 0.0625 14.90625 0.0625 Z M 9.78125 4.28125 L 12.71875 4.28125 C 14.183594 4.28125 15.179688 5.550781 14.75 7.125 C 14.382813 8.703125 12.839844 9.96875 11.3125 9.96875 L 8.5 9.96875 Z M 22.53125 5.5 C 22.527344 6.125 22.46875 6.796875 22.3125 7.53125 C 21.90625 9.441406 21.085938 11.113281 19.9375 12.4375 C 19.453125 13.863281 18.015625 14.96875 16.59375 14.96875 L 16.53125 14.96875 C 15.152344 15.597656 13.613281 15.9375 11.9375 15.9375 L 9.28125 15.9375 L 8.15625 21.21875 L 7.8125 22.8125 L 6.15625 22.8125 L 5.5 25.8125 L 11.46875 25.8125 L 12.9375 18.9375 L 17.21875 18.9375 C 21.3125 18.9375 24.738281 16.414063 25.65625 12.125 C 26.425781 8.519531 24.691406 6.367188 22.53125 5.5 Z"></path>
+</svg>
+
+                                                    </span>
                                                 </label>
-                                                </div>
-                                            */}
+                                            </div>
+
+
                                             <div className="clearfix"></div>
                                             <div
                                                 className={`radio ${
@@ -930,7 +1011,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                                                 "stripe"
                                                             }
                                                             onChange={this.handleChange.bind(
-                                                                this,
+                                                                null,
                                                                 "stripe"
                                                             )}
                                                         />
@@ -948,52 +1029,9 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                                         </span>
                                                     </div>
                                                     <span className="icon">
-                                                        <svg
-                                                            width="24"
-                                                            height="24"
-                                                            viewBox="0 0 24 24"
-                                                            fill="none"
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                        >
-                                                            <path
-                                                                d="M2 12.6101H19"
-                                                                stroke="#292D32"
-                                                                strokeWidth="1.5"
-                                                                strokeMiterlimit="10"
-                                                                strokeLinecap="round"
-                                                                strokeLinejoin="round"
-                                                            />
-                                                            <path
-                                                                d="M19 10.28V17.43C18.97 20.28 18.19 21 15.22 21H5.78003C2.76003 21 2 20.2501 2 17.2701V10.28C2 7.58005 2.63 6.71005 5 6.57005C5.24 6.56005 5.50003 6.55005 5.78003 6.55005H15.22C18.24 6.55005 19 7.30005 19 10.28Z"
-                                                                stroke="#292D32"
-                                                                strokeWidth="1.5"
-                                                                strokeLinecap="round"
-                                                                strokeLinejoin="round"
-                                                            />
-                                                            <path
-                                                                d="M22 6.73V13.72C22 16.42 21.37 17.29 19 17.43V10.28C19 7.3 18.24 6.55 15.22 6.55H5.78003C5.50003 6.55 5.24 6.56 5 6.57C5.03 3.72 5.81003 3 8.78003 3H18.22C21.24 3 22 3.75 22 6.73Z"
-                                                                stroke="#292D32"
-                                                                strokeWidth="1.5"
-                                                                strokeLinecap="round"
-                                                                strokeLinejoin="round"
-                                                            />
-                                                            <path
-                                                                d="M5.25 17.8101H6.96997"
-                                                                stroke="#292D32"
-                                                                strokeWidth="1.5"
-                                                                strokeMiterlimit="10"
-                                                                strokeLinecap="round"
-                                                                strokeLinejoin="round"
-                                                            />
-                                                            <path
-                                                                d="M9.10986 17.8101H12.5499"
-                                                                stroke="#292D32"
-                                                                strokeWidth="1.5"
-                                                                strokeMiterlimit="10"
-                                                                strokeLinecap="round"
-                                                                strokeLinejoin="round"
-                                                            />
-                                                        </svg>
+                                                       <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 50 50">
+<path d="M 5 7 C 2.25 7 0 9.25 0 12 L 0 38 C 0 40.75 2.25 43 5 43 L 45 43 C 47.75 43 50 40.75 50 38 L 50 12 C 50 9.25 47.75 7 45 7 Z M 5 9 L 45 9 C 46.667969 9 48 10.332031 48 12 L 48 38 C 48 39.667969 46.667969 41 45 41 L 5 41 C 3.332031 41 2 39.667969 2 38 L 2 12 C 2 10.332031 3.332031 9 5 9 Z M 25.90625 18 C 25.285156 18.125 24.8125 18.683594 24.8125 19.34375 C 24.8125 20.089844 25.429688 20.6875 26.1875 20.6875 C 26.933594 20.6875 27.53125 20.089844 27.53125 19.34375 C 27.53125 18.585938 26.933594 18 26.1875 18 C 26.09375 18 25.996094 17.980469 25.90625 18 Z M 16.8125 19.1875 L 14.625 19.5625 L 14.3125 21.5 L 13.53125 21.625 L 13.25 23.40625 L 14.3125 23.40625 L 14.3125 27.15625 C 14.3125 28.128906 14.554688 28.773438 15.0625 29.1875 C 15.488281 29.53125 16.078125 29.71875 16.9375 29.71875 C 17.601563 29.71875 18.03125 29.601563 18.3125 29.53125 L 18.3125 27.5 C 18.15625 27.539063 17.800781 27.625 17.5625 27.625 C 17.054688 27.625 16.8125 27.371094 16.8125 26.78125 L 16.8125 23.40625 L 18.15625 23.40625 L 18.46875 21.5 L 16.8125 21.5 Z M 10.15625 21.34375 C 9.285156 21.34375 8.582031 21.574219 8.0625 22 C 7.523438 22.445313 7.25 23.066406 7.25 23.84375 C 7.25 25.25 8.101563 25.867188 9.5 26.375 C 10.402344 26.695313 10.6875 26.929688 10.6875 27.28125 C 10.6875 27.625 10.402344 27.8125 9.875 27.8125 C 9.222656 27.8125 8.140625 27.476563 7.4375 27.0625 L 7.125 29 C 7.726563 29.34375 8.839844 29.71875 10 29.71875 C 10.921875 29.71875 11.703125 29.476563 12.21875 29.0625 C 12.796875 28.605469 13.09375 27.929688 13.09375 27.0625 C 13.09375 25.625 12.230469 25.039063 10.8125 24.53125 C 10.054688 24.25 9.625 24.03125 9.625 23.6875 C 9.625 23.398438 9.855469 23.25 10.28125 23.25 C 11.058594 23.25 11.859375 23.542969 12.40625 23.8125 L 12.71875 21.875 C 12.285156 21.667969 11.386719 21.34375 10.15625 21.34375 Z M 33.0625 21.34375 C 32.316406 21.34375 31.671875 21.660156 31.0625 22.3125 L 30.9375 21.5 L 28.65625 21.5 L 28.65625 32.53125 L 31.25 32.09375 L 31.25 29.53125 C 31.644531 29.65625 32.042969 29.71875 32.40625 29.71875 C 33.046875 29.71875 33.960938 29.535156 34.6875 28.75 C 35.382813 27.992188 35.75 26.824219 35.75 25.28125 C 35.75 23.914063 35.488281 22.882813 34.96875 22.21875 C 34.511719 21.628906 33.871094 21.34375 33.0625 21.34375 Z M 40.28125 21.34375 C 38.097656 21.34375 36.71875 22.972656 36.71875 25.5625 C 36.71875 27.011719 37.097656 28.089844 37.8125 28.78125 C 38.453125 29.402344 39.371094 29.71875 40.5625 29.71875 C 41.660156 29.71875 42.671875 29.457031 43.3125 29.03125 L 43.03125 27.28125 C 42.398438 27.625 41.671875 27.78125 40.84375 27.78125 C 40.347656 27.78125 39.996094 27.6875 39.75 27.46875 C 39.480469 27.242188 39.332031 26.871094 39.28125 26.34375 L 43.53125 26.34375 C 43.542969 26.21875 43.5625 25.625 43.5625 25.4375 C 43.5625 24.152344 43.265625 23.152344 42.71875 22.4375 C 42.160156 21.710938 41.347656 21.34375 40.28125 21.34375 Z M 23.40625 21.375 C 22.679688 21.375 22.101563 21.753906 21.875 22.4375 L 21.71875 21.5 L 19.46875 21.5 L 19.46875 29.5625 L 22.03125 29.5625 L 22.03125 24.3125 C 22.351563 23.917969 22.816406 23.78125 23.4375 23.78125 C 23.574219 23.78125 23.699219 23.78125 23.875 23.8125 L 23.875 21.4375 C 23.699219 21.398438 23.5625 21.375 23.40625 21.375 Z M 24.875 21.5 L 24.875 29.5625 L 27.46875 29.5625 L 27.46875 21.5 Z M 40.03125 23.09375 C 40.097656 23.078125 40.144531 23.09375 40.21875 23.09375 C 40.796875 23.09375 41.117188 23.640625 41.15625 24.78125 L 39.25 24.78125 C 39.3125 23.777344 39.574219 23.210938 40.03125 23.09375 Z M 32.21875 23.3125 C 32.871094 23.3125 33.1875 23.996094 33.1875 25.375 C 33.1875 26.160156 33.082031 26.773438 32.84375 27.1875 C 32.636719 27.582031 32.308594 27.78125 31.9375 27.78125 C 31.679688 27.78125 31.457031 27.726563 31.25 27.625 L 31.25 23.8125 C 31.683594 23.355469 32.074219 23.3125 32.21875 23.3125 Z"></path>
+</svg>
                                                     </span>
                                                 </label>
                                             </div>
@@ -1017,12 +1055,12 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                             <input
                                                 type="hidden"
                                                 name="PAYEE_NAME"
-                                                value="Cyber Fear"
+                                                value="Mailum"
                                             />
                                             <input
                                                 type="hidden"
                                                 name="PAYMENT_AMOUNT"
-                                                value={this.state.mCharge}
+                                                value={this.state.mCharge/100}
                                             />
                                             <input
                                                 type="hidden"
@@ -1032,12 +1070,12 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                             <input
                                                 type="hidden"
                                                 name="STATUS_URL"
-                                                value="https://cyberfear.com/api/PerfectPaidstatus"
+                                                value="https://mailum.com/api/PerfectPaidstatus"
                                             />
                                             <input
                                                 type="hidden"
                                                 name="PAYMENT_URL"
-                                                value="https://cyberfear.com/api/Pe"
+                                                value="https://mailum.com/api/Pe"
                                             />
                                             <input
                                                 type="hidden"
@@ -1047,7 +1085,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                             <input
                                                 type="hidden"
                                                 name="NOPAYMENT_URL"
-                                                value="https://cyberfear.com/api/Pe"
+                                                value="https://mailum.com/api/Pe"
                                             />
                                             <input
                                                 type="hidden"
@@ -1125,7 +1163,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                             <input
                                                 type="hidden"
                                                 name="email"
-                                                value="anonymous@cyberfear.com"
+                                                value="anonymous@mailum.com"
                                             />
                                             <input
                                                 type="hidden"
@@ -1136,9 +1174,10 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                                 type="hidden"
                                                 name="item_desc"
                                                 value={
-                                                    this.state.membr == "year"
-                                                        ? "1 Year Subscription"
-                                                        : "1 Month Subscription"
+                                                    this.state.membr == "yearly-two"
+                                                        ? "2 Years Subscription":
+                                                        this.state.membr == "yearly-one"
+                                                    ? "1 Year Subscription":"1 Month Subscription"
                                                 }
                                             />
                                             <input
@@ -1154,7 +1193,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                             <input
                                                 type="hidden"
                                                 name="amountf"
-                                                value={this.state.mCharge}
+                                                value={this.state.mCharge/100}
                                             />
                                             <input
                                                 type="hidden"
@@ -1164,12 +1203,12 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                             <input
                                                 type="hidden"
                                                 name="success_url"
-                                                value="https://cyberfear.com/api/Pe"
+                                                value="https://mailum.com/api/Pe"
                                             />
                                             <input
                                                 type="hidden"
                                                 name="cancel_url"
-                                                value="https://cyberfear.com/api/Pe"
+                                                value="https://mailum.com/api/Pe"
                                             />
                                         </form>
                                         <div className="clearfix"></div>
@@ -1184,6 +1223,14 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                         >
                                             <form id="payment-form">
                                                 <div id="payment-element"></div>
+                                                <button
+                                                    type="button"
+                                                    onClick={this.handleBackButton}
+                                                    className={`back-button`}
+                                                >
+                                                    Back
+                                                </button>
+
                                                 <button id="submit">
                                                     <div
                                                         className="spinner d-none"
@@ -1262,7 +1309,6 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                         </div>
                                     </div>
                                 </div>
-                                {this.state.membr}
                                 <div
                                     className={`group-btn type-pay_now px-4 ${
                                         this.state.membr != "free"
@@ -1272,10 +1318,12 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                 >
                                     <button
                                         type="button"
-                                        onClick={this.handleBackButton.bind(
-                                            this
-                                        )}
-                                        className={`back-button`}
+                                        onClick={this.handleBackButton}
+                                        className={
+                                            this.state.paym !== "stripe"
+                                                ? "back-button"
+                                                : "d-none"
+                                        }
                                     >
                                         Back
                                     </button>

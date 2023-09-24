@@ -26,6 +26,8 @@ define(["app"], function (app) {
             this.set({ pleaseUpdate: false });
             this.set({ tempCoin: false });
 
+            this.set({ timeexec: 0 });
+
             this.set({ balanceShort: false });
             this.set({ folderCached: {} });
 
@@ -45,6 +47,9 @@ define(["app"], function (app) {
             this.set({ folderKey: "" }); //key to encrypt every object except userobj
 
             //user WholeDecryptedObjects
+            this.set({ activeFolderId: "" });
+            this.set({needRefresh:false});
+            this.set({emailsCount:0})
             this.set({ DecryptedProfileObject: {} }); //decrypted version of profile
             this.set({ DecryptedUserObject: {} }); //decr userOb
             this.set({ DecryptedFolderObject: {} }); // -- folder obj
@@ -407,6 +412,7 @@ define(["app"], function (app) {
             }
         },
         startTimer: function () {
+            console.log('timer started');
             var sessionExpire = this.get("sessionExpiration");
             this.set({ timeLeft: sessionExpire });
             var thisComp = this;
@@ -429,7 +435,7 @@ define(["app"], function (app) {
                         //console.log('bye bye');
                         //logOutTime();
                     }
-                    //console.log(thisComp.get("timeLeft"));
+                    console.log(thisComp.get("timeLeft"));
                 }, 1000);
 
                 this.set({ sessionExpirationFunction: timer });

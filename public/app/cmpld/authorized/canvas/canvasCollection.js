@@ -97,14 +97,14 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                             React.createElement("path", {
                                                 d: "M14.3177 17.1625H6.48438C6.13438 17.1625 5.74271 16.8875 5.62604 16.5542L2.17604 6.90417C1.68438 5.52083 2.25938 5.09583 3.44271 5.94583L6.69271 8.27083C7.23438 8.64583 7.85104 8.45417 8.08438 7.84583L9.55104 3.9375C10.0177 2.6875 10.7927 2.6875 11.2594 3.9375L12.726 7.84583C12.9594 8.45417 13.576 8.64583 14.1094 8.27083L17.1594 6.09583C18.4594 5.1625 19.0844 5.6375 18.551 7.14583L15.1844 16.5708C15.0594 16.8875 14.6677 17.1625 14.3177 17.1625Z",
                                                 stroke: "#080D13",
-                                                "stroke-width": "1.25",
+                                                "strokeWidth": "1.25",
                                                 "stroke-linecap": "round",
                                                 "stroke-linejoin": "round"
                                             }),
                                             React.createElement("path", {
                                                 d: "M8.3125 14.0125H12.4792",
                                                 stroke: "#080D13",
-                                                "stroke-width": "1.25",
+                                                "strokeWidth": "1.25",
                                                 "stroke-linecap": "round",
                                                 "stroke-linejoin": "round"
                                             })
@@ -261,7 +261,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                         React.createElement("path", {
                                             d: "M9.79948 16.6667C6.11615 16.6667 3.13281 14.1667 3.13281 10C3.13281 5.83337 6.11615 3.33337 9.79948 3.33337",
                                             stroke: "black",
-                                            "stroke-width": "1.25",
+                                            "strokeWidth": "1.25",
                                             "stroke-miterlimit": "10",
                                             strokeLinecap: "round",
                                             strokeLinejoin: "round"

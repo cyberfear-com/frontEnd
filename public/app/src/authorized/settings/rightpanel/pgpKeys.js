@@ -51,16 +51,6 @@ define([
                 secondPanelClass: "panel-body d-none",
                 firstTab: "active",
 
-                button1text: "Add Domain",
-                button1enabled: true,
-                button1iClass: "",
-                button1onClick: "addNewDomain",
-
-                //button2text:"Save",
-                //button2enabled:false,
-                //button2iClass:"",
-                //button2onClick:"saveKeys",
-
                 txtArea1readonly: true,
                 txtArea1value: "",
                 txtArea1onchange: "checkPubKey",
@@ -130,7 +120,7 @@ define([
                 language: {
                     emptyTable: "No Keys",
                     sSearch: "",
-                    info: "Showing _START_ - _END_ of _TOTAL_ result",
+                    info: "_START_ - _END_ of _TOTAL_",
                     searchPlaceholder: "Find something...",
                     paginate: {
                         sPrevious: "<i class='fa fa-chevron-left'></i>",
@@ -139,7 +129,8 @@ define([
                 },
             });
 
-            this.setState({ keysForm: $("#editPGPkeys").validate() });
+
+            this.setState({ keysForm: $("#editPGPkeys").validate({errorElement: "span"})});
 
             $.validator.addMethod(
                 "pubCorrect",
@@ -246,15 +237,15 @@ define([
                 var el = {
                     DT_RowId: email64,
                     checkbox:
-                        '<label class="container-checkbox"><input type="checkbox" name="inbox-email" /><span class="checkmark"></span></label>',
+                        '<label class="container-checkbox d-none"><input type="checkbox" name="inbox-email" /><span class="checkmark"></span></label>',
                     email: {
                         display: app.transform.from64str(emailData["email"]),
                     },
                     bit: emailData["keyLength"],
-                    edit: '<a class="table-icon edit-button"></a>',
-                    delete: '<button class="table-icon delete-button"></button>',
+                    edit: '<a class="table-icon edit-button d-none"></a>',
+                    delete: '<button class="table-icon delete-button d-none"></button>',
                     options:
-                        '<div class="dropdown"><button class="btn btn-secondary dropdown-toggle table-icon" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button></div>',
+                        '<div class="dropdown d-none"><button class="btn btn-secondary dropdown-toggle table-icon" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button></div>',
                 };
                 alEm.push(el);
             });
@@ -333,74 +324,113 @@ define([
                 case "generateNewKeys":
                     var thisComp = this;
 
-                    $("#dntModHead").html("Please Wait");
-                    $("#dntModBody").html(
-                        "Sit tight while we working. It may take a minute, depend on your device. Or you can cancel"
-                    );
+                   // $("#dntModHead").html("Please Wait");
+                    //$("#dntModBody").html(
+                    //    "Sit tight while we working. It may take a minute, depend on your device. Or you can cancel"
+                    //);
 
-                    $("#dntInter").modal({
-                        backdrop: "static",
-                        keyboard: false,
+                   // $("#dntInter").modal({
+                   //     backdrop: "static",
+                  //      keyboard: false,
+                  //  });
+                    $("#dialogModHead").html("Select Key Strength");
+                    $("#dialogIcon").attr("src","/images/icon-key.svg");
+                    $("#dialogOk").html('Generate');
+                    $("#dialogIcon").attr("width","56px");
+                    var options="";
+
+
+                    this.DefaultPGPbitList().map((item) => (
+                        item['key']==this.state.defaultPGPStrength?options+="<option selected key="+item['key']+" value="+item['key']+">"+item['key']+" bits</option>":options+="<option key="+item['key']+" value="+item['key']+">"+item['key']+" bits</option>"
+
+
+                    ));
+                    var f='<div class="col-12">' +
+                        '<div class="form-group">' +
+                        '<select id="kstr8" class="form-select" ' +
+                        'value='+this.state.defaultPGPStrength+'> <option value="0" disabled>Default PGP bits</option>'+options+'</select></div></div>';
+
+                    $("#dialogModBody").html(f);
+                   // $("#kstr8").on("click", function () {
+                   //     console.log($('#kstr8').find(":selected").val());
+                    //});
+
+                    $("#dialogPop").modal("show");
+
+                    $("#dialogOk").on("click", function () {
+                        var keybit=$('#kstr8').find(":selected").val();
+                        app.user.set({ inProcess: true });
+                        console.log(keybit);
+
+                        $("#settings-spinner")
+                            .removeClass("d-none")
+                            .addClass("d-block");
+                         app.generate.generatePairs(
+                             keybit,
+                             thisComp.state.keyName,
+                                                function (PGPkeys) {
+                                                    if (app.user.get("inProcess")) {
+                                                        //console.log(thisComp.state.keyEmail);
+                                                        //	console.log(thisComp.state.keyBit);
+                                                        //console.log(PGPkeys);
+
+                                                        app.globalF.getPublicKeyInfo(
+                                                            PGPkeys["publicKey"],
+                                                            function (result) {
+                                                                //keyData=result;
+                                                                thisComp.setState({
+                                                                    keyStrength: result["strength"],
+                                                                    keyFingerprint:
+                                                                        result["fingerprint"],
+                                                                    keyDate: result["created"],
+                                                                    keyBit:keybit
+                                                                });
+                                                            }
+                                                        );
+
+                                                        thisComp.setState({
+                                                            button4iClass: "",
+                                                            button4enabled: true,
+
+                                                            txtArea1value: PGPkeys["publicKey"],
+                                                            txtArea2value: PGPkeys["privateKey"],
+
+                                                            button2enabled: true,
+                                                            privpassText: PGPkeys["password"],
+                                                        });
+                                                        $("#dialogPop").modal("hide");
+                                                        //$("#dntInter").modal("hide");
+
+                                                        app.user.set({ inProcess: false });
+                                                        $("#settings-spinner")
+                                                            .removeClass("d-block")
+                                                            .addClass("d-none");
+                                                    } else {
+                                                        //console.log('canceled');
+                                                        $("#settings-spinner")
+                                                            .removeClass("d-block")
+                                                            .addClass("d-none");
+                                                        app.user.set({ inProcess: false });
+                                                    }
+                                                }
+                                            );
                     });
 
-                    app.user.set({ inProcess: true });
+                   // app.user.set({ inProcess: true });
 
-                    app.generate.generatePairs(
-                        thisComp.state.keyBit,
-                        thisComp.state.keyName,
-                        function (PGPkeys) {
-                            if (app.user.get("inProcess")) {
-                                //console.log(thisComp.state.keyEmail);
-                                //	console.log(thisComp.state.keyBit);
-                                //console.log(PGPkeys);
 
-                                app.globalF.getPublicKeyInfo(
-                                    PGPkeys["publicKey"],
-                                    function (result) {
-                                        //keyData=result;
-                                        thisComp.setState({
-                                            keyStrength: result["strength"],
-                                            keyFingerprint:
-                                                result["fingerprint"],
-                                            keyDate: result["created"],
-                                        });
-                                    }
-                                );
 
-                                thisComp.setState({
-                                    button4iClass: "",
-                                    button4text: "Generate New Keys",
-                                    button4enabled: true,
-
-                                    txtArea1value: PGPkeys["publicKey"],
-                                    txtArea2value: PGPkeys["privateKey"],
-
-                                    button3onClick: "showFirst",
-                                    button2enabled: true,
-                                    privpassText: PGPkeys["password"],
-                                });
-
-                                $("#dntInter").modal("hide");
-
-                                app.user.set({ inProcess: false });
-                            } else {
-                                //console.log('canceled');
-                                app.user.set({ inProcess: false });
-                            }
-                        }
-                    );
-
-                    $("#dntOk").on("click", function () {
+                  /*  $("#dntOk").on("click", function () {
                         app.user.set({ inProcess: false });
                         //thisComp.handleClick('showFirst');
                         $("#dntInter").modal("hide");
-                    });
+                    });*/
 
                     break;
 
                 case "cancelGenerating":
                     app.user.set({ inProcess: false });
-                    this.handleClick("showFirst");
+                    //this.handleClick("showFirst");
 
                     break;
 
@@ -430,6 +460,9 @@ define([
                                             key[thisComp.state.keyId]["email"]
                                         )
                                     );
+                              //  console.log('keybit');
+                              //  console.log(thisComp.state.keyFingerprint);
+
                                 key[thisComp.state.keyId]["keyLength"] =
                                     thisComp.state.keyBit;
                                 key[thisComp.state.keyId]["keyPass"] =
@@ -443,6 +476,7 @@ define([
                                 var newKey = key[thisComp.state.keyId];
 
                                 app.user.set({ newPGPKey: newKey });
+                                console.log(newKey);
 
                                 app.userObjects.updateObjects(
                                     "editPGPkeysBits",
@@ -467,6 +501,7 @@ define([
                             //console.log('saveKeys');
                         } else {
                             $("#infoModHead").html("PGP Key Pair Mismatch");
+                            $("#infoModHeader").html("PGP Key Pair Mismatch");
                             $("#infoModBody").html(
                                 "Please generate new keys or make sure you import correct format"
                             );
@@ -529,6 +564,9 @@ define([
                         emailSince: keys[event]["date"],
                     });
 
+                    //console.log(keys[event]["date"]);
+                   // console.log(new Date(keys[event]["date"]*1000).toLocaleString());
+                    //{new Date(this.state.emailSince*1000).toLocaleString()}
                     break;
 
                 case "handleSelectAll":
@@ -570,7 +608,7 @@ define([
                         }
                     }
                     // Edit click functionality
-                    if ($(event.target).prop("tagName").toUpperCase() === "A") {
+                    if ($(event.target).prop("tagName").toUpperCase() === "TD") {
                         var id = $(event.target).parents("tr").attr("id");
 
                         if (id != undefined) {
@@ -592,9 +630,23 @@ define([
 
         editKey: function (id) {
             var keys = app.user.get("allKeys");
+            var thisComp = this;
 
             // var id = this.state.keyId;
             console.log(keys[id]);
+            app.globalF.getPublicKeyInfo(
+
+                app.transform.from64str(keys[id]["v2"]["publicKey"]),
+                function (result) {
+                    //keyData=result;
+                    thisComp.setState({
+                        keyStrength: result["strength"],
+                        keyFingerprint: result["fingerprint"],
+                        keyDate: result["created"],
+                    });
+                }
+            );
+
             this.setState({
                 viewFlag: true,
                 firstPanelClass: "panel-body d-none",
@@ -607,7 +659,6 @@ define([
                 keyEmail: app.transform.from64str(keys[id]["email"]),
                 keyName: app.transform.from64str(keys[id]["displayName"]),
 
-                keyBit: keys[id]["keyLength"],
 
                 txtArea1value: app.transform.from64str(
                     keys[id]["v2"]["publicKey"]
@@ -617,7 +668,7 @@ define([
                 ),
 
                 //button2enabled:false,
-                button2enabled: true,
+                button2enabled: false,
                 button2text: "Save",
                 button2onClick: "saveKeys",
 
@@ -628,17 +679,19 @@ define([
                 privpassText: keys[id]["keyPass"],
                 privTextDisabled: false,
 
-                button4enabled: true,
-                button4visible: "",
+                button4enabled: keys[id]['canSend']?true:false,
+                button4visible: keys[id]['canSend']?"":"d-none",
                 button4iClass: "",
                 button4text: "Generate New Keys",
                 button4onClick: "generateNewKeys",
                 button5class: "d-none",
 
-                keyDate: keys[id]["date"],
                 keyModified: keys[id]["keysModified"],
-                //keyFingerprint:app.transform.keyFingerprint(keys[id]['publicKey'])
+                emailSince: keys[id]["date"],
+
             });
+            console.log(keys[id]["keysModified"]);
+           // console.log(new Date(keys[id]["date"]*1000).toLocaleString());
         },
 
         componentWillUpdate: function (nextProps, nextState) {
@@ -689,11 +742,14 @@ define([
             app.globalF.getPublicKeyInfo(
                 thisComp.state.txtArea1value,
                 function (result) {
+                    console.log('info');
+                    console.log(result);
                     //keyData=result;
                     thisComp.setState({
                         keyStrength: result["strength"],
                         keyFingerprint: result["fingerprint"],
                         keyDate: result["created"],
+                        keyBit:result["strength"],
                     });
                 }
             );
@@ -741,8 +797,8 @@ define([
                                 var validator = thisComp.state.keysForm;
                                 validator.form();
 
-                                $("#pubK").removeClass("invalid");
-                                $("#prK").removeClass("valid");
+                               // $("#pubK").removeClass("invalid");
+                               // $("#prK").removeClass("valid");
 
                                 validator.resetForm();
                             });
@@ -752,20 +808,18 @@ define([
                     break;
                 case "checkPubKey":
                     var thisComp = this;
-                    //console.log(event.target.value);
-
                     thisComp.setState(
                         {
                             txtArea1value: event.target.value,
-                            button2enabled: true,
+                          //  button2enabled: true,
                         },
                         function () {
                             thisComp.checkKeys(function () {
                                 var validator = thisComp.state.keysForm;
                                 validator.form();
 
-                                $("#pubK").removeClass("invalid");
-                                $("#prK").removeClass("valid");
+                                //$("#pubK").removeClass("invalid");
+                                //$("#prK").removeClass("valid");
 
                                 validator.resetForm();
                             });
@@ -800,7 +854,27 @@ define([
                     this.setState({
                         keyBit: event.target.value,
                     });
+                    break;
 
+                case "pgpStr":
+                    this.setState({
+                        defaultPGPStrength:event.target.value
+                    })
+                    app.user.set({
+                        defaultPGPKeybit: parseInt(
+                            event.target.value
+                        ),
+                    });
+                    app.userObjects.updateObjects(
+                        "userProfile",
+                        "",
+                        function (response) {
+                            if (response === "success") {
+                            } else if (response === "failed") {
+                            } else if (response === "nothing") {
+                            }
+                        }
+                    );
                     break;
             }
         },
@@ -829,7 +903,7 @@ define([
             }
 
             return options;
-            console.log(app.user.get("userPlan")["planData"]["pgpStr"]);
+
         },
         PGPbitList: function () {
             var options = [];
@@ -843,7 +917,6 @@ define([
                     <option
                         key={i}
                         value={i}
-                        selected={this.state.keyBit === i}
                     >
                         {i} bits
                     </option>
@@ -918,9 +991,7 @@ define([
                                                 this,
                                                 "pgpStr"
                                             )}
-                                            value={
-                                                this.state.defaultPGPStrength
-                                            }
+                                            value={this.state.defaultPGPStrength}
                                         >
                                             <option value="0" disabled>
                                                 Default PGP bits
@@ -937,7 +1008,7 @@ define([
                                 </div>
 
                                 <div
-                                    className={`table-row ${this.state.firstPanelClass}`}
+                                    className="table-row"
                                 >
                                     <div className="table-responsive">
                                         <table
@@ -959,7 +1030,7 @@ define([
                                             <thead>
                                                 <tr>
                                                     <th scope="col">
-                                                        <label className="container-checkbox">
+                                                        <label className="container-checkbox d-none">
                                                             <input
                                                                 type="checkbox"
                                                                 onChange={this.handleClick.bind(
@@ -977,11 +1048,11 @@ define([
                                                     <th scope="col">Bit</th>
                                                     <th></th>
                                                     <th scope="col">
-                                                        <button className="trash-btn"></button>
+                                                        <button className="trash-btn d-none"></button>
                                                     </th>
 
                                                     <th scope="col">
-                                                        <div className="dropdown">
+                                                        <div className="dropdown d-none">
                                                             <button
                                                                 className="btn btn-secondary dropdown-toggle ellipsis-btn"
                                                                 type="button"
@@ -1028,7 +1099,7 @@ define([
                                     <form id="editPGPkeys" className="">
                                         <div
                                             className={
-                                                this.state.inputSelectClass
+                                                this.state.inputSelectClass+" d-none"
                                             }
                                         >
                                             <select
@@ -1078,7 +1149,8 @@ define([
                                                 <label>Keys Created:</label>
                                                 <div className="information-row-right">
                                                     {new Date(
-                                                        this.state.keyDate
+                                                        this.state.keyModified*
+                                                        1000
                                                     ).toLocaleString()}
                                                 </div>
                                             </div>
@@ -1152,6 +1224,7 @@ define([
                                                         spellCheck="false"
                                                     ></textarea>
                                                 </div>
+
                                             </div>
                                             <div className="information-table-row">
                                                 <label>Private Key</label>
@@ -1184,7 +1257,7 @@ define([
                                                 <button
                                                     type="button"
                                                     className={
-                                                        "icon-btn" +
+                                                        "icon-btn " +
                                                         this.state
                                                             .button4visible
                                                     }

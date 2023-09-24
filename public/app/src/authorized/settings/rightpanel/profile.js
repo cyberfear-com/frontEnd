@@ -45,6 +45,8 @@ define([
         componentDidMount: function () {
             React.initializeTouchEvents(true);
 
+            console.log(app.user.get("sessionExpiration"));
+
             this.setState({ emfValidator: $("#forwForm").validate() });
 
             $("#emForwInp").rules("add", {
@@ -648,7 +650,7 @@ define([
                                                     </select>
                                                 </div>
                                             </div>
-                                            <div className="col-12">
+                                            <div className="col-12 d-none">
                                                 <div className="form-group">
                                                     <select
                                                         className="form-control"

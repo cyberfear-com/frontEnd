@@ -39,22 +39,22 @@ define([
                 this.props.folderId != nextProps.folderId &&
                 this.props.folderId != ""
             ) {
-                this.updateEmails(nextProps.folderId, "");
+                console.log('I RECEIEVED NEW PROP');
+               // this.updateEmails(nextProps.folderId, "noRefresh");
             }
         },
-        updateEmails: function (folderId, noRefresh) {
+        updateEmails: function (folderId, Refresh) {
+            console.log('folderId');
+            console.log(folderId);
+
+            Refresh=app.user.get("needRefresh");
             var thisComp = this;
+            console.log('Refresh');
+            console.log(Refresh);
             var emails = app.user.get("emails")["folders"][folderId];
 
-            var emailListCopy = app.user.get("folderCached");
-            if (emailListCopy[folderId] === undefined) {
-                emailListCopy[folderId] = {};
-            }
-
             thisComp.setState({
-                displayedFolder: app.transform.from64str(
-                    app.user.get("folders")[folderId]["name"]
-                ),
+                displayedFolder: app.transform.from64str(app.user.get("folders")[folderId]["name"]),
                 emailInFolder: Object.keys(emails).length,
             });
 
@@ -79,6 +79,15 @@ define([
             var trusted = app.user.get("trustedSenders");
             var encrypted2 = "";
 
+            var emailListCopy = app.user.get("folderCached");
+            console.log(emailListCopy);
+
+
+            if (Refresh || emailListCopy[folderId]=== undefined) {
+                    emailListCopy[folderId] = {};
+
+                console.log("HERE");
+                console.log(Object.keys(emails).length);
             $.each(emails, function (index, folderData) {
                 var time =
                     folderData["tr"] != undefined
@@ -336,7 +345,7 @@ define([
 
                 // var tagPart = "";
 
-                emailListCopy[folderId][index] = {
+                let emailListCopyT = {
                     DT_RowId: index,
                     unread: unread,
                     checkBpart: checkBpart,
@@ -358,40 +367,44 @@ define([
                     email: {
                         display:
                             '<div class="email no-padding ' +
-                            emailListCopy[folderId][index]["unread"] +
+                            emailListCopyT["unread"] +
                             '">' +
-                            emailListCopy[folderId][index]["checkBpart"] +
-                            emailListCopy[folderId][index]["dateAtPart"] +
-                            emailListCopy[folderId][index]["fromPart"] +
+                            emailListCopyT["checkBpart"] +
+                            emailListCopyT["dateAtPart"] +
+                            emailListCopyT["fromPart"] +
                             '<div class="mail-toggle ' +
                             showPreview +
                             '"><div class="mail-title">' +
                             titleTag +
-                            emailListCopy[folderId][index]["sb"] +
+                            emailListCopyT["sb"] +
                             "</div> <p><label class='from'>" +
                             fromTitle +
                             ": </label>" +
-                            emailListCopy[folderId][index]["bd"] +
+                            emailListCopyT["bd"] +
                             "</p></div>" +
-                            emailListCopy[folderId][index]["tagPart"] +
+                            emailListCopyT["tagPart"] +
                             "</div>",
 
-                        timestamp: emailListCopy[folderId][index]["timestamp"],
+                        timestamp: emailListCopyT["timestamp"],
                         sortOrder:
                             folderData["pt"] === undefined
-                                ? emailListCopy[folderId][index]["timestamp"]
+                                ? emailListCopyT["timestamp"]
                                 : folderData["pt"],
                     },
                 };
 
                 data.push(row);
+                emailListCopy[folderId]=data;
             });
 
-            app.user.set({ folderCached: emailListCopy });
+            app.user.set({
+                folderCached: emailListCopy,
+                needRefresh:false
+            });
 
             var emTab = $("#emailListTable").DataTable();
             emTab.clear();
-            if (noRefresh == "") {
+
                 emTab.draw();
                 thisComp.setState(
                     {
@@ -403,10 +416,28 @@ define([
                         $("#selectAllAlt > input").prop("checked", false);
                     }
                 );
+                emTab.rows.add(data);
+                emTab.draw(false);
+            }else{
+
+                var emTab = $("#emailListTable").DataTable();
+                emTab.clear();
+                emTab.draw();
+                thisComp.setState(
+                    {
+                        messsageId: "",
+                        allChecked: false,
+                    },
+                    function () {
+                        $("#selectAll>input").prop("checked", false);
+                        $("#selectAllAlt > input").prop("checked", false);
+                    }
+                );
+                emTab.rows.add(emailListCopy[folderId]);
+                emTab.draw(false);
             }
 
-            emTab.rows.add(data);
-            emTab.draw(false);
+
             if (thisComp.state.showReadUnread == "read") {
                 this.handleShowRead();
             }
@@ -450,6 +481,8 @@ define([
         },
         componentWillUnmount: function () {
             app.user.off("change:checkNewEmails");
+            app.user.off("change:emailListRefresh");
+            app.user.off("change:resetSelectedItems");
         },
         componentDidMount: function () {
             this.getMainFolderList();
@@ -547,7 +580,9 @@ define([
             });
 
             app.globalF.getInboxFolderId(function (inbox) {
-                thisComp.updateEmails(inbox, "");
+                app.user.set({ activeFolderId: inbox });
+                console.log('HELL I DONT KNOW WHY IM HERE')
+          //      thisComp.updateEmails(inbox, "");
             });
             app.user.on(
                 "change:resetSelectedItems",
@@ -562,8 +597,11 @@ define([
             app.user.on(
                 "change:emailListRefresh",
                 function () {
+                    console.log('I WAS REFRESHED');
+                    //console.log(app.user.get("activeFolderId"));
                     // $("#sdasdasd").addClass("hidden"); - find this in original inbox page
-                    thisComp.updateEmails(thisComp.props.folderId, "noRefresh");
+
+                    thisComp.updateEmails(app.user.get("activeFolderId"), false);
                 },
                 thisComp
             );
@@ -765,17 +803,19 @@ define([
                                         app.user.set({
                                             resetSelectedItems: true,
                                         });
-                                        app.globalF.syncUpdates();
+                                        app.globalF.syncUpdates(true);
                                         thisComp.setState({
                                             isWorkingFlag: false,
                                         });
-                                        $("#mail-extra-options").removeClass(
-                                            "active"
+                                        $("#mail-ul-extra-options").removeClass(
+                                            "show"
                                         );
+
                                     }
                                 );
                             }
                         );
+
                     } else {
                         app.notifications.systemMessage("selectMsg");
                     }
@@ -838,7 +878,7 @@ define([
                                                 app.user.set({
                                                     resetSelectedItems: true,
                                                 });
-                                                app.globalF.syncUpdates();
+                                                app.globalF.syncUpdates(true);
                                                 app.layout.display("viewBox");
 
                                                 target
@@ -854,6 +894,9 @@ define([
                                                 $(
                                                     "#mail-extra-options"
                                                 ).removeClass("active");
+                                                $("#mail-ul-extra-options").removeClass(
+                                                    "show"
+                                                );
                                             }
                                         );
                                     }
@@ -895,7 +938,7 @@ define([
                                             app.user.set({
                                                 resetSelectedItems: true,
                                             });
-                                            app.globalF.syncUpdates();
+                                            app.globalF.syncUpdates(true);
                                             app.layout.display("viewBox");
 
                                             target
@@ -911,6 +954,9 @@ define([
                                             $(
                                                 "#mail-extra-options"
                                             ).removeClass("active");
+                                            $("#mail-ul-extra-options").removeClass(
+                                                "show"
+                                            );
                                         }
                                     );
                                 }
@@ -1035,7 +1081,7 @@ define([
                                                 app.user.set({
                                                     resetSelectedItems: true,
                                                 });
-                                                app.globalF.syncUpdates();
+                                                app.globalF.syncUpdates(true);
                                                 app.layout.display("viewBox");
 
                                                 target
@@ -1051,6 +1097,9 @@ define([
                                                 $(
                                                     "#mail-extra-options"
                                                 ).removeClass("active");
+                                                $("#mail-ul-extra-options").removeClass(
+                                                    "show"
+                                                );
                                             }
                                         );
                                     }
@@ -1135,7 +1184,7 @@ define([
                                             app.user.set({
                                                 resetSelectedItems: true,
                                             });
-                                            app.globalF.syncUpdates();
+                                            app.globalF.syncUpdates(true);
                                             app.layout.display("viewBox");
 
                                             target.removeClass("fa-spin");
@@ -1147,6 +1196,9 @@ define([
                                             $(
                                                 "#mail-extra-options"
                                             ).removeClass("active");
+                                            $("#mail-ul-extra-options").removeClass(
+                                                "show"
+                                            );
                                         }
                                     }
                                 );
@@ -1196,11 +1248,15 @@ define([
                                     false
                                 );
                                 app.user.set({ resetSelectedItems: true });
-                                app.globalF.syncUpdates();
+                                app.globalF.syncUpdates(true);
                                 thisComp.setState({
                                     isWorkingFlag: false,
                                 });
                                 $("#mail-extra-options").removeClass("active");
+                                $("#mail-ul-extra-options").removeClass(
+                                    "show"
+                                );
+
                             }
                         );
 
@@ -1239,11 +1295,14 @@ define([
                                     false
                                 );
                                 app.user.set({ resetSelectedItems: true });
-                                app.globalF.syncUpdates();
+                                app.globalF.syncUpdates(true);
                                 thisComp.setState({
                                     isWorkingFlag: false,
                                 });
                                 $("#mail-extra-options").removeClass("active");
+                                $("#mail-ul-extra-options").removeClass(
+                                    "show"
+                                );
                             }
                         );
 
@@ -1447,13 +1506,11 @@ define([
                                     type="search"
                                     placeholder="Search..."
                                     id="desktop-search"
-                                    onChange={this.handleSearchChange.bind(
-                                        this
-                                    )}
+                                    onChange={this.handleSearchChange}
                                 />
                                 <span
                                     className="icon"
-                                    onClick={this.handleSearchReset.bind(this)}
+                                    onClick={this.handleSearchReset}
                                 >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -1471,9 +1528,7 @@ define([
                                     >
                                         <input
                                             type="checkbox"
-                                            onChange={this.handleSelectAll.bind(
-                                                this
-                                            )}
+                                            onChange={this.handleSelectAll}
                                             checked={this.state.allChecked}
                                         />
                                         <span className="checkmark"></span>{" "}
@@ -1500,9 +1555,7 @@ define([
                                                 >
                                                     <input
                                                         type="checkbox"
-                                                        onChange={this.handleSelectAll.bind(
-                                                            this
-                                                        )}
+                                                        onChange={this.handleSelectAll}
                                                         checked={
                                                             this.state
                                                                 .allChecked
@@ -1554,9 +1607,7 @@ define([
                                             </li>
                                             <li>
                                                 <button
-                                                    onClick={this.handleShowRead.bind(
-                                                        this
-                                                    )}
+                                                    onClick={this.handleShowRead}
                                                 >
                                                     {" "}
                                                     <span>
@@ -1576,9 +1627,7 @@ define([
                                             </li>
                                             <li>
                                                 <button
-                                                    onClick={this.handleShowUnRead.bind(
-                                                        this
-                                                    )}
+                                                    onClick={this.handleShowUnRead}
                                                 >
                                                     {" "}
                                                     <span>
@@ -1597,7 +1646,7 @@ define([
                                                                 x2="5.84854"
                                                                 y2="22.9799"
                                                                 stroke="black"
-                                                                stroke-width="2"
+                                                                strokeWidth="2"
                                                             />
                                                         </svg>
                                                     </span>{" "}
@@ -1606,9 +1655,7 @@ define([
                                             </li>
                                             <li>
                                                 <button
-                                                    onClick={this.handleShowAll.bind(
-                                                        this
-                                                    )}
+                                                    onClick={this.handleShowAll}
                                                 >
                                                     {" "}
                                                     <span>
@@ -1628,9 +1675,7 @@ define([
                                             </li>
                                             <li>
                                                 <button
-                                                    onClick={this.handleShowPreview.bind(
-                                                        this
-                                                    )}
+                                                    onClick={this.handleShowPreview}
                                                 >
                                                     {" "}
                                                     {this.state.showPreview ? (
@@ -1663,7 +1708,7 @@ define([
                                                                     x2="5.84854"
                                                                     y2="22.9799"
                                                                     stroke="black"
-                                                                    stroke-width="2"
+                                                                    strokeWidth="2"
                                                                 />
                                                             </svg>
                                                         </span>
@@ -1683,9 +1728,7 @@ define([
                                         <button
                                             id="referesh-btn"
                                             className="icon-btn"
-                                            onClick={this.handleRefreshButton.bind(
-                                                this
-                                            )}
+                                            onClick={this.handleRefreshButton}
                                         >
                                             <i></i>
                                         </button>
@@ -1714,13 +1757,11 @@ define([
                                             </button>
                                             <ul
                                                 className="dropdown-menu"
-                                                id="mail-extra-options"
+                                                id="mail-ul-extra-options"
                                             >
                                                 <li>
                                                     <button
-                                                        onClick={this.handleClickMoveToFolder.bind(
-                                                            this
-                                                        )}
+                                                        onClick={this.handleClickMoveToFolder}
                                                     >
                                                         <span>
                                                             <svg
@@ -1757,7 +1798,7 @@ define([
                                                 <li>
                                                     <button
                                                         onClick={this.handleChange.bind(
-                                                            this,
+                                                            null,
                                                             "moveToTrash"
                                                         )}
                                                         disabled={
@@ -1813,7 +1854,7 @@ define([
                                                 <li>
                                                     <button
                                                         onClick={this.handleChange.bind(
-                                                            this,
+                                                            null,
                                                             "markAsRead"
                                                         )}
                                                     >

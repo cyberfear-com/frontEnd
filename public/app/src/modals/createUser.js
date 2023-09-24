@@ -776,9 +776,9 @@ define(["app", "react"], function (app, React) {
                                     </button>
                                 </div>
                                 <div className="modal-footer flex-column border-top-0">
-                                    <p>Once dwonloaded, please log in.</p>
+                                    <p>Once downloaded, please log in.</p>
                                     <a
-                                        href="#login"
+                                        href="/mailbox/#login"
                                         className="btn btn-lg btn-primary w-100 mx-0 fs-6"
                                     >
                                         Login

@@ -35,6 +35,8 @@ define([
                 panel2Visible: "d-none",
                 panel4Visible: "d-none",
                 button1Class: "",
+                yubiSaveDis:true,
+                googSaveDis:true,
                 googlePin: "",
                 yubiPin: "",
             };
@@ -137,6 +139,17 @@ define([
                         userToken: app.user.get("userLoginToken"),
                     },
                 },
+                success: function() {
+                    if(thisComp.state.googlePin.length==6){
+                        thisComp.setState({
+                            googSaveDis:false
+                        })
+                    }else {
+                        thisComp.setState({
+                            googSaveDis: true
+                        })
+                    }
+                },
                 messages: {
                     remote: "Incorrect Pin",
                 },
@@ -161,6 +174,17 @@ define([
                 // 		'userToken':app.user.get("userLoginToken")
                 // 	}
                 // },
+                success: function() {
+                    if(thisComp.state.yubiPin.length>=44 && thisComp.state.yubiPin.length<=60){
+                        thisComp.setState({
+                            yubiSaveDis:false
+                        })
+                    }else {
+                        thisComp.setState({
+                            yubiSaveDis: true
+                        })
+                    }
+                },
                 messages: {
                     remote: "Incorrect Pin",
                 },
@@ -684,6 +708,7 @@ define([
                                                     <button
                                                         type="button"
                                                         className="btn-blue fixed-width-btn"
+                                                        disabled={this.state.googSaveDis}
                                                         onClick={this.handleClick.bind(
                                                             this,
                                                             "saveNewGoogleAuth"
@@ -764,8 +789,7 @@ define([
                                                             type="text"
                                                             className="form-control"
                                                             value={
-                                                                this.state
-                                                                    .yubiPin
+                                                                this.state.yubiPin
                                                             }
                                                             onChange={this.handleChange.bind(
                                                                 this,
@@ -782,7 +806,7 @@ define([
                                                         type="button"
                                                         className="btn-border fixed-width-btn"
                                                         onClick={this.handleClick.bind(
-                                                            this,
+                                                            null,
                                                             "resetYubiForm"
                                                         )}
                                                     >
@@ -791,8 +815,9 @@ define([
                                                     <button
                                                         type="button"
                                                         className="btn-blue fixed-width-btn"
+                                                        disabled={this.state.yubiSaveDis}
                                                         onClick={this.handleClick.bind(
-                                                            this,
+                                                            null,
                                                             "saveNewYubiAuth"
                                                         )}
                                                     >

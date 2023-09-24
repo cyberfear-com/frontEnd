@@ -44,18 +44,22 @@ define([
             if (!app.user.get("userLogedIn")) {
                 app.auth.logout();
             } else {
+
                 if (app.sessionData.get("sessionReady")) {
                     thisMod.setState({ dfd: "solved" });
                 } else {
                     $("#userObjSync").addClass("show d-block");
+
                     $("#overlay, #loading-skeleton")
                         .removeClass("d-none")
                         .addClass("d-block");
-                    $("#userObjSync").modal({
+                /*    $("#userObjSync").modal({
                         show: true,
                         backdrop: "static",
                         keyboard: true,
-                    });
+                    });*/
+
+                 //   $("#secondPass").addClass("show d-block");
 
                     app.userObjects.startSession(function () {
                         $("#userObjSync").removeClass("show d-block");
@@ -67,13 +71,13 @@ define([
                         thisMod.setState({ dfd: "solved" });
                     });
                 }
-                Offline.options = {
+             /*   Offline.options = {
                     checks: {
                         xhr: {
                             url: "https://jsonplaceholder.typicode.com/posts/1",
                         },
                     },
-                };
+                };*/
 
                 // If application comes online
                 Offline.on("up", function () {

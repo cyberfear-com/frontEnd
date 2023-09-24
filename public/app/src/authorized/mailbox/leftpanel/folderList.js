@@ -116,6 +116,9 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                         this
                     );
 
+                    console.log('navigating');
+                    console.log(thisComp.props.activePage);
+                    console.log($(event.target).attr("id"));
                     if (
                         thisComp.props.activePage != $(event.target).attr("id")
                     ) {
@@ -153,6 +156,11 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                 app.globalF.resetCurrentMessage();
                                 app.globalF.resetDraftMessage();
 
+                                app.user.set({
+                                    activeFolderId:$(event.target).attr("id"),
+                                    emailListRefresh: !app.user.get("emailListRefresh")
+
+                                });
                                 thisComp.props.changeFodlerId(
                                     $(event.target).attr("id")
                                 );
@@ -535,7 +543,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                                             ]["index"]
                                                         }
                                                         onClick={this.handleChange.bind(
-                                                            this,
+                                                            null,
                                                             "switchFolder"
                                                         )}
                                                         data-name={
@@ -587,7 +595,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                 <div className="add-folder">
                                     <button
                                         onClick={this.handleClick.bind(
-                                            this,
+                                            null,
                                             "addFolder"
                                         )}
                                     ></button>
@@ -653,6 +661,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                                                             : "active")
                                                                     }
                                                                 >
+
                                                                     <a
                                                                         key={
                                                                             "a_" +
@@ -664,7 +673,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                                                             ]
                                                                         }
                                                                         onClick={this.handleChange.bind(
-                                                                            this,
+                                                                            null,
                                                                             "switchFolder"
                                                                         )}
                                                                     >
@@ -695,28 +704,11 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                                                                 />
                                                                             </svg>
                                                                         </span>
-                                                                        {folderData[
-                                                                            "name"
-                                                                        ] +
-                                                                            " " +
-                                                                            (this
-                                                                                .state
-                                                                                .unopened[
-                                                                                folderData[
-                                                                                    "index"
-                                                                                ]
-                                                                            ] ==
-                                                                            0
-                                                                                ? ""
-                                                                                : '<span className="number-badge">' +
-                                                                                  this
-                                                                                      .state
-                                                                                      .unopened[
-                                                                                      folderData[
-                                                                                          "index"
-                                                                                      ]
-                                                                                  ] +
-                                                                                  "</span>")}
+                                                                        {folderData["name"]}
+                                                                        {this.state.unopened[folderData["index"]] == 0 || this.state.unopened[folderData["index"]] ==undefined ? (
+                                                                            "") : (
+                                                                            <span className="number-badge">{this.state.unopened[folderData["index"]]}</span>)
+                                                                        }
                                                                     </a>
                                                                 </li>
                                                             );
@@ -1132,7 +1124,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                                                             ] ==
                                                                             0
                                                                                 ? ""
-                                                                                : '<span className="number-badge">' +
+                                                                                : '2221<span className="number-badge">' +
                                                                                   this
                                                                                       .state
                                                                                       .unopened[

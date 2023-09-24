@@ -120,9 +120,14 @@ define(["app"], function (app) {
                         app.notifications.systemMessage("limitIsReached");
                     }
                 }else if(result["response"] == "fail"){
-                    callback("wrngUsrOrPass");
+                    if(result['data']=='pinWrong'){
+                        callback("pinWrong");
+                    }else {
+                        callback("wrngUsrOrPass");
 
+                    }
                 } else {
+
                     // app.notifications.systemMessage('wrngUsrOrPass');
                     callback("noinet");
                 }
@@ -216,7 +221,7 @@ define(["app"], function (app) {
 
                         $("#dialogModHead").html("Waiting for funds");
                         $("#dialogModBody").html(
-                            "You started a payment process.<br/> It may take some time to precess. As soon as we receive payments, you will be automatically redirected to your mailbox. You can close this window and come back later.<br/><b>If you like to use other payment processor, please click 'Cancel'</b><br/><br/> Thnak you for choosing CyberFear.com"
+                            "You started a payment process.<br/> It may take some time to precess. As soon as we receive payments, you will be automatically redirected to your mailbox. You can close this window and come back later.<br/><b>If you like to use other payment processor, please click 'Cancel'</b><br/><br/> Thank you for choosing Mailum.com"
                         );
 
                         $("#dialogOk").addClass("hidden");

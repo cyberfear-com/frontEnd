@@ -1,7 +1,6 @@
-define(["react", "app", "validation", "cmpld/modals/paymentGate","ajaxQueue"], function (
+define(["react", "app", "cmpld/modals/paymentGate","ajaxQueue"], function (
     React,
     app,
-    Validation,
     PaymentGate,
     ajaxQueue
 ) {
@@ -12,14 +11,22 @@ define(["react", "app", "validation", "cmpld/modals/paymentGate","ajaxQueue"], f
          */
         getInitialState: function () {
             return {
+                email:app.defaults.get( "userName" ),
+                newPass:app.defaults.get( "firstPassfield" ),
                 compSafe: false,
                 secondFactorInput: false,
                 fac2Text: "",
                 fac2Type: "",
                 domainSelectFlag: false,
                 incorrectCredentials: false,
+                signDisabled:true,
+
+                emailError: "",
+                passError: "",
+
+                pinWrong:false,
                 domainList: ["@mailum.com","@cyberfear.com","test@com.com"],
-                domain:"@mailum.com",
+                domain:app.defaults.get( "defLogDomain" ),
                 firstTimeUser: false,
 
                 working: false,
@@ -29,47 +36,22 @@ define(["react", "app", "validation", "cmpld/modals/paymentGate","ajaxQueue"], f
             };
         },
         componentWillUnmount: function () {
-            createUserFormValidator = undefined;
         },
 
         componentDidMount: function () {
-            createUserFormValidator = $("#loginUserForm").validate({
-                highlight: function (element) {
-                    $(element).closest(".form-group").addClass("has-error");
-                },
-                unhighlight: function (element) {
-                    $(element).closest(".form-group").removeClass("has-error");
-                    //$(element).closest('.form-group').addClass('has-success');
-                },
-                errorElement: "span",
-                errorClass: "help-block pull-left",
-                errorPlacement: function (error, element) {
-                    if (element.parent(".input-group").length) {
-                        error.insertAfter(element.parent());
-                    } else {
-                        error.insertAfter(element);
-                    }
-                },
-            });
-            $("#LoginForm_username").rules("add", {
-                required: true,
-                minlength: 2,
-                maxlength: 200,
-            });
-
-            $("#LoginUser_password").rules("add", {
-                required: true,
-                minlength: 4,
-                maxlength: 80,
-            });
 
             if (app.defaults.get("dev") === true) {
-             //   this.handleClick("login");
+                if(this.state.email!=""){
+                    this.setState({
+                        signDisabled:false
+                    })
+                }
+            //   this.handleClick("login");
                 // this.handleUserNameChange();
             }
-           // if(app.defaults.get("dev")){
-           //     this.handleClick('login','');
-          //  }
+            if(app.defaults.get("dev")){
+                this.handleClick('login',this);
+            }
 
         },
         /**
@@ -83,6 +65,55 @@ define(["react", "app", "validation", "cmpld/modals/paymentGate","ajaxQueue"], f
                     this.setState({
                         fac2Text: event.target.value,
                     });
+                    break;
+                case "email":
+                    var email = event.target.value;
+                    if (email.indexOf("@") !== -1) {
+                        this.setState({
+                            emailError:
+                                "please enter only first part of email, without @",
+                        });
+                    } else if (email.length < 3) {
+                        this.setState({
+                            emailError: "minimum 3 character",
+                            signDisabled:true
+                        });
+                    } else if (email.length > 250) {
+                        this.setState({
+                            emailError: "maximum 250 character",
+                            signDisabled:true
+                        });
+                    } else {
+                        this.setState({
+                            emailError: "",
+                            signDisabled:false
+                        });
+                    }
+
+                    this.setState(
+                        {
+                            email: event.target.value,
+                        },
+                        function () {
+                           // this.checkEmailTyping();
+                        }
+                    );
+
+                    break;
+                case "newPass":
+                    var newPass = event.target.value;
+                        this.setState({
+                            passError: "",
+                        });
+
+                    this.setState({
+                        newPass: newPass,
+                    });
+                    break;
+                case "changeDomain":
+                    this.setState({
+                        domain:event.target.value
+                    })
                     break;
             }
         },
@@ -126,33 +157,23 @@ define(["react", "app", "validation", "cmpld/modals/paymentGate","ajaxQueue"], f
                     break;
 
                 case "login":
-                   // if(!app.defaults.get("dev")){
-                  //      event.preventDefault();
-                   // }
+                  //  event.preventDefault();
+                    if(!app.defaults.get("dev")){
+                        event.preventDefault();
+                    }
 
                     var thisComp = this;
-                    createUserFormValidator.form();
 
-                    thisComp.setState({
-                        working: true,
-                        buttonTag: "fa fa-refresh fa-spin",
-                        buttonText: "WORKING..",
-                    });
+                    if (thisComp.state.email.length>0 && thisComp.state.emailError=="" && thisComp.state.newPass.length>0) {
+                        thisComp.setState({
+                            working: true,
+                            buttonTag: "fa fa-refresh fa-spin",
+                            buttonText: "WORKING..",
+                            incorrectCredentials: false
+                        });
 
-                    thisComp.setState({
-                        incorrectCredentials: false,
-                    });
-
-                    if (createUserFormValidator.numberOfInvalids() == 0) {
-                        if (!thisComp.state.domainSelectFlag) {
-                            var email =
-                                $("#LoginForm_username").val() +
-                                $("#LoginForm_domain option:selected").text();
-                        } else {
-                            var email = $("#LoginForm_username").val();
-                        }
-
-                        var password = $("#LoginUser_password").val();
+                        var email =thisComp.state.email.toLowerCase()+thisComp.state.domain.toLowerCase();
+                        var password = thisComp.state.newPass;
                         var factor2 = this.state.fac2Text;
 
                         app.indexedDBWorker.set({
@@ -165,6 +186,7 @@ define(["react", "app", "validation", "cmpld/modals/paymentGate","ajaxQueue"], f
                             password,
                             factor2,
                             function (result) {
+                                console.log(result);
                                 thisComp.setState({
                                     working: false,
                                     buttonTag: "",
@@ -179,6 +201,7 @@ define(["react", "app", "validation", "cmpld/modals/paymentGate","ajaxQueue"], f
                                 if (result == "wrngUsrOrPass") {
                                     thisComp.setState({
                                         incorrectCredentials: true,
+                                        fac2Type: "",
                                     });
                                 }
                                 if (result == "needGoogle") {
@@ -193,10 +216,7 @@ define(["react", "app", "validation", "cmpld/modals/paymentGate","ajaxQueue"], f
                                 if (result == "needYubi") {
                                     thisComp.setState({
                                         secondFactorInput: true,
-                                    });
-
-                                    thisComp.setState({
-                                        fac2Type: 2,
+                                        fac2Type: 2
                                     });
                                 }
                                 if(result=='noinet'){
@@ -206,6 +226,20 @@ define(["react", "app", "validation", "cmpld/modals/paymentGate","ajaxQueue"], f
                                         buttonTag: "",
                                         buttonText: "SIGN IN",
                                     });*/
+                                }
+                                if(result=="pinWrong"){
+                                    thisComp.setState({
+                                        pinWrong: true,
+                                    });
+
+                                }
+                                if(result=="fail"){
+                                    thisComp.setState({
+                                        incorrectCredentials: true,
+                                        secondFactorInput: false,
+                                    });
+                                   console.log('result111');
+                                    console.log(result);
                                 }
                             }
                         );
@@ -320,7 +354,7 @@ define(["react", "app", "validation", "cmpld/modals/paymentGate","ajaxQueue"], f
                             Welcome back to <span>Mailum.</span>
                         </div>
                         <div className="form-section">
-                            <form
+                            <div
                                 id="loginUserForm"
                                 onKeyDown={this.handleClick.bind(
                                     this,
@@ -336,12 +370,25 @@ define(["react", "app", "validation", "cmpld/modals/paymentGate","ajaxQueue"], f
                                                 name="email"
                                                 id="LoginForm_username"
                                                 placeholder="Email"
-                                                autoComplete="usernam"
-                                                defaultValue={app.defaults.get(
-                                                    "userName"
+                                                autoComplete="username"
+                                                value={this.state.email}
+                                                onChange={this.handleChange.bind(
+                                                    null,
+                                                    "email"
                                                 )}
-                                                onChange={this.handleUserNameChange}
                                             />
+                                            <label
+                                                className={
+                                                    "control-label pull-left " +
+                                                    (this.state
+                                                        .emailError == ""
+                                                        ? "hidden"
+                                                        : "invalid-feedback")
+                                                }
+                                                htmlFor="resetEmail"
+                                            >
+                                                {this.state.emailError}
+                                            </label>
                                         </div>
                                     </div>
                                     <div className="col-sm-5">
@@ -350,12 +397,16 @@ define(["react", "app", "validation", "cmpld/modals/paymentGate","ajaxQueue"], f
                                                 className="form-select"
                                                 aria-label="Domain select"
                                                 id="LoginForm_domain"
-                                                defaultValue={this.state.domain}
                                                 disabled={
                                                     this.state.domainSelectFlag
                                                         ? true
                                                         : null
                                                 }
+                                                onChange={this.handleChange.bind(
+                                                    null,
+                                                    "changeDomain"
+                                                )}
+                                                defaultValue={this.state.domain}
                                             >
                                                 {this.state.domainList.map( (x,y) =>
                                                     <option key={y}>{x}</option> )}
@@ -382,10 +433,25 @@ define(["react", "app", "validation", "cmpld/modals/paymentGate","ajaxQueue"], f
                                                 autoComplete="current-password"
                                                 id="LoginUser_password"
                                                 placeholder="Password"
-                                                defaultValue={app.defaults.get(
-                                                    "firstPassfield"
+                                                onChange={this.handleChange.bind(
+                                                    null,
+                                                    "newPass"
                                                 )}
+                                                value={this.state.newPass}
+
                                             />
+                                            <label
+                                                className={
+                                                    "control-label pull-left " +
+                                                    (this.state
+                                                        .passError == ""
+                                                        ? "hidden"
+                                                        : "invalid-feedback")
+                                                }
+                                                htmlFor="newPass"
+                                            >
+                                                {this.state.passError}
+                                            </label>
                                         </div>
                                     </div>
                                     <div className="col-sm-12">
@@ -401,10 +467,7 @@ define(["react", "app", "validation", "cmpld/modals/paymentGate","ajaxQueue"], f
                                                 <span
                                                     className={
                                                         "mt-n1 " +
-                                                        (this.state.fac2Type ==
-                                                        1
-                                                            ? ""
-                                                            : "d-none")
+                                                        (this.state.fac2Type == 1 ? "": "d-none")
                                                     }
                                                 >
                                                     <svg
@@ -418,14 +481,7 @@ define(["react", "app", "validation", "cmpld/modals/paymentGate","ajaxQueue"], f
                                                     </svg>
                                                 </span>
                                                 <span
-                                                    className={
-                                                        "mt-n1 " +
-                                                            this.state
-                                                                .fac2Type ==
-                                                        2
-                                                            ? ""
-                                                            : "d-none"
-                                                    }
+                                                    className={"mt-n1" + (this.state.fac2Type==2?"":"d-none")}
                                                 >
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"
@@ -460,10 +516,10 @@ define(["react", "app", "validation", "cmpld/modals/paymentGate","ajaxQueue"], f
                                             />
                                         </div>
                                     </div>
-                                    {this.state.incorrectCredentials ? (
+                                    {this.state.incorrectCredentials || this.state.pinWrong? (
                                         <div className="col-sm-12">
                                             <div className="bg-danger px-4 py-2 rounded text-white text-center mb-2 fs-6">
-                                                Wrong username or password.
+                                                {this.state.incorrectCredentials?"Wrong username or password.":"Pin is incorrect"}
                                             </div>
                                         </div>
                                     ) : null}
@@ -478,7 +534,7 @@ define(["react", "app", "validation", "cmpld/modals/paymentGate","ajaxQueue"], f
                                         <button
                                             className="btn-blue full-width mt60"
                                             type="buton"
-                                            disabled={this.state.working}
+                                            disabled={this.state.signDisabled}
                                             onClick={this.handleClick.bind(
                                                 this,
                                                 "login"
@@ -488,7 +544,7 @@ define(["react", "app", "validation", "cmpld/modals/paymentGate","ajaxQueue"], f
                                         </button>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>

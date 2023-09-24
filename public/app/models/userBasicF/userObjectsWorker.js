@@ -36,7 +36,7 @@ define(["app"], function (app) {
             }
         },
 
-        updAcc1: function (callback) {
+/*        updAcc1: function (callback) {
             //updating account to new version
 
             app.serverCall.ajaxRequest(
@@ -265,7 +265,7 @@ define(["app"], function (app) {
                 },
                 function () {}
             );
-        },
+        },*/
 
         initialSync: function (callback) {
             //console.log(app.user.get("secondPassword"));
@@ -463,7 +463,9 @@ define(["app"], function (app) {
                         modalText: "System Variables Loaded",
                     });
                     // dfd_arr[6].resolve();
+                    console.log('dddd22');
                     eightStep.resolve();
+
                 });
             });
             eightStep.done(function () {
@@ -1735,7 +1737,7 @@ define(["app"], function (app) {
                     break;
 
                 case "updateDomain":
-                    console.log("updateDomain");
+                    console.log("updateDomain111");
 
                     var profile = jQuery.extend(
                         true,
@@ -1745,13 +1747,10 @@ define(["app"], function (app) {
 
                     //profile[0]['data']['customDomains']=app.user.get("customDomains");
 
-                    profile[0]["data"]["customDomains"][
-                        app.user.get("newDomain")["id"]
-                    ] = app.user.get("newDomain");
+                    console.log(app.user.get("newDomain"));
+                    profile[0]["data"]["customDomains"][app.user.get("newDomain")["id"]] = app.user.get("newDomain");
 
-                    profile[0]["hash"] = app.transform.SHA512(
-                        JSON.stringify(profile[0]["data"])
-                    );
+                    profile[0]["hash"] = app.transform.SHA512(JSON.stringify(profile[0]["data"]));
                     profile[0]["nonce"] = parseInt(profile[0]["nonce"]) + 1;
                     //console.log(encryptedObj);
 

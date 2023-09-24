@@ -32,7 +32,7 @@ define([
 				script.src = 'https://js.stripe.com/v3/';
 				$('head').append( $('<link rel="stylesheet" type="text/css" />').attr('href', '/css/stripe.css') );
 				document.body.appendChild(script);
-				
+
 				script.addEventListener('load', function () {
 					app.stripeCheckOut.set({
 						"stripe":Stripe(app.defaults.get('stripeKey')),
@@ -43,7 +43,7 @@ define([
 				script.addEventListener('error', function (e) {
 					reject(e);
 				});
-				
+
 			})
 		},
 		start:async function(that){
@@ -52,16 +52,19 @@ define([
 				var stripe_script = await app.stripeCheckOut.stripe_script(this);
 			}
 
-			const { clientSecret,amount,id } = await fetch("/api/CreateOrderStripeV2", {
+			const { clientSecret,amount,id } = await fetch("/api/CreateOrderStripeV3", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 
-				body: JSON.stringify({  location:that.state.location,
-					planSelector:that.state.forPlan,
-					howMuch:that.state.howMuch,
-					price: that.state.toPay,
+				body: JSON.stringify({
+					price:that.state.price, //$
+					planSelector:that.state.planSelector, //free, basic, etc
+					duration:that.state.duration, //item/plan descr 1 year,
+					type:that.state.type, // new membership, renewal
+
 					userToken:app.user.get("userLoginToken"),
-					email:app.user.get('loginEmail')
+					email:app.user.get('loginEmail'),
+
 				}),
 
 			}).then((r) => r.json());
@@ -132,7 +135,7 @@ define([
 
 			$.ajax({
 				method: "POST",
-				url: app.defaults.get('apidomain')+"/UpdateStripeV2",
+				url: app.defaults.get('apidomain')+"/UpdateStripeV3",
 				data: payLoad,
 				dataType: "json",
 				xhrFields: {

@@ -1318,7 +1318,7 @@ define(["react", "app", "dataTable", "dataTableAbsolute", "dataTableBoot"], func
                                                             x2: "5.84854",
                                                             y2: "22.9799",
                                                             stroke: "black",
-                                                            "stroke-width": "2"
+                                                            "strokeWidth": "2"
                                                         })
                                                     )
                                                 ),

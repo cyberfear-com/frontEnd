@@ -74,7 +74,7 @@ define([
                 var el = {
                     DT_RowId: index,
                     checkbox:
-                        '<label class="container-checkbox"><input type="checkbox" /><span class="checkmark"></span></label>',
+                        '<label class="container-checkbox d-none"><input type="checkbox" /><span class="checkmark"></span></label>',
                     folder: {
                         display: data["isMain"]
                             ? "<b>" +
@@ -82,15 +82,18 @@ define([
                                   app.transform.from64str(data["name"])
                               ) +
                               "</b>"
-                            : app.transform.escapeTags(
+                            :'<span className="menu-icon">' +
+                            '<svg width="24" height="24" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+                            '<path opacity="0.4" d="M16.2013 3.36209C16.3115 3.53535 16.1226 3.7372 15.9224 3.69169C15.5307 3.57502 15.0974 3.51669 14.6557 3.51669H11.9055C11.7745 3.51669 11.6511 3.45507 11.5724 3.35033L10.6141 2.07502C10.4967 1.90872 10.6076 1.66669 10.8112 1.66669H13.1057C14.4066 1.66669 15.5524 2.3423 16.2013 3.36209Z" fill="'+data["color"]+'"/>' +
+                            '<path d="M16.7807 5.45002C16.4224 5.19169 16.0141 5.00002 15.5724 4.89169C15.2724 4.80835 14.9641 4.76669 14.6474 4.76669H11.5474C11.0641 4.76669 11.0307 4.72502 10.7724 4.38335L9.60573 2.83335C9.06406 2.10835 8.63906 1.66669 7.28073 1.66669H5.3474C3.31406 1.66669 1.66406 3.31669 1.66406 5.35002V14.65C1.66406 16.6834 3.31406 18.3334 5.3474 18.3334H14.6474C16.6807 18.3334 18.3307 16.6834 18.3307 14.65V8.45002C18.3307 7.20835 17.7224 6.11669 16.7807 5.45002ZM11.9891 13.6167H7.9974C7.6724 13.6167 7.4224 13.3584 7.4224 13.0334C7.4224 12.7167 7.6724 12.45 7.9974 12.45H11.9891C12.3141 12.45 12.5724 12.7167 12.5724 13.0334C12.5724 13.3584 12.3141 13.6167 11.9891 13.6167Z"' +
+                            ' fill="'+data["color"]+'"/> </svg></span> '+ app.transform.escapeTags(
                                   app.transform.from64str(data["name"])
                               ),
                     },
                     isMain: data["isMain"] ? "1" : "0",
                     expire: dates[data["exp"]],
                     delete: '<button class="table-icon delete-button"></button>',
-                    options:
-                        '<div class="dropdown"><button class="btn btn-secondary dropdown-toggle table-icon" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button></div>',
+                    options: '<div class="dropdown"><button class="btn btn-secondary dropdown-toggle table-icon d-none" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button></div>',
                 };
                 alEm.push(el);
             });
@@ -115,14 +118,18 @@ define([
                 var el = {
                     DT_RowId: label64,
                     checkbox:
-                        '<label class="container-checkbox"><input type="checkbox" name="inbox-email" /><span class="checkmark"></span></label>',
-                    label: app.transform.escapeTags(
+                        '<label class="container-checkbox d-none"><input type="checkbox" name="inbox-email" /><span class="checkmark"></span></label>',
+                    label: '<span className="menu-icon">' +
+                        '<svg width="24" height="24" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+                        '<path opacity="0.4" d="M16.2013 3.36209C16.3115 3.53535 16.1226 3.7372 15.9224 3.69169C15.5307 3.57502 15.0974 3.51669 14.6557 3.51669H11.9055C11.7745 3.51669 11.6511 3.45507 11.5724 3.35033L10.6141 2.07502C10.4967 1.90872 10.6076 1.66669 10.8112 1.66669H13.1057C14.4066 1.66669 15.5524 2.3423 16.2013 3.36209Z" fill="'+data64["color"]+'"/>' +
+                        '<path d="M16.7807 5.45002C16.4224 5.19169 16.0141 5.00002 15.5724 4.89169C15.2724 4.80835 14.9641 4.76669 14.6474 4.76669H11.5474C11.0641 4.76669 11.0307 4.72502 10.7724 4.38335L9.60573 2.83335C9.06406 2.10835 8.63906 1.66669 7.28073 1.66669H5.3474C3.31406 1.66669 1.66406 3.31669 1.66406 5.35002V14.65C1.66406 16.6834 3.31406 18.3334 5.3474 18.3334H14.6474C16.6807 18.3334 18.3307 16.6834 18.3307 14.65V8.45002C18.3307 7.20835 17.7224 6.11669 16.7807 5.45002ZM11.9891 13.6167H7.9974C7.6724 13.6167 7.4224 13.3584 7.4224 13.0334C7.4224 12.7167 7.6724 12.45 7.9974 12.45H11.9891C12.3141 12.45 12.5724 12.7167 12.5724 13.0334C12.5724 13.3584 12.3141 13.6167 11.9891 13.6167Z"' +
+                        ' fill="'+data64["color"]+'"/> </svg></span> '+app.transform.escapeTags(
                         app.transform.from64str(label64)
                     ),
                     // edit: '<button class="disposed-button"></button>',
                     delete: '<button class="table-icon delete-button"></button>',
                     options:
-                        '<div class="dropdown"><button class="btn btn-secondary dropdown-toggle table-icon" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button></div>',
+                        '<div class="dropdown"><button class="btn btn-secondary dropdown-toggle table-icon d-none" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button></div>',
                 };
                 alEm.push(el);
             });
@@ -159,11 +166,11 @@ define([
                     { sClass: "d-none", targets: [2] },
                     {
                         sClass: "data-cols col-content-width_one_half",
-                        targets: [1, 3],
+                        targets: [2, 3]
                     },
-                    { sClass: "col-options-width", targets: [0, -1] },
-                    { sClass: "col-mobile-hide", targets: [4] },
-                    { bSortable: false, aTargets: [2, 3] },
+                    { sClass: "col-options-width","searchable": false, targets: [0, -1],  },
+                    { sClass: "col-mobile-hide","searchable": false, targets: [4] },
+                    { bSortable: false,"searchable": false, aTargets: [2, 3] },
                     { orderDataType: "data-sort", targets: 0 },
                     {
                         responsivePriority: 1,
@@ -171,12 +178,12 @@ define([
                     },
                     { responsivePriority: 2, targets: 5 },
                 ],
-                order: [[1, "desc"]],
+                order: [[2, "desc"],[1, "asc"]],
                 language: {
                     emptyTable: "Empty",
                     sSearch: "",
-                    searchPlaceholder: "Find something...",
-                    info: "Showing _START_ - _END_ of _TOTAL_ result",
+                    searchPlaceholder: "Find folder(s)...",
+                    info: "_START_ - _END_ (_TOTAL_)",
                     paginate: {
                         sPrevious: "<i class='fa fa-chevron-left'></i>",
                         sNext: "<i class='fa fa-chevron-right'></i>",
@@ -199,12 +206,12 @@ define([
                     { bSortable: false, aTargets: [1] },
                     { orderDataType: "data-sort", targets: 0 },
                 ],
-                order: [[1, "desc"]],
+                order: [[1, "asc"]],
                 language: {
                     emptyTable: "Empty",
                     sSearch: "",
-                    searchPlaceholder: "Find something...",
-                    info: "Showing _START_ - _END_ of _TOTAL_ result",
+                    searchPlaceholder: "Find label(s)...",
+                    info: "_START_ - _END_ (_TOTAL_)",
                     paginate: {
                         sPrevious: "<i class='fa fa-chevron-left'></i>",
                         sNext: "<i class='fa fa-chevron-right'></i>",
@@ -369,6 +376,7 @@ define([
 
                         folderId: "",
                         nameField: "",
+                        folderColor:"",
                         expireFolder: 0,
 
                         deleteFolderClass: "d-none",
@@ -451,6 +459,7 @@ define([
                         button5text: "Add",
 
                         nameField: "",
+                        folderColor:"",
                         expireFolder: "-1",
                         deleteFolderClass: "d-none",
 
@@ -480,6 +489,7 @@ define([
 
                         button5Click: "saveNewLabel",
                         button5text: "Add",
+                        labelColor: "",
                         deleteFolderClass: "d-none",
 
                         //button1:{text:"Add Label",enabled:false,iClass:"",onClick:"addLabel", class:'btn btn-primary pull-right hidden'},
@@ -507,6 +517,7 @@ define([
                             this.state.nameField
                         );
                         folders[fId]["exp"] = this.state.expireFolder;
+                        folders[fId]["color"] = this.state.folderColor;
 
                         app.userObjects.updateObjects(
                             "folderSettings",
@@ -639,7 +650,7 @@ define([
 
                 case "selectRowTab1":
                     var thisComp = this;
-                    if (
+                        if (
                         $(event.target).prop("tagName").toUpperCase() ===
                         "INPUT"
                     ) {
@@ -653,7 +664,8 @@ define([
                     }
 
                     // Edit click functionality
-                    if ($(event.target).prop("tagName").toUpperCase() === "B") {
+
+                    if ($(event.target).prop("tagName").toUpperCase() === "B" || $(event.target).prop("tagName").toUpperCase() === "TD") {
                         var id = $(event.target).parents("tr").attr("id");
 
                         if (id != undefined) {
@@ -777,6 +789,7 @@ define([
                         nameField: app.transform.from64str(
                             folders[event]["name"]
                         ),
+                        folderColor:folders[event]["color"],
                         expireFolder: folders[event]["exp"],
                         folderId: event,
 
@@ -806,13 +819,14 @@ define([
 
             if (folders[id]["isMain"]) {
                 $("#infoModHead").html("Delete Folder");
+                $("#infoModHeader").html("");
                 $("#infoModBody").html("You can not delete system folder");
 
                 $("#infoModal").modal("show");
             } else {
                 $("#dialogModHead").html("Delete Folder");
                 $("#dialogModBody").html(
-                    "All messages and filter rules for this folder will be deleted. Do you want to continue?"
+                    "You about to delete folder. All messages will be moved to trash and filter rules for this folder will be deleted. Do you want to continue?"
                 );
 
                 $("#dialogOk").on("click", function () {
@@ -840,7 +854,7 @@ define([
                     $("#dialogPop").modal("hide");
 
                     app.userObjects.updateObjects(
-                        "folderSettings",
+                        "folderUpdate",
                         "",
                         function (result) {
                             if (result["response"] == "success") {
@@ -986,7 +1000,7 @@ define([
                                         className="table"
                                         id="table1"
                                         onClick={this.handleClick.bind(
-                                            this,
+                                            null,
                                             "selectRowTab1"
                                         )}
                                     >
@@ -1000,7 +1014,7 @@ define([
                                         <thead>
                                             <tr>
                                                 <th scope="col">
-                                                    <label className="container-checkbox">
+                                                    <label className="container-checkbox d-none">
                                                         <input
                                                             type="checkbox"
                                                             onChange={this.handleClick.bind(
@@ -1023,10 +1037,10 @@ define([
                                                     Expire
                                                 </th>
                                                 <th scope="col">
-                                                    <button className="trash-btn"></button>
+                                                    <button className="trash-btn d-none"></button>
                                                 </th>
                                                 <th scope="col">
-                                                    <div className="dropdown">
+                                                    <div className="dropdown d-none">
                                                         <button
                                                             className="btn btn-secondary dropdown-toggle ellipsis-btn"
                                                             type="button"
@@ -1081,7 +1095,7 @@ define([
                                         <thead>
                                             <tr>
                                                 <th scope="col">
-                                                    <label className="container-checkbox">
+                                                    <label className="container-checkbox d-none">
                                                         <input
                                                             type="checkbox"
                                                             onChange={this.handleClick.bind(
@@ -1100,10 +1114,10 @@ define([
                                                     <button className="btn-sorting"></button>
                                                 </th>
                                                 <th scope="col">
-                                                    <button className="trash-btn"></button>
+                                                    <button className="trash-btn d-none"></button>
                                                 </th>
                                                 <th scope="col">
-                                                    <div className="dropdown">
+                                                    <div className="dropdown d-none">
                                                         <button
                                                             className="btn btn-secondary dropdown-toggle ellipsis-btn"
                                                             type="button"
@@ -1265,13 +1279,14 @@ define([
                                                         name="folderColour"
                                                         className="form-control with-icon icon-email"
                                                         id="folderColour"
+                                                        style={{"color":this.state.folderColor=="#ffffff"?"#000":this.state.folderColor}}
                                                         placeholder="color code"
                                                         value={
                                                             this.state
                                                                 .folderColor
                                                         }
                                                         onChange={this.handleChange.bind(
-                                                            this,
+                                                            null,
                                                             "changeFolderColor"
                                                         )}
                                                     />
@@ -1280,7 +1295,7 @@ define([
                                             </div>
                                         </div>
                                         <div className="form-section-bottom">
-                                            <div className="delete-item">
+                                            <div className="delete-item d-none">
                                                 <button
                                                     type="button"
                                                     className={
@@ -1288,7 +1303,7 @@ define([
                                                             .deleteFolderClass
                                                     }
                                                     onClick={this.handleClick.bind(
-                                                        this,
+                                                        null,
                                                         "deleteFolder"
                                                     )}
                                                 >
@@ -1300,7 +1315,7 @@ define([
                                                     type="button"
                                                     className="btn-border fixed-width-btn"
                                                     onClick={this.handleClick.bind(
-                                                        this,
+                                                        null,
                                                         this.state.button4Click
                                                     )}
                                                 >
@@ -1310,7 +1325,7 @@ define([
                                                     type="button"
                                                     className="btn-blue fixed-width-btn"
                                                     onClick={this.handleClick.bind(
-                                                        this,
+                                                        null,
                                                         this.state.button5Click
                                                     )}
                                                 >
@@ -1338,10 +1353,7 @@ define([
                                     can be used to archive email and help keep
                                     your inbox clean. An email can be placed in
                                     only one folder.
-                                    <br />
-                                    In an upcoming version we will be
-                                    introducing a message expiration that will
-                                    allow you to set an expiration date, per
+                                    Message expiration allows you to set an expiration date, per
                                     folder, that will allow email in a folder to
                                     be automatically deleted after a specified
                                     number of days.

@@ -21,39 +21,41 @@ define([
                 case "deleteAccount":
                     var thisComp = this;
                     $("#dialogModHead").html("Delete");
+                    $("#dialogIcon").prop("src","/images/delete-pop.png");
                     $("#dialogModBody").html(
                         "This action is permanent. Do you want to continue?"
                     );
+                    $("#dialogOk").html('Delete');
                     $("#dialogOk").on("click", function () {
                         $("#dialogPop").modal("hide");
 
-                        $("#userSyncTitle").html("Deleting Account");
-                        app.userObjects.set({ modalText: "Preparing" });
-                        app.userObjects.set({ modalpercentage: 5 });
+                        //$("#userSyncTitle").html("Deleting Account");
+                        //app.userObjects.set({ modalText: "Preparing" });
+                        //app.userObjects.set({ modalpercentage: 5 });
 
                         app.userObjects.deletingAccount(
                             thisComp.state.lockEmail,
                             function (result) {
-                                $("#userObjSync").modal("hide");
+                                //$("#userObjSync").modal("hide");
 
                                 if (result["response"] == "success") {
-                                    app.userObjects.set({
-                                        modalText: "Removed",
-                                    });
-                                    app.userObjects.set({
-                                        modalpercentage: 100,
+                                   // app.userObjects.set({
+                                 //       modalText: "Removed",
+                                  //  });
+                                  //  app.userObjects.set({
+                                  //      modalpercentage: 100,
+                                  //  });
+
+                                    $("#infoModHead").html("Account deleted");
+                                    $("#infoModHeader").html("");
+                                    $("#infoModBody").html("Your Account has been marked for deletion. It may take up to 7 days to be removed from our system and backup. Good Bye.");
+
+                                    $("#infoModal").modal("show");
+
+                                    $('#infoModal').click(function() {
+                                        app.auth.logout();
                                     });
 
-                                    $("#dialogModBody").html(
-                                        "Your Account has been marked for deletion. It may take up to 7 days to be removed from our system and backup. Good Bye."
-                                    );
-                                    $("#dialogOk").on("click", function () {
-                                        setTimeout(function () {
-                                            app.auth.logout();
-                                        }, 500);
-                                    });
-
-                                    $("#dialogPop").modal("show");
                                 } else {
                                     $("#dialogModBody").html(
                                         "We were unable to remove your account. Please contact us for further assistance"

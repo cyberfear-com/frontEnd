@@ -14,13 +14,17 @@ define([
                 dataAlias: this.getAliasData(),
                 aliasForm: {},
                 aliasEmail: "",
+                quill:{},
+                sigE:"",
+                nameE:"",
 
                 includeSignature: false,
                 signature: "",
                 domain: app.defaults.get("domainMail").toLowerCase(),
                 domains: [],
 
-                pageTitle: `Add`,
+                pageTitle: `Add alias`,
+                disabled:true,
 
                 showDisplayName: app.user.get("showDisplayName"),
                 aliasName: app.user.get("displayName"),
@@ -34,20 +38,20 @@ define([
             var alEm = [];
 
             $.each(app.user.get("allKeys"), function (email64, emailData) {
-                if (emailData["addrType"] == 3) {
+                if (emailData["addrType"] == 3 || emailData["addrType"] == 1) {
                     var el = {
                         DT_RowId: email64,
                         checkbox:
-                            '<label class="container-checkbox"><input type="checkbox" name="inbox-email" /><span class="checkmark"></span></label>',
-                        email: app.transform.from64str(emailData["email"]),
-                        name: app.transform.escapeTags(
+                            '<label class="container-checkbox d-none"><input type="checkbox" name="inbox-email" /><span class="checkmark"></span></label>',
+                        email:emailData["addrType"] == 1?"<b>" +app.transform.from64str(emailData["email"]) +"</b>": app.transform.from64str(emailData["email"]),
+                        name:emailData["addrType"] == 1?"<b>" +app.transform.escapeTags(app.transform.from64str(emailData["name"])) +"</b>": app.transform.escapeTags(
                             app.transform.from64str(emailData["name"])
                         ),
-                        main: 0,
-                        edit: '<a class="table-icon edit-button"></a>',
-                        delete: '<button class="table-icon delete-button"></button>',
+                        edit: '<a class="table-icon edit-button d-none"></a>',
+                        delete: emailData["addrType"] == 1?"":'<button class="table-icon delete-button"></button>',
                         options:
-                            '<div class="dropdown"><button class="btn btn-secondary dropdown-toggle table-icon" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button></div>',
+                            '<div class="dropdown d-none"><button class="btn btn-secondary dropdown-toggle table-icon" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button></div>',
+                        main:emailData["addrType"] == 1?1:0,
                     };
                     alEm.push(el);
                 }
@@ -59,31 +63,9 @@ define([
                     { data: "delete" },
                     { data: "options" },
                  */
-                if (emailData["addrType"] == 1) {
-                    var el = {
-                        DT_RowId: email64,
-                        checkbox:
-                            '<label class="container-checkbox"><input type="checkbox" name="inbox-email" /><span class="checkmark"></span></label>',
-                        email:
-                            "<b>" +
-                            app.transform.from64str(emailData["email"]) +
-                            "</b>",
-                        name:
-                            "<b>" +
-                            app.transform.escapeTags(
-                                app.transform.from64str(emailData["name"])
-                            ) +
-                            "</b>",
-                        main: 1,
-                        edit: '<a class="table-icon edit-button"></a>',
-                        delete: '<button class="table-icon delete-button"></button>',
-                        options:
-                            '<div class="dropdown"><button class="btn btn-secondary dropdown-toggle table-icon" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button></div>',
-                    };
-                    alEm.push(el);
-                }
             });
 
+            //console.log(app.user.get("allKeys"));
             return alEm;
         },
         domains: function () {
@@ -159,7 +141,7 @@ define([
             );
         },
         componentWillUpdate: function (nextProps, nextState) {
-            if (nextState.signature != this.state.signature) {
+           /* if (nextState.signature != this.state.signature) {
                 $(".note-editable").html(nextState.signature);
             }
 
@@ -168,7 +150,7 @@ define([
                     "contenteditable",
                     nextState.signatureEditable
                 );
-            }
+            }*/
 
             if (
                 JSON.stringify(nextState.dataAlias) !==
@@ -325,10 +307,13 @@ define([
                 }
             });
         },
+        fake:function(){
+            console.log('logging in');
+        },
         componentDidMount: function () {
             var thsComp = this;
 
-            $(".note-editable").attr("contenteditable", "false");
+       //     $(".note-editable").attr("contenteditable", "false");
 
             // Initiate editor toolbar [Quill]
             const quill = new Quill("#com-the-con-editor__alias", {
@@ -345,11 +330,26 @@ define([
                         }
                     },
                 },
+                placeholder:'',
+
+                //onChange:{this.handleChange.bind(null,"changeSig")},
             });
+
+            quill.on('text-change', function() {
+                thsComp.setState({
+                    signature:quill.getText(),
+                    sigE:quill.getLength()>500?"Please use signature less than 500 Characters":""
+                })
+                console.log('Text change!');
+                console.log(quill.getLength());
+            });
+            this.setState({
+                quill:quill
+            })
 
             $("#table1").dataTable({
                 dom: '<"middle-search"f>t<"mid-pagination-row"<"pagi-left"i><"pagi-right"p>>',
-                data: thsComp.getAliasData(),
+                data: thsComp.state.dataAlias,
                 columns: [
                     { data: "checkbox" },
                     { data: "email" },
@@ -357,8 +357,10 @@ define([
                     { data: "edit" },
                     { data: "delete" },
                     { data: "options" },
+                    { data: "main" },
                 ],
                 columnDefs: [
+                    { sClass: "d-none", targets: [6] },
                     { orderDataType: "data-sort", targets: [1, 2] },
                     { sClass: "col-options-width", targets: [0, -1] },
                     {
@@ -366,11 +368,9 @@ define([
                         targets: [1, 2],
                     },
                     { sClass: "col-mobile-hide", targets: [3, 4] },
+
                 ],
-                order: [
-                    [2, "desc"],
-                    [0, "asc"],
-                ],
+                order: [[6, "desc"],[1, "asc"]],
                 language: {
                     emptyTable: "Empty",
                     sSearch: "",
@@ -401,9 +401,15 @@ define([
             this.setState({ aliasForm: $("#addNewAliasForm").validate() });
             //console.log(this.state.domain);
 
+            $("#fromAliasName").rules("add", {
+                required: false,
+                minlength: 1,
+                maxlength: 80
+            });
+
             $("#fromAliasEmail").rules("add", {
                 required: true,
-                minlength: 2,
+                minlength: 3,
                 maxlength: 90,
                 uniqueUserName: true,
                 remote: {
@@ -430,6 +436,14 @@ define([
 
             this.domains();
         },
+        ifReady(){
+            if(this.state.aliasEmail.length>0
+            ){
+                this.setState({
+                    saveDisabled:false
+                })
+            }
+        },
         /**
          *
          * @param {string} action
@@ -437,6 +451,7 @@ define([
          */
         handleChange: function (action, event) {
             switch (action) {
+
                 case "editAlias":
                     var keys = app.user.get("allKeys")[event];
 
@@ -449,35 +464,37 @@ define([
                             deleteAlias: "",
                         });
                     }
-
                     this.setState({
                         viewFlag: true,
-                        firstPanelClass: "panel-body hidden",
-                        secondPanelClass: "panel-body hidden",
-                        thirdPanelClass: "panel-body hidden",
-                        fourthPanelClass: "panel-body",
-                        firstTab: "active",
-                        secondTab: "",
-
                         button1enabled: true,
                         button1iClass: "",
                         button1visible: "hidden",
+                        disabled:true,
 
                         aliasId: event,
-                        aliasEmail: app.transform.from64str(event),
+                        pageTitle: app.transform.from64str(event),
                         aliasName: app.transform.from64str(keys["name"]),
 
                         isDefault: keys["isDefault"],
+                        saveDisabled:false,
                         includeSignature: keys["includeSignature"],
                         signature: app.transform.from64str(keys["signature"]),
 
                         aliasNameEnabled: false,
-                        button5click: "enableEdit",
-                        button5text: "Edit",
-                        button5class: "btn btn-warning",
                         signatureEditable: false,
                     });
+                    this.state.quill.pasteHTML(app.transform.from64str(keys["signature"]));
+
+                    if(keys["includeSignature"]){
+                        this.state.quill.enable()
+                    }else{
+                        this.state.quill.disable()
+                    }
+
+                    console.log('sigs');
+                    console.log(keys);
                     break;
+
                 case "changeDomain":
                     var validator = this.state.aliasForm;
                     validator.resetForm();
@@ -493,6 +510,7 @@ define([
                 case "changeAliasEmail":
                     var email = event.target.value.split("@")[0];
                     this.setState({ aliasEmail: email });
+                    this.ifReady();
 
                     break;
 
@@ -500,6 +518,12 @@ define([
                     this.setState({
                         includeSignature: !this.state.includeSignature,
                         signatureEditable: !this.state.includeSignature,
+                    },function(){
+                        if(this.state.includeSignature){
+                            this.state.quill.enable()
+                        }else{
+                            this.state.quill.disable()
+                        }
                     });
 
                     break;
@@ -568,6 +592,69 @@ define([
                     }
 
                     break;
+                case 'saveEditAlias':
+                    var thisComp=this;
+                    var aliasId=this.state.aliasId;
+                    var validator = this.state.aliasForm;
+                    validator.form();
+
+                    if (validator.numberOfInvalids() == 0 && this.state.sigE=="") {
+                        var keys=app.user.get("allKeys")[aliasId];
+
+                        if(this.state.isDefault){
+                            var keysAll=app.user.get("allKeys");
+
+                            $.each(keysAll, function( email64, emailData ) {
+                                keysAll[email64]['isDefault']=false;
+                            });
+                        }
+
+
+
+                        if(keys!=undefined){
+
+                            app.globalF.checkSecondPass(function(){
+                                keys['name']=app.transform.to64str(thisComp.state.aliasName);
+                                keys['displayName']=(thisComp.state.aliasName!=""?app.transform.to64str(thisComp.state.aliasName+" <"+app.transform.from64str(aliasId)+">"):aliasId),
+                                    keys['includeSignature']=thisComp.state.includeSignature;
+                                keys['isDefault']=thisComp.state.isDefault;
+
+                                keys['signature']=thisComp.state.includeSignature?app.transform.to64str(app.globalF.filterXSSwhite(thisComp.state.signature)):keys['signature'];
+
+                                app.userObjects.updateObjects('editPGPKeys','',function(result){
+
+                                    //if (result['response'] == "success") {
+                                    if(result=='saved'){
+                                        thisComp.setState(
+                                            {
+                                                dataAlias:thisComp.getAliasData()
+                                            }
+                                        );
+
+                                        thisComp.handleClick('showFirst');
+
+                                    }else if(result=='newerFound'){
+                                        //app.notifications.systemMessage('newerFnd');
+                                        thisComp.handleClick('showFirst');
+                                    }
+
+                                    //}
+                                });
+                            });
+
+
+
+
+
+                        }
+
+                    }
+
+
+
+
+                    break;
+
                 case "saveNewAlias":
                     var validator = this.state.aliasForm;
                     validator.form();
@@ -616,10 +703,7 @@ define([
                                     secondTab: "",
 
                                     button1visible: "d-none",
-                                    signature:
-                                        '<div>Sent using Encrypted Email Service -&nbsp;<a href="https://cyberfear.com/index.html#createUser/' +
-                                        app.user.get("userPlan")["coupon"] +
-                                        '" target="_blank">CyberFear.com</a></div>',
+                                    signature:'',
                                 });
                             } else {
                                 thisComp.props.updateAct("Plan");
@@ -647,12 +731,14 @@ define([
                         }
                     }
                     // Edit click functionality
-                    if ($(event.target).prop("tagName").toUpperCase() === "A") {
+                    if ($(event.target).prop("tagName").toUpperCase() === "TD" || $(event.target).prop("tagName").toUpperCase() === "B" ) {
                         var id = $(event.target).parents("tr").attr("id");
 
                         if (id != undefined) {
                             this.setState({
-                                pageTitle: `Edit`,
+                                pageTitle: `Edit alias`,
+                                disabled:true,
+                                button5click:"saveEditAlias",
                             });
                             thisComp.handleChange("editAlias", id);
                         }
@@ -680,7 +766,19 @@ define([
                 case "toggleDisplay":
                     this.setState({
                         viewFlag: !this.state.viewFlag,
-                        pageTitle: `Add`,
+                        pageTitle: `Add alias`,
+                        aliasName:"",
+                        aliasEmail:"",
+                        isDefault:false,
+                        signature:"",
+                        saveDisabled:true,
+                        includeSignature:true,
+                        button5click: "saveNewAlias",
+                        disabled:false
+                    },function(){
+                        this.state.quill.pasteHTML('<div>Sent using Encrypted Email Service -&nbsp;<a href="https://mailum.com/mailbox/#signup/' +
+                            app.user.get("userPlan")["coupon"] +
+                            '" target="_blank">Mailum.com</a></div>');
                     });
                     break;
             }
@@ -700,9 +798,22 @@ define([
                     .addClass("d-block");
                 $("#dialogPop").modal("hide");
                 app.globalF.checkSecondPass(function () {
+
+                    console.log('deleting');
+                    console.log(keys[id]);
+                    if(keys[id]['isDefault']){
+                        $.each(keys, function( email64, emailData ) {
+                            if(keys[email64]['addrType']==1){
+                                keys[email64]['isDefault']=true;
+                            }
+                            console.log(keys[email64]);
+                            //keysAll[email64]['isDefault']=false;
+                        });
+                    }
                     app.user.set({ newPGPKey: keys[id] });
 
                     delete keys[id];
+                    console.log(keys);
 
                     app.userObjects.updateObjects(
                         "deletePGPKeys",
@@ -723,6 +834,7 @@ define([
                             app.user.unset("newPGPKey");
                         }
                     );
+
                 });
                 $("#settings-spinner")
                     .removeClass("d-block")
@@ -765,7 +877,7 @@ define([
                                             Alias
                                         </a>
                                     </li>
-                                    <li>{this.state.pageTitle} alias</li>
+                                    <li>{this.state.aliasName!=""?this.state.aliasName:this.state.pageTitle}</li>
                                 </ul>
                             </div>
                         </div>
@@ -797,7 +909,7 @@ define([
                                             className="table"
                                             id="table1"
                                             onClick={this.handleClick.bind(
-                                                this,
+                                                null,
                                                 "selectRowTab1"
                                             )}
                                         >
@@ -808,11 +920,12 @@ define([
                                                 <col width="40" />
                                                 <col width="40" />
                                                 <col width="40" />
+                                                <col />
                                             </colgroup>
                                             <thead>
                                                 <tr>
                                                     <th scope="col">
-                                                        <label className="container-checkbox">
+                                                        <label className="container-checkbox d-none">
                                                             <input
                                                                 type="checkbox"
                                                                 onChange={this.handleClick.bind(
@@ -833,10 +946,10 @@ define([
                                                     </th>
                                                     <th scope="col">&nbsp;</th>
                                                     <th scope="col">
-                                                        <button className="trash-btn"></button>
+                                                        <button className="trash-btn d-none"></button>
                                                     </th>
                                                     <th scope="col">
-                                                        <div className="dropdown">
+                                                        <div className="dropdown d-none">
                                                             <button
                                                                 className="btn btn-secondary dropdown-toggle ellipsis-btn"
                                                                 type="button"
@@ -864,6 +977,8 @@ define([
                                                             </ul>
                                                         </div>
                                                     </th>
+                                                    <th scope="col" className="d-none">
+                                                    </th>
                                                 </tr>
                                             </thead>
                                         </table>
@@ -876,7 +991,7 @@ define([
                                 }`}
                             >
                                 <div className="middle-content-top">
-                                    <h3>{this.state.pageTitle} alias</h3>
+                                    <h3>{this.state.pageTitle}</h3>
                                 </div>
 
                                 <div className="form-section">
@@ -905,7 +1020,7 @@ define([
                                                     <input
                                                         type="text"
                                                         name="fromEmail"
-                                                        className="form-control with-icon icon-email"
+                                                        className={this.state.disabled?"d-none":"form-control with-icon icon-email"}
                                                         id="fromAliasEmail"
                                                         value={
                                                             this.state
@@ -922,7 +1037,7 @@ define([
                                             <div className="col-md-6">
                                                 <div className="form-group">
                                                     <select
-                                                        className="form-select"
+                                                        className={this.state.disabled?"d-none":"form-select"}
                                                         value={
                                                             this.state.domain
                                                         }
@@ -963,11 +1078,7 @@ define([
                                                                 <input
                                                                     className="pull-left"
                                                                     type="checkbox"
-                                                                    checked={
-                                                                        this
-                                                                            .state
-                                                                            .includeSignature
-                                                                    }
+                                                                    checked={this.state.includeSignature}
                                                                     onChange={this.handleChange.bind(
                                                                         this,
                                                                         "displaySign"
@@ -1039,34 +1150,7 @@ define([
                                                             </svg>
                                                         </span>
                                                     </button>
-                                                    <button
-                                                        type="submit"
-                                                        className="ql-list"
-                                                        value="ordered"
-                                                    >
-                                                        <span className="icon">
-                                                            <svg
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                viewBox="0 0 48 48"
-                                                            >
-                                                                <path d="M6 40v-1.7h4.2V37H8.1v-1.7h2.1V34H6v-1.7h5.9V40Zm10.45-2.45v-3H42v3ZM6 27.85v-1.6l3.75-4.4H6v-1.7h5.9v1.6l-3.8 4.4h3.8v1.7Zm10.45-2.45v-3H42v3ZM8.1 15.8V9.7H6V8h3.8v7.8Zm8.35-2.55v-3H42v3Z" />
-                                                            </svg>
-                                                        </span>
-                                                    </button>
-                                                    <button
-                                                        type="submit"
-                                                        className="ql-list"
-                                                        value="bullet"
-                                                    >
-                                                        <span className="icon">
-                                                            <svg
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                viewBox="0 0 48 48"
-                                                            >
-                                                                <path d="M8.55 39q-1.05 0-1.8-.725T6 36.55q0-1.05.75-1.8t1.8-.75q1 0 1.725.75.725.75.725 1.8 0 1-.725 1.725Q9.55 39 8.55 39ZM16 38v-3h26v3ZM8.55 26.5q-1.05 0-1.8-.725T6 24q0-1.05.75-1.775.75-.725 1.8-.725 1 0 1.725.75Q11 23 11 24t-.725 1.75q-.725.75-1.725.75Zm7.45-1v-3h26v3ZM8.5 14q-1.05 0-1.775-.725Q6 12.55 6 11.5q0-1.05.725-1.775Q7.45 9 8.5 9q1.05 0 1.775.725Q11 10.45 11 11.5q0 1.05-.725 1.775Q9.55 14 8.5 14Zm7.5-1v-3h26v3Z" />
-                                                            </svg>
-                                                        </span>
-                                                    </button>
+
                                                     <button
                                                         type="submit"
                                                         className="ql-link"
@@ -1080,22 +1164,7 @@ define([
                                                             </svg>
                                                         </span>
                                                     </button>
-                                                    <button
-                                                        type="button"
-                                                        onClick={this.handleClick.bind(
-                                                            this,
-                                                            "attachFile"
-                                                        )}
-                                                    >
-                                                        <span className="icon">
-                                                            <svg
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                viewBox="0 0 24 24"
-                                                            >
-                                                                <path d="M21.586 10.461l-10.05 10.075c-1.95 1.949-5.122 1.949-7.071 0s-1.95-5.122 0-7.072l10.628-10.585c1.17-1.17 3.073-1.17 4.243 0 1.169 1.17 1.17 3.072 0 4.242l-8.507 8.464c-.39.39-1.024.39-1.414 0s-.39-1.024 0-1.414l7.093-7.05-1.415-1.414-7.093 7.049c-1.172 1.172-1.171 3.073 0 4.244s3.071 1.171 4.242 0l8.507-8.464c.977-.977 1.464-2.256 1.464-3.536 0-2.769-2.246-4.999-5-4.999-1.28 0-2.559.488-3.536 1.465l-10.627 10.583c-1.366 1.368-2.05 3.159-2.05 4.951 0 3.863 3.13 7 7 7 1.792 0 3.583-.684 4.95-2.05l10.05-10.075-1.414-1.414z" />
-                                                            </svg>
-                                                        </span>
-                                                    </button>
+
                                                     <button
                                                         type="submit"
                                                         className="ql-clean"
@@ -1113,10 +1182,12 @@ define([
                                             </div>
                                             <div id="toolbar"></div>
                                             <div
-                                                className="com-the-con-editor__settings"
+                                                className={this.state.sigE?"com-the-con-editor__settings invalid":'"com-the-con-editor__settings"'}
                                                 id="com-the-con-editor__alias"
+
                                             ></div>
                                         </div>
+                                        <label id="com-the-con-editor__alias-error" className={this.state.sigE?"invalid":'d-none'} htmlFor="signature">{this.state.sigE}</label>
                                         <div className="form-section-bottom">
                                             <div className="btn-row">
                                                 <button
@@ -1131,10 +1202,11 @@ define([
                                                 </button>
                                                 <button
                                                     type="button"
+                                                    disabled={this.state.saveDisabled}
                                                     className="btn-blue fixed-width-btn"
                                                     onClick={this.handleClick.bind(
                                                         this,
-                                                        "saveNewAlias"
+                                                        this.state.button5click
                                                     )}
                                                 >
                                                     {`Save`}

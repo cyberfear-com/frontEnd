@@ -19,6 +19,7 @@ define([
                 firstTab: "active",
 
                 secondPanelText: "New Contact",
+                pageTitle:"Add contact",
 
                 button1text: "Add Contact",
                 button1visible: "",
@@ -76,10 +77,10 @@ define([
                             app.transform.from64str(contactData["n"])
                         ),
                     },
-                    edit: '<a class="table-icon edit-button"></a>',
+                    edit: '<a class="table-icon edit-button d-none"></a>',
                     delete: '<button class="table-icon delete-button"></button>',
                     options:
-                        '<div class="dropdown"><button class="btn btn-secondary dropdown-toggle table-icon" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button></div>',
+                        '<div class="dropdown d-none"><button class="btn btn-secondary dropdown-toggle table-icon" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button></div>',
                 };
                 alEm.push(el);
             });
@@ -249,17 +250,17 @@ define([
                         function (result) {
                             if (result) {
                                 thisComp.setState({
-                                    firstPanelClass: "panel-body d-none",
-                                    secondPanelClass: "panel-body",
-                                    firstTab: "active",
-
-                                    secondPanelText: "New Contact",
-
-                                    button1visible: "d-none",
-
                                     button2onClick: "saveNewContact",
-
                                     button4visible: "d-none",
+                                        viewFlag: !thisComp.state.viewFlag,
+
+                                        contactId: "",
+                                        nameField: "",
+                                        emailField: "",
+                                        pinField: "",
+                                        pgpOn: false,
+                                        pgpField: "",
+                                        pageTitle:'Add contact'
                                 });
                             }
                         }
@@ -278,7 +279,7 @@ define([
                         "Contact will be deleted. Continue?"
                     );
                     $("#dialogModBodyHeading").html(
-                        'Are you sure you want to Delete <br /> "Dennis@cyberfear.com"?'
+                        'Are you sure you want to Delete <br /> "'+app.transform.from64str(contacts[id]['n'])+'"?'
                     );
 
                     $("#dialogOk").on("click", function () {
@@ -343,12 +344,13 @@ define([
                         }
                     }
                     // Edit click functionality
-                    if ($(event.target).prop("tagName").toUpperCase() === "A") {
+                    if ($(event.target).prop("tagName").toUpperCase() === "TD") {
                         var id = $(event.target).parents("tr").attr("id");
 
                         if (id != undefined) {
                             thisComp.setState({
                                 contactId: id,
+                                pageTitle: `Edit Contact`,
                             });
                             thisComp.handleClick("editContact", id);
                         }
@@ -364,8 +366,10 @@ define([
                             if (id != undefined) {
                                 thisComp.setState({
                                     contactId: id,
+                                },function(){
+                                    thisComp.handleClick("deleteContact", id);
                                 });
-                                thisComp.handleClick("deleteContact", id);
+
                             }
                         }
                     }
@@ -375,6 +379,7 @@ define([
                 case "editContact":
                     var contacts = app.user.get("contacts");
                     var contact = contacts[event];
+                    console.log(contact);
                     var thisComp = this;
 
                     $("#settings-spinner")
@@ -546,6 +551,12 @@ define([
                     this.setState({
                         viewFlag: !this.state.viewFlag,
                         button4visible: "d-none",
+                        contactId: "",
+                        nameField: "",
+                        emailField: "",
+                        pinField: "",
+                        pgpOn: false,
+                        pgpField: "",
                     });
                     break;
             }
@@ -616,14 +627,16 @@ define([
 
                 case "changePGP":
                     var thisComp = this;
+
+                    console.log(event.target.value);
                     this.setState(
                         {
                             pgpField: event.target.value,
                         },
                         function () {
-                            app.globalF.getPublicKeyInfo(
-                                thisComp.state.pgpField,
-                                function (result) {
+                            app.globalF.getPublicKeyInfo(thisComp.state.pgpField,function (result) {
+
+                                    console.log(result);
                                     thisComp.setState({
                                         keyStrength: result["strength"],
                                         keyFingerprint: result["fingerprint"],
@@ -692,7 +705,7 @@ define([
                                                 Contacts
                                             </a>
                                         </li>
-                                        <li>Add contact</li>
+                                        <li>{this.state.pageTitle}</li>
                                     </ul>
                                 </div>
                             </div>
@@ -725,8 +738,8 @@ define([
                                             <div className="add-contact-btn">
                                                 <a
                                                     onClick={this.handleClick.bind(
-                                                        this,
-                                                        "toggleDisplay"
+                                                        null,
+                                                        "addNewContact"
                                                     )}
                                                 >
                                                     <span className="icon">
@@ -758,7 +771,7 @@ define([
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">
-                                                            <label className="container-checkbox">
+                                                            <label className="container-checkbox d-none">
                                                                 <input
                                                                     type="checkbox"
                                                                     onChange={this.handleClick.bind(
@@ -782,10 +795,10 @@ define([
                                                         </th>
                                                         <th></th>
                                                         <th scope="col">
-                                                            <button className="trash-btn"></button>
+                                                            <button className="trash-btn d-none"></button>
                                                         </th>
                                                         <th scope="col">
-                                                            <div className="dropdown">
+                                                            <div className="dropdown d-none">
                                                                 <button
                                                                     className="btn btn-secondary dropdown-toggle ellipsis-btn"
                                                                     type="button"
@@ -825,7 +838,7 @@ define([
                                     }`}
                                 >
                                     <div className="middle-content-top">
-                                        <h3>Add contact</h3>
+                                        <h3>{this.state.pageTitle}</h3>
                                     </div>
                                     <div className="form-section">
                                         <form id="editPGPkey" className="">
@@ -967,24 +980,27 @@ define([
                                                 </div>
                                                 <div className="col-12">
                                                     <div className="form-group">
-                                                        <input
-                                                            className="form-control with-icon icon-key"
-                                                            id="pgpField"
-                                                            name="pgpField"
-                                                            readOnly={
-                                                                !this.state
-                                                                    .pgpOn
-                                                            }
-                                                            value={
-                                                                this.state
-                                                                    .pgpField
-                                                            }
-                                                            onChange={this.handleChange.bind(
-                                                                this,
-                                                                "changePGP"
-                                                            )}
-                                                            placeholder="Public Key (optional)"
-                                                        />
+
+                                                    <textarea
+                                                        className="form-control with-icon icon-key"
+                                                        rows={this.state.pgpOn?"8":"2"}
+                                                        id="pgpField"
+                                                        name="pgpField"
+                                                        readOnly={
+                                                            !this.state
+                                                                .pgpOn
+                                                        }
+                                                        value={
+                                                            this.state
+                                                                .pgpField
+                                                        }
+                                                        onChange={this.handleChange.bind(
+                                                            this,
+                                                            "changePGP"
+                                                        )}
+                                                        spellCheck="false"
+                                                        placeholder="Public Key (optional)"
+                                                    ></textarea>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1052,7 +1068,7 @@ define([
                                     will be auto-saved upon sending email.
                                 </p>
                                 <h3>Name</h3>
-                                <p>Enter the contact's real name.</p>
+                                <p>Enter the contact's name.</p>
                                 <h3>Email</h3>
                                 <p>Enter the contact's email address.</p>
                                 <h3>Pin</h3>

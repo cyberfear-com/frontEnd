@@ -28,7 +28,7 @@ define(["react", "app"], function (React, app) {
                     id="userObjSync"
                     data-bs-backdrop="static"
                     data-bs-keyboard="false"
-                    tabindex="-1"
+                    tabIndex="-1"
                     aria-labelledby="staticBackdropLabel"
                     aria-hidden="true"
                 >
@@ -109,7 +109,9 @@ define(["react", "app"], function (React, app) {
                                             className="modal-title"
                                             id="userSyncTitle"
                                         >
-                                            We're setting up your mailbox...
+                                            We're setting up your mailbox<br/>
+                                           ({app.userObjects.get("modalText")})
+
                                         </h4>
                                         <div>
                                             {app.userObjects.get(

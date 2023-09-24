@@ -14152,6 +14152,22 @@ footer .footer-bottom-row .copyright {
     position: relative;
     vertical-align: middle;
 }
+.select2-container--default .select2-selection--multiple .select2-selection__choice.email-protected {
+    background-color: #8fff8f;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice.email-unprotected {
+    background-color: #ffcbd4;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice.email-pinprotected {
+    background-color: #fffe8d;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice.email-pgpprotected {
+    background-color: #bee5ff;
+}
+
+
 .select2-container .select2-selection--single {
     box-sizing: border-box;
     cursor: pointer;
@@ -15858,7 +15874,7 @@ header .user-dropdown .dropdown-menu li button {
 .table-responsive .table-icon:hover {
     opacity: 0.6;
 }
-.table-responsive .check-button,
+.table-responsive .check-button, .warning-button,
 .table-responsive .disposed-button {
     width: 24px;
     height: 24px;
@@ -16159,7 +16175,7 @@ textarea::-webkit-scrollbar {
         width: auto;
     }
     .fixed-width-btn {
-        min-width: 154px;
+    /*    min-width: 154px;*/
         width: auto;
         margin: 0 0 0 16px;
     }
@@ -16184,7 +16200,7 @@ textarea::-webkit-scrollbar {
     }
     .btn-row {
         clear: none;
-        width: auto;
+       /* width: auto;*/
         padding: 40px 0 0;
     }
 }
@@ -18373,15 +18389,48 @@ textarea:focus {
 .table-responsive .table-icon.delete-button {
     background: url("../images/icon-delete-blue.svg") right top/20px no-repeat;
 }
+
+.table-responsive .table-icon.copy-button {
+    background: url("../images/icon-copy-blue.svg") right top/20px no-repeat;
+}
+
 .table-responsive .table-icon.dropdown-toggle {
     background: url("../images/icon-ellipsis-blue.svg") right top/20px no-repeat;
 }
 .table-responsive .disposed-button {
     background: url("../images/icon-disposed.svg") right top/24px no-repeat;
 }
-.table-responsive .check-button {
+.table-responsive .check-button{
     background: url("../images/icon-check-2.svg") right top/24px no-repeat;
 }
+.table-responsive .check-button.refresh-on-hover:hover{
+    background: url("../images/icon-referesh.svg") left top/24px no-repeat;
+}
+
+.table-responsive .check-button.refresh-on-hover.spin-animation,
+.table-responsive .warning-button.refresh-on-hover.spin-animation{
+    animation-name: spin;
+    -webkit-animation-name: spin;
+    -moz-animation-name: spin;
+    -ms-animation-name: spin;
+    animation-duration: 0.5s;
+    -webkit-animation-duration: 0.5s;
+    -moz-animation-duration: 0.5s;
+    -ms-animation-duration: 0.5s;
+    animation-timing-function: ease-in;
+    -webkit-animation-timing-function: ease-in;
+    -moz-animation-timing-function: ease-in;
+    -ms-animation-timing-function: ease-in;
+}
+
+
+.table-responsive .warning-button {
+    background: url("../images/icon-info-red.svg") right top/24px no-repeat;
+}
+.table-responsive .warning-button.refresh-on-hover:hover{
+    background: url("../images/icon-referesh.svg") left top/24px no-repeat;
+}
+
 /* .table-responsive tbody tr:hover {
     background: rgba(34, 119, 246, 0.1);
     border-radius: 4px;
@@ -18392,6 +18441,11 @@ textarea:focus {
 .table-responsive tbody tr:hover .check-button {
     background: url("../images/icon-check-2-blue.svg") right top/24px no-repeat;
 }
+.table-responsive tbody tr:hover .check-button {
+    background: url("../images/icon-check-2-blue.svg") right top/24px no-repeat;
+}
+
+
 .table-responsive tbody tr:hover td {
     background: rgba(34, 119, 246, 0.1);
     color: #2277f6;
@@ -18605,6 +18659,12 @@ textarea {
     background-size: 18px;
     color: #415067;
 }
+.setting-middle .info-warning-text {
+    background: url("../images/icon-info-red.svg") no-repeat center left;
+    background-size: 18px;
+    color: #415067;
+}
+
 .setting-middle .token-download a,
 .setting-middle .token-download button {
     color: #68a353;

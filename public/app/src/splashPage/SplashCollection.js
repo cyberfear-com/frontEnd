@@ -133,23 +133,20 @@ define([
         render: function () {
             // console.log(this.props.page);
 
-            if (this.props.page == "index") {
+           /* if (this.props.page == "index") {
                 body = <Compare />;
-            }
-            if (this.props.page == "donate") {
-                //  body=<Compare scrollTo="donate"/>;
-            }
+            }*/
             if (this.props.page == "login") {
                 body = <LoginPage />;
             }
             if (this.props.page == "signup") {
                 body = <CreateUser coupon={this.props.coupon}/>;
             }
-            // if (this.props.page == "contact") {
-            //     body = <ContactUs />;
-            // }
             if (this.props.page == "pe") {
                 body = <PE />;
+            }
+            if (this.props.page == "firstTimeLogin") {
+                body = <PaymentGate />;
             }
 
             if (this.props.page == "forgotPassword") {
@@ -167,14 +164,10 @@ define([
             ) {
                 return (
                     <div>
-                        {this.props.page === "firstTimeLogin" ? (
-                            <PaymentGate />
-                        ) : (
                             { body }
-                        )}
                     </div>
                 );
-            } else {
+            }/* else {
                 return (
                     <div>
                         <SplashHead />
@@ -188,7 +181,7 @@ define([
                         <DialogPop />
                     </div>
                 );
-            }
+            }*/
         },
     });
 });

@@ -611,10 +611,10 @@ define(["react", "app"], function (React, app) {
                             "folderUpdate",
                             "",
                             function (result) {
-                                app.globalF.syncUpdates();
+                                app.globalF.syncUpdates(true);
                             }
                         );
-                    }, 500);
+                    }, 1000);
                 } else {
                     var setOpen = {};
                 }
@@ -2059,7 +2059,7 @@ define(["react", "app"], function (React, app) {
 
                                                 <a
                                                     onClick={this.handleChange.bind(
-                                                        this,
+                                                        null,
                                                         "removeTag"
                                                     )}
                                                     title="Remove Tag"
@@ -2087,10 +2087,7 @@ define(["react", "app"], function (React, app) {
                                     <div className="email-content-top-left">
                                         <div className="email-content-header-bottom-details">
                                             <div className="word color-1">
-                                                {this.state.from !== ""
-                                                    ? this.state.from[0]._store.props.children
-                                                          .toString()
-                                                          .charAt(0)
+                                                {this.state.from !== ""?app.globalF.parseEmail(app.transform.from64str(app.user.get("currentMessageView")["meta"]["from"]))["name"].substring(0,2)
                                                     : ""}
                                             </div>
                                             <div className="sender-name">
@@ -2169,9 +2166,7 @@ define(["react", "app"], function (React, app) {
                                     <div className="email-content-top-right">
                                         <div
                                             className="mail-back"
-                                            onClick={this.handleBackToEmailList.bind(
-                                                this
-                                            )}
+                                            onClick={this.handleBackToEmailList}
                                         >
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -2190,7 +2185,7 @@ define(["react", "app"], function (React, app) {
                                                             : "normal"
                                                     }`}
                                                     onClick={this.handleClick.bind(
-                                                        this,
+                                                        null,
                                                         "pinToTop"
                                                     )}
                                                 >
@@ -2309,14 +2304,14 @@ define(["react", "app"], function (React, app) {
                                                 <button
                                                     className="back"
                                                     onClick={this.handleClick.bind(
-                                                        this,
+                                                        null,
                                                         "reply"
                                                     )}
                                                 ></button>
                                                 <button
                                                     className="next"
                                                     onClick={this.handleClick.bind(
-                                                        this,
+                                                        null,
                                                         "forward"
                                                     )}
                                                 ></button>
@@ -2324,7 +2319,7 @@ define(["react", "app"], function (React, app) {
                                                 <button
                                                     className="delete"
                                                     onClick={this.handleClick.bind(
-                                                        this,
+                                                        null,
                                                         "moveToTrash"
                                                     )}
                                                 ></button>
@@ -2345,7 +2340,7 @@ define(["react", "app"], function (React, app) {
                                                         <li>
                                                             <button
                                                                 onClick={this.handleClick.bind(
-                                                                    this,
+                                                                    null,
                                                                     "reply"
                                                                 )}
                                                             >
@@ -2355,7 +2350,7 @@ define(["react", "app"], function (React, app) {
                                                         <li>
                                                             <button
                                                                 onClick={this.handleClick.bind(
-                                                                    this,
+                                                                    null,
                                                                     "forward"
                                                                 )}
                                                             >
@@ -2365,7 +2360,7 @@ define(["react", "app"], function (React, app) {
                                                         <li>
                                                             <button
                                                                 onClick={this.handleClick.bind(
-                                                                    this,
+                                                                    null,
                                                                     "printEmail"
                                                                 )}
                                                             >
@@ -2375,7 +2370,7 @@ define(["react", "app"], function (React, app) {
                                                         <li>
                                                             <button
                                                                 onClick={this.handleClick.bind(
-                                                                    this,
+                                                                    null,
                                                                     "moveToTrash"
                                                                 )}
                                                             >
@@ -2386,7 +2381,7 @@ define(["react", "app"], function (React, app) {
                                                         <li>
                                                             <button
                                                                 onClick={this.handleClick.bind(
-                                                                    this,
+                                                                    null,
                                                                     "moveToSpam"
                                                                 )}
                                                             >
@@ -2396,7 +2391,7 @@ define(["react", "app"], function (React, app) {
                                                         <li>
                                                             <button
                                                                 onClick={this.handleClick.bind(
-                                                                    this,
+                                                                    null,
                                                                     "showHeader"
                                                                 )}
                                                             >
@@ -2406,7 +2401,7 @@ define(["react", "app"], function (React, app) {
                                                         <li>
                                                             <button
                                                                 onClick={this.handleClick.bind(
-                                                                    this,
+                                                                    null,
                                                                     "pinToTop"
                                                                 )}
                                                             >
@@ -2472,7 +2467,7 @@ define(["react", "app"], function (React, app) {
                                         className="btn btn-default btn-xs"
                                         href="javascript:void(0)"
                                         onClick={this.handleClick.bind(
-                                            this,
+                                            null,
                                             "renderImages"
                                         )}
                                     >

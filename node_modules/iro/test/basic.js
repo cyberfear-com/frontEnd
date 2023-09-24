@@ -1,0 +1,6 @@
+var iro = require('../dist/iro.js');
+if (new iro.Color('#000000').o('r', 255).o('g', 255).o('b',255)
+  .css('hex').toLowerCase() != '#ffffff')
+    throw new 'Test failing.';
+console.log('Test passed.')   
+

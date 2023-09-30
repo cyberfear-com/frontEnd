@@ -1,4 +1,4 @@
-
+import loadinC from "@/assets/loading-circle.svg";
 
 export default function Loader() {
     return (
@@ -15,7 +15,7 @@ export default function Loader() {
                                 <div className="progress-circle medium">
                                     <div className="circle-bg">
                                         <img
-                                            src="/dist/images/loading-circle.svg"
+                                            src={loadinC}
                                             alt="loading-circle"
                                             style={{
                                                 width: "91px",

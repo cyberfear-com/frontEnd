@@ -23,7 +23,7 @@ export default function NeedMoreHelpForm() {
                     <input type="email" className="form-control" id="email" placeholder="Enter your email address" />
                 </div>
                 <div className={classNames(styles.iconField, styles.category, 'mb-3')}>
-                    <select class="form-select mb-3" aria-label=".form-select-lg example">
+                    <select className="form-select mb-3" aria-label=".form-select-lg example">
                         <option selected disabled>Category of your question</option>
                         <option value="1">One</option>
                         <option value="2">Two</option>
@@ -35,11 +35,11 @@ export default function NeedMoreHelpForm() {
                     <small className={classNames(styles.charLeft, 'opacity-40')}>0/800</small>
                 </div>
                 <div className={classNames(styles.iconField, styles.file, 'mb-3')}>
-                    <input class="form-control" type="file" id="formFile" />
+                    <input className="form-control" type="file" id="formFile" />
                 </div>
 
                 <div className="d-grid mt-4">
-                    <button type="submit" class="btn btn-primary btn-block">Submit Message</button>
+                    <button type="submit" className="btn btn-primary btn-block">Submit Message</button>
                 </div>
             </form>
         </>

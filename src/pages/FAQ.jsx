@@ -322,7 +322,7 @@ export default function FAQ() {
 
                     <button
                       type="button"
-                      class="btn-close"
+                      className="btn-close"
                       aria-label="Close"
                       onClick={() => modal.hide()}
                     />

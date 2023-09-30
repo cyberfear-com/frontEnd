@@ -35,7 +35,7 @@ export default function Company() {
 
         <p className="lead opacity-50">
           Everyone has the right to&nbsp;be&nbsp;free from interference and intrusion.
-          <br class="d-none d-lg-inline" /> While agreements and promises may break, cryptography has got your back.
+          <br className="d-none d-lg-inline" /> While agreements and promises may break, cryptography has got your back.
         </p>
       </Banner>
 

@@ -18,3 +18,4 @@ lerna-debug.log*
 *.sln
 *.sw?
 dist/
+/public/app/models/variable/defaultSettings.js

@@ -63,19 +63,19 @@ export default function Header({ variant = 'default' }) {
           <div className='navbar-extra' id='navbarExtra'>
             <ul className='navbar-nav flex-grow-1 justify-content-center mb-md-0 small'>
               <li className='navbar-item fw-medium'>
-                <NavLink to="/pricing" className='nav-link px-3 text-reset' activeClassName='active'>Pricing</NavLink>
+                <NavLink to="/pricing" className='nav-link px-3 text-reset' activeclassname='active'>Pricing</NavLink>
               </li>
               <li className='navbar-item fw-medium'>
                 <a href="https://github.com/cyberfear-com" rel="noreferrer" target="_blank" className='nav-link px-3 text-reset'>GitHub</a>
               </li>
               <li className='navbar-item fw-medium'>
-                <NavLink to="/company" className='nav-link px-3 text-reset' activeClassName='active'>Company</NavLink>
+                <NavLink to="/company" className='nav-link px-3 text-reset' activeclassname='active'>Company</NavLink>
               </li>
               <li className='navbar-item fw-medium d-none'>
-                <NavLink to="/faq" className='nav-link px-3 text-reset' activeClassName='active'>FAQ</NavLink>
+                <NavLink to="/faq" className='nav-link px-3 text-reset' activeclassname='active'>FAQ</NavLink>
               </li>
               <li className='navbar-item fw-medium'>
-                <NavLink to="/contact-us" className='nav-link px-3 text-reset' activeClassName='active'>Contact</NavLink>
+                <NavLink to="/contact-us" className='nav-link px-3 text-reset' activeclassname='active'>Contact</NavLink>
               </li>
             </ul>
 

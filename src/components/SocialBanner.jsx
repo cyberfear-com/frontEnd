@@ -30,7 +30,7 @@ export default function SocialBanner() {
 
         {links.map((link) => (
           <a
-            class="d-inline-flex align-items-center text-decoration-none mt-4 mb-4 pe-3"
+              className="d-inline-flex align-items-center text-decoration-none mt-4 mb-4 pe-3"
             href=""
           >
             <link.icon className="flex-shrink-0" />

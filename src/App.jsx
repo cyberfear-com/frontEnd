@@ -1,19 +1,25 @@
-import { useEffect } from 'react'
+import { useEffect, lazy } from 'react'
 import { Route, Routes } from 'react-router-dom'
+
 import Tooltip from 'bootstrap/js/src/tooltip'
 
 // Auto generates routes from files under ./pages
 // https://vitejs.dev/guide/features.html#glob-import
-const pages = import.meta.glob('./pages/*.jsx', { eager: true })
+const pages = import.meta.glob('./pages/*.jsx')
+const meta = import.meta.glob('./pages/*.meta.js', { eager: true })
 
+//console.log('meta', meta)
 const routes = Object.keys(pages).map((path) => {
   const name = path.match(/\.\/pages\/(.*)\.jsx$/)[1]
+  const metaName = `./pages/${name}.meta.js`
+ // console.log('mm', metaName, meta[metaName])
   const nameDashed = name.replace(/[^A-Z][A-Z]/g, m => m[0] + "-" + m[1]).toLowerCase()
-  console.log(name, nameDashed)
+
+  const component = lazy(pages[path])
   return {
     name,
-    path: name === 'Home' ? '/' : `/${nameDashed}`,
-    component: pages[path].default,
+    path: meta[metaName]?.default.path || (name === 'Home' ? '/' : `/${nameDashed}`),
+    component,
   }
 })
 

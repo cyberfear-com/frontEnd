@@ -1,7 +1,7 @@
 import classNames from "classnames";
-import { ReactComponent as TwitterIconSVG } from "@/assets/twitter-icon.svg";
-import { ReactComponent as RedditIconSVG } from "@/assets/reddit-icon.svg";
-import { ReactComponent as FacebookIconSVG } from "@/assets/facebook-icon.svg";
+import { ReactComponent as TwitterIconSVG } from "@/assets/twitter-banner-icon.svg";
+import { ReactComponent as RedditIconSVG } from "@/assets/reddit-banner-icon.svg";
+import { ReactComponent as FacebookIconSVG } from "@/assets/facebook-banner-icon.svg";
 import styles from "./SocialBanner.module.scss";
 
 const links = [

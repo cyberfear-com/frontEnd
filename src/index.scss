@@ -1,6 +1,8 @@
 // @import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Display:wght@400;500;600;700&display=swap");
 @import url("https://cdn.jsdelivr.net/npm/@xz/fonts@1/serve/plus-jakarta-display.min.css");
 
+$btn-padding-x: 1.5rem;
+$btn-padding-y: 0.75rem;
 
 @import "./_variables.scss";
 
@@ -15,10 +17,15 @@
     box-sizing: border-box;
 }
 
+.btn {
+    --bs-btn-disabled-bg: var(--bs-gray-600);
+    --bs-btn-disabled-border-color: var(--bs-gray-600);
+}
+
 .form-control {
     &::placeholder {
         opacity: 0.75;
-    }   
+    }
 }
 
 // Headers
@@ -71,10 +78,10 @@
     }
 }
 
-.btn {
-    --bs-btn-padding-x: 1.5rem;
-    --bs-btn-padding-y: 0.75rem;
-}
+// .btn {
+//     --bs-btn-padding-x: 1.5rem;
+//     --bs-btn-padding-y: 0.75rem;
+// }
 
 .btn.wide {
     --bs-btn-padding-x: 2.5rem;
@@ -133,4 +140,9 @@ input[type=file]::file-selector-button {
 
 input[type=file] {
     padding-left: 1rem !important;
+}
+
+.btn-outline-primary {
+    border-color: var(--bs-light-border-subtle) !important;
+    border-width: 2px;
 }

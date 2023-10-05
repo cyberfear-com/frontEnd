@@ -16359,7 +16359,7 @@ body.shrinked #folderMenu {
 }
 .left-side.no-cta .left-bottom {
     height: 71px;
-    position: absolute;
+   /* position: absolute;*/
     bottom: 41px;
 }
 .left-side.no-cta .left-container {

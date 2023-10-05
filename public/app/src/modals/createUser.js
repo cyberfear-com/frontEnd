@@ -222,7 +222,7 @@ define(["app", "react"], function (app, React) {
                             method: "POST",
                             url:
                                 app.defaults.get("apidomain") +
-                                "/createNewUserV2",
+                                "/createNewUserV3",
                             data: userObj,
                             dataType: "json",
                             xhrFields: {

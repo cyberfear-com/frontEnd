@@ -68,26 +68,36 @@ define([
                 paym: "",
                 stripeId: "",
                 planTab:[],
-                duration:app.user.get("userPlan")['period'],
-                planSelector:app.user.get("userPlan")['planSelected'],
+                duration:app.user.get("userPlan")['paymentVersion']==3?app.user.get("userPlan")['period']:"1 month",
+                planSelector:app.user.get("userPlan")['paymentVersion']==3?app.user.get("userPlan")['planSelected']:"free",
+
                 initialPeriod:app.user.get("userPlan")['period'],
+                PlanButton:true
+
             };
         },
 
         handleClick: async function (i,id=null) {
             switch (i) {
                 case "choosePlan":
+
+
+                    if(app.user.get("userPlan")['paymentVersion']==2){
+                        console.log('need upgrade');
+                    }else{
+                        console.log('new version');
+                    }
                     console.log('plan is:')
                     var price=0;
                     var planList=app.user.get("userPlan")['planList'];
 
                     if(this.state.duration=="2 years"){
-                        price=(planList[this.state.planSelector]['price']-planList[this.state.planSelector]['price']*(app.user.get("userPlan")['planList'][this.state.planSelector]['2ydisc']+app.user.get("userPlan")['inviteDiscount'])/100)/100*24-app.user.get("userPlan")['currentPlanBalance']/100;
+                        price=(planList[this.state.planSelector]['price']-planList[this.state.planSelector]['price']*(app.user.get("userPlan")['planList'][this.state.planSelector]['2ydisc']+app.user.get("userPlan")['discountApplied'])/100)/100*24-app.user.get("userPlan")['currentPlanBalance']/100;
 
                     }else if(this.state.duration=="1 year"){
-                        price=(planList[this.state.planSelector]['price']-planList[this.state.planSelector]['price']*(app.user.get("userPlan")['planList'][this.state.planSelector]['1ydisc']+app.user.get("userPlan")['inviteDiscount'])/100)/100*12-app.user.get("userPlan")['currentPlanBalance']/100;
+                        price=(planList[this.state.planSelector]['price']-planList[this.state.planSelector]['price']*(app.user.get("userPlan")['planList'][this.state.planSelector]['1ydisc']+app.user.get("userPlan")['discountApplied'])/100)/100*12-app.user.get("userPlan")['currentPlanBalance']/100;
                     }else{
-                        price=(planList[this.state.planSelector]['price']-(planList[this.state.planSelector]['price']*app.user.get("userPlan")['inviteDiscount'])/100)/100-app.user.get("userPlan")['currentPlanBalance']/100;
+                        price=(planList[this.state.planSelector]['price']-(planList[this.state.planSelector]['price']*app.user.get("userPlan")['discountApplied'])/100)/100-app.user.get("userPlan")['currentPlanBalance']/100;
                     }
 
                     price=price+app.user.get("userPlan")['balance']/100
@@ -111,35 +121,98 @@ define([
                 case "selectPlan":
                     //console.log('pressed');
 
-                    console.log(event.target.id);
-                    console.log(this.state.duration);
+                    //console.log(event.target.id);
+                    //console.log(this.state.duration);
+                    // check if can upgrade
+                    //+1 check bsize
+                    //+2 check aliases
+                    //+3 check disposable
+                    //+4 check customd domains
 
-                      this.setState({
-                          planSelector: event.target.id,
-                          initialPeriod:this.state.duration
-                     });
+                    var alDis=app.globalF.getAliasDisposableCount();
+                    console.log(app.globalF.getAliasDisposableCount());
+
+                    if(alDis['aliases']-1>app.user.get("userPlan")["planList"][event.target.id]["alias"]){
+                        $("#infoModHeader").html("");
+                        $("#infoModBody").html(
+                            "Please delete extra aliases to select this plan."
+                        );
+                        $("#infoModal").modal("show");
+                    }else if(alDis['disposable']>app.user.get("userPlan")["planList"][event.target.id]["dispos"]){
+                        $("#infoModHeader").html("");
+                        $("#infoModBody").html(
+                            "Please delete extra disposable aliases to select this plan."
+                        );
+                        $("#infoModal").modal("show");
+                        }else if(app.user.get("mailboxSize")/1000/1000>app.user.get("userPlan")["planList"][event.target.id]["bSize"]){
+                        $("#infoModHeader").html("");
+                        $("#infoModBody").html(
+                            "Your mailbox is too full to select this plan."
+                        );
+                        $("#infoModal").modal("show");
+                    }else if(Object.keys(app.user.get("customDomains")).length>app.user.get("userPlan")["planList"][event.target.id]["cDomain"]){
+                        $("#infoModHeader").html("");
+                        $("#infoModBody").html(
+                            "Please delete extra custom domains to select this plan."
+                        );
+                        $("#infoModal").modal("show");
+                    }else{
+                        this.setState({
+                            planSelector: event.target.id,
+                            initialPeriod:this.state.duration,
+                            PlanButton:false
+                        });
+                    }
+
+
+
                     break;
 
                 case "upgradeMember":
                     var thisComp = this;
-                    thisComp.setState({
+
+                    this.setState({
+                        firstPanelClass: "panel-body d-none",
+                        firstTab: "",
+                        secondTab: "",
+                        secondPanelClass: "panel-body d-none",
+                        thirdTab: "active",
+                        thirdPanelClass: "panel-body",
+                        duration:"1 month",
+                        planSelector:"free",
+
+                    });
+
+                  /*  thisComp.setState({
                         toPay:
                             app.user.get("userPlan")["yearSubscr"] / 100 +
                             app.user.get("userPlan")["balance"],
                         forPlan: "UpgradeToYear",
                         howMuch: 1,
                     });
-                    thisComp.handleClick("showSecond");
+                    thisComp.handleClick("showSecond");*/
                     break;
 
                 case "fill":
+                    var amnt=0;
+                    var duration="";
+                    var plan="";
+                    if(app.user.get("userPlan")["paymentVersion"]==2){
+                        amnt=accounting.formatMoney(app.user.get("userPlan")["renewAmount"],"")
+                        duration=app.user.get("userPlan")["planSelected"]==1?"1 year":"1 month";
+                        plan=app.user.get("userPlan")["planSelected"]+"old";
+                    }else{
+                        amnt=accounting.formatMoney(app.user.get("userPlan")["renewAmount"]/100,"")
+                        duration=app.user.get("userPlan")["period"];
+                        plan=app.user.get("userPlan")["planSelected"];
+                    }
                     this.setState({
-                        price:accounting.formatMoney(app.user.get("userPlan")["renewAmount"]/100,""),
-                        planSelector:app.user.get("userPlan")["planSelected"],
-                        duration:app.user.get("userPlan")["period"],
+                        price:amnt,
+                        planSelector:plan,
+                        duration:duration,
                         type: 'refill',
                     },function(){
-                        console.log(this.state);
+                      //  console.log(this.state);
                     });
 
                     this.handleClick("showSecond");
@@ -215,6 +288,19 @@ define([
                         secondPanelClass: "panel-body d-none",
                         thirdTab: "active",
                         thirdPanelClass: "panel-body",
+                    });
+                    break;
+                case "newPlan":
+                    this.setState({
+                        firstPanelClass: "panel-body d-none",
+                        firstTab: "",
+                        secondTab: "",
+                        secondPanelClass: "panel-body d-none",
+                        thirdTab: "active",
+                        thirdPanelClass: "panel-body",
+                        duration:"1 month",
+                        planSelector:"free",
+
                     });
                     break;
 
@@ -383,7 +469,7 @@ define([
            var thisComp=that;
 
             var planList=app.user.get("userPlan")['planList'];
-            //console.log(app.user.get("userPlan"));
+            //console.log(planList);
             var slog={
                 free:"Try us",
                 basic:"For users emailing occasionally",
@@ -393,26 +479,31 @@ define([
 
            Object.keys(planList).forEach(function(key) {
 
-               var price=0;
-               if(thisComp.state.duration=="2 years"){
-                   price=(planList[key]['price']-planList[key]['price']*(app.user.get("userPlan")['planList'][key]['2ydisc']+app.user.get("userPlan")['inviteDiscount'])/100)/100;
-                   console.log(app.user.get("userPlan")['planList'][key]['2ydisc']+app.user.get("userPlan")['inviteDiscount']);
-               }else if(thisComp.state.duration=="1 year"){
-                   price=(planList[key]['price']-planList[key]['price']*(app.user.get("userPlan")['planList'][key]['1ydisc']+app.user.get("userPlan")['inviteDiscount'])/100)/100;
-               }else{
-                   price=(planList[key]['price']-(planList[key]['price']*app.user.get("userPlan")['inviteDiscount'])/100)/100;
+               if (key != "1old" && key != "2old" && key != "3old") {
+
+               var price = 0;
+               if (thisComp.state.duration == "2 years") {
+                   price = (planList[key]['price'] - planList[key]['price'] * (app.user.get("userPlan")['planList'][key]['2ydisc'] + app.user.get("userPlan")['discountApplied']) / 100) / 100;
+                   // console.log(app.user.get("userPlan")['planList'][key]['2ydisc']+app.user.get("userPlan")['discountApplied']);
+               } else if (thisComp.state.duration == "1 year") {
+                   price = (planList[key]['price'] - planList[key]['price'] * (app.user.get("userPlan")['planList'][key]['1ydisc'] + app.user.get("userPlan")['discountApplied']) / 100) / 100;
+               } else {
+                   price = (planList[key]['price'] - (planList[key]['price'] * app.user.get("userPlan")['discountApplied']) / 100) / 100;
                }
 
-               price=accounting.formatMoney(price);
-
-
               // console.log(key);
-             //  console.log(app.user.get("userPlan")['planSelected'],app.user.get("userPlan")['period']);
-              // console.log(thisComp.state.period,thisComp.state.selectedPlan);
-              // console.log(thisComp.state.period!="1 month" && key=='free');
-              //checked={thisComp.state.selectedPlan==key && thisComp.state.initialPeriod==thisComp.state.period}
+              // console.log(planList[key]['price'] * app.user.get("userPlan")['discountApplied']);
+              // console.log(thisComp.state.duration);
+
+               price = accounting.formatMoney(price);
+
+
+               //  console.log(app.user.get("userPlan")['planSelected'],app.user.get("userPlan")['period']);
+               // console.log(thisComp.state.period,thisComp.state.selectedPlan);
+               // console.log(thisComp.state.period!="1 month" && key=='free');
+               //checked={thisComp.state.selectedPlan==key && thisComp.state.initialPeriod==thisComp.state.period}
                entry.push(
-                   <div className={(thisComp.state.duration!="1 month" && key=='free')?"d-none":"radio-box"}>
+                   <div className={(thisComp.state.duration != "1 month" && key == 'free') ? "d-none" : "radio-box"}>
                        <input
                            type="radio"
                            className="btn-check"
@@ -425,8 +516,8 @@ define([
                                null,
                                "selectPlan"
                            )}
-                           disabled={app.user.get("userPlan")['planSelected']==key && app.user.get("userPlan")['period']==thisComp.state.duration}
-                           checked={thisComp.state.planSelector==key && thisComp.state.initialPeriod==thisComp.state.duration}
+                           disabled={app.user.get("userPlan")['planSelected'] == key && app.user.get("userPlan")['period'] == thisComp.state.duration}
+                           checked={thisComp.state.planSelector == key && thisComp.state.initialPeriod == thisComp.state.duration}
                        />
                        <label
                            className="btn btn-outline-primary"
@@ -434,11 +525,12 @@ define([
                        >
                            {" "}
                            <span className="dot"></span>{" "}
-                           <span className={app.user.get("userPlan")['planSelected']==key && app.user.get("userPlan")['period']==thisComp.state.duration?"plan-name font-weight-bold":"plan-name"}>
+                           <span
+                               className={app.user.get("userPlan")['planSelected'] == key && app.user.get("userPlan")['period'] == thisComp.state.duration ? "plan-name font-weight-bold" : "plan-name"}>
                                                                     {key}
                                                                 </span>{" "}
                            <span className="plan-text">
-                               {app.user.get("userPlan")['planSelected']==key && app.user.get("userPlan")['period']==thisComp.state.duration?"Current plan":slog[key]}
+                               {app.user.get("userPlan")['planSelected'] == key && app.user.get("userPlan")['period'] == thisComp.state.duration ? "Current plan" : slog[key]}
 
                                                                 </span>{" "}
                            <span className="plan-price">
@@ -450,7 +542,7 @@ define([
                        </label>
                    </div>
                );
-
+           }
            })
             return entry;
         },
@@ -841,14 +933,16 @@ define([
                 <div className="information-table-row" key="1a">
                     <label>Balance Due at renewal:</label>
                     <div className="information-row-right">
-                        <b>{accounting.formatMoney(
+                        <b>{app.user.get("userPlan")["paymentVersion"]==2 && app.user.get("userPlan")["planSelected"]!=3?app.user.get("userPlan")["renewAmount"]/100<1?accounting.formatMoney(1):accounting.formatMoney(app.user.get("userPlan")["renewAmount"]/100,"$",2):
+                            accounting.formatMoney(
                             app.user.get("userPlan")["balance"]/100+app.user.get("userPlan")["priceAfterDiscount"]/100-app.user.get("userPlan")["currentPlanBalance"]/100
-                        )}</b>
+                        )}</b> {app.user.get("userPlan")["renewAmount"]/100<1?"(min. charge $1)":""}
                     </div>
                 </div>
             );
 
-          /*  options.push(
+          /* accounting.formatMoney(app.user.get("userPlan")["truePriceFullProrated"],"")
+           options.push(
                 <div className="information-table-row" key="1b">
                     <label>Period Start date:</label>
                     <div className="information-row-right">
@@ -970,7 +1064,7 @@ define([
                 <div className="information-table-row" key="1a">
                     <label>Plan Name:</label>
                     <div className="information-row-right">
-                        {app.user.get("userPlan")["planSelected"]}
+                        {app.user.get("userPlan")["planSelected"]==2?"Old Monthly Plan":app.user.get("userPlan")["planSelected"]==3?"Old Free Plan":app.user.get("userPlan")["planSelected"]==1?"Old Yearly Plan":app.user.get("userPlan")["planSelected"]}
                     </div>
                 </div>
             );
@@ -1116,7 +1210,7 @@ define([
                                                 : "d-none"
                                         }
                                     >
-                                        Please Pay your balance to send and
+                                        Pay your balance to send and
                                         receive emails. Your email functionality
                                         is limited to access to previous emails
                                         only.
@@ -1131,29 +1225,10 @@ define([
                                                 : "d-none"
                                         }
                                     >
-                                        Please renew your service soon to avoid
+                                        Renew your service soon to avoid
                                         service interruption. Your email
                                         functionality will be limited to access
                                         to previous emails only.
-                                    </h3>
-                                    <h3
-                                        className={
-                                            (app.user.get("userPlan")[
-                                                "planSelected"
-                                            ] == 2 ||
-                                                app.user.get("userPlan")[
-                                                    "planSelected"
-                                                ] == 3) &&
-                                            app.user.get("userPlan")[
-                                                "pastDue"
-                                            ] !== 1
-                                                ? "txt-color-red"
-                                                : "d-none"
-                                        }
-                                        style={{ marginBottom: "20px" }}
-                                    >
-                                        Please upgrade to yearly subscription to
-                                        unlock premium features.
                                     </h3>
                                 </div>
                                 <div className="upgrade-details-top">
@@ -1163,12 +1238,22 @@ define([
                                                 <div className="col-5">
                                                     <div className="plan-details">
                                                         <span className="icon-plan">
-                                                            {!isNaN(parseInt(app.user.get("userPlan")["planSelected"]))?"Old":app.user.get("userPlan")["planSelected"]}
+                                                            {app.user.get("userPlan")["paymentVersion"]==2?"Old":app.user.get("userPlan")["planSelected"]}
                                                         </span>{" "}
                                                         Plan
                                                     </div>
                                                 </div>
-                                                <div className="col-7">
+                                                <div className={app.user.get("userPlan")["paymentVersion"]==2?"col-7":"d-none"}>
+                                                    <div className="pricing">
+                                                        <sup>$</sup>
+                                                        <span>{accounting.formatMoney(app.user.get("userPlan")["trueMonthPrice"]/100,"")}</span>
+                                                        <sup className="sup-opacity">
+                                                            / Month
+                                                        </sup>
+                                                    </div>
+                                                </div>
+
+                                                <div className={app.user.get("userPlan")["paymentVersion"]==3?"col-7":"d-none"}>
                                                     <div className="pricing">
                                                         <sup>$</sup>
                                                         <span>{accounting.formatMoney(app.user.get("userPlan")["truMonthCharge"]/100,"")}</span>
@@ -1234,25 +1319,21 @@ define([
                                                     >
                                                         <button
                                                             type="button"
-                                                            className={!isNaN(parseInt(app.user.get("userPlan")["planSelected"])) || app.user.get("userPlan")["planSelected"]=="free"?"btn-blue":"d-none"}
+                                                            className={app.user.get("userPlan")["paymentVersion"]==2 ?"btn-blue":"d-none"}
+                                                            onClick={this.handleClick.bind(this,"newPlan")}
+                                                        >
+                                                            Purchase new plan
+                                                        </button>
+
+                                                        <button
+                                                            type="button"
+                                                            className={app.user.get("userPlan")["paymentVersion"]==3?"btn-blue":"d-none"}
                                                             onClick={this.handleClick.bind(
                                                                 this,
                                                                 "upgradeMember"
                                                             )}
                                                         >
-                                                            Upgrade{" "}
-                                                            {accounting.formatMoney(
-                                                                app.user.get(
-                                                                    "userPlan"
-                                                                )[
-                                                                    "yearSubscr"
-                                                                ] /
-                                                                    100 +
-                                                                    app.user.get(
-                                                                        "userPlan"
-                                                                    )["balance"]
-                                                            )}{" "}
-                                                            for a year
+                                                            Select new plan
                                                         </button>
                                                     </div>
                                                 </div>
@@ -1595,6 +1676,7 @@ define([
                                                 </div>
                                                 <div className="btn-row">
                                                     <button className="btn-blue fixed-width-btn"
+                                                            disabled={this.state.PlanButton}
                                                     onClick={this.handleClick.bind(null,'choosePlan')}>
                                                         Choose plan
                                                     </button>

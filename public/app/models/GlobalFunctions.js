@@ -3744,6 +3744,29 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                 });
             }
         },
+        getAliasDisposableCount:function (){
+            var data={
+                "aliases":0,
+                "disposable":0
+            };
+
+            $.each(app.user.get("allKeys"), function (email64, emailData) {
+                if (emailData["addrType"] == 3 || emailData["addrType"] == 1) {
+                    data['aliases']++;
+                }else{
+                    data['disposable']++;
+                }
+                /**
+                 * { data: "checkbox" },
+                 { data: "email" },
+                 { data: "name" },
+                 { data: "edit" },
+                 { data: "delete" },
+                 { data: "options" },
+                 */
+            });
+            return data;
+        },
         checkPlanLimits: function (action, count, callback) {
             var userPlan = app.user.get("userPlan");
             //console.log(userPlan['planData']['alias']);
@@ -3754,6 +3777,9 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                 switch (action) {
                     case "disposable":
                         if (userPlan["planData"]["dispos"] <= count) {
+                            $("#infoModHeader").html(
+                                "Please upgrade your plan."
+                            );
                             $("#infoModBody").html(
                                 "You've reached your plan limit. Please upgrade plan."
                             );
@@ -3767,6 +3793,9 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
 
                     case "alias":
                         if (userPlan["planData"]["alias"] <= count) {
+                            $("#infoModHeader").html(
+                                "Please upgrade your plan."
+                            );
                             $("#infoModBody").html(
                                 "You've reached your plan limit. Please upgrade plan."
                             );

@@ -5,9 +5,11 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                 email: "",
                 buttonTag: "",
                 buttonText: "Create Account",
-                paym: "",
-                mCharge: "",
-                membr: "",
+                typeOfPayment:"", // PP, coin,credit/stripe
+                valueOfPayment:"", //$
+                periodOfPayment:"", //month/year
+                paymentPlan:"",
+
                 butDis: false,
                 stripeId: "",
                 currentTab: "monthly",
@@ -110,10 +112,10 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                     }
                     console.log(pl);
                     thisComp.setState({
-                        mCharge:
+                        valueOfPayment:
                             app.user.get("userPlan")["monthlyCharge"] -
                             app.user.get("userPlan")["alrdPaid"],
-                        membr: pl,
+                        paymentPlan: pl,
                     });*/
                 },
                 thisComp
@@ -163,20 +165,24 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                         //    },
                          //   function () {
                                 thisComp.setState({
-                                    mCharge:finalPrice,
-                                    plan:plan,
-                                    membr:period
+                                    valueOfPayment:finalPrice,
+                                    paymentPlan:plan,
+                                    periodOfPayment:period,
+
+                                },function(){
+                                    console.log('thisComp.state');
+                                    console.log(thisComp.state);
                                 });
 
                              /*   if (
-                                    thisComp.state.paym == "stripe" &&
-                                    thisComp.state.membr !== "free"
+                                    thisComp.state.typeOfPayment == "stripe" &&
+                                    thisComp.state.paymentPlan !== "free"
                                 ) {
                                     var payLoad = {};
-                                    payLoad["planSelector"] = this.state.membr;
+                                    payLoad["planSelector"] = this.state.periodOfPayment;
                                     payLoad["userToken"] =
                                         app.user.get("userLoginToken");
-                                    payLoad["price"] = this.state.mCharge;
+                                    payLoad["price"] = this.state.valueOfPayment;
                                     payLoad["stripeId"] = this.state.stripeId;
 
                                     app.stripeCheckOut.updateStripe(payLoad);
@@ -195,7 +201,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
 
                 case "free":
                 /*    this.setState({
-                        membr: "free",
+                        paymentPlan: "free",
                         butDis: true,
                     });
                     this.setState({
@@ -226,14 +232,14 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                 case "perfectm":
                     var thisComp = this;
                     this.setState({
-                        paym: "perfectm",
+                        typeOfPayment: "perfectm",
                     });
 
                     break;
                 case "bitc":
                     var thisComp = this;
                     this.setState({
-                        paym: "bitc",
+                        typeOfPayment: "bitc",
                     });
 
                     break;
@@ -246,13 +252,15 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                     price: that.state.toPay, //usd
                     */
 
+
                     this.setState(
                         {
-                            paym: "stripe",
-                            location: "NewMembership",
-                            toPay: this.state.mCharge/100,
-                            forPlan: this.state.membr,
+                            typeOfPayment: "stripe",
+                            type: "NewMembership",
+                            price: this.state.valueOfPayment/100,
+                            duration: this.state.periodOfPayment,
                             howMuch: 1,
+                            planSelector:this.state.paymentPlan
                         },
                         function () {
                             app.stripeCheckOut.start(this);
@@ -265,7 +273,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                 case "paypal":
                     var thisComp = this;
                     this.setState({
-                        paym: "paypal",
+                        typeOfPayment: "paypal",
                     });
 
                     var my_script = thisComp.new_script();
@@ -288,7 +296,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                                 {
                                                     amount: {
                                                         value: thisComp.state
-                                                            .mCharge/100,
+                                                            .valueOfPayment/100,
                                                     },
                                                     custom_id:
                                                         app.user.get("userId"),
@@ -322,7 +330,6 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
         },
 
         async stripeHandleSubmit(e) {
-            console.log("her551");
             //4000000000000002 -decline
             //4242 4242 4242 4242 -good
             e.preventDefault();
@@ -335,7 +342,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                 elements,
                 confirmParams: {
                     // Make sure to change this to your payment completion page
-                    return_url: "https://cyber.com",
+                    return_url: "https://mailum.com",
                 },
                 redirect: "if_required",
             });
@@ -396,6 +403,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                     console.log(event);
                     console.log(period);
                     console.log(this.state.prices[event]);
+
                     //calc total
                     var finalPrice=0;
                     //event; //pan type
@@ -413,14 +421,14 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                 case "pay":
                     //event.preventDefault();
 
-                    if (this.state.paym !== "perfectm") {
+                    if (this.state.typeOfPayment !== "perfectm") {
                         app.user.set({
                             tempCoin: true,
                         });
                     }
                     console.log('data submitted:')
-                    console.log(this.state.mCharge);
-                    console.log(this.state.membr);
+                    console.log(this.state.valueOfPayment);
+                    console.log(this.state.periodOfPayment);
 
 
                     break;
@@ -441,20 +449,12 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                         } else if (msg["response"] === "success") {
                             app.userObjects.loadUserPlan(function () {});
                         }
-
-                        console.log(msg);
                     });
 
                     break;
             }
         },
 
-        handleFreePayment: function () {
-            this.state.setState({
-                membr: "free",
-            });
-            this.handleChange.bind(this, "free");
-        },
 
         handleTabChange: function (type, event) {
            var thisComp=this;
@@ -463,7 +463,6 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
             },function(){
                 thisComp.setPrices();
             });
-
         },
         handleBackButton: function () {
             this.setState({
@@ -481,7 +480,9 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
 
             }else if(this.state.currentTab=="yearly-one"){
                 //per="per year";
+
                 this.state.paymentTabContents.forEach((element) => (
+
                     price[element.id]=app.user.get('userPlan')["planList"][element.id]['price']-app.user.get('userPlan')["planList"][element.id]['price']*(app.user.get('userPlan')["planList"][element.id]['1ydisc']+app.user.get('userPlan')['inviteDiscount'])/100
                 ));
             }else{
@@ -701,13 +702,8 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                             }`}
                         >
                             <div
-                                className={`
-                                    ${
-                                        this.state.membr == "free"
-                                            ? "d-none"
-                                            : "panel panel-default"
-                                    }
-                                `}
+                                className="panel panel-default"
+
                             >
                                 <div className="paymentmethod-heading px-4 pt-4 pb-3">
                                     <h4>Payment Method</h4>
@@ -721,11 +717,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                     <div className="form-inline text-center">
                                         <div className="form-group col-lg-offset-0 text-left">
                                             <div
-                                                className={`radio ${
-                                                    this.state.paym == "bitc"
-                                                        ? "selected"
-                                                        : ""
-                                                }`}
+                                                className={`radio ${this.state.paymentPlan == "free"?"selected": "d-none"}`}
                                             >
                                                 <label>
                                                     <div className="te_text">
@@ -737,7 +729,40 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                                             value="option1"
                                                             checked={
                                                                 this.state
-                                                                    .paym ==
+                                                                    .typeOfPayment ==
+                                                                "free"
+                                                            }
+                                                        />
+                                                        <span className="selected-icon">
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                viewBox="0 0 48 48"
+                                                            >
+                                                                <path d="m19.95 26.75 11.95-12q.65-.65 1.55-.65t1.6.65q.7.75.7 1.65 0 .9-.7 1.6l-13.5 13.55q-.7.7-1.65.7t-1.6-.7L12.7 26q-.7-.7-.675-1.6.025-.9.775-1.65.65-.65 1.6-.65.95 0 1.65.65Z" />
+                                                            </svg>
+                                                        </span>
+                                                        <span className="labelled">
+                                                            Free
+                                                        </span>
+                                                    </div>
+
+                                                </label>
+                                            </div>
+
+                                            <div
+                                                className={`radio ${this.state.paymentPlan == "free"? "d-none":this.state.typeOfPayment == "bitc"? "selected": ""}`}
+                                            >
+                                                <label>
+                                                    <div className="te_text">
+                                                        <input
+                                                            className="margin-right-10"
+                                                            type="radio"
+                                                            name="optionsRadios"
+                                                            id="optionsRadios1"
+                                                            value="option1"
+                                                            checked={
+                                                                this.state
+                                                                    .typeOfPayment ==
                                                                 "bitc"
                                                             }
                                                             onChange={this.handleChange.bind(
@@ -843,12 +868,8 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                             </div>
                                             <div className="clearfix"></div>
                                             <div
-                                                className={`radio ${
-                                                    this.state.paym ==
-                                                    "perfectm"
-                                                        ? "selected"
-                                                        : ""
-                                                }`}
+                                                className={`radio ${this.state.paymentPlan == "free"? "d-none":this.state.typeOfPayment == "perfectm"? "selected": ""}`}
+
                                             >
                                                 <label>
                                                     <div className="te_text">
@@ -860,7 +881,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                                             value="option2"
                                                             checked={
                                                                 this.state
-                                                                    .paym ==
+                                                                    .typeOfPayment ==
                                                                 "perfectm"
                                                             }
                                                             onChange={this.handleChange.bind(
@@ -942,11 +963,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                             </div>
                                             <div className="clearfix"></div>
                                             <div
-                                                className={`radio ${
-                                                    this.state.paym == "paypal"
-                                                        ? "selected"
-                                                        : ""
-                                                }`}
+                                                className={`radio ${this.state.paymentPlan == "free"? "d-none":this.state.typeOfPayment == "paypal"? "selected": ""}`}
                                             >
                                                 <label>
                                                     <div className="te_text">
@@ -958,7 +975,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                                             value="option3"
                                                             checked={
                                                                 this.state
-                                                                    .paym ==
+                                                                    .typeOfPayment ==
                                                                 "paypal"
                                                             }
                                                             onChange={this.handleChange.bind(
@@ -991,11 +1008,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
 
                                             <div className="clearfix"></div>
                                             <div
-                                                className={`radio ${
-                                                    this.state.paym == "stripe"
-                                                        ? "selected"
-                                                        : ""
-                                                }`}
+                                                className={`radio ${this.state.paymentPlan == "free"? "d-none":this.state.typeOfPayment == "stripe"? "selected": ""}`}
                                             >
                                                 <label>
                                                     <div className="te_text">
@@ -1007,7 +1020,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                                             value="option4"
                                                             checked={
                                                                 this.state
-                                                                    .paym ==
+                                                                    .typeOfPayment ==
                                                                 "stripe"
                                                             }
                                                             onChange={this.handleChange.bind(
@@ -1060,7 +1073,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                             <input
                                                 type="hidden"
                                                 name="PAYMENT_AMOUNT"
-                                                value={this.state.mCharge/100}
+                                                value={this.state.valueOfPayment/100}
                                             />
                                             <input
                                                 type="hidden"
@@ -1168,15 +1181,15 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                             <input
                                                 type="hidden"
                                                 name="item_name"
-                                                value="Premium Membership"
+                                                value={this.state.paymentPlan+" plan"}
                                             />
                                             <input
                                                 type="hidden"
                                                 name="item_desc"
                                                 value={
-                                                    this.state.membr == "yearly-two"
+                                                    this.state.periodOfPayment == "yearly-two"
                                                         ? "2 Years Subscription":
-                                                        this.state.membr == "yearly-one"
+                                                        this.state.periodOfPayment == "yearly-one"
                                                     ? "1 Year Subscription":"1 Month Subscription"
                                                 }
                                             />
@@ -1193,7 +1206,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                             <input
                                                 type="hidden"
                                                 name="amountf"
-                                                value={this.state.mCharge/100}
+                                                value={this.state.valueOfPayment/100}
                                             />
                                             <input
                                                 type="hidden"
@@ -1215,7 +1228,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
 
                                         <div
                                             className={
-                                                this.state.paym == "stripe"
+                                                this.state.typeOfPayment == "stripe"&&  this.state.paymentPlan != "free"
                                                     ? ""
                                                     : "d-none"
                                             }
@@ -1223,14 +1236,6 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                         >
                                             <form id="payment-form">
                                                 <div id="payment-element"></div>
-                                                <button
-                                                    type="button"
-                                                    onClick={this.handleBackButton}
-                                                    className={`back-button`}
-                                                >
-                                                    Back
-                                                </button>
-
                                                 <button id="submit">
                                                     <div
                                                         className="spinner d-none"
@@ -1249,7 +1254,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
 
                                         <div
                                             className={
-                                                this.state.paym == "paypal"
+                                                this.state.typeOfPayment == "paypal"
                                                     ? ""
                                                     : "d-none"
                                             }
@@ -1259,9 +1264,9 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                 </div>
                             </div>
                             <div>
-                                <div
+                                {/*<div
                                     className={`loading-screen welcome ${
-                                        this.state.membr != "free"
+                                        this.state.paymentPlan != "free"
                                             ? "d-none"
                                             : "d-flex"
                                     }`}
@@ -1308,29 +1313,39 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div>*/}
                                 <div
-                                    className={`group-btn type-pay_now px-4 ${
-                                        this.state.membr != "free"
-                                            ? ""
-                                            : "d-none"
-                                    }`}
+                                    className="group-btn type-pay_now px-4"
                                 >
                                     <button
                                         type="button"
                                         onClick={this.handleBackButton}
-                                        className={
-                                            this.state.paym !== "stripe"
-                                                ? "back-button"
-                                                : "d-none"
-                                        }
+                                        className="back-button"
                                     >
                                         Back
                                     </button>
+
+
+                                    <button
+                                        type="submit"
+                                        onClick={this.handleClick.bind(
+                                            this,
+                                            "freemium"
+                                        )}
+                                        className={this.state.paymentPlan == "free"? "white-btn": "d-none"}
+                                        style={{
+                                            float: "none",
+                                            display: "initial",
+                                        }}
+                                    >
+                                        Sign In
+                                    </button>
+
+
                                     <button
                                         type="submit"
                                         form={
-                                            this.state.paym === "perfectm"
+                                            this.state.typeOfPayment === "perfectm"
                                                 ? "perfMF"
                                                 : "cryptF"
                                         }
@@ -1339,15 +1354,15 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                             "pay"
                                         )}
                                         className={
-                                            (this.state.paym == "perfectm" ||
-                                                this.state.paym == "bitc") &&
-                                            this.state.membr != "free" &&
+                                            (this.state.typeOfPayment == "perfectm" ||
+                                                this.state.typeOfPayment == "bitc") &&
+                                            this.state.paymentPlan != "free" &&
                                             !this.state.butDis
                                                 ? "white-btn"
                                                 : "d-none"
                                         }
                                         disabled={
-                                            this.state.paym == "" ||
+                                            this.state.typeOfPayment == "" ||
                                             this.state.butDis
                                         }
                                         style={{
@@ -1360,26 +1375,6 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                 </div>
                             </div>
 
-                            <div
-                                className={
-                                    this.state.membr == "free" ? "" : "d-none"
-                                }
-                                style={{ textAlign: "center" }}
-                            >
-                                <button
-                                    onClick={this.handleClick.bind(
-                                        this,
-                                        "freemium"
-                                    )}
-                                    className="white-btn"
-                                    style={{
-                                        float: "none",
-                                        display: "initial",
-                                    }}
-                                >
-                                    Log In
-                                </button>
-                            </div>
                         </div>
                     </div>
                 </div>

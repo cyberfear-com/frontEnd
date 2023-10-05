@@ -9,7 +9,7 @@ define(['react','app','validation',"ajaxQueue"], function (React,app,Validation,
 			return {
 				compSafe:false,
 				secondFactorInput:false,
-				domainList: ["@mailum.com","@cyberfear.com","test@com.com"],
+				domainList: ["@mailum.com","@cyberfear.com"],
 				domain:"@mailum.com",
 				fac2Text:"",
 				fac2Type:""

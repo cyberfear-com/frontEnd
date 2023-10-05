@@ -19,13 +19,13 @@ define(["react", "app", "cmpld/modals/paymentGate","ajaxQueue"], function (
                 fac2Type: "",
                 domainSelectFlag: false,
                 incorrectCredentials: false,
-                signDisabled:true,
+                signDisabled:false,
 
                 emailError: "",
                 passError: "",
 
                 pinWrong:false,
-                domainList: ["@mailum.com","@cyberfear.com","test@com.com"],
+                domainList: ["@mailum.com","@cyberfear.com"],
                 domain:app.defaults.get( "defLogDomain" ),
                 firstTimeUser: false,
 

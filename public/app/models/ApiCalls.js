@@ -96,7 +96,7 @@ define(["app", "ajaxQueue"], function (app, ajaxQueue) {
                     break;
 
                 case "retrieveUserPlan":
-                    var url = "/retrieveUserPlanV2";
+                    var url = "/retrieveUserPlanV3";
                     break;
 
                 case "savePlan":

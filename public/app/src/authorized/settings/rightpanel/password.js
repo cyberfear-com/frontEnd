@@ -8,7 +8,7 @@ define([
     return React.createClass({
         getInitialState: function () {
             return {
-                viewFlag: false,
+                viewFlag: !app.user.get('oneStep'),
                 panel: {
                     firstPanelClass: "panel-body",
                     secondPanelClass: "panel-body d-none",

@@ -764,22 +764,34 @@ define([
 
                     break;
                 case "toggleDisplay":
-                    this.setState({
-                        viewFlag: !this.state.viewFlag,
-                        pageTitle: `Add alias`,
-                        aliasName:"",
-                        aliasEmail:"",
-                        isDefault:false,
-                        signature:"",
-                        saveDisabled:true,
-                        includeSignature:true,
-                        button5click: "saveNewAlias",
-                        disabled:false
-                    },function(){
-                        this.state.quill.pasteHTML('<div>Sent using Encrypted Email Service -&nbsp;<a href="https://mailum.com/mailbox/#signup/' +
-                            app.user.get("userPlan")["coupon"] +
-                            '" target="_blank">Mailum.com</a></div>');
-                    });
+
+                    var alDis=app.globalF.getAliasDisposableCount();
+
+                    if(alDis['aliases']-1>=app.user.get("userPlan")["planData"]["alias"]) {
+                        $("#infoModHeader").html("Please upgrade your plan.");
+                        $("#infoModBody").html(
+                            "You've reached your plan limit. Please upgrade plan."
+                        );
+                        $("#infoModal").modal("show");
+                    }else{
+                        this.setState({
+                            viewFlag: !this.state.viewFlag,
+                            pageTitle: `Add alias`,
+                            aliasName:"",
+                            aliasEmail:"",
+                            isDefault:false,
+                            signature:"",
+                            saveDisabled:true,
+                            includeSignature:true,
+                            button5click: "saveNewAlias",
+                            disabled:false
+                        },function(){
+                            this.state.quill.pasteHTML('<div>Sent using Encrypted Email Service -&nbsp;<a href="https://mailum.com/mailbox/#signup/' +
+                                app.user.get("userPlan")["coupon"] +
+                                '" target="_blank">Mailum.com</a></div>');
+                        });
+                    }
+
                     break;
             }
         },

@@ -123,7 +123,7 @@ define([
                     <label>Total Reward:</label>
                     <div className="information-row-right">
                         {accounting.formatMoney(
-                            app.user.get("userPlan")["rewardCollected"],
+                            app.user.get("userPlan")["rewardCollected"]/100,
                             "$",
                             2
                         )}

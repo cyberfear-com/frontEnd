@@ -99,10 +99,10 @@ define(["app", "ajaxQueue"], function (app, ajaxQueue) {
                     var url = "/retrieveUserPlanV3";
                     break;
 
-                case "savePlan":
-                    var url = "/savePlanV2";
-                    postData["modKey"] = app.user.get("modKey");
-                    break;
+                //case "savePlan":
+               //     var url = "/savePlanV2";
+               //     postData["modKey"] = app.user.get("modKey");
+              //      break;
 
                 case "retrieveFoldersMeta":
                     var url = "/retrieveFoldersMetaTempV2";

@@ -178,8 +178,8 @@ define([
                         secondPanelClass: "panel-body d-none",
                         thirdTab: "active",
                         thirdPanelClass: "panel-body",
-                        duration:"1 month",
-                        planSelector:"free",
+                       // duration:"1 month",
+                      //  planSelector:"free",
 
                     });
 
@@ -197,22 +197,23 @@ define([
                     var amnt=0;
                     var duration="";
                     var plan="";
+                    amnt=accounting.formatMoney(app.user.get("userPlan")["renewAmount"]/100,"");
+
                     if(app.user.get("userPlan")["paymentVersion"]==2){
-                        amnt=accounting.formatMoney(app.user.get("userPlan")["renewAmount"],"")
                         duration=app.user.get("userPlan")["planSelected"]==1?"1 year":"1 month";
                         plan=app.user.get("userPlan")["planSelected"]+"old";
                     }else{
-                        amnt=accounting.formatMoney(app.user.get("userPlan")["renewAmount"]/100,"")
                         duration=app.user.get("userPlan")["period"];
                         plan=app.user.get("userPlan")["planSelected"];
                     }
+
                     this.setState({
-                        price:amnt,
+                        price:amnt<1?1:amnt,
                         planSelector:plan,
                         duration:duration,
                         type: 'refill',
                     },function(){
-                      //  console.log(this.state);
+                       // console.log(amnt);
                     });
 
                     this.handleClick("showSecond");
@@ -393,77 +394,6 @@ define([
             }
         },
 
-        async stripeHandleSubmit(e) {
-            console.log("her55");
-            e.preventDefault();
-            app.stripeCheckOut.setLoading(true);
-
-            var elements = app.stripeCheckOut.get("elements");
-            var stripe = app.stripeCheckOut.get("stripe");
-
-            const { error, paymentIntent } = await stripe.confirmPayment({
-                elements,
-                confirmParams: {
-                    // Make sure to change this to your payment completion page
-                    return_url: "https://cyber.com",
-                },
-                redirect: "if_required",
-            });
-
-            try {
-                if (paymentIntent.status === "succeeded") {
-                    console.log("paid2");
-                    app.stripeCheckOut.showMessage(
-                        "Payment was accepted. Please wait to be redirected"
-                    );
-                    this.handleClick("showFirst");
-                }
-            } catch (error) {}
-
-            // This point will only be reached if there is an immediate error when
-            // confirming the payment. Otherwise, your customer will be redirected to
-            // your `return_url`. For some payment methods like iDEAL, your customer will
-            // be redirected to an intermediate site first to authorize the payment, then
-            // redirected to the `return_url`.
-            // console.log(error);
-            try {
-                if (
-                    error.type === "card_error" ||
-                    error.type === "validation_error"
-                ) {
-                    app.stripeCheckOut.showMessage(error.message);
-                } else {
-                    app.stripeCheckOut.showMessage(
-                        "An unexpected error occured."
-                    );
-                }
-            } catch (error) {}
-            app.stripeCheckOut.setLoading(false);
-        },
-
-        new_script: function () {
-            return new Promise(function (resolve, reject) {
-                var script = document.createElement("script");
-                script.src =
-                    "https://www.paypal.com/sdk/js?client-id=AaDCvbA992btr491o9RRqJk6wcqicJRaKwpfhHwQh84MSVNCU1ARqFN9kAtUjqQV6GvmxSv17yFRAMGW&currency=USD";
-                script.addEventListener("load", function () {
-                    resolve();
-                });
-                script.addEventListener("error", function (e) {
-                    reject(e);
-                });
-                document.body.appendChild(script);
-            });
-        },
-
-        getPlansDataPost: function () {
-            var post = {
-                planSelector: this.state.planSelector,
-                howMuch: this.state.howMuch,
-            };
-            return post;
-        },
-
         createPlanTab:(that)=>{
             let entry=[];
            var thisComp=that;
@@ -483,12 +413,14 @@ define([
 
                var price = 0;
                if (thisComp.state.duration == "2 years") {
-                   price = (planList[key]['price'] - planList[key]['price'] * (app.user.get("userPlan")['planList'][key]['2ydisc'] + app.user.get("userPlan")['discountApplied']) / 100) / 100;
+                   price = (planList[key]['price'] - planList[key]['price'] * (app.user.get("userPlan")['planList'][key]['2ydisc'] + app.user.get("userPlan")['inviteDiscount']) / 100) / 100;
                    // console.log(app.user.get("userPlan")['planList'][key]['2ydisc']+app.user.get("userPlan")['discountApplied']);
+
                } else if (thisComp.state.duration == "1 year") {
-                   price = (planList[key]['price'] - planList[key]['price'] * (app.user.get("userPlan")['planList'][key]['1ydisc'] + app.user.get("userPlan")['discountApplied']) / 100) / 100;
+                   price = (planList[key]['price'] - planList[key]['price'] * (app.user.get("userPlan")['planList'][key]['1ydisc'] + app.user.get("userPlan")['inviteDiscount']) / 100) / 100;
                } else {
-                   price = (planList[key]['price'] - (planList[key]['price'] * app.user.get("userPlan")['discountApplied']) / 100) / 100;
+                   price = (planList[key]['price'] - (planList[key]['price'] * app.user.get("userPlan")['inviteDiscount']) / 100) / 100;
+
                }
 
               // console.log(key);
@@ -929,14 +861,28 @@ define([
             //if pastdue and alrdpaid=0 then renew
             //if pastdue and alrd paid then missing balance
 
+            var price=0;
+            if(app.user.get("userPlan")["paymentVersion"]==2 && app.user.get("userPlan")["planSelected"]!=3){
+                price=accounting.formatMoney(app.user.get("userPlan")["priceAfterDiscount"]/100,"$",2)
+            }else if(app.user.get("userPlan")["paymentVersion"]==3 && app.user.get("userPlan")["planSelected"]!="free"){
+                price=accounting.formatMoney(app.user.get("userPlan")["renewAmount"]/100,"$",2);
+            }
             options.push(
                 <div className="information-table-row" key="1a">
-                    <label>Balance Due at renewal:</label>
+                    <label>{app.user.get("userPlan")["needFill"]?"Balance Due:":"Balance Due at renewal:"}</label>
                     <div className="information-row-right">
-                        <b>{app.user.get("userPlan")["paymentVersion"]==2 && app.user.get("userPlan")["planSelected"]!=3?app.user.get("userPlan")["renewAmount"]/100<1?accounting.formatMoney(1):accounting.formatMoney(app.user.get("userPlan")["renewAmount"]/100,"$",2):
-                            accounting.formatMoney(
-                            app.user.get("userPlan")["balance"]/100+app.user.get("userPlan")["priceAfterDiscount"]/100-app.user.get("userPlan")["currentPlanBalance"]/100
-                        )}</b> {app.user.get("userPlan")["renewAmount"]/100<1?"(min. charge $1)":""}
+                        <b>{price}</b> {app.user.get("userPlan")["renewAmount"]/100<1?"(min. charge $1)":""}
+                    </div>
+                </div>
+            );
+
+            options.push(
+                <div className="information-table-row" key="3b">
+                    <label>Balance Credit:</label>
+                    <div className="information-row-right">
+                        <b>{accounting.formatMoney(
+                            app.user.get("userPlan")["currentPlanBalance"]/100
+                        )}</b>
                     </div>
                 </div>
             );
@@ -1021,23 +967,14 @@ define([
                     </div>
                 </div>
             );
-            options.push(
-                <div className="information-table-row" key="3b">
-                    <label>Unused Credit:</label>
-                    <div className="information-row-right">
-                        <b>{accounting.formatMoney(
-                            app.user.get("userPlan")["currentPlanBalance"]/100
-                        )}</b>
-                    </div>
-                </div>
-            );
+
 
             options.push(
                 <div className="information-table-row" key="3c">
                     <label>Rewards:</label>
                     <div className="information-row-right">
                         <b>{accounting.formatMoney(
-                            app.user.get("userPlan")["rewardCollected"],
+                            app.user.get("userPlan")["rewardCollected"]/100,
                             "$",
                             3
                         )}</b>
@@ -1133,6 +1070,77 @@ define([
 
             return options;
         },
+        async stripeHandleSubmit(e) {
+            console.log("her55");
+            e.preventDefault();
+            app.stripeCheckOut.setLoading(true);
+
+            var elements = app.stripeCheckOut.get("elements");
+            var stripe = app.stripeCheckOut.get("stripe");
+
+            const { error, paymentIntent } = await stripe.confirmPayment({
+                elements,
+                confirmParams: {
+                    // Make sure to change this to your payment completion page
+                    return_url: "https://cyber.com",
+                },
+                redirect: "if_required",
+            });
+
+            try {
+                if (paymentIntent.status === "succeeded") {
+                    console.log("paid2");
+                    app.stripeCheckOut.showMessage(
+                        "Payment was accepted. Please wait to be redirected"
+                    );
+                    this.handleClick("showFirst");
+                }
+            } catch (error) {}
+
+            // This point will only be reached if there is an immediate error when
+            // confirming the payment. Otherwise, your customer will be redirected to
+            // your `return_url`. For some payment methods like iDEAL, your customer will
+            // be redirected to an intermediate site first to authorize the payment, then
+            // redirected to the `return_url`.
+            // console.log(error);
+            try {
+                if (
+                    error.type === "card_error" ||
+                    error.type === "validation_error"
+                ) {
+                    app.stripeCheckOut.showMessage(error.message);
+                } else {
+                    app.stripeCheckOut.showMessage(
+                        "An unexpected error occured."
+                    );
+                }
+            } catch (error) {}
+            app.stripeCheckOut.setLoading(false);
+        },
+
+        new_script: function () {
+            return new Promise(function (resolve, reject) {
+                var script = document.createElement("script");
+                script.src =
+                    "https://www.paypal.com/sdk/js?client-id=AaDCvbA992btr491o9RRqJk6wcqicJRaKwpfhHwQh84MSVNCU1ARqFN9kAtUjqQV6GvmxSv17yFRAMGW&currency=USD";
+                script.addEventListener("load", function () {
+                    resolve();
+                });
+                script.addEventListener("error", function (e) {
+                    reject(e);
+                });
+                document.body.appendChild(script);
+            });
+        },
+
+        getPlansDataPost: function () {
+            var post = {
+                planSelector: this.state.planSelector,
+                howMuch: this.state.howMuch,
+            };
+            return post;
+        },
+
         render: function () {
             var classFullSettSelect = "col-xs-12";
             var st3 = {
@@ -1352,7 +1360,7 @@ define([
                                         </div>
                                         <div className={app.user.get("userPlan")["needRenew"]||app.user.get("userPlan")["pastDue"]?"btn-box":"d-none"}>
                                             <button className="btn-border"
-                                                    onClick={app.user.get("userPlan")["needRenew"]?this.handleClick.bind(this,"renew"):app.user.get("userPlan")["pastDue"]?this.handleClick.bind(this,"fill"):""}
+                                                    onClick={this.handleClick.bind(this,"fill")}
                                             >
 
                                                 {app.user.get("userPlan")["needRenew"]?"Renew":app.user.get("userPlan")["pastDue"]?"Fill Balance":""}

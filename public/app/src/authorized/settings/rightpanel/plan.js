@@ -863,7 +863,7 @@ define([
 
             var price=0;
             if(app.user.get("userPlan")["paymentVersion"]==2 && app.user.get("userPlan")["planSelected"]!=3){
-                price=accounting.formatMoney(app.user.get("userPlan")["priceAfterDiscount"]/100,"$",2)
+                price=accounting.formatMoney(app.user.get("userPlan")["renewAmount"]/100,"$",2)
             }else if(app.user.get("userPlan")["paymentVersion"]==3 && app.user.get("userPlan")["planSelected"]!="free"){
                 price=accounting.formatMoney(app.user.get("userPlan")["renewAmount"]/100,"$",2);
             }

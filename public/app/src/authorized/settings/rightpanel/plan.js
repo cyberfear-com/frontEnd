@@ -197,7 +197,20 @@ define([
                     var amnt=0;
                     var duration="";
                     var plan="";
-                    amnt=accounting.formatMoney(app.user.get("userPlan")["renewAmount"]/100,"");
+               /*  if(!app.user.get("userPlan")["needRenew"]){
+                     amnt=accounting.formatMoney((app.user.get("userPlan")["renewAmount"]-app.user.get("userPlan")["currentPlanBalance"]-app.user.get("userPlan")["alrdPaid"])/100,"");
+                 }else{
+                     amnt=accounting.formatMoney((app.user.get("userPlan")["renewAmount"])/100,"");
+                 }*/
+                    if(app.user.get("userPlan")["paymentVersion"]==2 && app.user.get("userPlan")["planSelected"]!=3 && !app.user.get("userPlan")["needRenew"]){
+                        price=(app.user.get("userPlan")["renewAmount"]-app.user.get("userPlan")["currentPlanBalance"]-app.user.get("userPlan")["alrdPaid"])/100;
+                    } if(app.user.get("userPlan")["paymentVersion"]==2 && app.user.get("userPlan")["planSelected"]!=3 && app.user.get("userPlan")["needRenew"]){
+                    price=(app.user.get("userPlan")["renewAmount"]-app.user.get("userPlan")["currentPlanBalance"])/100;
+                }else if(app.user.get("userPlan")["paymentVersion"]==3 && app.user.get("userPlan")["planSelected"]!="free"){
+                    price=app.user.get("userPlan")["renewAmount"]/100;
+                }
+
+
 
                     if(app.user.get("userPlan")["paymentVersion"]==2){
                         duration=app.user.get("userPlan")["planSelected"]==1?"1 year":"1 month";
@@ -208,7 +221,7 @@ define([
                     }
 
                     this.setState({
-                        price:amnt<1?1:amnt,
+                        price:price<1?1:price,
                         planSelector:plan,
                         duration:duration,
                         type: 'refill',
@@ -862,16 +875,21 @@ define([
             //if pastdue and alrd paid then missing balance
 
             var price=0;
-            if(app.user.get("userPlan")["paymentVersion"]==2 && app.user.get("userPlan")["planSelected"]!=3){
-                price=accounting.formatMoney(app.user.get("userPlan")["renewAmount"]/100,"$",2)
+            if(app.user.get("userPlan")["paymentVersion"]==2 && app.user.get("userPlan")["planSelected"]!=3 && !app.user.get("userPlan")["needRenew"]){
+                price=(app.user.get("userPlan")["renewAmount"]-app.user.get("userPlan")["currentPlanBalance"])/100;
+
+            }if(app.user.get("userPlan")["paymentVersion"]==2 && app.user.get("userPlan")["planSelected"]!=3 && app.user.get("userPlan")["needFill"]){
+                price=(app.user.get("userPlan")["renewAmount"]-app.user.get("userPlan")["currentPlanBalance"]-app.user.get("userPlan")["alrdPaid"])/100;
+            } if(app.user.get("userPlan")["paymentVersion"]==2 && app.user.get("userPlan")["planSelected"]!=3 && app.user.get("userPlan")["needRenew"]){
+                price=(app.user.get("userPlan")["renewAmount"]-app.user.get("userPlan")["currentPlanBalance"])/100;
             }else if(app.user.get("userPlan")["paymentVersion"]==3 && app.user.get("userPlan")["planSelected"]!="free"){
-                price=accounting.formatMoney(app.user.get("userPlan")["renewAmount"]/100,"$",2);
+                price=app.user.get("userPlan")["renewAmount"]/100;
             }
             options.push(
                 <div className="information-table-row" key="1a">
                     <label>{app.user.get("userPlan")["needFill"]?"Balance Due:":"Balance Due at renewal:"}</label>
                     <div className="information-row-right">
-                        <b>{price}</b> {app.user.get("userPlan")["renewAmount"]/100<1?"(min. charge $1)":""}
+                        <b>{accounting.formatMoney(price,"$",2)}</b> {price<1?"(min. charge $1)":""}
                     </div>
                 </div>
             );

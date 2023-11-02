@@ -90,25 +90,60 @@ define([
                     console.log('plan is:')
                     var price=0;
                     var planList=app.user.get("userPlan")['planList'];
+                    var planPrice=planList[this.state.planSelector]['price'];
+                    var planDiscount=this.state.duration=="2 years"?app.user.get("userPlan")['planList'][this.state.planSelector]['2ydisc']:this.state.duration=="1 year"?
+                        app.user.get("userPlan")['planList'][this.state.planSelector]['1ydisc']:0;
+                    var totalDiscount=(planDiscount+app.user.get("userPlan")['inviteDiscount'])/100;
+                    var paidOver=app.user.get("userPlan")['currentPlanBalance'];
+                    var monthMult=this.state.duration=="2 years"?24:this.state.duration=="1 year"?12:1;
 
-                    if(this.state.duration=="2 years"){
-                        price=(planList[this.state.planSelector]['price']-planList[this.state.planSelector]['price']*(app.user.get("userPlan")['planList'][this.state.planSelector]['2ydisc']+app.user.get("userPlan")['discountApplied'])/100)/100*24-app.user.get("userPlan")['currentPlanBalance']/100;
+                    price=((planPrice-planPrice*totalDiscount)*monthMult)-paidOver-app.user.get("userPlan")['alrdPaid']+app.user.get("userPlan")['balanceUsedInPlan'];
 
-                    }else if(this.state.duration=="1 year"){
-                        price=(planList[this.state.planSelector]['price']-planList[this.state.planSelector]['price']*(app.user.get("userPlan")['planList'][this.state.planSelector]['1ydisc']+app.user.get("userPlan")['discountApplied'])/100)/100*12-app.user.get("userPlan")['currentPlanBalance']/100;
+                    console.log(price);
+
+                    price=(price+app.user.get("userPlan")['balance'])/100;
+                    if(price<=0){
+                        console.log('we can proceed');
+                        this.handleClick('savePlan');
                     }else{
-                        price=(planList[this.state.planSelector]['price']-(planList[this.state.planSelector]['price']*app.user.get("userPlan")['discountApplied'])/100)/100-app.user.get("userPlan")['currentPlanBalance']/100;
+                        this.setState({
+                            price:accounting.formatMoney(price,"",2),
+                            PaymentDescr:this.state.duration
+                        })
+                        this.handleClick('showSecond');
                     }
 
-                    price=price+app.user.get("userPlan")['balance']/100
-                    this.setState({
-                        type:'',
-                        price:accounting.formatMoney(price,"",2)
-                    })
-                   // price=accounting.formatMoney(price,"",2);
-                    //console.log(this.state.selectedPlan, this.state.period,price);
+                   // console.log(app.user.get("userPlan")['alrdPaid']);
+                    //console.log(price);
 
-                    this.handleClick('showSecond');
+                    break;
+                case "savePlan":
+
+                    var thisComp=this;
+                   // console[].log(this.state);
+                    var post={};
+                    post["planSelector"] = this.state.planSelector;
+                    post["period"] = this.state.duration;
+
+
+                    app.serverCall.ajaxRequest('savePlan', post, function (result) {
+
+                        if (result['response'] == "success") {
+                            app.notifications.systemMessage('saved');
+                            thisComp.presetValues();
+                            thisComp.handleClick('showFirst');
+                            //thisComp.presetValues();
+                            //thisComp.setState({
+                            //    boxBy:"",
+                            //    boxButtonText:""
+                            //});
+
+                        }else if(result['response'] == "fail" && result['data']=="insBal"){
+
+                        }else if(result['response'] == "fail" && result['data']=="failToSave"){
+
+                        }
+                    });
                     break;
                 case "selectPeriod":
 
@@ -197,21 +232,34 @@ define([
                     var amnt=0;
                     var duration="";
                     var plan="";
-                    amnt=accounting.formatMoney(app.user.get("userPlan")["renewAmount"]/100,"");
+               /*  if(!app.user.get("userPlan")["needRenew"]){
+                     amnt=accounting.formatMoney((app.user.get("userPlan")["renewAmount"]-app.user.get("userPlan")["currentPlanBalance"]-app.user.get("userPlan")["alrdPaid"])/100,"");
+                 }else{
+                     amnt=accounting.formatMoney((app.user.get("userPlan")["renewAmount"])/100,"");
+                 }*/
+                    if(app.user.get("userPlan")["paymentVersion"]==2 && app.user.get("userPlan")["planSelected"]!=3 && !app.user.get("userPlan")["needRenew"]){
+                        price=(app.user.get("userPlan")["renewAmount"]-app.user.get("userPlan")["currentPlanBalance"]-app.user.get("userPlan")["alrdPaid"])/100;
+                    } if(app.user.get("userPlan")["paymentVersion"]==2 && app.user.get("userPlan")["planSelected"]!=3 && app.user.get("userPlan")["needRenew"]){
+                    price=(app.user.get("userPlan")["renewAmount"]-app.user.get("userPlan")["currentPlanBalance"])/100;
+                }else if(app.user.get("userPlan")["paymentVersion"]==3 && app.user.get("userPlan")["planSelected"]!="free"){
+                    price=app.user.get("userPlan")["renewAmount"]/100;
+                }
+
+
 
                     if(app.user.get("userPlan")["paymentVersion"]==2){
                         duration=app.user.get("userPlan")["planSelected"]==1?"1 year":"1 month";
-                        plan=app.user.get("userPlan")["planSelected"]+"old";
+                        plan=app.user.get("userPlan")["planSelected"]==1?"Old Yearly":"Old Monthly";
                     }else{
                         duration=app.user.get("userPlan")["period"];
                         plan=app.user.get("userPlan")["planSelected"];
                     }
 
                     this.setState({
-                        price:amnt<1?1:amnt,
+                        price:price<1?1:price,
                         planSelector:plan,
                         duration:duration,
-                        type: 'refill',
+                        PaymentDescr:"refill"
                     },function(){
                        // console.log(amnt);
                     });
@@ -225,7 +273,7 @@ define([
                         price:accounting.formatMoney(app.user.get("userPlan")["renewAmount"]/100,""),
                         planSelector:app.user.get("userPlan")["planSelected"],
                         duration:app.user.get("userPlan")["period"],
-                        type: 'renewal',
+                        PaymentDescr:app.user.get("userPlan")["period"]
                     },function(){
                         console.log(this.state);
                     });
@@ -248,6 +296,9 @@ define([
                     break;
 
                 case "showFirst":
+                    //{this.state.planSelector+" plan "+ this.state.type +" for " + this.state.duration}
+                    console.log(this.state.planSelector);
+                    console.log(this.state.duration)
                     this.setState({
                         firstPanelClass: "panel-body",
                         firstTab: "active",
@@ -346,9 +397,26 @@ define([
                                                 {
                                                     amount: {
                                                         value: thisComp.state.price,
+                                                        currency_code:"USD",
+                                                        breakdown:{
+                                                            item_total:{
+                                                                currency_code: "USD",
+                                                                value: thisComp.state.price
+                                                            }
+                                                        }
                                                     },
-                                                    custom_id:app.user.get("userId"),
-                                                    description:thisComp.state.planSelector+" plan "+ thisComp.state.type +" for " + thisComp.state.duration,
+                                                    items:[
+                                                        {
+                                                            name:"test",
+                                                            description: thisComp.state.PaymentDescr,
+                                                            unit_amount:{
+                                                                currency_code:"USD",
+                                                                value:thisComp.state.price
+                                                            },
+                                                            quantity:1
+                                                        }
+                                                    ],
+                                                    custom_id:app.user.get("userId")
                                                 },
                                             ],
                                             application_context: {
@@ -409,7 +477,7 @@ define([
 
            Object.keys(planList).forEach(function(key) {
 
-               if (key != "1old" && key != "2old" && key != "3old") {
+               if (key != "Old Yearly" && key != "Old Monthly" && key != "Old Free") {
 
                var price = 0;
                if (thisComp.state.duration == "2 years") {
@@ -862,16 +930,21 @@ define([
             //if pastdue and alrd paid then missing balance
 
             var price=0;
-            if(app.user.get("userPlan")["paymentVersion"]==2 && app.user.get("userPlan")["planSelected"]!=3){
-                price=accounting.formatMoney(app.user.get("userPlan")["priceAfterDiscount"]/100,"$",2)
+            if(app.user.get("userPlan")["paymentVersion"]==2 && app.user.get("userPlan")["planSelected"]!=3 && !app.user.get("userPlan")["needRenew"]){
+                price=(app.user.get("userPlan")["renewAmount"]-app.user.get("userPlan")["currentPlanBalance"])/100;
+
+            }if(app.user.get("userPlan")["paymentVersion"]==2 && app.user.get("userPlan")["planSelected"]!=3 && app.user.get("userPlan")["needFill"]){
+                price=(app.user.get("userPlan")["renewAmount"]-app.user.get("userPlan")["currentPlanBalance"]-app.user.get("userPlan")["alrdPaid"])/100;
+            } if(app.user.get("userPlan")["paymentVersion"]==2 && app.user.get("userPlan")["planSelected"]!=3 && app.user.get("userPlan")["needRenew"]){
+                price=(app.user.get("userPlan")["renewAmount"]-app.user.get("userPlan")["currentPlanBalance"])/100;
             }else if(app.user.get("userPlan")["paymentVersion"]==3 && app.user.get("userPlan")["planSelected"]!="free"){
-                price=accounting.formatMoney(app.user.get("userPlan")["renewAmount"]/100,"$",2);
+                price=app.user.get("userPlan")["renewAmount"]/100;
             }
             options.push(
                 <div className="information-table-row" key="1a">
                     <label>{app.user.get("userPlan")["needFill"]?"Balance Due:":"Balance Due at renewal:"}</label>
                     <div className="information-row-right">
-                        <b>{price}</b> {app.user.get("userPlan")["renewAmount"]/100<1?"(min. charge $1)":""}
+                        <b>{accounting.formatMoney(price,"$",2)}</b> {price<1?"(min. charge $1)":""}
                     </div>
                 </div>
             );
@@ -1246,7 +1319,7 @@ define([
                                                 <div className="col-5">
                                                     <div className="plan-details">
                                                         <span className="icon-plan">
-                                                            {app.user.get("userPlan")["paymentVersion"]==2?"Old":app.user.get("userPlan")["planSelected"]}
+                                                            {app.user.get("userPlan")["paymentVersion"]==2?(app.user.get("userPlan")["planSelected"]==1?"Old Yearly ":app.user.get("userPlan")["planSelected"]==2?"Old Monthly ":"Old Free "):app.user.get("userPlan")["planSelected"]}
                                                         </span>{" "}
                                                         Plan
                                                     </div>
@@ -1648,9 +1721,11 @@ define([
                                                 </div>
                                                 <div className="tab-content-right">
                                                     <h3>Features:</h3>
+
                                                     <div className="plan-features">
                                                         <ul>
                                                             <li>
+
                                                                 {app.user.get("userPlan")["planList"][this.state.planSelector]["bSize"]/1000}&nbsp;
                                                                 GB Storage
                                                             </li>
@@ -1767,7 +1842,7 @@ define([
                             <input
                                 type="hidden"
                                 name="description"
-                                value={this.state.planSelector+" plan "+ this.state.type +" for " + this.state.duration}
+                                value={this.state.PaymentDescr}
                             />
                             <input
                                 type="hidden"
@@ -1814,12 +1889,12 @@ define([
                             <input
                                 type="hidden"
                                 name="item_name"
-                                value={this.state.planSelector}
+                                value={this.state.planSelector+" plan"}
                             />
                             <input
                                 type="hidden"
                                 name="item_desc"
-                                value={this.state.planSelector+" plan "+ this.state.type +" for " + this.state.duration}
+                                value={this.state.PaymentDescr}
                             />
                             <input
                                 type="hidden"

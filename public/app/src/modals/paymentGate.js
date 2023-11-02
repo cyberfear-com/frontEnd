@@ -251,7 +251,31 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                     howMuch:that.state.howMuch, //1
                     price: that.state.toPay, //usd
                     */
+                 /*   <input
+                        type="hidden"
+                        name="item_name"
+                        value={this.state.paymentPlan+" plan"}
+                    />
+                    <input
+                        type="hidden"
+                        name="item_desc"
+                        value={
+                            this.state.periodOfPayment == "yearly-two"
+                                ? "2 Years Subscription":
+                                this.state.periodOfPayment == "yearly-one"
+                                    ? "1 Year Subscription":"1 Month Subscription"
+                        }
 
+					price:that.state.price, //$
+					planSelector:that.state.planSelector, //free, basic, etc
+					duration:that.state.duration, //item/plan descr 1 year,
+					type:that.state.type, // new membership, renewal
+
+					userToken:app.user.get("userLoginToken"),
+					email:app.user.get('loginEmail'),
+
+				}),
+                        */
 
                     this.setState(
                         {
@@ -418,7 +442,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                     }
                     this.setMembership(event,period,finalPrice);
                     break;
-                case "pay":
+                case "payBalance":
                     //event.preventDefault();
 
                     if (this.state.typeOfPayment !== "perfectm") {
@@ -1351,7 +1375,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                         }
                                         onClick={this.handleClick.bind(
                                             this,
-                                            "pay"
+                                            "payBalance"
                                         )}
                                         className={
                                             (this.state.typeOfPayment == "perfectm" ||

@@ -11,6 +11,10 @@ define(["app", "SmartNotification"], function (app, SmartNotification) {
                     this.noAnswer("Wrong Password");
                     break;
 
+                case "failedToChangePlan":
+                    this.noAnswer("Failed to change plans. Please try again or contact us for support.");
+                    break;
+
                 case "wrngSecPass":
                     this.noAnswer("Wrong Second Password");
                     break;

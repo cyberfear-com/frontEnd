@@ -99,10 +99,10 @@ define(["app", "ajaxQueue"], function (app, ajaxQueue) {
                     var url = "/retrieveUserPlanV3";
                     break;
 
-                //case "savePlan":
-               //     var url = "/savePlanV2";
-               //     postData["modKey"] = app.user.get("modKey");
-              //      break;
+                case "savePlan":
+                    var url = "/savePlanV3";
+                    postData["modKey"] = app.user.get("modKey");
+                    break;
 
                 case "retrieveFoldersMeta":
                     var url = "/retrieveFoldersMetaTempV2";
@@ -460,6 +460,9 @@ define(["app", "ajaxQueue"], function (app, ajaxQueue) {
                             }
                             if (data["data"] == "upgradePlan") {
                                 app.notifications.systemMessage("upgradePlan");
+                            }
+                            if (data["data"] == "failedToChangePlan") {
+                                app.notifications.systemMessage("failedToChangePlan");
                             }
                             //if(data['data']=='email2often'){
                             //	app.notifications.systemMessage('email2often');

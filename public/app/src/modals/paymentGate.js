@@ -282,8 +282,10 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                             typeOfPayment: "stripe",
                             type: "NewMembership",
                             price: this.state.valueOfPayment/100,
-                            duration: this.state.periodOfPayment,
-                            howMuch: 1,
+                            PaymentDescr: thisComp.state.periodOfPayment == "yearly-two"
+                                ? "2 Years Subscription":
+                                thisComp.state.periodOfPayment == "yearly-one"
+                                    ? "1 Year Subscription":"1 Month Subscription",
                             planSelector:this.state.paymentPlan
                         },
                         function () {
@@ -322,10 +324,22 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                                         value: thisComp.state
                                                             .valueOfPayment/100,
                                                     },
-                                                    custom_id:
-                                                        app.user.get("userId"),
-                                                    description:
-                                                        "NewMembership_1",
+                                                    items:[
+                                                        {
+                                                            name:thisComp.state.paymentPlan +' plan',
+                                                            description: thisComp.state.periodOfPayment == "yearly-two"
+                                                                ? "2 Years Subscription":
+                                                                thisComp.state.periodOfPayment == "yearly-one"
+                                                                    ? "1 Year Subscription":"1 Month Subscription",
+                                                            unit_amount:{
+                                                                currency_code:"USD",
+                                                                value:thisComp.state
+                                                                    .valueOfPayment/100
+                                                            },
+                                                            quantity:1
+                                                        }
+                                                    ],
+                                                    custom_id:app.user.get("userId")
                                                 },
                                             ],
                                             application_context: {
@@ -1107,12 +1121,12 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                             <input
                                                 type="hidden"
                                                 name="STATUS_URL"
-                                                value="https://mailum.com/api/PerfectPaidstatus"
+                                                value="https://cyberfear.com/api/PerfectPaidstatus"
                                             />
                                             <input
                                                 type="hidden"
                                                 name="PAYMENT_URL"
-                                                value="https://mailum.com/api/Pe"
+                                                value="https://cyberfear.com/api/Pe"
                                             />
                                             <input
                                                 type="hidden"
@@ -1122,7 +1136,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                             <input
                                                 type="hidden"
                                                 name="NOPAYMENT_URL"
-                                                value="https://mailum.com/api/Pe"
+                                                value="https://cyberfear.com/api/Pe"
                                             />
                                             <input
                                                 type="hidden"
@@ -1142,17 +1156,22 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                             <input
                                                 type="hidden"
                                                 name="paymentFor"
-                                                value="NewMembership"
+                                                value={this.state.paymentPlan+" plan"}
                                             />
                                             <input
                                                 type="hidden"
-                                                name="howMuch"
-                                                value="1"
+                                                name="description"
+                                                value={
+                                                    this.state.periodOfPayment == "yearly-two"
+                                                        ? "2 Years Subscription":
+                                                        this.state.periodOfPayment == "yearly-one"
+                                                            ? "1 Year Subscription":"1 Month Subscription"
+                                                }
                                             />
                                             <input
                                                 type="hidden"
                                                 name="BAGGAGE_FIELDS"
-                                                value="userId paymentFor howMuch"
+                                                value="userId paymentFor description"
                                             />
                                         </form>
 

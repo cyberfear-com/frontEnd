@@ -48,19 +48,22 @@ define([
 		},
 		start:async function(that){
 
+			//4000000000000002 -decline
+			//4242 4242 4242 4242 -good
+
 			if(!app.user.get("stipeLoaded")){
 				var stripe_script = await app.stripeCheckOut.stripe_script(this);
 			}
 
-			const { clientSecret,amount,id } = await fetch("/api/CreateOrderStripeV3", {
+			const { clientSecret,amount,id } = await fetch("/api/createOrderStripeV3", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 
 				body: JSON.stringify({
 					price:that.state.price, //$
-					planSelector:that.state.planSelector, //free, basic, etc
-					duration:that.state.duration, //item/plan descr 1 year,
-					type:that.state.type, // new membership, renewal
+					planSelector:that.state.planSelector+" plan", //free, basic, etc
+					duration:that.state.PaymentDescr, //item/plan descr 1 year,
+					type:that.state.planSelector+" plan", // new membership, renewal
 
 					userToken:app.user.get("userLoginToken"),
 					email:app.user.get('loginEmail'),

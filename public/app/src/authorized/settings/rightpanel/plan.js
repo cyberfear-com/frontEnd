@@ -407,7 +407,7 @@ define([
                                                     },
                                                     items:[
                                                         {
-                                                            name:"test",
+                                                            name:thisComp.state.planSelector +' plan',
                                                             description: thisComp.state.PaymentDescr,
                                                             unit_amount:{
                                                                 currency_code:"USD",
@@ -944,7 +944,7 @@ define([
                 <div className="information-table-row" key="1a">
                     <label>{app.user.get("userPlan")["needFill"]?"Balance Due:":"Balance Due at renewal:"}</label>
                     <div className="information-row-right">
-                        <b>{accounting.formatMoney(price,"$",2)}</b> {price<1?"(min. charge $1)":""}
+                        <b>{accounting.formatMoney(price<0?0:price,"$",2)}</b> {price<1?"(min. charge $1)":""}
                     </div>
                 </div>
             );
@@ -1155,7 +1155,7 @@ define([
                 elements,
                 confirmParams: {
                     // Make sure to change this to your payment completion page
-                    return_url: "https://cyber.com",
+                    return_url: "https://mailum.com",
                 },
                 redirect: "if_required",
             });
@@ -1836,7 +1836,7 @@ define([
                             <input
                                 type="hidden"
                                 name="paymentFor"
-                                value={this.state.planSelector}
+                                value={this.state.planSelector+" plan"}
                             />
 
                             <input

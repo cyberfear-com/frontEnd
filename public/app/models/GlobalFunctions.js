@@ -901,6 +901,8 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
 
         renderEmail: function (emailId) {
             var message = app.user.get("emails")["messages"][emailId];
+           // console.log('message');
+           // console.log(message);
             if (message === undefined) {
                 $("#infoModHead").html("Message Corrupted");
                 $("#infoModBody").html(

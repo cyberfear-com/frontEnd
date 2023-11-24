@@ -287,6 +287,7 @@ define(["react", "app"], function (React, app) {
                 app.user.get("currentMessageView")["id"] !== undefined &&
                 app.user.get("currentMessageView")["id"] !== ""
             ) {
+                //console.log(app.user.get("currentMessageView"));
                 clearTimeout(app.user.get("emailOpenTimeOut"));
 
                 var email = app.user.get("currentMessageView");

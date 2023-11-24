@@ -25,7 +25,7 @@ import {
   makeModKey
 } from '../crypto'
 import 'react-quill/dist/quill.snow.css'
-
+//https://mu.com/email/655432ce80b12ce6008b4567
 function generateReplyHtml(message) {
   return `
 <br />
@@ -62,7 +62,7 @@ export default function Email(props) {
       };
       */
       const pin = window.prompt('Please enter PIN?')
-      const response = await fetch(`/api/retrieveUnregEmailV2`, {
+      const response = await fetch(`https://mu.com/api/retrieveUnregEmailV2`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -95,6 +95,7 @@ export default function Email(props) {
         recipientHash,
         version
       } = data.data
+       // console.log(data);
 
       const message = JSON.parse(await decryptAes64(email, pin))
       message.meta.timeSent = new Date(message.meta.timeSent * 1000)
@@ -104,6 +105,7 @@ export default function Email(props) {
       message.meta.cc = message.meta.cc.map((cc) => atob(cc))
       message.body.text = atob(message.body.text)
       message.body.html = atob(message.body.html)
+      message.version=data.data.version;
        // message.attachment = message.attachment.map((to) => atob(to))
       console.debug('message', message)
       setMessage(message)
@@ -233,6 +235,90 @@ export default function Email(props) {
     }
   }
 
+  function downloadFile(event){
+      console.log('fileId');
+      console.log(event.target.id);
+      console.log('sss');
+      console.log(message);
+
+      var fileButton=(event.target);
+      var email=message;
+      var emailAttachments=email['attachments'];
+      var fileBId=event.target.id;
+
+      if(email['version']===15){
+      //    var fileName=app.transform.SHA512(emailAttachments[fileBId]['fileName']+app.user.get('userId'));
+          // console.log(emailAttachments[fileBId]['filename']);
+          var modKey='none';
+          var version=15;
+          //var key=app.transform.from64bin(emailAttachments[fileBId]['key']);
+
+      }else if(email['version']===2){
+          var fileName=emailAttachments[fileBId]['fileName'];
+          var modKey=emailAttachments[fileBId]['modKey'];
+         // var key=app.transform.from64bin(emailAttachments[fileBId]['key']);
+          var version=2;
+      }else if(email['version']==undefined || email['version']===1){
+       //   var fileName=app.transform.from64str(emailAttachments[fileBId]['filename']);
+          var version=1;
+          var modKey='none';
+
+          var key =this.props.emailPin;
+
+      }
+      //console.log();
+
+     // var type=app.transform.from64str(emailAttachments[fileBId]['type']);
+     // var size=app.transform.from64str(emailAttachments[fileBId]['size']);
+    //  var name=app.transform.from64str(emailAttachments[fileBId]['name']);
+
+     // fileButton.html('<i class="fa fa-spin fa-refresh"></i> Downloading');
+
+     downloadFileUnreg(fileName,modKey,version,function(result){
+/*
+          fileButton.html('Download');
+          var decryptedFile64 = app.transform.fromAesBin(key, result);
+
+          var decryptedFile=app.transform.from64bin(decryptedFile64);
+
+          var arbuf=app.globalF.base64ToArrayBuffer(decryptedFile);
+
+          app.globalF.createDownloadLink(arbuf,type, name);*/
+
+      });
+  }
+  function downloadFileUnreg(fileName, modKey,version, callback) {
+
+        /*var post = {
+            'fileName': fileName,
+            'modKey': modKey,
+            'version':version
+        }
+
+       let response =  fetch(`/api/sendEmailUnregV2`, {
+           method: 'POST',
+           headers: {
+               'Accept': 'application/json',
+               'Content-Type': 'application/json'
+           },
+           body: JSON.stringify(post)
+       })
+       let data =  response.json()*/
+        // app.serverCall.ajaxRequest('downloadFileUnreg', post, function (result) {
+        //
+        //     if (result['response'] == "success") {
+        //         callback(result['data'])
+        //
+        //     } else if (result['response'] == "fail") {
+        //         app.notifications.systemMessage('fileNotFound');
+        //     } else {
+        //         app.notifications.systemMessage('tryAgain');
+        //     }
+        //     //console.log(result);
+        //
+        // });
+
+    }
   async function doDelete(confirmed = false) {
     if (!confirmed && !confirm('Are you sure?')) return
     let response = await fetch(`/api/deleteEmailUnregV2`, {
@@ -260,29 +346,44 @@ export default function Email(props) {
     function displayAttachments(){
             var attachments=[];
             var files=[];
-            var thisComp=this;
+           // var thisComp=that;
+            console.log(message.attachments);
 
-            if(Object.keys(message.attachment).length>0){
+            if(Object.keys(message.attachments).length>0){
 
                 var size=0;
-                $.each(message.attachment, function( index, attData ) {
-                    size+=parseInt(atob(attData['size']));
+                Object.keys(message.attachments).forEach(function(key) {
+                   size+=parseInt(atob(message.attachments[key]['size']));
 
                     files.push(
-                        <span className="clearfix" key={"a"+index}>
-							<br/>
-							<span className="attchments" key={"as"+index}>{atob(attData['name'])}</span>
-							<button  key={"ab"+index} id={index} className="btn btn-sm btn-primary pull-right" onClick={thisComp.handleClick.bind(thisComp, 'downloadFile')}>Download</button>
-						</span>
+                        <span className="clearfix" key={"a"+key}>
+                    			<br/>
+                    			<span className="attchments" key={"as"+key}>{atob(message.attachments[key]['name'])}</span>
+                    			<button  key={"ab"+key} id={key} className="btn btn-sm btn-primary pull-right 12" onClick={downloadFile}>Download</button>
+                    		</span>
                     );
+
                 });
+
+
+                // $.each(message.attachments, function( index, attData ) {
+                //     size+=parseInt(atob(attData['size']));
+                //
+                //     files.push(
+                //         <span className="clearfix" key={"a"+index}>
+				// 			<br/>
+				// 			<span className="attchments" key={"as"+index}>{atob(attData['name'])}</span>
+				// 			<button  key={"ab"+index} id={index} className="btn btn-sm btn-primary pull-right" onClick={thisComp.handleClick.bind(thisComp, 'downloadFile')}>Download</button>
+				// 		</span>
+                //     );
+                // });
 
                 size=(size > 1000000) ? Math.round(size / 10000) / 100 + ' Mb' : Math.round(size / 10) / 100 + ' Kb';
 
 
                 attachments.push(
                     <div className="panel-footer" key='1'>
-                        <h5>Attchments ({Object.keys(message.attachment).length} file(s), {size})</h5>
+                        <h5>Attchments ({Object.keys(message.attachments).length} file(s), {size})</h5>
                         <div className="alert alert-warning text-left"  key='2'>Please use <b>EXTREME</b> caution when downloading files. We strongly recommend scanning them for viruses/malware after downloading.</div><div className="inbox-download"></div>
 
 

@@ -34,7 +34,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                             if(app.user.get("userPlan")["needRenew"] || app.user.get("userPlan")["pastDue"] === 1) {
                                 Backbone.history.navigate("settings/Plan", {trigger: true});
                             }else{
-                                Backbone.history.navigate("/settings/Profile", {
+                                Backbone.history.navigate("/settings/Plan", {
                                     trigger: true,
                                 });
                             }

@@ -65,6 +65,16 @@ export async function pbkdf2(password, salt, iterations, keySize) {
     return keyBits
 }
 
+export function base64ToArrayBuffer(binary_string) {
+    //var binary_string =  window.atob(base64);
+    var len = binary_string.length;
+    var bytes = new Uint8Array(len);
+    for (var i = 0; i < len; i++) {
+        bytes[i] = binary_string.charCodeAt(i);
+    }
+    return bytes.buffer;
+}
+
 export function ab2str(bytes) {
     return String.fromCharCode.apply(null, new Uint8Array(bytes))
 }
@@ -108,6 +118,27 @@ export async function generatePinKey(pin) {
 export async function encryptPin(pin) {
     const pinKey = await generatePinKey(pin)
     return await pbkdf2(pinKey, 'ScRypTmAilSaltForPiN', new Uint8Array(pinKey)[0], 64)
+}
+
+export async function decryptAes64bin(base64, pin){
+
+    const keyMaterial = await window.crypto.subtle.importKey(
+        'raw',
+        encode8(pin),
+        { name: 'AES-CBC', length: 256 },
+        true,
+        ['encrypt', 'decrypt']
+    )
+
+    var textData = base64.split(';')
+    var iv = atob(textData[0])
+    var encrypted = atob(textData[1])
+    const decrypted = await window.crypto.subtle.decrypt(
+        { name: 'AES-CBC', iv: encode8(iv) },
+        keyMaterial,
+        encode8(encrypted)
+    )
+    return decode(decrypted)
 }
 
 export async function decryptAes64(base64, pin) {

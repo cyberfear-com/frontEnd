@@ -271,7 +271,7 @@ define(["app", "react"], function (app, React) {
             if(this.state.coupon.length==16 || this.state.coupon.length==32) {
                 $.ajax({
                     method: "POST",
-                    url: app.defaults.get("apidomain") + "/checkCouponExistV2",
+                    url: app.defaults.get("apidomain") + "/checkCouponExistV3",
                     data: {
                         coupon: this.state.coupon,
                     },

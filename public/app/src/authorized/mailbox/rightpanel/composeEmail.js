@@ -64,7 +64,7 @@ define(["react", "app", "quill", "select2"], function (
                 encryptionKey: "",
                 changedHash: "",
                 modKey: app.user.get("draftMessageView")["modKey"],
-                messageId: app.user.get("draftMessageView")["messageId"],
+                //messageId: app.user.get("draftMessageView")["messageId"],
                 allEmails: {},
                 uploadProgress: 0,
                 uploadInterval: {},

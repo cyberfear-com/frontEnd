@@ -812,7 +812,7 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
         },
 
         syncUpdates: function (forceRefresh) {
-               console.log('syncUpdates');
+             //  console.log('syncUpdates');
 
 
             app.globalF.countEmailsSize();
@@ -820,7 +820,8 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
             let len=Object.keys(app.user.get("emails")["folders"]).length;
 
             app.user.set({
-                needRefresh:(app.user.get("emailsCount")!=len ||forceRefresh==true),
+                //needRefresh:(app.user.get("emailsCount")!=len ||forceRefresh==true),
+                needRefresh:!app.user.get("emailListRefresh"),
                 emailListRefresh: !app.user.get("emailListRefresh"),
                 emailsCount:len
 

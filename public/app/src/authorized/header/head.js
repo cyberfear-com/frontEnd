@@ -57,7 +57,7 @@ define([
                             $("#settings-spinner")
                                 .removeClass("d-none")
                                 .addClass("d-block");
-                            Backbone.history.navigate("/settings/Profile", {
+                            Backbone.history.navigate("/settings/Plan", {
                                 trigger: true,
                             });
                         }
@@ -328,7 +328,7 @@ define([
                                                         </g>
                                                     </svg>
                                                 </span>
-                                                Settings122
+                                                Settings
                                             </a>
                                         </li>
                                         <li>

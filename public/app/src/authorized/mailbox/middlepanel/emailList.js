@@ -80,14 +80,14 @@ define([
             var encrypted2 = "";
 
             var emailListCopy = app.user.get("folderCached");
-            console.log(emailListCopy);
-
+            //console.log(emailListCopy);
+            Refresh=true;
 
             if (Refresh || emailListCopy[folderId]=== undefined) {
                     emailListCopy[folderId] = {};
 
-                console.log("HERE");
-                console.log(Object.keys(emails).length);
+               // console.log("HERE");
+              //  console.log(Object.keys(emails).length);
             $.each(emails, function (index, folderData) {
                 var time =
                     folderData["tr"] != undefined
@@ -399,7 +399,7 @@ define([
 
             app.user.set({
                 folderCached: emailListCopy,
-                needRefresh:false
+              //  needRefresh:false
             });
 
             var emTab = $("#emailListTable").DataTable();
@@ -581,8 +581,13 @@ define([
 
             app.globalF.getInboxFolderId(function (inbox) {
                 app.user.set({ activeFolderId: inbox });
-                console.log('HELL I DONT KNOW WHY IM HERE')
-          //      thisComp.updateEmails(inbox, "");
+                app.user.set({ needRefresh: true });
+
+                //app.user.get("needRefresh");
+           //     console.log('HELL I DONT KNOW WHY IM HERE');
+                //app.user.get("needRefresh");
+
+                thisComp.updateEmails(inbox, "");
             });
             app.user.on(
                 "change:resetSelectedItems",

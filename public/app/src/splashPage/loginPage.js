@@ -26,7 +26,7 @@ define(["react", "app", "cmpld/modals/paymentGate","ajaxQueue"], function (
 
                 pinWrong:false,
                 domainList: ["@mailum.com","@cyberfear.com"],
-                domain:app.defaults.get( "defLogDomain" ),
+                //domain:app.defaults.get( "defLogDomain" ),
                 firstTimeUser: false,
 
                 working: false,
@@ -38,7 +38,25 @@ define(["react", "app", "cmpld/modals/paymentGate","ajaxQueue"], function (
         componentWillUnmount: function () {
         },
 
-        componentDidMount: function () {
+        componentDidMount: async function () {
+
+            let response = await fetch(`/api/availableForRegistrationV3`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+            let data = await response.json()
+
+            var domList=[];
+            data.data.map((x) =>{
+                domList.push("@"+x.domain);
+                if(x.def2reg=="1"){
+                    this.setState({domain:"@"+x.domain});
+                }
+            })
+            this.setState({domainList:domList})
 
             if (app.defaults.get("dev") === true) {
                 if(this.state.email!=""){
@@ -407,6 +425,7 @@ define(["react", "app", "cmpld/modals/paymentGate","ajaxQueue"], function (
                                                     "changeDomain"
                                                 )}
                                                 defaultValue={this.state.domain}
+                                                value={this.state.domain}
                                             >
                                                 {this.state.domainList.map( (x,y) =>
                                                     <option key={y}>{x}</option> )}

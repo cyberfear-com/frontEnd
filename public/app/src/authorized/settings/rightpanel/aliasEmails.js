@@ -398,7 +398,12 @@ define([
                 "no special symbols"
             );
 
-            this.setState({ aliasForm: $("#addNewAliasForm").validate() });
+            this.setState({ aliasForm: $("#addNewAliasForm").validate() ,function(){
+                   // setTimeout(function(){
+                        var validator = this.state.aliasForm;
+                        validator.form();
+                   // },1000);
+                }});
             //console.log(this.state.domain);
 
             $("#fromAliasName").rules("add", {
@@ -413,20 +418,16 @@ define([
                 maxlength: 90,
                 uniqueUserName: true,
                 remote: {
-                    url: app.defaults.get("apidomain") + "/checkEmailExistV2",
+                    url: app.defaults.get("apidomain") + "/checkEmailExist4aliasV3",
                     type: "post",
                     xhrFields: {
                         withCredentials: true,
                     },
                     data: {
-                        fromEmail: function () {
-                            var email = $("#fromAliasEmail")
-                                .val()
-                                .toLowerCase();
-                            email =
-                                email.split("@")[0] + $("#aliasDomain").val();
-                            return email;
+                        domain: function(){
+                            return $('#aliasDomain option:selected').text()
                         },
+                        userToken: app.user.get("userLoginToken")
                     },
                 },
                 messages: {
@@ -496,10 +497,13 @@ define([
                     break;
 
                 case "changeDomain":
-                    var validator = this.state.aliasForm;
-                    validator.resetForm();
-                    $("#fromAliasEmail").valid();
-                    this.setState({ domain: event.target.value });
+                    this.setState({
+                        domain:event.target.value
+                    },function(){
+                        var validator = this.state.aliasForm;
+                         validator.resetForm();
+                        $("#fromAliasEmail").valid();
+                    });
                     break;
 
                 case "changeAliasName":
@@ -509,7 +513,18 @@ define([
 
                 case "changeAliasEmail":
                     var email = event.target.value.split("@")[0];
-                    this.setState({ aliasEmail: email });
+                    var thisComp=this;
+                    this.setState(
+                        {
+                            aliasEmail: email
+                        },
+                        function () {
+                            var validator = this.state.aliasForm;
+                                    validator.form();
+
+                            //this.checkEmailTyping();
+                        }
+                    );
                     this.ifReady();
 
                     break;

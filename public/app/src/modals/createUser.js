@@ -28,7 +28,7 @@ define(["app", "react"], function (app, React) {
             };
         },
 
-        componentDidMount: function () {
+        componentDidMount: async function () {
             $("#createAccount-modal").on("shown.bs.modal", function () {});
          if(this.props.coupon.length>0){
              this.setState({
@@ -37,6 +37,23 @@ define(["app", "react"], function (app, React) {
                  this.checkCouponTyping();
              })
          }
+            let response = await fetch(`/api/availableForRegistrationV3`, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+            let data = await response.json()
+
+            var domList=[];
+            data.data.map((x) =>{
+                domList.push("@"+x.domain);
+                if(x.def2reg=="1"){
+                    this.setState({domain:"@"+x.domain});
+                }
+            })
+            this.setState({domainList:domList})
         },
         handleChange: function (action, event) {
             switch (action) {
@@ -313,17 +330,20 @@ define(["app", "react"], function (app, React) {
             if (thisComp.state.email.length >= 3) {
                 $.ajax({
                     method: "POST",
-                    url: app.defaults.get("apidomain") + "/checkEmailExistV2",
+                    url: app.defaults.get("apidomain") + "/checkEmailExist4RegistrationV3",
                     data: {
-                        fromEmail:
-                            thisComp.state.email +
-                            thisComp.state.domain.toLowerCase(),
+                        email:thisComp.state.email.toLowerCase(),
+                        domain:thisComp.state.domain.toLowerCase()
                     },
                     dataType: "text",
                 }).done(function (msg) {
                     if (msg === "false") {
                         thisComp.setState({
                             emailError: "email exists",
+                        });
+                    }else if( msg !== "true"){
+                        thisComp.setState({
+                            emailError: "email contain incorrect symbols",
                         });
                     } else if (
                         msg === "true" &&
@@ -347,9 +367,10 @@ define(["app", "react"], function (app, React) {
             this.checkFields().then(function (msg) {
                 $.ajax({
                     method: "POST",
-                    url: app.defaults.get("apidomain") + "/checkEmailExistV2",
+                    url: app.defaults.get("apidomain") + "/checkEmailExist4RegistrationV3",
                     data: {
-                        fromEmail: thisComp.state.email + thisComp.state.domain,
+                        email:thisComp.state.email.toLowerCase(),
+                        domain:thisComp.state.domain.toLowerCase()
                     },
                     dataType: "text",
                 }).done(function (msg) {
@@ -520,7 +541,8 @@ define(["app", "react"], function (app, React) {
                                                         null,
                                                         "changeDomain"
                                                     )}
-                                                    defaultValue={this.state.domainList[0]}
+                                                    defaultValue={this.state.domain}
+                                                    value={this.state.domain}
                                                 >
                                                     {this.state.domainList.map( (x,y) =>
                                                     <option key={y}>{x}</option> )}

@@ -63,7 +63,7 @@ export default function Email(props) {
       };
       */
       const pin = window.prompt('Please enter PIN?')
-      const response = await fetch(`https://mu.com/api/retrieveUnregEmailV2`, {
+      const response = await fetch(`https://mailum.com/api/retrieveUnregEmailV2`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',

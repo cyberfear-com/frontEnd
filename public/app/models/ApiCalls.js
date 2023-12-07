@@ -154,7 +154,7 @@ define(["app", "ajaxQueue"], function (app, ajaxQueue) {
 
                     break;
                 case "savingUserObjWnewPGP":
-                    var url = "/savingUserObjWnewPGPV2";
+                    var url = "/savingUserObjWnewPGPV3";
                     postData["modKey"] = app.user.get("modKey");
 
                     break;
@@ -201,7 +201,7 @@ define(["app", "ajaxQueue"], function (app, ajaxQueue) {
                     break;
 
                 case "availableDomainsForAlias":
-                    var url = "/availableDomainsForAliasV2";
+                    var url = "/availableDomainsForAliasV3";
                     break;
 
                 case "claimFree":

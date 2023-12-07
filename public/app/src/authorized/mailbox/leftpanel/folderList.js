@@ -493,12 +493,12 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                     )}
                                 >
                                     <img
-                                        src="images/logo.svg"
+                                        src="/images/logo.svg"
                                         alt=""
                                         className="light-theme-logo"
                                     />{" "}
                                     <img
-                                        src="images/logo-white.svg"
+                                        src="/images/logo-white.svg"
                                         alt=""
                                         className="dark-theme-logo"
                                     />

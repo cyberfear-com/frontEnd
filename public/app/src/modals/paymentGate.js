@@ -12,7 +12,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
 
                 butDis: false,
                 stripeId: "",
-                currentTab: "monthly",
+                currentTab: "yearly-one",
                 paymentPackagesModalActive: true,
                 paymentTabContents:[],
                 prices: {
@@ -652,15 +652,19 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                         {this.state.paymentTabContents.map(
                                             (paymentContentTab, index) => (
                                                 <div
+
                                                     className="col-md-5 col-lg-3"
                                                     key={index}
                                                 >
-                                                    <div className="pricing-box">
+                                                    <div className={paymentContentTab.title=="Medium"?"pricing-box blackbanner":"pricing-box"}>
                                                         <div className="pricing-box-top">
                                                             <div className="pricing-title">
                                                                 {
                                                                     paymentContentTab.title
                                                                 }
+                                                                {paymentContentTab.title=="Medium" &&(
+                                                                    <span className='badge bg-primary'>POPULAR</span>
+                                                                    )}
                                                             </div>
                                                             <p>
                                                                 {
@@ -681,7 +685,8 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                                             </div>
                                                             <div className="btn-row">
                                                                 <button
-                                                                    className="btn-blue"
+                                                                    className={paymentContentTab.title=="Medium"?"btn fw-normal text-center w-100 border-primary border-1":"btn fw-normal text-center w-100 border-primary border-1 normal"}
+                                                                    style={{borderRadius:"0.75rem"}}
                                                                     onClick={this.handleClick.bind(
                                                                         null,
                                                                         'readytopay',
@@ -697,7 +702,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                                             </div>
                                                         </div>
                                                         <div className="pricing-bullets">
-                                                            <ul>
+                                                            <ul className={paymentContentTab.title=="Medium"?"featured list-unstyled small mb-5":"other"}>
                                                                 {paymentContentTab.features.map(
                                                                     (
                                                                         paymentFeature,

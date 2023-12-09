@@ -21,6 +21,12 @@ $btn-padding-y: 0.75rem;
     --bs-btn-disabled-bg: var(--bs-gray-600);
     --bs-btn-disabled-border-color: var(--bs-gray-600);
 }
+.card-body:hover ~ button.btn {
+        background: $primary;
+}
+/*.pricingbtn:hover{
+    background:$primary;
+}*/
 
 .form-control {
     &::placeholder {

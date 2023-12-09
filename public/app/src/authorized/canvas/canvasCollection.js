@@ -75,8 +75,9 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                         </div>
                         <div className="user-side-menu">
                             <ul>
-                                <li>
-                                    <button type="button">
+                                    {((app.user.get("userPlan")["paymentVersion"] == 2 && app.user.get("userPlan")["planSelected"] == 3) || (app.user.get("userPlan")["paymentVersion"] == 3 && app.user.get("userPlan")["planSelected"] == "free")) &&
+                                        <li>
+                                        <button type="button">
                                         <span className="__icon">
                                             <svg
                                                 width="20"
@@ -101,9 +102,11 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                                 />
                                             </svg>
                                         </span>
-                                        Explore premium plans
-                                    </button>
-                                </li>
+                                            Explore premium plans
+                                        </button>
+                                        </li>
+                                    }
+
                                 <li>
                                     <button
                                         id="email-copy-2"

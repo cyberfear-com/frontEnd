@@ -20,7 +20,7 @@
         &.oneYear {
             :global(.badge) {
                 color: rgba(255, 97, 87, 1);
-                background: rgba(255, 240, 239, 1); 
+                background: rgba(255, 240, 239, 1);
             }
         }
 
@@ -64,19 +64,31 @@
 .planCardsContainer {
     margin-bottom: 5rem;
 }
-
 .planCard {
     :global(.badge) {
         font-size: 0.625rem;
     }
 
+    &:hover {
+        .planbut{
+            background:$primary;
+            color:#fff;
+        }
+        .planbut a{
+            color:#fff;
+        }
+        border-color:$primary;
+        box-shadow:0 0.5rem 1rem rgb(0 0 0 / 15%) !important;
+        &:after {
+            visibility: visible;
+        }
+    }
     h5 {
         font-size: 1.375rem;
         @include media-breakpoint-down(md) {
             font-size: 1.125rem;
         }
     }
-
     ul.features {
         > li {
             display: flex;
@@ -106,6 +118,14 @@
         background: url(../assets/pricing-featured-plan.svg) no-repeat center center;
         background-size: cover;
 
+        &:hover {
+            box-shadow:0 0.5rem 1rem rgb(0 0 0 / 15%) !important;
+            background:$primary;
+            &:after {
+                visibility: visible;
+            }
+        }
+
         ul.features {
             > li:before {
                 background-color: #fff;
@@ -117,7 +137,7 @@
 .banner1 {
     position: relative;
     overflow: hidden;
-    
+
     .bg {
         width: 150%;
         transform: rotate(-12.3deg) translateY(-25%);

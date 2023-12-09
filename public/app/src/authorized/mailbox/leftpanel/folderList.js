@@ -826,25 +826,27 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                             </div>
                         </div>
                         <div className="left-bottom">
-                            <div className="left-cta">
-                                <div className="call-to-action">
-                                    <div className="cta-title">
-                                        Let's explore the full
-                                        <br />
-                                        version of your mailbox
-                                    </div>
-                                    <div className="white-btn">
-                                        <a
-                                            onClick={this.handleClick.bind(
-                                                this,
-                                                "settings"
-                                            )}
-                                        >
-                                            Discover Pro
-                                        </a>
+                            {((app.user.get("userPlan")["paymentVersion"] == 2 && app.user.get("userPlan")["planSelected"] == 3) || (app.user.get("userPlan")["paymentVersion"] == 3 && app.user.get("userPlan")["planSelected"] == "free")) &&
+                                <div className="left-cta">
+                                    <div className="call-to-action">
+                                        <div className="cta-title">
+                                            Let's explore the full
+                                            <br />
+                                            version of your mailbox
+                                        </div>
+                                        <div className="white-btn">
+                                            <a
+                                                onClick={this.handleClick.bind(
+                                                    this,
+                                                    "settings"
+                                                )}
+                                            >
+                                                Discover Pro
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            }
                             <div className="storage">
                                 <div className="storage-count">
                                     {this.boxSize()}
@@ -899,14 +901,15 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                     New message
                                 </button>
                             </div>
-                            <div className="go-premium-button">
-                                <a
-                                    className="button"
-                                    onClick={this.handleClick.bind(
-                                        this,
-                                        "premiumplans"
-                                    )}
-                                >
+                            {((app.user.get("userPlan")["paymentVersion"] == 2 && app.user.get("userPlan")["planSelected"] == 3) || (app.user.get("userPlan")["paymentVersion"] == 3 && app.user.get("userPlan")["planSelected"] == "free")) &&
+                                <div className="go-premium-button">
+                                    <a
+                                        className="button"
+                                        onClick={this.handleClick.bind(
+                                            this,
+                                            "premiumplans"
+                                        )}
+                                    >
                                     <span className="icon">
                                         <svg
                                             width="20"
@@ -921,11 +924,13 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                             />
                                         </svg>
                                     </span>
-                                    <span className="off">{`%50`}</span>
-                                    <span className="off shadow">{`%50`}</span>
-                                    <span>Go Premium</span>
-                                </a>
-                            </div>
+                                        <span className="off">{`%50`}</span>
+                                        <span className="off shadow">{`%50`}</span>
+                                        <span>Go Premium</span>
+                                    </a>
+                                </div>
+                            }
+
                             <div className="main-menu">
                                 <ul id="folderul">
                                     {Object.keys(this.state.mainFolders).map(

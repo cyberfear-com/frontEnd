@@ -12564,10 +12564,44 @@ footer .footer-bottom-row .copyright {
     width: 100%;
     float: left;
 }
+.tab-content .pricing-box:hover {
+    border: 1px solid #2277f6;
+    box-shadow:0 0.5rem 1rem rgb(0 0 0 / 15%) !important;
+}
+.tab-content .pricing-box:hover button.normal {
+    background: #2277f6;
+    color:#fff;
+}
+.blackbanner .pricing-box-top .bg-primary{
+    font-size: 10px;
+    text-align: center;
+    font-family: "Plus Jakarta Display", sans-serif;
+    float:right;
+    margin-top:12px;
+}
+
+
+.blackbanner:hover{
+    background: #2277f6;
+    color:#fff;
+}
+.blackbanner button{
+    background: #fff;
+}
+
+.tab-content .blackbanner .per-month{
+    color:#fff;
+}
+
+.blackbanner{
+    color:#fff;
+    background: #0F1620;
+
+}
 .tab-content .pricing-box {
     width: 100%;
     float: left;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(7, 7, 7, 0.1);
     border-radius: 12px;
     padding: 30px 15px;
     margin: 24px 0 24px;
@@ -12638,7 +12672,8 @@ footer .footer-bottom-row .copyright {
     padding: 0;
     list-style-type: none;
 }
-.tab-content .pricing-bullets ul li {
+.tab-content .pricing-bullets ul.other li {
+/*.tab-content .pricing-bullets ul li {*/
     width: 100%;
     float: left;
     background: url("../images/icon-circle-check.svg") no-repeat left 2px;
@@ -12650,6 +12685,45 @@ footer .footer-bottom-row .copyright {
     text-align: left;
     margin: 16px 0 0 0;
 }
+
+.blackbanner ul.featured > li:before {
+    position: relative;
+    content: "";
+    background-color: #fff;
+    -webkit-mask-image: url("../images/pricing-tick.svg");
+    mask-image: url("../images/pricing-tick.svg");
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    display: inline-block;
+    margin-right: 0.5rem;
+    top:7px;
+    /*
+    width: 100%;
+    float: left;
+    background: url("../images/pricing-tick.svg") no-repeat left 2px;
+    background-size: 24px;
+    padding: 0 0 0 36px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 24px;
+    text-align: left;
+    margin: 16px 0 0 0;*/
+
+}
+.blackbanner ul.featured li {
+    width: 100%;
+    position: relative;
+    float: left;
+    background-size: 24px;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 24px;
+    text-align: left;
+    margin: 10px 0 0 0;
+
+}
+
 @media screen and (min-width: 768px) {
     .pricing-top .nav-tabs li {
         width: 33.33%;
@@ -14966,8 +15040,8 @@ button {
     padding: 28px 20px 0;
 }
 #offcanvasLeft .storage {
-    position: absolute;
-    bottom: 40px;
+  /*  position: absolute;
+    bottom: 40px;*/
 }
 .arrow-btn,
 .back-to-inbox-link,

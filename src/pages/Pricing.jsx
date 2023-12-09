@@ -71,8 +71,8 @@ export default function Pricing() {
 
       <div className={classNames(styles.planCardsContainer, "container")}>
         <div className="grid g-3">
-          {period === "monthly" && (
-            <div className="g-col-12 g-col-md-6 g-col-lg-3">
+            <div className="g-col-12 g-col-md-6 g-col-lg-3"
+            >
               <div className={classNames(styles.planCard, "card h-100")}>
                 <div className="card-body p-4 d-flex flex-column">
                   <h5 className="opacity-75 mb-4 fw-medium">Free</h5>
@@ -107,17 +107,16 @@ export default function Pricing() {
                   <div className="flex-grow-1"></div>
                   {/* spacer */}
 
-                  <button className="btn fw-normal text-center w-100 btn-light">
+                  <button className={classNames(styles.planbut, "btn fw-normal text-center w-100 border border-primary border-1")}>
                     <a className="text-decoration-none"  href="/mailbox/#signup">Try for Free</a>
                   </button>
                 </div>
               </div>
             </div>
-          )}
           <div
             className={classNames(
               "g-col-12",
-              period === "monthly" ? "g-col-md-6 g-col-lg-3" : "g-col-md-4"
+            "g-col-md-6 g-col-lg-3"
             )}
           >
             <div className={classNames(styles.planCard, "card h-100")}>
@@ -171,7 +170,7 @@ export default function Pricing() {
                 <div className="flex-grow-1"></div>
                 {/* spacer */}
 
-                <button className="btn fw-normal text-center w-100 btn-light">
+                <button className={classNames(styles.planbut, "btn fw-normal text-center w-100 border border-primary border-1")}>
                   <a className="text-decoration-none" href="/mailbox/#signup">Get Started</a>
                 </button>
               </div>
@@ -180,23 +179,19 @@ export default function Pricing() {
           <div
             className={classNames(
               "g-col-12",
-              period === "monthly" ? "g-col-md-6 g-col-lg-3" : "g-col-md-4"
+              "g-col-md-6 g-col-lg-3"
             )}
           >
 
             <div
               className={classNames(
-                styles.planCard,
-                  period === "monthly"?styles.featured+" card h-100 text-bg-primary":"card h-100",
+                styles.planCard, styles.featured+" card h-100 text-bg-primary",
               )}
             >
               <div className='card-body p-4'>
                 <div className='d-flex align-items-center justify-content-between mb-4'>
                   <h5 className='opacity-75 mb-2 fw-medium'>Medium</h5>
-                  {period === "monthly" && (
                       <span className='badge bg-primary'>POPULAR</span>
-                      )}
-
                 </div>
 
                 <h3 className="fw-medium">
@@ -243,8 +238,8 @@ export default function Pricing() {
                   <li>Own Domain: 10</li>
                 </ul>
 
-                <button className="btn fw-normal text-center w-100 btn-light">
-                  <a className="text-decoration-none" href="/mailbox/#signup">Get Started</a>
+                <button className="btn fw-normal text-center w-100" style={{background:"#fff"}}>
+                  <a className="text-decoration-none text-black" href="/mailbox/#signup">Get Started</a>
                 </button>
               </div>
             </div>
@@ -252,7 +247,7 @@ export default function Pricing() {
           <div
             className={classNames(
               "g-col-12",
-              period === "monthly" ? "g-col-md-6 g-col-lg-3" : "g-col-md-4"
+              "g-col-md-6 g-col-lg-3"
             )}
           >
             <div className={classNames(styles.planCard, "card h-100")}>
@@ -306,7 +301,7 @@ export default function Pricing() {
                 <div className="flex-grow-1"></div>
                 {/* spacer */}
 
-                <button className="btn fw-normal text-center w-100 btn-light">
+                <button className={classNames(styles.planbut, "btn fw-normal text-center w-100 border border-primary border-1")}>
                   <a className="text-decoration-none" href="/mailbox/#signup">Get Started</a>
                 </button>
               </div>

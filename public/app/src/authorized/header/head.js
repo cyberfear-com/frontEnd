@@ -175,14 +175,15 @@ define([
                             </a>
                         </div>
                         <div className="right-top-data">
-                            <div className="go-premium-button">
-                                <a
-                                    className="button"
-                                    onClick={this.handleClick.bind(
-                                        null,
-                                        "premiumplans"
-                                    )}
-                                >
+                            {((app.user.get("userPlan")["paymentVersion"]==2 && app.user.get("userPlan")["planSelected"]==3) || (app.user.get("userPlan")["paymentVersion"]==3 && app.user.get("userPlan")["planSelected"]=="free") ) &&
+                                <div className="go-premium-button">
+                                    <a
+                                        className="button"
+                                        onClick={this.handleClick.bind(
+                                            null,
+                                            "premiumplans"
+                                        )}
+                                    >
                                     <span className="icon">
                                         <svg
                                             width="20"
@@ -197,11 +198,13 @@ define([
                                             />
                                         </svg>
                                     </span>
-                                    <span className="off">{`%50`}</span>
-                                    <span className="off shadow">{`%50`}</span>
-                                    <span>Go Premium</span>
-                                </a>
-                            </div>
+                                        <span className="off">{`%50`}</span>
+                                        <span className="off shadow">{`%50`}</span>
+                                        <span>Go Premium</span>
+                                    </a>
+                                </div>
+                            }
+
                             <div className="icon-notification d-none">
                                 <button
                                     onClick={this.handleClick.bind(

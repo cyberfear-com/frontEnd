@@ -893,22 +893,21 @@ define([
                                             </div>
                                         </div>
                                         <div className="form-section-bottom">
-                                            <div className="disable-second-pass">
-                                                <button
-                                                    type="button"
-                                                    className={
-                                                        "col-xs-12 col-sm-6 " +
-                                                        this.state.button2Class
-                                                    }
-                                                    onClick={this.handleClick.bind(
-                                                        this,
-                                                        "disableSecondPass"
-                                                    )}
-                                                >
-                                                    Disable Second Password
-                                                </button>
-                                            </div>
                                             <div className="btn-row">
+                                                    <button
+                                                        type="button"
+                                                        className={
+                                                            "btn fixed-width-btn col-xs-12 col-sm-6 " +
+                                                            this.state.button2Class
+                                                        }
+                                                        onClick={this.handleClick.bind(
+                                                            this,
+                                                            "disableSecondPass"
+                                                        )}
+                                                    >
+                                                        Disable Second Password
+                                                    </button>
+
                                                 <button
                                                     type="button"
                                                     className="btn-border fixed-width-btn"

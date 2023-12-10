@@ -15633,17 +15633,27 @@ header .user-dropdown .dropdown-menu li button {
 }
 #folderulcustom li {
     padding-top: 11px;
+    font-size:14px;
+    float:left;
 }
+#folderulcustom li a{
+position: relative;
+}
+
 #folderulcustom li.active a {
     font-weight: 900;
 }
+#folderulcustom li a .number-badge{
+    float:right;
+}
+
 .folder-menu .accordion-body ul li a {
     width: 100%;
     float: left;
     text-decoration: none;
     color: #415067;
     cursor: pointer;
-    display: flex;
+    /*display: flex;*/
     align-items: center;
 }
 .folder-menu .accordion-body ul li a .menu-icon {
@@ -21437,6 +21447,7 @@ footer .footer-social-media a {
 .accordion-header + .accordion-collapse {
     float: left;
     overflow: hidden;
+    width:100%;
 }
 .middle-content .fixed-width-btn {
     height: auto;
@@ -22481,6 +22492,7 @@ body.shrinked .folder-menu .accordion-button:after {
 #labelColourDiv,
 #folderColourDiv {
     position: absolute;
+    z-index: 999;
     background: #fff;
     padding: 10px;
     border-radius: 10px;

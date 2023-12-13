@@ -232,8 +232,8 @@ define([
                 } else {
                     var str = app.transform.from64str(folderData["fr"]);
 
-                    fromEmail = app.globalF.parseEmail(str, true)["name"];
-                    fromTitle = app.globalF.parseEmail(str, true)["email"];
+                    fromEmail = app.globalF.parseEmail(str, true)["email"];
+                    fromTitle = app.globalF.parseEmail(str, true)["name"]!=""?app.globalF.parseEmail(str, true)["name"]:app.globalF.parseEmail(str, true)["email"];
 
                     if (
                         trusted.indexOf(
@@ -354,7 +354,7 @@ define([
                     sb: app.transform.escapeTags(
                         app.transform.from64str(folderData["sb"])
                     ),
-                    bd: app.transform.escapeTags(
+                    bd:" "+ app.transform.escapeTags(
                         app.transform.from64str(folderData["bd"])
                     ),
                     tagPart: tagPart,

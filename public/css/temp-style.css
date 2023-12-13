@@ -19336,7 +19336,7 @@ progress {
     padding: 12px 17px;
     background-color: #fff;
     margin-bottom: 11px;
-    display: flex;
+    /*display: flex;*/
     align-items: center;
 }
 .real-sender .sender-icon {

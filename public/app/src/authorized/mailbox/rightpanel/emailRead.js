@@ -4,6 +4,9 @@ define(["react", "app"], function (React, app) {
         getInitialState: function () {
             return {
                 from: "",
+                realSender:"",
+                mFromColor:"#2277F6",
+                domainWarning:false,
                 fromExtra: "",
                 to: "",
                 cc: "",
@@ -45,6 +48,9 @@ define(["react", "app"], function (React, app) {
                 function () {
                     thisComp.setState({
                         from: "",
+                        realSender:"",
+                        domainWarning:false,
+                        mFromColor:"#2277F6",
                         fromExtra: "",
                         to: "",
                         cc: "",
@@ -152,6 +158,7 @@ define(["react", "app"], function (React, app) {
             var from = app.transform.from64str(
                 app.user.get("currentMessageView")["meta"]["from"]
             );
+
             var fromEmail = app.globalF.getEmailsFromString(from);
 
             var post = {
@@ -295,6 +302,21 @@ define(["react", "app"], function (React, app) {
 
                 var from2 = [];
                 var from = app.transform.from64str(email["meta"]["from"]);
+                var realSender=email["meta"]["realSender"]==undefined?from:app.transform.from64str(email["meta"]["realSender"]);
+
+                var testFrom=app.globalF.parseEmail(from,"",)['email'];
+                var fromDomain=app.globalF.getEmailDomain(testFrom);
+
+                var testSReal=app.globalF.parseEmail(realSender,"",)['email'];
+                var RealSDomain=app.globalF.getEmailDomain(testSReal);
+
+                this.setState({
+
+                    realSender: email["meta"]["realSender"]==undefined?from:app.transform.from64str(email["meta"]["realSender"]),
+                    mFromColor:fromDomain!=RealSDomain?"#c71c36":this.state.mFromColor,
+                    domainWarning:fromDomain!=RealSDomain
+                });
+
 
                 var emailAddress = "";
 
@@ -2445,7 +2467,7 @@ define(["react", "app"], function (React, app) {
                                         >
                                             <path
                                                 d="M13.5067 9.61325L9.23998 1.93325C8.66665 0.899919 7.87332 0.333252 6.99998 0.333252C6.12665 0.333252 5.33332 0.899919 4.75998 1.93325L0.493318 9.61325C-0.0466816 10.5933 -0.106682 11.5333 0.326652 12.2733C0.759985 13.0133 1.61332 13.4199 2.73332 13.4199H11.2667C12.3867 13.4199 13.24 13.0133 13.6733 12.2733C14.1067 11.5333 14.0467 10.5866 13.5067 9.61325ZM6.49998 4.99992C6.49998 4.72658 6.72665 4.49992 6.99998 4.49992C7.27332 4.49992 7.49998 4.72658 7.49998 4.99992V8.33325C7.49998 8.60658 7.27332 8.83325 6.99998 8.83325C6.72665 8.83325 6.49998 8.60658 6.49998 8.33325V4.99992ZM7.47332 10.8066C7.43998 10.8333 7.40665 10.8599 7.37332 10.8866C7.33332 10.9133 7.29332 10.9333 7.25332 10.9466C7.21332 10.9666 7.17332 10.9799 7.12665 10.9866C7.08665 10.9933 7.03998 10.9999 6.99998 10.9999C6.95998 10.9999 6.91332 10.9933 6.86665 10.9866C6.82665 10.9799 6.78665 10.9666 6.74665 10.9466C6.70665 10.9333 6.66665 10.9133 6.62665 10.8866C6.59332 10.8599 6.55998 10.8333 6.52665 10.8066C6.40665 10.6799 6.33332 10.5066 6.33332 10.3333C6.33332 10.1599 6.40665 9.98659 6.52665 9.85992C6.55998 9.83325 6.59332 9.80658 6.62665 9.77992C6.66665 9.75325 6.70665 9.73325 6.74665 9.71992C6.78665 9.69992 6.82665 9.68659 6.86665 9.67992C6.95332 9.65992 7.04665 9.65992 7.12665 9.67992C7.17332 9.68659 7.21332 9.69992 7.25332 9.71992C7.29332 9.73325 7.33332 9.75325 7.37332 9.77992C7.40665 9.80658 7.43998 9.83325 7.47332 9.85992C7.59332 9.98659 7.66665 10.1599 7.66665 10.3333C7.66665 10.5066 7.59332 10.6799 7.47332 10.8066Z"
-                                                fill="#2277F6"
+                                                fill={this.state.mFromColor}
                                             />
                                         </svg>
                                     </span>
@@ -2453,8 +2475,15 @@ define(["react", "app"], function (React, app) {
                                         Mail from:
                                     </span>{" "}
                                     <span className="sender-email">
-                                        {this.state.from}
+                                        {this.state.realSender}
                                     </span>
+                                    {this.state.domainWarning &&
+
+                                        <div className="" style={{marginTop:"5px",color:"#c71c36",lineHeight: "20px"}}>
+                                            Please be careful; the email was sent from a domain that does not match the domain in the "FROM" field of the same email, which could be an indication of a spoofed email.
+                                    </div>
+                                        }
+
                                 </div>
                             </div>
                             <div

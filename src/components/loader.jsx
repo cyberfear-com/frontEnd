@@ -7,7 +7,7 @@ export default function Loader() {
             id="settings-spinner"
             style={{padding: "50vh 50%"}}
         >
-            <div className="wrapper">
+            <div className="wrapper" style={{boxSizing:"border-box",color:"#000",display:"block",fontSize:"16px",fontWeight:"400",lineHeigt:"24px",textAlign:"start",textSizeAdjust:"100%",fontFamily:"Plus Jakarta Display"}}>
                 <div className="inner">
                     <div className="content">
                         <div className="t-animation">
@@ -18,7 +18,7 @@ export default function Loader() {
                                     </div>
                                     <div className="circle-content">
                                         <div className="loading-spinner">
-                                            <div className="the-spinner">
+                                            <div className="the-spinner" style={{ width: "54px",height: "54px",display: "inline-block"}}>
                                                 <div className="_bar1"></div>
                                                 <div className="_bar2"></div>
                                                 <div className="_bar3"></div>
@@ -33,7 +33,7 @@ export default function Loader() {
                                 </div>
                             </div>
                         </div>
-                        <div className="t-text">
+                        <div className="t-text" style={{fontWeight:"400",fontFamily:"Plus Jakarta Display",fontSize:"40px",lineHeight:"52px"}}>
                             <h2>Loading...</h2>
                         </div>
                     </div>

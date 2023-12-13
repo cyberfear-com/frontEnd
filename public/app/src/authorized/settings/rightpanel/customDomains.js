@@ -1251,7 +1251,7 @@ define([
                                             <div className="information-table-row" key="1">
                                                 <label>Verification String:</label>
                                                 <div className="information-row-right with-btn">
-                                                    {this.state.verfString}
+                                                    mailum={this.state.verfString}
                                                     <button
                                                         className="copy-btn"
                                                         id="vrfctstrn-copy"

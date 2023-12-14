@@ -96,7 +96,7 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                                                                     ) {
                                                                         var notification =
                                                                             new Notification(
-                                                                                "CyberFear.com",
+                                                                                "Mailum.com",
                                                                                 {
                                                                                     body:
                                                                                         "You got " +
@@ -122,7 +122,7 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                                                                     } else {
                                                                         var notification =
                                                                             new Notification(
-                                                                                "CyberFear.com",
+                                                                                "Mailum.com",
                                                                                 {
                                                                                     body: "You got new email",
                                                                                     requireInteraction: true,

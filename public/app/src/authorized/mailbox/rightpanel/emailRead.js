@@ -1963,7 +1963,7 @@ define(["react", "app"], function (React, app) {
                                         Do you have any comment or question?{" "}
                                         <br />
                                         Please contact us at{" "}
-                                        <strong>cyberfear@cyberfear.com</strong>
+                                        <strong>support@Mailum.com</strong>
                                     </p>
                                     <div className="the-link">
                                         <div>

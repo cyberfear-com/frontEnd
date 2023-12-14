@@ -39,7 +39,7 @@ define(['react'], function (React) {
 						React.createElement('br', null),
 						'All customer data in SCRYPTmail is encrypted end-to-end.',
 						React.createElement('br', null),
-						'We are always at your disposal for any questions about privacy. We will be glad to answer any concerns or inquiries. Please contact us via email: support@CyberFear.com',
+						'We are always at your disposal for any questions about privacy. We will be glad to answer any concerns or inquiries. Please contact us via email: support@mailum.com',
 						React.createElement('br', null),
 						'We do not use any scripts or documents hosted outside of our server.',
 						React.createElement('br', null),
@@ -202,7 +202,7 @@ define(['react'], function (React) {
 					React.createElement(
 						'div',
 						{ className: 'row sMailTextAlignLeft' },
-						'"Cookies" are small text files that can be stored by a website locally in the memory of your Internet browser on the computer you are using. Our website, CyberFear.com, uses so-called cookies which are stored on your computer in order to establish session with server. No other information is stored in cookie. The cookies on our sites do not collect personal information about you or your use. You can delete cookies by clicking on the appropriate menu item in your internet browser or by deleting them on your hard drive. For details, refer to the help menu on your internet browser.'
+						'"Cookies" are small text files that can be stored by a website locally in the memory of your Internet browser on the computer you are using. Our website, Mailum.com, uses so-called cookies which are stored on your computer in order to establish session with server. No other information is stored in cookie. The cookies on our sites do not collect personal information about you or your use. You can delete cookies by clicking on the appropriate menu item in your internet browser or by deleting them on your hard drive. For details, refer to the help menu on your internet browser.'
 					),
 					React.createElement(
 						'div',
@@ -216,7 +216,7 @@ define(['react'], function (React) {
 					React.createElement(
 						'div',
 						{ className: 'row sMailTextAlignLeft' },
-						'Although you have given us your consent to process your personal data, we would like to point out that you can revoke your consent in the future at any time. Upon request, we will give you information about the data stored about you free of charge. Please send a message with your request to support@CyberFear.com. In addition, we are obliged to delete, to correct or to block the data stored about you upon request. Please also refer to the instructions under "Period of Data Storage."'
+						'Although you have given us your consent to process your personal data, we would like to point out that you can revoke your consent in the future at any time. Upon request, we will give you information about the data stored about you free of charge. Please send a message with your request to support@Mailum.com In addition, we are obliged to delete, to correct or to block the data stored about you upon request. Please also refer to the instructions under "Period of Data Storage."'
 					),
 					React.createElement(
 						'div',

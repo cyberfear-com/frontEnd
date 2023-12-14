@@ -1878,7 +1878,7 @@ define([
                             <input
                                 type="hidden"
                                 name="email"
-                                value="anonymous@cyberfear.com"
+                                value="anonymous@mailum.com"
                             />
                             <input
                                 type="hidden"

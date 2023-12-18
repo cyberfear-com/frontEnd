@@ -1186,6 +1186,7 @@ define(["react", "app"], function (React, app) {
                     //     trigger: true,
                     // });
                     app.user.set({ isComposingEmail: true });
+                    app.user.set({ composeOriginate: 'reply' });
                     Backbone.history.loadUrl(Backbone.history.fragment);
 
                     break;
@@ -1201,6 +1202,7 @@ define(["react", "app"], function (React, app) {
                     //     trigger: true,
                     // });
                     app.user.set({ isComposingEmail: true });
+                    app.user.set({ composeOriginate: 'reply' });
                     Backbone.history.loadUrl(Backbone.history.fragment);
                     break;
                 case "forward":
@@ -1214,6 +1216,7 @@ define(["react", "app"], function (React, app) {
                     //     trigger: true,
                     // });
                     app.user.set({ isComposingEmail: true });
+                    app.user.set({ composeOriginate: 'forward' });
                     Backbone.history.loadUrl(Backbone.history.fragment);
                     break;
 

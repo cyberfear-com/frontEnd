@@ -8,6 +8,7 @@ define(["app"], function (app) {
             //User main Data
             this.set({ isDecryptingEmail: false });
             this.set({ isComposingEmail: false });
+            this.set({ composeOriginate: 'new' });
             this.set({ isDraftOpened: false });
             this.set({ userId: "" });
             this.set({ username: "" });

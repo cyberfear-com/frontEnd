@@ -1,8 +1,8 @@
-define(["react", "app", "quill", "select2"], function (
+define(["react", "app", "select2","summernote"], function (
     React,
     app,
-    Quill,
-    select2
+    select2,
+    summernote
 ) {
     return React.createClass({
         getInitialState: function () {
@@ -32,10 +32,10 @@ define(["react", "app", "quill", "select2"], function (
                     app.user.get("draftMessageView")["meta"]["signatureOn"],
                 emailAttachment: app.user.get("draftMessageView")["attachment"],
                 fileObject: app.user.get("draftMessageView")["attachment"],
-                fromOptions: this.fromField("from"),
-                signature: app.globalF.filterXSSwhite(
-                    app.transform.from64str(this.fromField("sig"))
-                ),
+
+                fromOptions: [],
+                fromArray:{},
+                signature: "",
                 recipientLimit:
                     app.user.get("userPlan")["planData"]["recipPerMail"],
                 planRcptLimit:
@@ -63,6 +63,8 @@ define(["react", "app", "quill", "select2"], function (
 
                 encryptionKey: "",
                 changedHash: "",
+                correctSig:'<a href="https://mailum.com/mailbox/#signup/'+app.user.get("userPlan")['coupon']+'/" target="_blank" contenteditable="false">Mailum.com</a>',
+
                 modKey: app.user.get("draftMessageView")["modKey"],
                 //messageId: app.user.get("draftMessageView")["messageId"],
                 allEmails: {},
@@ -79,88 +81,29 @@ define(["react", "app", "quill", "select2"], function (
                 isMinimized: false,
             };
         },
-        buildFieldsforSelect: function (data) {
-            var options = [];
-            if (Object.keys(data).length > 0) {
-                $.each(data, function (index, emailData) {
-                    options.push(index);
-                });
-            }
-            return options;
-        },
-        emailsender: function () {
-            var sender = app.user.get("draftMessageView")["meta"]["from"];
-            if (sender === "") {
-                var keys = app.user.get("allKeys");
-                $.each(keys, function (index, keyValue) {
-                    if (keyValue["isDefault"]) {
-                        sender = index;
-                    }
-                });
-            }
-            return sender;
-        },
-        fromField: function (action) {
+        componentDidMount: async function () {
             var thisComp = this;
-            var keys = app.user.get("allKeys");
-            var options = [];
-            var from =
-                this.state == undefined
-                    ? app.user.get("draftMessageView")["meta"]["from"]
-                    : this.state.fromEmail;
-
-            var signature = "";
-            var stateFrom = "";
-            $.each(keys, function (index, keyValue) {
-                var emailRaw =
-                    app.transform.from64str(keyValue["name"]) +
-                    " <" +
-                    app.transform.from64str(keyValue["email"]) +
-                    ">";
-                var parsedEmail = app.globalF.parseEmail(emailRaw);
-
-                if (keyValue["canSend"]) {
-                    options.push(
-                        <option key={index} value={index}>
-                            {parsedEmail["display"]}
-                        </option>
-                    );
-                }
-                if (
-                    from != "" &&
-                    from == index &&
-                    keyValue["includeSignature"]
-                ) {
-                    signature = keyValue["signature"];
-                } else if (
-                    from == "" &&
-                    keyValue["isDefault"] &&
-                    keyValue["includeSignature"]
-                ) {
-                    signature = keyValue["signature"];
-                }
-            });
-
-            if (action == "from") {
-                return options;
-            }
-            if (action == "sig") {
-                return signature;
-            }
-        },
-        componentWillUnmount: function () {
-            clearTimeout(this.state.savingDraft);
-            app.globalF.resetDraftMessage();
-            this.setState({ isMounted: "" });
-            app.user.set({ emailReplyState: "" });
-        },
-        componentDidMount: function () {
-            var thisComp = this;
+            await this.fromField("initialize");
 
             fileSelector = $("#fileselector");
 
+
+            $('#composeEmail').summernote({
+                //minHeight: 400,
+                airPopover: [
+                ],
+                toolbar: [
+                    //[groupname, [button list]]
+                    //['insert', ['link']] // no insert buttons
+                ],
+
+            });
+
+
+            //console.log(this.state.fromArray[this.state.fromEmail]);
             // Initiate editor toolbar [Quill]
-            const quill = new Quill("#com-the-con-editor", {
+
+            /*const quill = new Quill("#com-the-con-editor", {
                 modules: {
                     toolbar: "#editor_toolbar",
                 },
@@ -174,7 +117,7 @@ define(["react", "app", "quill", "select2"], function (
                         }
                     },
                 },
-            });
+            });*/
 
             thisComp.toSelect();
             thisComp.toCCSelect();
@@ -309,8 +252,112 @@ define(["react", "app", "quill", "select2"], function (
                 .val(Object.keys(thisComp.state.fileObject))
                 .trigger("change");
 
-            var bodyContent = quill.clipboard.convert(thisComp.state.body);
+
+            var newEmailBody="";
+
+            var newEmailText='<div class="emailbody">im the body<br/><br/></div>';
+
+            //var signature="";
+        /*    app.globalF.filterXSSwhite(
+                app.transform.from64str(
+                    this.fromField("sig")
+                )
+            )*/
+
+            var signature="";
+
+/*            if(!this.fromField("includeSig")){
+                 signature= '<div class="emailsignature">Sent using Encrypted Email Service -&nbsp;<a href="https://mailum.com/mailbox/#signup/'+app.user.get("userPlan")['coupon']+'/" target="_blank">Mailum.com</a></div>';
+
+            }else{
+                 signature='<div class="emailsignature"></div>';
+            }*/
+            //var correctSig='Sent using Encrypted Email Service -&nbsp;<a href="https://mailum.com/mailbox/#signup/'+app.user.get("userPlan")['coupon']+'/" target="_blank">Mailum.com</a>';
+
+            //Sent using Encrypted Email Service -
+
+
+
+            var curSig=app.transform.from64str(this.state.fromArray[this.state.fromEmail]['signature']).toLowerCase();
+            var cSig=app.transform.from64str(this.state.fromArray[this.state.fromEmail]['signature']);
+            //console.log(curSig);
+
+
+            if(app.user.get("composeOriginate")=='new') {
+                if ((curSig.includes("mailum.com") || curSig.includes("cyberfear.com")) && !curSig.includes('href="https://mailum.com"')) {
+                    cSig = 'Sent using Encrypted Email Service - ' + thisComp.state.correctSig;
+                }
+            }
+
+
+            if(this.state.fromArray[this.state.fromEmail]['includeSignature']) {
+                signature = '<div class="emailsignature" contenteditable="false">'+cSig+'</div';
+            }else{
+                signature='<div class="emailsignature"></div>';
+            }
+
+           // var fileattachments= '<div class="fileattachments" contenteditable="false"></div>';
+            var oldEmailText="";
+
+            var breakdiv="<br/>";
+            var breakdiv2="<br/></br>";
+            if(app.user.get("composeOriginate")=='new'){
+                newEmailBody=newEmailText+breakdiv+signature;
+            }else if(app.user.get("composeOriginate")=='reply' || app.user.get("composeOriginate")=='forward'){
+                newEmailBody=newEmailText+breakdiv+signature;
+                oldEmailText=breakdiv+'<div clsss="oldemail">'+thisComp.state.body+'</div>';
+            }else{
+                oldEmailText=thisComp.state.body;
+               // newEmailBody=oldEmailText;
+            }
+
+            /*if(!this.state.manualSignature){
+                var signature='<div class="emailbody"><br/><br/></div><div class="emailsignature"></div><br/></br>'+thisComp.state.body;
+            }else{
+                var signature=thisComp.state.body;
+            }
+
+
+            //console.log(thisComp.state.signature=="");
+            console.log(app.user.get('draftMessageView'));
+
+            console.log('this.state.manualSignature');
+            console.log(this.state.manualSignature);
+            console.log('thisComp.state.signature');
+            console.log(thisComp.state.signature);
+            if(thisComp.state.signature!=""){
+                $('.emailsignature').html(thisComp.state.signature);
+            }else{
+                $('.emailsignature').html('<div>Sent using Encrypted Email Service -&nbsp;<a href="https://cyberfear.com/index.html#createUser/'+app.user.get("userPlan")['coupon']+'" target="_blank">CyberFear.com</a></div>');
+
+            }
+
+*/
+           /* var bodyContent = quill.clipboard.convert("");
             quill.setContents(bodyContent, "silent");
+*/
+            /*quill.setContents([
+                { insert: newEmailText, attributes: {}},
+                { insert: newEmailText,attributes: { bold: true,class:"sdssd" } },
+                { insert: fileattachments, attributes: { bold: true } },
+                { insert: signature }
+            ]);*/
+
+         /*   console.log(newEmailBody);
+
+            quill.root.innerHTML=newEmailBody;
+
+            //quill.insertText(0, 'Hello', 'link', 'https://world.com');
+
+            console.log(app.globalF.filterXSSwhite(
+                $(
+                    "#com-the-con-editor .ql-editor:first-child"
+                ).html()
+            ));*/
+
+            $('#composeEmail').code(newEmailBody);
+            $('#composeEmail').code($('#composeEmail').code()+oldEmailText);
+
 
             this.setState({
                 originalHash: this.getEmailHash(),
@@ -327,6 +374,96 @@ define(["react", "app", "quill", "select2"], function (
 
             thisComp.draftSaveInterval();
         },
+
+        buildFieldsforSelect: function (data) {
+            var options = [];
+            if (Object.keys(data).length > 0) {
+                $.each(data, function (index, emailData) {
+                    options.push(index);
+                });
+            }
+            return options;
+        },
+        emailsender: function () {
+            var sender = app.user.get("draftMessageView")["meta"]["from"];
+            if (sender === "") {
+                var keys = app.user.get("allKeys");
+                $.each(keys, function (index, keyValue) {
+                    if (keyValue["isDefault"]) {
+                        sender = index;
+                    }
+                });
+            }
+            return sender;
+        },
+        fromField: function (action) {
+            var thisComp = this;
+            var keys = app.user.get("allKeys");
+            var options = [];
+            var sendArr=[];
+            var from =
+                this.state == undefined
+                    ? app.user.get("draftMessageView")["meta"]["from"]
+                    : this.state.fromEmail;
+
+            var signature = "";
+            var stateFrom = "";
+            var includeSig=false;
+
+            $.each(keys, function (index, keyValue) {
+                var emailRaw =
+                    app.transform.from64str(keyValue["name"]) +
+                    " <" +
+                    app.transform.from64str(keyValue["email"]) +
+                    ">";
+                var parsedEmail = app.globalF.parseEmail(emailRaw);
+
+                if (keyValue["canSend"]) {
+                    sendArr[keyValue["email"]] = keyValue;
+                    options.push(
+                        <option key={index} value={index}>
+                            {parsedEmail["display"]}
+                        </option>
+                    );
+                }
+             //   console.log(keyValue['includeSignature']);
+                if (
+                    from != "" &&
+                    from == index &&
+                    keyValue["includeSignature"]
+                ) {
+                    signature = keyValue["signature"];
+                } else if (
+                    from == "" &&
+                    keyValue["isDefault"] &&
+                    keyValue["includeSignature"]
+                ) {
+                    includeSig=keyValue["includeSignature"];
+                    signature = keyValue["signature"];
+                }
+            });
+
+            if (action == "initialize") {
+                this.setState({
+                    fromOptions:options,
+                    fromArray:sendArr
+                });
+            }
+
+            if (action == "includeSig") {
+                return includeSig;
+            }
+            if (action == "sig") {
+                return signature;
+            }
+        },
+        componentWillUnmount: function () {
+            clearTimeout(this.state.savingDraft);
+            app.globalF.resetDraftMessage();
+            this.setState({ isMounted: "" });
+            app.user.set({ emailReplyState: "" });
+        },
+
         toSelect: function () {
             var thisComp = this;
             $("#toRcpt").select2({
@@ -469,7 +606,7 @@ define(["react", "app", "quill", "select2"], function (
                 ),
                 pin: this.state.pinText,
                 pinEnabled: this.state.enablePin,
-                body: $("#com-the-con-editor").html(),
+                body: $('#composeEmail').code(),
                 attachment: this.state.fileObject,
             };
 
@@ -960,33 +1097,32 @@ define(["react", "app", "quill", "select2"], function (
                 var linkbody =
                     "<br/><div class='fileattach' style='background-color:#F2F2F2;'><span>Files will be available for download until " +
                     time.toLocaleString() +
-                    "<br/><br/>";
+                    "<br/>";
 
                 var fileObj = this.state.fileObject;
                 var c = 1;
                 $.each(fileObj, function (fName, fData) {
                     linkbody +=
                         '<div style="clear:both; margin-top:5px;">' +
-                        app.transform.from64str(fName) +
                         ' <a href="' +
-                        app.defaults.get("domain") +
-                        "/api/dFV2/" +
+                        app.defaults.get("domainVPS") +
+                        "/emails/" +
                         fData["fileName"] +
                         "1/p/" +
                         app.transform.bin2hex(
                             app.transform.from64bin(fData["key"])
                         ) +
-                        '" target="_blank">Click to download file</a></div>';
+                        '" target="_blank" contenteditable="false">'+app.transform.from64str(fName)+'</a></div>';
                     c++;
                 });
 
                 linkbody += "</div>";
 
                 if (Object.keys(fileObj).length > 0) {
-                    $(linkbody).insertBefore(".emailsignature");
+                    $(linkbody).insertAfter( ".emailsignature" );
 
-                    if ($(".emailsignature").length == 0) {
-                        $(".note-editable").append(linkbody);
+                    if($('.emailsignature').length==0){
+                        $('.note-editable').append(linkbody);
                     }
                 }
             }
@@ -1191,53 +1327,7 @@ define(["react", "app", "quill", "select2"], function (
                 );
             });
         },
-        addFileLink: function () {
-            var time = new Date(
-                new Date().setYear(new Date().getFullYear() + 1)
-            );
 
-            if (
-                this.state.emailProtected === 3 ||
-                this.state.emailProtected === 1
-            ) {
-                $(".fileattach").remove();
-            } else {
-                $(".fileattach").remove();
-                var linkbody =
-                    "<br/><div class='fileattach' style='background-color:#F2F2F2;'><span>Files will be available for download until " +
-                    time.toLocaleString() +
-                    "<br/><br/>";
-
-                var fileObj = this.state.fileObject;
-                //console.log(fileObj);
-                var c = 1;
-                $.each(fileObj, function (fName, fData) {
-                    linkbody +=
-                        '<div style="clear:both; margin-top:5px;">' +
-                        app.transform.from64str(fName) +
-                        ' <a href="' +
-                        app.defaults.get("domain") +
-                        "/api/dFV2/" +
-                        fData["fileName"] +
-                        "1/p/" +
-                        app.transform.bin2hex(
-                            app.transform.from64bin(fData["key"])
-                        ) +
-                        '" target="_blank">Click to download file</a></div>';
-                    c++;
-                });
-
-                linkbody += "</div>";
-
-                if (Object.keys(fileObj).length > 0) {
-                    $(linkbody).insertBefore(".emailsignature");
-
-                    if ($(".emailsignature").length == 0) {
-                        $(".note-editable").append(linkbody);
-                    }
-                }
-            }
-        },
         prepareToSafeDraft: function (action, callback) {
             var thisComp = this;
             var changedHash = this.getEmailHash();
@@ -1264,16 +1354,12 @@ define(["react", "app", "quill", "select2"], function (
                 draft["body"] = {
                     text: app.transform.to64str(
                         app.globalF.stripHTML(
-                            $(
-                                "#com-the-con-editor .ql-editor:first-child"
-                            ).html()
+                            $('#composeEmail').code()
                         )
                     ),
                     html: app.transform.to64str(
                         app.globalF.filterXSSwhite(
-                            $(
-                                "#com-the-con-editor .ql-editor:first-child"
-                            ).html()
+                            $('#composeEmail').code()
                         )
                     ),
                 };
@@ -1287,9 +1373,7 @@ define(["react", "app", "quill", "select2"], function (
                 draft["meta"]["body"] = app.transform.to64str(
                     app.globalF
                         .stripHTML(
-                            $(
-                                "#com-the-con-editor .ql-editor:first-child"
-                            ).html()
+                            $('#composeEmail').code()
                         )
                         .substring(0, 50)
                 );
@@ -1374,12 +1458,19 @@ define(["react", "app", "quill", "select2"], function (
                             fromEmail: event.target.value,
                         },
                         function () {
+                            var curSig=app.globalF.filterXSSwhite(app.transform.from64str(this.fromField("sig"))).toLowerCase();
+                            var cSig="";
+
+                            if((curSig.includes("mailum.com") || curSig.includes("cyberfear.com"))&& !curSig.includes('href="https://mailum.com"')) {
+                                cSig = 'Sent using Encrypted Email Service - ' + thisComp.state.correctSig;
+                            }else{
+                                    cSig=app.globalF.filterXSSwhite(app.transform.from64str(this.fromField("sig")))
+                                }
+                            $(".emailsignature").html(cSig);
+
+
                             thisComp.setState({
-                                signature: app.globalF.filterXSSwhite(
-                                    app.transform.from64str(
-                                        this.fromField("sig")
-                                    )
-                                ),
+                                signature: cSig
                             });
                         }
                     );
@@ -1481,16 +1572,12 @@ define(["react", "app", "quill", "select2"], function (
                             draft["body"] = {
                                 text: app.transform.to64str(
                                     app.globalF.stripHTML(
-                                        $(
-                                            "#com-the-con-editor .ql-editor:first-child"
-                                        ).html()
+                                        $('#composeEmail').code()
                                     )
                                 ),
                                 html: app.transform.to64str(
                                     app.globalF.filterXSSwhite(
-                                        $(
-                                            "#com-the-con-editor .ql-editor:first-child"
-                                        ).html()
+                                        $('#composeEmail').code()
                                     )
                                 ),
                             };
@@ -1510,9 +1597,7 @@ define(["react", "app", "quill", "select2"], function (
                             draft["meta"]["body"] = app.transform.to64str(
                                 app.globalF
                                     .stripHTML(
-                                        $(
-                                            "#com-the-con-editor .ql-editor:first-child"
-                                        ).html()
+                                        $('#composeEmail').code()
                                     )
                                     .substring(0, 50)
                             );
@@ -2076,6 +2161,9 @@ define(["react", "app", "quill", "select2"], function (
                                         </div>
                                     </div>
                                 </div>
+                                <div className="" id="composeEmail">
+
+                                </div>
                                 <div className="com-content-editor">
                                     <div
                                         className="com-the-con-editor"
@@ -2090,6 +2178,7 @@ define(["react", "app", "quill", "select2"], function (
                                             <button
                                                 type="submit"
                                                 className="ql-bold"
+                                                onClick={function(){$('#composeEmail').summernote('bold');}}
                                             >
                                                 <span className="icon">
                                                     <svg
@@ -2103,6 +2192,7 @@ define(["react", "app", "quill", "select2"], function (
                                             <button
                                                 type="submit"
                                                 className="ql-italic"
+                                                onClick={function(){$('#composeEmail').summernote('italic');}}
                                             >
                                                 <span className="icon">
                                                     <svg
@@ -2116,6 +2206,7 @@ define(["react", "app", "quill", "select2"], function (
                                             <button
                                                 type="submit"
                                                 className="ql-underline"
+                                                onClick={function(){$('#composeEmail').summernote('underline');}}
                                             >
                                                 <span className="icon">
                                                     <svg
@@ -2128,7 +2219,8 @@ define(["react", "app", "quill", "select2"], function (
                                             </button>
                                             <button
                                                 type="submit"
-                                                className="ql-blockquote"
+                                                className="ql-blockquote d-none"
+                                                onClick={function(){$('#composeEmail').summernote('indent');}}
                                             >
                                                 <span className="icon">
                                                     <svg
@@ -2143,6 +2235,7 @@ define(["react", "app", "quill", "select2"], function (
                                                 type="submit"
                                                 className="ql-list"
                                                 value="ordered"
+                                                onClick={function(){$('#composeEmail').summernote('insertOrderedList');}}
                                             >
                                                 <span className="icon">
                                                     <svg
@@ -2157,6 +2250,7 @@ define(["react", "app", "quill", "select2"], function (
                                                 type="submit"
                                                 className="ql-list"
                                                 value="bullet"
+                                                onClick={function(){$('#composeEmail').summernote('insertUnorderedList');}}
                                             >
                                                 <span className="icon">
                                                     <svg
@@ -2169,7 +2263,9 @@ define(["react", "app", "quill", "select2"], function (
                                             </button>
                                             <button
                                                 type="submit"
-                                                className="ql-link"
+                                                className="ql-link d-none"
+                                                onClick={function(){
+                                                   }}
                                             >
                                                 <span className="icon">
                                                     <svg
@@ -2183,6 +2279,7 @@ define(["react", "app", "quill", "select2"], function (
                                             <button
                                                 type="submit"
                                                 className="ql-clean"
+                                                onClick={function(){$('#composeEmail').summernote('removeFormat');}}
                                             >
                                                 <span className="icon">
                                                     <svg

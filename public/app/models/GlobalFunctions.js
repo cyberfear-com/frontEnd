@@ -1024,12 +1024,6 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                                         var body = JSON.parse(
                                             emailDecrypted["body"]
                                         );
-                                        // console.log(
-                                        //     JSON.parse(emailDecrypted["body"])
-                                        // );
-
-                                        // var meta = JSON.parse(emailDecrypted['meta']);
-                                        //body['meta']['from'] = body['from'];
 
                                         //fix old emails where recipient to field is not an object
                                         if (
@@ -1288,6 +1282,7 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                                         isDecryptingEmail: false,
                                     });
                                     app.user.set({ isComposingEmail: true });
+                                    app.user.set({ composeOriginate: 'draft' });
                                     app.user.set({ isDraftOpened: true });
                                     $("body").addClass("draft-opened");
                                     Backbone.history.loadUrl(

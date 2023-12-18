@@ -223,6 +223,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
         handleClick: function (i) {
             switch (i) {
                 case "composeEmail":
+                    app.user.set({ composeOriginate: 'new' });
                     app.user.set({ isComposingEmail: true });
                     Backbone.history.loadUrl(Backbone.history.fragment);
                     break;

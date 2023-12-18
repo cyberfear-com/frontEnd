@@ -14,7 +14,15 @@
     <title>Mailum</title>
   </head>
   <body>
-    <div id="root"><!--app-html--></div>
+    <div id="root" style="font-size:40px; font-weight:100"><!--app-html-->
+      <!-- SVG preload animation -->
+      <div class="loader-container" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; height: 100vh;">
+        <img src="images/loading-circle.svg" alt="Loading Animation" height="91" width="91" />
+        <p style="margin-top: 16px; fontFamily: 'sans-serif';" >Loading..</p>
+      </div>
+      <!--app-html-->
+    </div>
+    </div>
     <script type="module" src="/src/main.jsx" async></script>
     <!-- Matomo -->
     <script>

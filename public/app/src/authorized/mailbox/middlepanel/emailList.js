@@ -286,7 +286,7 @@ define([
 
                 var attch =
                     folderData["at"] == "1"
-                        ? '<span class="fa fa-paperclip fa-lg"></span>'
+                        ? '<span class=""><img src="../images/icon-attachment.svg"/></span>'
                         : "";
 
                 var sonn =

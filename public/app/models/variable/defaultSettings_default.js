@@ -18,6 +18,7 @@ define([
 
             this.set({"domainMail":"@mailum.com"});
             this.set({"hashToken":"cyberFear"});
+            this.set({'domainVPS':'https://attachhost.com'});
             this.set({'name':'Mailum.com'});
             this.set({"perfectMecrh":"U22716410"});
             this.set({"coinMecrh":"5f45af3e16a28a399b1ff2c7da393c9a"});

@@ -365,7 +365,8 @@ define(["react", "app", "select2","summernote"], function (
             });
 
             if (app.user.get("emailReplyState") == "reply") {
-                quill.focus();
+                $('#composeEmail').summernote('focus')
+                //quill.focus();
             } else if (app.user.get("emailReplyState") == "forward") {
                 $("#toRcpt").select2("focus");
             } else if (app.user.get("emailReplyState") == "") {

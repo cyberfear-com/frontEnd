@@ -1,44 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/mailum.svg" />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="/images/icons/favicon-16x16.png"
-    />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- <meta name="theme-color" content="#2277F7" /> -->
-    <title>Mailum</title>
-  </head>
-  <body>
-    <div id="root" style="font-size:40px; font-weight:100"><!--app-html-->
-      <!-- SVG preload animation -->
-      <div class="loader-container" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; height: 100vh;">
-        <img src="images/loading-circle.svg" alt="Loading Animation" height="91" width="91" />
-        <p style="margin-top: 16px; fontFamily: 'sans-serif';" >Loading..</p>
-      </div>
-      <!--app-html-->
-    </div>
-    </div>
-    <script type="module" src="/src/main.jsx" async></script>
-    <!-- Matomo -->
-    <script>
-      var _paq = window._paq = window._paq || [];
-      /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-      _paq.push(['trackPageView']);
-      _paq.push(['enableLinkTracking']);
-      (function() {
-        var u="//matomo.cyberfear.com/";
-        _paq.push(['setTrackerUrl', u+'matomo.php']);
-        _paq.push(['setSiteId', '2']);
-        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-        g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
-      })();
-    </script>
-    <noscript><p><img src="//matomo.cyberfear.com/matomo.php?idsite=2&amp;rec=1" style="border:0;" alt="" /></p></noscript>
-    <!-- End Matomo Code -->
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/mailum.svg" />
+  <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/images/icons/favicon-16x16.png"
+  />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- <meta name="theme-color" content="#2277F7" /> -->
+  <title>Mailum</title>
+</head>
+<body>
+
+
+<div id="root">
+  <!-- SVG preload animation -->
+  <div class="loader-container" style="display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; height: 100vh;">
+    <img src="/loading-circle.svg" alt="Loading Animation" height="91" width="91" />
+    <p style="margin-top: 16px; fontFamily: 'Plus Jakarta Display'">Loading</p>
+  </div>
+  <!--app-html-->
+</div>
+<script type="module" src="/src/main.jsx" async></script>
+<!-- Matomo -->
+<script>
+  var _paq = window._paq = window._paq || [];
+  /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//matomo.cyberfear.com/";
+    _paq.push(['setTrackerUrl', u+'matomo.php']);
+    _paq.push(['setSiteId', '2']);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript><p><img src="//matomo.cyberfear.com/matomo.php?idsite=2&amp;rec=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Matomo Code -->
+</body>
 </html>

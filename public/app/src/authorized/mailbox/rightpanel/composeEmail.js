@@ -255,7 +255,7 @@ define(["react", "app", "select2","summernote"], function (
 
             var newEmailBody="";
 
-            var newEmailText='<div class="emailbody">im the body<br/><br/></div>';
+            var newEmailText='<div class="emailbody"><br/><br/></div>';
 
             //var signature="";
         /*    app.globalF.filterXSSwhite(

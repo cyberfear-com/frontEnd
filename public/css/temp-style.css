@@ -20336,17 +20336,7 @@ header .menu-icon.on-left-side {
 .SmallBox p:empty {
     display: none;
 }
-.compose-email-wrapper {
-    position: fixed;
-    bottom: 0;
-    right: 43px;
-    width: 571px;
-    z-index: 1039;
-/*    height: 50vh;*/
-}
-.compose-email-wrapper .compose-ec {
-    box-shadow: 0 36px 100px 0 rgb(0 0 0 / 10%);
-}
+
 .compose-ec .the-header,
 .select2-results {
     box-shadow: 0 4px 4px 0 rgb(0 0 0 / 25%);
@@ -20450,43 +20440,7 @@ header .menu-icon.on-left-side {
 .compose-ec .c-editor-actions .delete-draft svg {
     stroke: #415067;
 }
-.compose-email-wrapper.compose-maximize {
-    width: 95%;
-    height: 95%;
-    top: 2.5%;
-    left: 2.5%;
-}
-.compose-email-wrapper.compose-maximize .compose-ec {
-    height: 100%;
-    border-bottom-left-radius: 12px;
-    border-bottom-right-radius: 12px;
-}
-.compose-email-wrapper.compose-maximize .compose-ec .the-content {
-    height: calc(100% - 57px);
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-}
-.compose-email-wrapper.compose-maximize .the-content .the-content-wrapper {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-}
-.compose-email-wrapper.compose-maximize .the-content .com-content-editor {
-    height: 100%;
-    flex-grow: 1;
-}
-.compose-email-wrapper.compose-maximize
-    .compose-ec
-    .the-content
-    .com-the-con-editor {
-    min-height: calc(100% - 109px);
-    max-height: calc(100% - 109px);
-    overflow-y: auto;
-}
-.compose-email-wrapper.compose-maximize.c-editor-actions {
-    padding-bottom: 17px;
-}
+
 .compose-email-wrapper.compose-minimize {
     max-height: 57px;
     min-height: 57px;
@@ -22517,7 +22471,7 @@ body.shrinked .folder-menu .accordion-button:after {
         padding-bottom: 124px;
     }
 }
-.note-editor{position:relative;border:0px solid #a9a9a9;overflow-y: scroll;}
+.note-editor{position:relative;border:0px solid #a9a9a9;}
 .note-editor .note-dropzone{position:absolute;z-index:100;display:none;color:#87cefa;background-color:white;border:2px dashed #87cefa;opacity:.95;pointer-event:none}
 .note-editor .note-dropzone .note-dropzone-message{display:table-cell;font-size:28px;font-weight:bold;text-align:center;vertical-align:middle}
 .note-editor .note-dropzone.hover{color:#098ddf;border:2px dashed #098ddf}.note-editor.dragover .note-dropzone{display:table}
@@ -22563,3 +22517,54 @@ body.shrinked .folder-menu .accordion-button:after {
 .note-handle .note-control-selection .note-control-ne{top:-5px;right:-5px;border-bottom:0;border-left:none}
 .note-handle .note-control-selection .note-control-sw{bottom:-5px;left:-5px;border-top:0;border-right:0}.note-handle .note-control-selection .note-control-se{right:-5px;bottom:-5px;cursor:se-resize}.note-handle .note-control-selection .note-control-selection-info{right:0;bottom:0;padding:5px;margin:5px;font-size:12px;color:white;background-color:black;-webkit-border-radius:5px;-moz-border-radius:5px;border-radius:5px;-webkit-opacity:.7;-khtml-opacity:.7;-moz-opacity:.7;opacity:.7;-ms-filter:alpha(opacity=70);filter:alpha(opacity=70)}
 .note-editor .note-editable p {margin-bottom:0px;}
+.compose-email-wrapper {
+    position: fixed;
+    bottom: 0;
+    right: 43px;
+    width: 571px;
+    z-index: 1039;
+}
+.compose-email-wrapper .compose-ec {
+    box-shadow: 0 36px 100px 0 rgb(0 0 0 / 10%);
+}
+.compose-email-wrapper .note-editor{
+    height: 40vh;
+}
+
+.compose-email-wrapper.compose-maximize {
+    width: 95%;
+    height: 95%;
+    top: 2.5%;
+    left: 2.5%;
+}
+.compose-email-wrapper.compose-maximize .note-editor {
+    height: 60vh;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+.compose-email-wrapper.compose-maximize .compose-ec .the-content {
+    height: calc(100% - 57px);
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+.compose-email-wrapper.compose-maximize .the-content .the-content-wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.compose-email-wrapper.compose-maximize .the-content .com-content-editor {
+    height: 100%;
+    flex-grow: 1;
+}
+.compose-email-wrapper.compose-maximize
+.compose-ec
+.the-content
+.com-the-con-editor {
+    min-height: calc(100% - 109px);
+    max-height: calc(100% - 109px);
+    overflow-y: auto;
+}
+.compose-email-wrapper.compose-maximize.c-editor-actions {
+    padding-bottom: 17px;
+}

@@ -2166,10 +2166,6 @@ define(["react", "app", "select2","summernote"], function (
 
                                 </div>
                                 <div className="com-content-editor">
-                                    <div
-                                        className="com-the-con-editor"
-                                        id="com-the-con-editor"
-                                    ></div>
                                     <div id="toolbar"></div>
                                     <div className="c-editor-actions">
                                         <div

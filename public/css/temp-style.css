@@ -16411,10 +16411,11 @@ textarea::-webkit-scrollbar {
     -webkit-animation-name: spin;
     -moz-animation-name: spin;
     -ms-animation-name: spin;
-    animation-duration: 0.5s;
-    -webkit-animation-duration: 0.5s;
-    -moz-animation-duration: 0.5s;
-    -ms-animation-duration: 0.5s;
+    animation-iteration-count:30;
+    animation-duration: 1s;
+    -webkit-animation-duration: 1s;
+    -moz-animation-duration: 1s;
+    -ms-animation-duration: 1s;
     animation-timing-function: ease-in;
     -webkit-animation-timing-function: ease-in;
     -moz-animation-timing-function: ease-in;

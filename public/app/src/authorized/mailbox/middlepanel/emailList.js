@@ -743,9 +743,9 @@ define([
         handleRefreshButton: function (event) {
             app.mailMan.startShift();
 
-            const _event = event;
-            _event.target.children[0].classList.add("spin-animation");
-            this.removeRefreshClass(_event.target.children[0]);
+            //const _event = event;
+            //_event.target.children[0].classList.add("spin-animation");
+            //this.removeRefreshClass(_event.target.children[0]);
 
             $("#selectAll>input").prop("checked", false);
             $("#selectAllAlt > input").prop("checked", false);
@@ -1735,7 +1735,7 @@ define([
                                             className="icon-btn"
                                             onClick={this.handleRefreshButton}
                                         >
-                                            <i></i>
+                                            <i className={this.state.checkNewMails?"spin-animation":""}></i>
                                         </button>
                                     </div>
                                     <div className="arrow-btn ellipsis-dropdown">

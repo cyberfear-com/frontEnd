@@ -37,7 +37,7 @@ define(["app", "react"], function (app, React) {
                  this.checkCouponTyping();
              })
          }
-            let response = await fetch(`/api/availableForRegistrationV3`, {
+            let response = await fetch(app.defaults.get("apidomain") + `/api/availableForRegistrationV3`, {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',

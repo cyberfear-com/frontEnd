@@ -40,7 +40,7 @@ define(["react", "app", "cmpld/modals/paymentGate","ajaxQueue"], function (
 
         componentDidMount: async function () {
 
-            let response = await fetch(`/api/availableForRegistrationV3`, {
+            let response = await fetch(app.defaults.get("apidomain") + `/api/availableForRegistrationV3`, {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',

@@ -39,18 +39,18 @@ define([
                 this.props.folderId != nextProps.folderId &&
                 this.props.folderId != ""
             ) {
-                console.log('I RECEIEVED NEW PROP');
+           //     console.log('I RECEIEVED NEW PROP');
                // this.updateEmails(nextProps.folderId, "noRefresh");
             }
         },
         updateEmails: function (folderId, Refresh) {
-            console.log('folderId');
-            console.log(folderId);
+            //console.log('folderId');
+           // console.log(folderId);
 
             Refresh=app.user.get("needRefresh");
             var thisComp = this;
-            console.log('Refresh');
-            console.log(Refresh);
+            //console.log('Refresh');
+            //console.log(Refresh);
             var emails = app.user.get("emails")["folders"][folderId];
 
             thisComp.setState({

@@ -36,8 +36,8 @@ define(["app", "forge", "CryptoJS", "twofish", 'openpgp'], function(app, forge, 
 		from64bin: function(data) {
 			return forge.util.decode64(data);
 		},
-		from64oldBin:function(){
-			return forge.util.binary.base64.decode(data)
+		from64oldBin:function(data){
+			return forge.util.binary.base64.decode(data);
 		},
 
 		to64bin: function (data) {
@@ -45,7 +45,7 @@ define(["app", "forge", "CryptoJS", "twofish", 'openpgp'], function(app, forge, 
 		},
 		check64str: function(data) {
 			try{
-				forge.util.decodeUtf8(forge.util.decode64(data));
+				forge.util.text.utf8.decode(forge.util.binary.base64.decode(data));
 				return true;
 			} catch (err) {
 				return false;
@@ -60,7 +60,7 @@ define(["app", "forge", "CryptoJS", "twofish", 'openpgp'], function(app, forge, 
 				return forge.util.text.utf8.decode(forge.util.binary.base64.decode(data));
 
 			} catch (err) {
-				return forge.util.hexToBytes(forge.util.bytesToHex(forge.util.text.utf8.decode(forge.util.binary.base64.decode(data))));
+				return forge.util.hexToBytes(forge.util.bytesToHex(forge.util.binary.base64.decode(data)));
 				//return 'FtD: '+data;
 			}
 

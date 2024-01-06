@@ -57,17 +57,17 @@ define(["app", "forge", "CryptoJS", "twofish", 'openpgp'], function(app, forge, 
 				return data;
 			}
 			try{
-				return forge.util.decodeUtf8(forge.util.decode64(data));
+				return forge.util.text.utf8.decode(forge.util.binary.base64.decode(data));
 
 			} catch (err) {
-				return forge.util.hexToBytes(forge.util.bytesToHex(forge.util.encodeUtf8(forge.util.decode64(data))));
+				return forge.util.hexToBytes(forge.util.bytesToHex(forge.util.text.utf8.decode(forge.util.binary.base64.decode(data))));
 				//return 'FtD: '+data;
 			}
 
 		},
         from64strXss:function(data) {
             try{
-                return filterXSS(forge.util.decodeUtf8(forge.util.decode64(data)));
+                return filterXSS(forge.util.text.utf8.decode(forge.util.binary.base64.decode(data)));
             } catch (err) {
                 return 'FtD: '+data;
             }

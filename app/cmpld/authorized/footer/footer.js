@@ -36,7 +36,7 @@ define(['react'], function (React) {
 					React.createElement(
 						'span',
 						{ className: 'txt-color-white' },
-						'CyberFear \xA9 2023 - '
+						'CyberFear \xA9 2024 - '
 					),
 					React.createElement(
 						'a',

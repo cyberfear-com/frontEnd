@@ -74,16 +74,18 @@ define([
 					//app.indexedDBWorker.openDb();
 
 						//console.log(app.user)
-					$('#loginUser').modal('hide');
 
-
-					if (result['data']['firstTime']===true) {
+					if (result['data']['paymentVersion']==3) {
+						callback('useMailUm');
+					}else if (result['data']['firstTime']===true) {
+						$('#loginUser').modal('hide');
 						//start plancheck routines
 						thisComp.setTimer();
 						thisComp.checkPlan();
 
 						$('#makePayment').modal('show');
 					}else{
+						$('#loginUser').modal('hide');
 						Backbone.history.navigate(app.defaults.get('defaultPage'), {
 							trigger : true
 						});

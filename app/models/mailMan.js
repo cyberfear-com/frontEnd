@@ -213,30 +213,32 @@ define([
 
                             $.each(allRcpt, function (index, recipient) {
 
-                                var mRcpt=app.transform.from64str(recipient).trim().toLowerCase();
+                                if(recipient!==undefined){
 
-                                if(filterRule['match']==="strict"){
+                                var mRcpt = app.transform.from64str(recipient).trim().toLowerCase();
 
-                                    app.globalF.parseEmail(mRcpt,'',function(result){
-                                        mRcpt=result['email'];
+                                if (filterRule['match'] === "strict") {
+
+                                    app.globalF.parseEmail(mRcpt, '', function (result) {
+                                        mRcpt = result['email'];
                                     });
 
-                                    if(mRcpt===fRcpt){
-                                        match=true;
+                                    if (mRcpt === fRcpt) {
+                                        match = true;
                                     }
 
-                                }else if(filterRule['match']==="relaxed"){
+                                } else if (filterRule['match'] === "relaxed") {
 
-                                    if(mRcpt.indexOf(fRcpt) > -1){
-                                        match=true;
+                                    if (mRcpt.indexOf(fRcpt) > -1) {
+                                        match = true;
                                     }
 
-                                }else if(filterRule['match']==="negative"){
-                                    if(mRcpt.indexOf(fRcpt) === -1){
-                                        match=true;
+                                } else if (filterRule['match'] === "negative") {
+                                    if (mRcpt.indexOf(fRcpt) === -1) {
+                                        match = true;
                                     }
                                 }
-
+                            }
                             });
 
 

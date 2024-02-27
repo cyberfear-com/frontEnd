@@ -207,11 +207,17 @@ $('#emailListTable tr').removeClass('selected');
 				<div className="folder-nav">
 
 					<div>
+
 						<a href="javascript:void(0);" id="compose-mail" className="btn btn-primary btn-block" onClick={this.handleClick.bind(this, 'composeEmail')}>
 							<strong>Compose</strong> </a>
 
 						<h6> </h6>
+						<div style={{color:"#fff",marginTop:"-4px",backgroundImage: "url('/img/mumintback.png')",fontSize: "14px",padding: "10px 35px"}}className="">
 
+							Discover our new interface at <a style={{color:"#fff",textDecoration:"underline"}} href="https://mailum.com" target={"_blank"}>mailum.com</a>
+
+						</div>
+						<h6> </h6>
 						<ul className="inbox-menu-lg" id="folderul">
 
                             {

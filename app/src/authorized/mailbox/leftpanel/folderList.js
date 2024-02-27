@@ -212,7 +212,7 @@ $('#emailListTable tr').removeClass('selected');
 							<strong>Compose</strong> </a>
 
 						<h6> </h6>
-						<div style={{color:"#fff",marginTop:"-4px",backgroundImage: "url('/img/mumintback.png')",fontSize: "14px",padding: "10px 35px"}}className="">
+						<div style={{color:"#fff",marginTop:"-4px",backgroundImage: "url('/img/mumintback.png')",fontSize: "14px",padding: "6px 35px"}}className="">
 
 							Discover our new interface at <a style={{color:"#fff",textDecoration:"underline"}} href="https://mailum.com" target={"_blank"}>mailum.com</a>
 

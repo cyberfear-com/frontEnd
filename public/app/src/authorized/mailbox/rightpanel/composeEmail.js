@@ -1110,7 +1110,7 @@ define(["react", "app", "select2","summernote"], function (
                         '<div style="clear:both; margin-top:5px;">' +
                         ' <a href="' +
                         app.defaults.get("domainVPS") +
-                        "/api/" +
+                        "/api/dFV2/" +
                         fData["fileName"] +
                         "1/p/" +
                         app.transform.bin2hex(

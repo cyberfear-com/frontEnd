@@ -207,7 +207,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
             // Let's check whether notification permissions have already been granted
             else if (Notification.permission === "granted") {
                 // If it's okay let's create a notification
-                console.log();
+                console.log('granted notif');
             }
 
             // Otherwise, we need to ask the user for permission

@@ -8,6 +8,7 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
             this.set({ checkNewEmails: false });
             this.set({ mailCheckInterval: {} });
             this.set({ makeItFaster: false });
+            this.set({ webview: false });
         },
         //defaults: {
         //	loginDisable: false,
@@ -17,6 +18,37 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
         //},
 
         startShift: function () {
+            var userAgent = window.navigator.userAgent.toLowerCase(),
+                safari = /safari/.test( userAgent ),
+                ios = /iphone|ipod|ipad/.test( userAgent ),
+                webview=/webview/.test( userAgent ),
+                webview=new RegExp('android.*(;s+wv|version/d.ds+chrome/d+(.0){3})').test( userAgent ),
+                webview=/linux; u; android/.test( userAgent ),
+                webview=/wv/.test( userAgent );
+            // if it says it's a webview, let's go with that
+            'WebView',
+                // iOS webview will be the same as safari but missing "Safari"
+                '(iPhone|iPod|iPad)(?!.*Safari)',
+                // Android Lollipop and Above: webview will be the same as native but it will contain "wv"
+                // Android KitKat to Lollipop webview will put Version/X.X Chrome/{version}.0.0.0
+                'Android.*(;\\s+wv|Version/\\d.\\d\\s+Chrome/\\d+(\\.0){3})',
+                // old chrome android webview agent
+                'Linux; U; Android'
+
+            if( ios ) {
+               if ( !safari ) {
+                   app.mailMan.set({
+                       webview: true,
+                   });
+                }
+            } else {
+                if(webview){
+                    app.mailMan.set({
+                        webview: true,
+                    });
+                }
+            }
+
             //app.user set flag checking email if is set disable check spin in mailbox or represent state
             var thisComp = this;
 
@@ -79,70 +111,65 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                                                                 );
 
                                                             if (oldie < newie) {
-                                                                if (
-                                                                    !(
-                                                                        "Notification" in
-                                                                        window
-                                                                    )
-                                                                ) {
-                                                                } else if (
-                                                                    Notification.permission ===
-                                                                    "granted"
-                                                                ) {
+                                                                if(app.mailMan.get("webview")){
+                                                                    console.log('new mess');
+                                                                    window.ReactNativeWebView.postMessage("You got " +(newie -oldie) +" new email(s)",);
+
+                                                                  /*  Notification.requestPermission().then(function(result) {
+                                                                            if (result === 'granted') {
+                                                                                // Send message to React Native indicating that notifications are enabled
+                                                                                window.ReactNativeWebView.postMessage('notificationsEnabled');
+                                                                            }
+                                                                        });*/
+                                                                   // alert('You got');
+                                                                }else{
                                                                     if (
-                                                                        newie -
-                                                                            oldie >
-                                                                        1
+                                                                        !(
+                                                                            "Notification" in
+                                                                            window
+                                                                        )
                                                                     ) {
-                                                                        var notification =
-                                                                            new Notification(
-                                                                                "Mailum.com",
-                                                                                {
-                                                                                    body:
-                                                                                        "You got " +
-                                                                                        (newie -
-                                                                                            oldie) +
-                                                                                        " new emails",
-                                                                                    requireInteraction: true,
-                                                                                    vibrate:
-                                                                                        [
-                                                                                            200,
-                                                                                            100,
-                                                                                            200,
-                                                                                        ],
-                                                                                }
-                                                                            );
-                                                                        notification.onclick =
-                                                                            function (
-                                                                                x
-                                                                            ) {
-                                                                                window.focus();
-                                                                                this.close();
-                                                                            };
-                                                                    } else {
-                                                                        var notification =
-                                                                            new Notification(
-                                                                                "Mailum.com",
-                                                                                {
-                                                                                    body: "You got new email",
-                                                                                    requireInteraction: true,
-                                                                                    vibrate:
-                                                                                        [
-                                                                                            200,
-                                                                                            100,
-                                                                                            200,
-                                                                                        ],
-                                                                                }
-                                                                            );
-                                                                        notification.onclick =
-                                                                            function (
-                                                                                x
-                                                                            ) {
-                                                                                window.focus();
-                                                                                this.close();
-                                                                            };
+                                                                        //nothing
+                                                                    } else if (
+                                                                        Notification.permission ===
+                                                                        "granted"
+                                                                    ) {
+                                                                        if (
+                                                                            newie -
+                                                                            oldie >
+                                                                            0
+                                                                        ) {
+                                                                            var notification =
+                                                                                new Notification(
+                                                                                    "Mailum.com",
+                                                                                    {
+                                                                                        body:
+                                                                                            "You got " +
+                                                                                            (newie -
+                                                                                                oldie) +
+                                                                                            " new email(s)",
+                                                                                        requireInteraction: true,
+                                                                                        vibrate:
+                                                                                            [
+                                                                                                200,
+                                                                                                100,
+                                                                                                200,
+                                                                                            ],
+                                                                                    }
+                                                                                );
+                                                                            notification.onclick =
+                                                                                function (
+                                                                                    x
+                                                                                ) {
+                                                                                    window.focus();
+                                                                                    this.close();
+                                                                                };
+
+
+                                                                        }
                                                                     }
                                                                 }
+
                                                             }
                                                         }
                                                     );

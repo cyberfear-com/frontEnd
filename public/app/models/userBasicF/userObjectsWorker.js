@@ -2174,8 +2174,6 @@ define(["app"], function (app) {
 
                     post["seedEmails"] = JSON.stringify(payLoad);
 
-                    console.log(post);
-
                     app.serverCall.ajaxRequest(
                         "saveNewEmailV2",
                         post,

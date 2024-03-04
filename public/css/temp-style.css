@@ -20777,7 +20777,29 @@ header .menu-icon.on-left-side {
         z-index: 99999;
     }
 }
-@media screen and (max-width: 640px) {
+.compose-email-wrapper.compose-maximize.mobile {
+    top:-30px;
+    position:absolute;
+}
+.compose-email-wrapper.compose-maximize.mobile .the-content .com-content-editor {
+    flex-grow: 1;
+}
+.compose-email-wrapper.compose-minimize.mobile {
+    top:-30px;
+   width:92vw;
+}
+.compose-email-wrapper.mobile {
+    width: 93%;
+    top: -30px;
+}
+.compose-email-wrapper.compose-maximize.mobile .compose-ec .the-content {
+    height: 92vh;
+}
+.compose-email-wrapper.compose-maximize.mobile .the-content .com-content-editor {
+    height:auto;
+}
+@media screen and (max-width: 639px) {
+
     .compose-ec .c-editor-actions {
         justify-content: start;
         align-items: self-start;
@@ -20795,6 +20817,39 @@ header .menu-icon.on-left-side {
     .compose-email-wrapper.compose-minimize {
         width: 90%;
         left: 5%;
+    }
+    .right-side .email-additional-details {
+        flex-direction: column;
+        align-items: start;
+        gap: 15px;
+    }
+    .right-side .email-conetent-wrp .email-content-top-left {
+        max-width: 100%;
+        width: 100%;
+    }
+    .right-side .email-conetent-wrp .email-content-top-right {
+        justify-content: space-between;
+        width: 100%;
+    }
+}
+@media screen and (min-width: 640px) {
+    .compose-ec .c-editor-actions {
+        justify-content: start;
+        align-items: self-start;
+        flex-direction: column;
+    }
+    .compose-ec .c-editor-actions .c-editor-formating {
+        margin-bottom: 7px;
+    }
+    .compose-ec .c-editor-actions .c-editor-send-actions {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+    .compose-email-wrapper,
+    .compose-email-wrapper.compose-minimize {
+        width: 90%;
+       /* left: 5%;*/
     }
     .right-side .email-additional-details {
         flex-direction: column;

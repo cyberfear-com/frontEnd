@@ -77,7 +77,8 @@ define(["react", "app", "select2","summernote"], function (
                 oldPublicKeysHash: "",
                 sizeBarText: "",
 
-                isMaximized: false,
+                isMaximized: app.mailMan.get("webview"),
+                isMobile:app.mailMan.get("webview"),
                 isMinimized: false,
             };
         },
@@ -98,7 +99,9 @@ define(["react", "app", "select2","summernote"], function (
                 ],
 
             });
+            /*if(app.mailMan.get("webview")){
 
+            }*/
 
             //console.log(this.state.fromArray[this.state.fromEmail]);
             // Initiate editor toolbar [Quill]
@@ -1107,7 +1110,7 @@ define(["react", "app", "select2","summernote"], function (
                         '<div style="clear:both; margin-top:5px;">' +
                         ' <a href="' +
                         app.defaults.get("domainVPS") +
-                        "/emails/" +
+                        "/api/" +
                         fData["fileName"] +
                         "1/p/" +
                         app.transform.bin2hex(
@@ -1871,8 +1874,8 @@ define(["react", "app", "select2","summernote"], function (
                             ? "compose-maximize"
                             : this.state.isMinimized
                             ? "compose-minimize"
-                            : ""
-                    }`}
+                            :""
+                    }${this.state.isMobile?" mobile":""}`}
                 >
                     <input
                         type="file"

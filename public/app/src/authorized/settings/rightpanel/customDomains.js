@@ -1439,11 +1439,11 @@ define([
 
                                 <div className="blue-bg-text">
                                     <a
-                                        href="https://blog.cyberfear.com/adding-custom-domain/"
+                                        href="https://blog.mailum.com/adding-custom-domain/"
                                         target="_blank"
                                         className="to-copy"
                                     >
-                                        https://blog.cyberfear.com/adding-custom-domain/
+                                        https://blog.mailum.com/adding-custom-domain/
                                     </a>
                                     <a
                                         className="__copy"

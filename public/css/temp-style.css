@@ -19829,9 +19829,39 @@ header .menu-icon.on-left-side {
 #emailListTable_wrapper table td,
 #emailListTable_wrapper table td.email.no-padding,
 #emailListTable_wrapper table tr {
-    display: block;
+    display: flex;
+    clear:both;
     width: 100% !important;
     box-sizing: border-box;
+    flex-direction: column;
+}
+.view-minimized{
+    white-space:nowrap
+}
+
+#appMiddleSection .inbox-list table tr.view-minimized .select-checkbox, .middle-section .inbox-list ul li .select-checkbox {
+    top:6px;
+}
+.middle-section .inbox-list table tr.view-minimized .date-time, .middle-section .inbox-list ul li .date-time{
+    top:6px;
+}
+.middle-section .inbox-list table tr.view-minimized .email.unread .unread-bullet {
+    top: 12px;
+}
+.middle-section .inbox-list table tr.view-minimized .mail-toggle p{
+    visibility:hidden;
+}
+.middle-section .inbox-list table tr.view-minimized .mail-toggle  p label{
+    visibility:visible;
+}
+
+#appMiddleSection .inbox-list table tr.view-minimized td > .email{
+    padding:6px 60px;
+}
+
+.view-minimized .mail-toggle{
+    display:inline-flex;
+    flex-direction: row-reverse;
 }
 .user-avatar {
     width: 40px;

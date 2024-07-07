@@ -211,7 +211,7 @@ define(["react", "app"], function (React, app) {
                                             To learn more about{" "}
                                             <strong>
                                                 <a
-                                                    href="https://blog.cyberfear.com/signatures"
+                                                    href="https://blog.mailum.com/signatures"
                                                     target="_blank"
                                                 >
                                                     signatures
@@ -239,7 +239,7 @@ define(["react", "app"], function (React, app) {
                                             To learn more about{" "}
                                             <strong>
                                                 <a
-                                                    href="https://blog.cyberfear.com/signatures"
+                                                    href="https://blog.mailum.com/signatures"
                                                     target="_blank"
                                                 >
                                                     signatures
@@ -271,7 +271,7 @@ define(["react", "app"], function (React, app) {
                                         To learn more about{" "}
                                         <strong>
                                             <a
-                                                href="https://blog.cyberfear.com/email-signatures"
+                                                href="https://blog.mailum.com/email-signatures"
                                                 target="_blank"
                                             >
                                                 signatures
@@ -1972,7 +1972,7 @@ define(["react", "app"], function (React, app) {
                                         <div>
                                             <strong>Check Our Blog</strong>{" "}
                                             <br />
-                                            blog.cyberfear.com
+                                            blog.mailum.com
                                         </div>
                                         <div className="the-icon-wrapper">
                                             <span className="the-icon">
@@ -2009,7 +2009,7 @@ define(["react", "app"], function (React, app) {
                                             />
                                         </div>
                                         <a
-                                            href="https://blog.cyberfear.com/"
+                                            href="https://blog.mailum.com/"
                                             target="_blank"
                                         ></a>
                                     </div>

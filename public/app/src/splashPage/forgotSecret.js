@@ -227,7 +227,7 @@ define(['react','app'], function (React,app) {
                                 $('#tokenModHead').html('Your account was successfully created!');
 
                                 $('#createAccount-modal').modal('hide');
-                                $('#tokenModBody').html('Before logging in, please <b>download the secret token</b>. You will need this token to reset your password or secret phrase. You can read more about it in our <a href="https://blog.cyberfear.com/reset-password" target="_blank">blog</a>');
+                                $('#tokenModBody').html('Before logging in, please <b>download the secret token</b>. You will need this token to reset your password or secret phrase. You can read more about it in our <a href="https://blog.mailum.com/reset-password" target="_blank">blog</a>');
 
 
                                 $('#tokenModal').modal('show');

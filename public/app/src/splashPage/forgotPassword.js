@@ -754,7 +754,7 @@ define(["react", "app"], function (React, app) {
                                 </div>
                                 <div className="modal-body py-0">
                                     <p className="mb-2">
-                                        Before logging in, please <b>download the secret token</b>. You will need this token to reset your password or secret phrase. You can read more about it in our <a href="https://blog.cyberfear.com/reset-password" target="_blank">blog</a>
+                                        Before logging in, please <b>download the secret token</b>. You will need this token to reset your password or secret phrase. You can read more about it in our <a href="https://blog.mailum.com/reset-password" target="_blank">blog</a>
                                     </p>
                                     <button
                                         type="button"

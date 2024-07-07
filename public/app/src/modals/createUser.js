@@ -783,7 +783,7 @@ define(["app", "react"], function (app, React) {
                                         password or secret phrase. You can read
                                         more about it in our{" "}
                                         <a
-                                            href="https://blog.cyberfear.com/reset-password"
+                                            href="https://blog.mailum.com/reset-password"
                                             target="_blank"
                                         >
                                             blog

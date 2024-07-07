@@ -18,7 +18,7 @@ define([
                 messsageId: "",
                 allChecked: false,
                 emailList: [],
-                showPreview: true,
+                showPreview: false,
 
                 moveFolderMain: [],
                 moveFolderCust: [],
@@ -361,7 +361,7 @@ define([
                     timestamp: time,
                     son: folderData["pt"],
                 };
-                var showPreview = thisComp.state.showPreview ? "" : "d-none";
+               // var showPreview = thisComp.state.showPreview ? "" : "view-minimized";
                 var row = {
                     DT_RowId: index,
                     email: {
@@ -373,7 +373,6 @@ define([
                             emailListCopyT["dateAtPart"] +
                             emailListCopyT["fromPart"] +
                             '<div class="mail-toggle ' +
-                            showPreview +
                             '"><div class="mail-title">' +
                             titleTag +
                             emailListCopyT["sb"] +
@@ -446,6 +445,8 @@ define([
             }
 
             // this.attachTooltip();
+            //emTab.row.add(data).draw(false).node();
+           // emTab.addClass('myClass');
 
             $("#emailListTable td").click(function () {
                 var selectedEmails = app.user.get("selectedEmails");
@@ -458,6 +459,7 @@ define([
                     $("#mail-extra-options").removeClass("active");
                 }
             });
+            $("#emailListTable tr").addClass("view-minimized");
         },
         getTagColor: function (tagName) {
             var colorCode = `#c9d0da`;
@@ -471,9 +473,11 @@ define([
         handleShowPreview: function () {
             var thisComp = this;
             if (thisComp.state.showPreview) {
-                $(document).find(".mail-toggle").addClass("d-none");
+                    $("#emailListTable tr").addClass("view-minimized");
+              //  $(document).find(".mail-toggle").addClass("view-minimized");
             } else {
-                $(document).find(".mail-toggle").removeClass("d-none");
+            $("#emailListTable tr").removeClass("view-minimized");
+               // $(document).find(".mail-toggle").removeClass("view-minimized");
             }
             thisComp.setState({
                 showPreview: !thisComp.state.showPreview,
@@ -1720,8 +1724,8 @@ define([
                                                     )}{" "}
                                                     <div>
                                                         {this.state.showPreview
-                                                            ? "Hide email preview"
-                                                            : "Show email preview"}
+                                                            ? "Minimize Email List"
+                                                            : "Expand Email List"}
                                                     </div>
                                                 </button>
                                             </li>

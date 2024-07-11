@@ -459,7 +459,7 @@ define([
                     $("#mail-extra-options").removeClass("active");
                 }
             });
-            $("#emailListTable tr").addClass("view-minimized");
+           // $("#emailListTable tr").addClass("view-minimized");
         },
         getTagColor: function (tagName) {
             var colorCode = `#c9d0da`;

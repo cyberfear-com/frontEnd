@@ -18,7 +18,7 @@ define([
                 messsageId: "",
                 allChecked: false,
                 emailList: [],
-                showPreview: false,
+                showPreview: true,
 
                 moveFolderMain: [],
                 moveFolderCust: [],

@@ -323,11 +323,11 @@ require([
 
     if (
         document.domain ==
-        "cyberfe3gvh7cvq2nhuqtaghjxebhcnqafnfvalwvq6mxrinep7m7xqd.onion"
+        "mailum3h3jwoeptq7p6wxoigqvc4m25kujxfybu7mud3uxkmebnphmad.onion"
     ) {
         app.defaults.set({
             apidomain:
-                "http://cyberfe3gvh7cvq2nhuqtaghjxebhcnqafnfvalwvq6mxrinep7m7xqd.onion/api",
+                "http://mailum3h3jwoeptq7p6wxoigqvc4m25kujxfybu7mud3uxkmebnphmad.onion/api",
         });
     }
 

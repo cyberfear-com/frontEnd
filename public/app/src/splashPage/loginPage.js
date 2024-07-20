@@ -39,7 +39,15 @@ define(["react", "app", "cmpld/modals/paymentGate","ajaxQueue"], function (
         },
 
         componentDidMount: async function () {
-
+            if (
+                document.domain ==
+                "mailum3h3jwoeptq7p6wxoigqvc4m25kujxfybu7mud3uxkmebnphmad.onion"
+            ) {
+                app.defaults.set({
+                    apidomain:
+                        "http://mailum3h3jwoeptq7p6wxoigqvc4m25kujxfybu7mud3uxkmebnphmad.onion/api",
+                });
+            }
             let response = await fetch(app.defaults.get("apidomain") + `/availableForRegistrationV3`, {
                 method: 'GET',
                 headers: {

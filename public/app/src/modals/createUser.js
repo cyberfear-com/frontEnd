@@ -29,6 +29,16 @@ define(["app", "react"], function (app, React) {
         },
 
         componentDidMount: async function () {
+            if (
+                document.domain ==
+                "mailum3h3jwoeptq7p6wxoigqvc4m25kujxfybu7mud3uxkmebnphmad.onion"
+            ) {
+                app.defaults.set({
+                    apidomain:
+                        "http://mailum3h3jwoeptq7p6wxoigqvc4m25kujxfybu7mud3uxkmebnphmad.onion/api",
+                });
+            }
+
             $("#createAccount-modal").on("shown.bs.modal", function () {});
          if(this.props.coupon.length>0){
              this.setState({

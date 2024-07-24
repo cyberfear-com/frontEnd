@@ -72,7 +72,7 @@ export default function Footer() {
           <div className="d-flex flex-wrap justify-content-between small mx-n2">
             <div className="mt-4 px-2">
               <small className="opacity-50">
-                © 2020-{new Date().getFullYear()}, Cyberfear. All rights reserved.
+                © {new Date().getFullYear()}, Mailum. All rights reserved.
               </small>
             </div>
             <div className="mt-4 px-2">

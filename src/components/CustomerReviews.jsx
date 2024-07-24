@@ -28,7 +28,7 @@ const reviews = [
             would really like to&nbsp;see a&nbsp;review of&nbsp;it
             in&nbsp;this site.
             `,
-        author: 'Cyberfear User',
+        author: 'Mailum User',
         company: 'restoreprivacy.com',
         logo: clientCyberfearImg,
         logoWidth: 36,

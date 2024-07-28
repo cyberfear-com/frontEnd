@@ -30,13 +30,13 @@ export default function Footer() {
                   )}
                 >
                   <li>
-                    <a href="">Help Center</a>
+                    <a href="/contact-us">Help Center</a>
                   </li>
                   <li className="mt-2">
-                    <a href="">FAQ</a>
+                    <a href="/faq">FAQ</a>
                   </li>
                   <li className="mt-2">
-                    <a href="">Blog</a>
+                    <a href="/blog">Blog</a>
                   </li>
                 </ul>
               </div>
@@ -49,10 +49,10 @@ export default function Footer() {
                   )}
                 >
                   <li>
-                    <a href="">Help Center</a>
+                    <a href="/contact-us">Help Center</a>
                   </li>
                   <li className="mt-2">
-                    <a href="">FAQ</a>
+                    <a href="/faq">FAQ</a>
                   </li>
                 </ul>
               </div>
@@ -78,7 +78,7 @@ export default function Footer() {
             <div className="mt-4 px-2">
               <ul className="d-flex list-unstyled opacity-50 m-0">
                 <li>
-                  <a href="">
+                  <a href="https://x.com/MailumCom">
                     <img src={twitterSmallIcon} />
                   </a>
                 </li>
@@ -100,13 +100,13 @@ export default function Footer() {
                   <a href="">GitHub</a>
                 </li>
                 <li className="me-3">
-                  <a href="">Blog</a>
+                  <a href="/blog">Blog</a>
                 </li>
                 <li className="me-3">
-                  <a href="">Privacy Policy</a>
+                  <a href="/privacy">Privacy Policy</a>
                 </li>
                 <li>
-                  <a href="">Terms & Conditions</a>
+                  <a href="/terms">Terms & Conditions</a>
                 </li>
               </ul>
             </div>

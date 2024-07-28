@@ -34,13 +34,13 @@ export default function Header({ variant = 'default' }) {
               <MailumSVG className={styles.brand} />
             </a>
 
-            <a
+            <a href="/mailbox/#signup"
               className={classNames(
                 styles.tryButton,
                 'btn small fw-bold d-lg-none',
                 variant == 'primary' ? 'btn-light' : 'btn-primary'
               )}
-            >Create Email Account</a>
+            >Create Email</a>
 
             <button
               onClick={() => {

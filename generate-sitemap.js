@@ -7,6 +7,7 @@ const routes = [
   { url: '/', changefreq: 'daily', priority: 1.0 },
   { url: '/company', changefreq: 'monthly', priority: 0.8 },
   { url: '/pricing', changefreq: 'monthly', priority: 0.8 },
+  { url: '/faq', changefreq: 'monthly', priority: 0.8 },
   { url: '/mailbox/#login', changefreq: 'monthly', priority: 0.8 },
   { url: '/mailbox/#signup', changefreq: 'monthly', priority: 0.8 },
   { url: '/contact-us', changefreq: 'monthly', priority: 0.5 },

@@ -19,6 +19,7 @@ const reviews = [
         company: 'hackforums.net',
         logo: clientDfrImg,
         logoWidth: 36,
+        logoAlt: 'An avatar of a customer named Dfr.',
     },
     {
         content: `
@@ -32,6 +33,7 @@ const reviews = [
         company: 'restoreprivacy.com',
         logo: clientCyberfearImg,
         logoWidth: 36,
+        logoAlt: 'An avatar of a user from RestorePrivacy.',
     },
     {
         content: `
@@ -45,6 +47,7 @@ const reviews = [
         company: 'blackhatworld.com',
         logo: clientWhoamiImg,
         logoWidth: 36,
+        logoAlt: 'An avatar of a user from BHW forum.',
     },
     {
         content: `
@@ -60,6 +63,7 @@ const reviews = [
         company: 'blackhatworld.com',
         logo: client1264815Img,
         logoWidth: 36,
+        logoAlt: 'An avatar of a user from BHW forum.',
     },
     {
         content: `
@@ -73,6 +77,7 @@ const reviews = [
         company: 'hackforums.net',
         logo: clientRowaImg,
         logoWidth: 36,
+        logoAlt: 'An avatar of a user from HF forum.',
     },
 ]
 
@@ -89,7 +94,7 @@ export default function CustomerReviews() {
                             <strong className={styles.author}>{item.author}</strong><br />
                             <span className={styles.company}>{item.company}</span>
                         </div>
-                        <img src={item.logo} width={item.logoWidth} className="flex-shrink-0" />
+                        <img src={item.logo} width={item.logoWidth} alt={item.logoAlt} className="flex-shrink-0" />
                     </div>
                 </>
             )}

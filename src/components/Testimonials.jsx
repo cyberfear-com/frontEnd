@@ -37,7 +37,8 @@ export const testimonials = [
         author: 'Moderator',
         company: 'BHW Forum',
         logo: bhwLogo,
-        logoWidth: 36
+        logoWidth: 36,
+        logoAlt: 'Logo of BHW Forum'
     },
     {
         content: `
@@ -47,7 +48,8 @@ export const testimonials = [
             `,
         author: 'XMR.Directory',
         logo: xmrLogo,
-        logoWidth: 36
+        logoWidth: 36,
+        logoAlt: 'Logo of XMR Directory'
     },
     {
         content: `
@@ -57,7 +59,8 @@ export const testimonials = [
         author: 'Monerica',
         company: 'monerica.com',
         logo: monericaLogo,
-        logoWidth: 64
+        logoWidth: 64,
+        logoAlt: 'Logo of Monerica'
     },
     {
         content: `
@@ -70,7 +73,8 @@ export const testimonials = [
         author: 'Gene Van Shaar',
         company: 'The Published Reporter',
         logo: prLogo,
-        logoWidth: 100
+        logoWidth: 100,
+        logoAlt: 'Logo of The Published Reporter'
     }
 ]
 
@@ -90,7 +94,7 @@ export default function Testimonials({
                             <strong className={styles.author}>{item.author}</strong><br />
                             <span className={styles.company}>{item.company}</span>
                         </div>
-                        <img src={item.logo} width={item.logoWidth} className="flex-shrink-0" />
+                        <img src={item.logo} width={item.logoWidth} alt={item.logoAlt} className="flex-shrink-0" />
                     </div>
                 </>
             )}

@@ -12,7 +12,7 @@ export default function Footer() {
       <div className="container py-5  ">
         <div className="row justify-content-between">
           <div className="col-12 col-lg-5 d-flex">
-            <img src={mailumLarge} width="80" height="71" className="mt-2" />
+            <img src={mailumLarge} width="80" height="71" className="mt-2" alt="Large Mailum logo." />
             <p className="opacity-50 ms-5 small mt-1 mt-lg-0">
               Protect confidential emails and information with open-source, most
               complete encryption that ensures your data is safeguarded from
@@ -61,6 +61,7 @@ export default function Footer() {
                 <img
                   src={paymentMethods}
                   style={{ maxWidth: "100%", minWidth: "200px" }}
+                  alt="Icons of payment methods: Mastercard, VISA, BitCoin, Monero, PerfectMoney"
                 />
               </div>
             </div>
@@ -79,17 +80,17 @@ export default function Footer() {
               <ul className="d-flex list-unstyled opacity-50 m-0">
                 <li>
                   <a href="https://x.com/MailumCom">
-                    <img src={twitterSmallIcon} />
+                    <img src={twitterSmallIcon} alt="Twitter icon" />
                   </a>
                 </li>
                 <li className="ms-4">
                   <a href="">
-                    <img src={facebookSmallIcon} />
+                    <img src={facebookSmallIcon} alt="Facebook icon" />
                   </a>
                 </li>
                 <li className="ms-4">
                   <a href="">
-                    <img src={redditSmallIcon} />
+                    <img src={redditSmallIcon} alt="Reddit icon" />
                   </a>
                 </li>
               </ul>

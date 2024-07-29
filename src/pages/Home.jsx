@@ -61,6 +61,7 @@ const slides = [
             While other services only encrypt the email body, we&nbsp;encrypt body, subject, sender, recipient, and timestamp to&nbsp;protect your online privacy from unauthorized access.
             `,
     image: sliderImage1,
+    logoAlt: 'Image of four puzzles resembling four encrypted email elements.'
   },
   {
     header: "Get Up&nbsp;and Running Right Away",
@@ -74,6 +75,7 @@ const slides = [
             making it&nbsp;complicated.
             `,
     image: sliderImage2,
+    logoAlt: 'An illustration of a thunderbolt symbolizing rapid setup time.'
   },
   {
     header: "User-Friendly and Hassle-Free",
@@ -87,6 +89,7 @@ const slides = [
             Gmail, (minus the spying element.)
             `,
     image: sliderImage3,
+    logoAlt: 'An illustration of a finger snap symbolizing easy setup.'
   },
 ];
 
@@ -132,7 +135,7 @@ export default function Home() {
               "d-flex align-items-start justify-content-center justify-content-md-end"
             )}
           >
-            <img src={lockImg} className={styles.lockImg} />
+            <img src={lockImg} className={styles.lockImg} alt="digital lock" />
           </div>
         </div>
 
@@ -189,6 +192,7 @@ export default function Home() {
                   src={item.image}
                   width="300"
                   style={{ maxWidth: "100%", height: "auto" }}
+                  alt={item.logoAlt}
                 />
               </div>
               <div className="col-12 col-md-8 col-lg-6">
@@ -245,7 +249,7 @@ export default function Home() {
             </p>
           </div>
           <div className="col-12 col-md-5 col-lg-4 d-flex justify-content-center align-items-center order-1">
-            <img src={safeImg} style={{ maxWidth: "100%" }} />
+            <img src={safeImg} style={{ maxWidth: "100%" }} alt="An illustration of a safe symbolizing secure data." />
           </div>
         </div>
       </div>

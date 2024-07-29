@@ -95,7 +95,7 @@ export default function HomeBanner() {
           <picture>
             <source srcSet={mailumUiImg} media="(min-width: 768px)" />
             <source srcSet={mailumUiMobileImg} media="(max-width: 767px)" />
-            <img src={mailumUiMobileImg} className={styles.uiImage} />
+            <img src={mailumUiMobileImg} className={styles.uiImage} alt="Screenshot of the mail user interface" />
           </picture>
         </div>
       </div>

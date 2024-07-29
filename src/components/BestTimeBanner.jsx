@@ -9,7 +9,7 @@ export default function BestTimeBanner({
     return (
         <CardBanner 
             className='bg-dark text-bg-dark'
-            footer={<img src={bestTimeLogosMobileImg} className='w-100 mt-4 d-md-none mb-4' />}
+            footer={<img src={bestTimeLogosMobileImg} alt="logos of privacy products" className='w-100 mt-4 d-md-none mb-4' />}
         >
             <div className='text-center'>
                 <h4 className='d-none d-md-block'>
@@ -23,7 +23,7 @@ export default function BestTimeBanner({
                 </h3>
             </div>
 
-            <img src={bestTimeLogosImg} className='w-100 d-none d-md-block mt-5' />
+            <img src={bestTimeLogosImg} alt="logos of privacy products" className='w-100 d-none d-md-block mt-5' />
         </CardBanner>
     );
 }

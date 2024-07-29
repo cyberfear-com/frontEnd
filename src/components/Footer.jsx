@@ -22,7 +22,7 @@ export default function Footer() {
           <div className="col-12 col-lg-7 mt-5 mt-lg-0">
             <div className="d-flex row g-3 text-nowrap">
               <div className="col flex-shrink-0">
-                <h6 className="small fw-medium">Resources</h6>
+                <span className="small fw-medium">Resources</span>
                 <ul
                   className={classNames(
                     styles.links,
@@ -41,7 +41,7 @@ export default function Footer() {
                 </ul>
               </div>
               <div className="col flex-shrink-0">
-                <h6 className="small fw-medium">About</h6>
+                <span className="small fw-medium">About</span>
                 <ul
                   className={classNames(
                     styles.links,
@@ -57,7 +57,7 @@ export default function Footer() {
                 </ul>
               </div>
               <div className="col flex-grow-1">
-                <h6 className="small fw-medium">Payment Methods</h6>
+                <span className="small fw-medium">Payment Methods</span>
                 <img
                   src={paymentMethods}
                   style={{ maxWidth: "100%", minWidth: "200px" }}

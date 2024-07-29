@@ -24,7 +24,8 @@ export const testimonials = [
         author: 'Mic Johnson',
         company: 'latesthackingnews.com',
         logo: lhnLogo,
-        logoWidth: 80
+        logoWidth: 80,
+        logoAlt: 'Logo of Latest Hacking News'
     },
     {
         content: `

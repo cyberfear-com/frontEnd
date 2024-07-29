@@ -211,10 +211,10 @@ export default function Home() {
       <div className={classNames(styles.peaceOfMind, "container my-6")}>
         <div className="row">
           <div className="col-12 col-md-7 col-lg-8 order-2 order-md-1 mt-3 mt-md-0">
-            <h2 className='d-none d-md-block'>
+            <h1 className='d-none d-md-block'>
               <span className="text-primary">Peace of Mind</span><br />
               Without Relying on&nbsp;Trust!
-            </h2>
+            </h1>
             <h1 className='d-md-none'>
               <span className="text-primary">Peace of Mind</span><br />
               Without Relying on&nbsp;Trust!
@@ -260,15 +260,15 @@ export default function Home() {
           "bg-dark text-bg-dark text-center my-5"
         )}
       >
-        <h4 className="fw-medium d-none d-md-block">
+        <h2 className="fw-medium d-none d-md-block">
           Join Us&nbsp;on&nbsp;Social Media
           <br />
           We&rsquo;d love to&nbsp;have you here!
-        </h4>
-        <h3 className="fw-medium d-md-none">
+        </h2>
+        <h2 className="fw-medium d-md-none">
           Join&nbsp;us on&nbsp;social media, we&rsquo;d love to&nbsp;have you
           there!
-        </h3>
+        </h2>
 
         <ul className="list-unstyled d-inline-flex flex-wrap mt-4 justify-content-center">
           {socialLinks.map((link, index) => (
@@ -304,12 +304,12 @@ export default function Home() {
       <CustomerReviews />
 
       <Banner className='bg-primary text-bg-primary text-center'>
-        <h4 className='fw-medium d-none d-md-block'>
+        <h2 className='fw-medium d-none d-md-block'>
           Sign up&nbsp;now to&nbsp;protect your online presence
-        </h4>
-        <h3 className='d-md-none fw-medium'>
+        </h2>
+        <h2 className='d-md-none fw-medium'>
           Sign up&nbsp;now to&nbsp;protect your online presence
-        </h3>
+        </h2>
         <p className='opacity-50 mt-3 mb-4'>
           Create a&nbsp;free-forever account and make sure your emails are secure.
         </p>

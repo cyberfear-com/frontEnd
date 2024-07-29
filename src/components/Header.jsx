@@ -30,7 +30,7 @@ export default function Header({ variant = 'default' }) {
 
         <nav className={classNames('navbar py-3 navbar-expand-lg', styles.navbar, navbarExpanded && styles.expanded)}>
           <div className={styles.headline}>
-            <a href="/" className='text-reset'>
+            <a href="/" className='text-reset' aria-label='Home'>
               <MailumSVG className={styles.brand} />
             </a>
 

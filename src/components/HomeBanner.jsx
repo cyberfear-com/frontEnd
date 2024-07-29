@@ -40,10 +40,10 @@ export default function HomeBanner() {
             <h1 className='d-none d-md-inline'>
               Make Email Security a&nbsp;Priority
             </h1>
-            <h3 className='d-md-none'>
+            <h2 className='d-md-none'>
               Peace of&nbsp;Mind<br />
               Without Relying on&nbsp;Trust
-            </h3>
+            </h2>
 
             <p className="lead opacity-50 mt-3 mb-4">
               <span className="d-none d-md-inline">

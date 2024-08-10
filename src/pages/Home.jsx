@@ -314,7 +314,7 @@ export default function Home() {
           Create a&nbsp;free-forever account and make sure your emails are secure.
         </p>
 
-        <a href="#" className='btn btn-light wide fw-bold d-block d-md-inline'>
+        <a href="/mailbox/#signup" className='btn btn-light wide fw-bold d-block d-md-inline'>
           Get Encrypted Email
         </a>
       </Banner>

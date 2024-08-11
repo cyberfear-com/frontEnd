@@ -174,7 +174,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                     console.log(thisComp.state);
                                 });
 
-                             /*   if (
+                                if (
                                     thisComp.state.typeOfPayment == "stripe" &&
                                     thisComp.state.paymentPlan !== "free"
                                 ) {
@@ -186,7 +186,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                     payLoad["stripeId"] = this.state.stripeId;
 
                                     app.stripeCheckOut.updateStripe(payLoad);
-                                }*/
+                                }
                             //}
                        // );
                     });
@@ -419,7 +419,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
             return new Promise(function (resolve, reject) {
                 var script = document.createElement("script");
                 script.src =
-                    "https://www.paypal.com/sdk/js?client-id=AaDCvbA992btr491o9RRqJk6wcqicJRaKwpfhHwQh84MSVNCU1ARqFN9kAtUjqQV6GvmxSv17yFRAMGW&currency=USD";
+                    "https://www.paypal.com/sdk/js?client-id=ASNhLPVwHVzM5lsz6IOzvFn2k0NGkHoCSnP4Eo31hKe2jy0kVD_fI6uga6RG18CyrADuQG2BVMAExkzV&currency=USD";
                 script.addEventListener("load", function () {
                     resolve();
                 });

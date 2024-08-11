@@ -419,7 +419,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
             return new Promise(function (resolve, reject) {
                 var script = document.createElement("script");
                 script.src =
-                    "https://www.paypal.com/sdk/js?client-id=AaDCvbA992btr491o9RRqJk6wcqicJRaKwpfhHwQh84MSVNCU1ARqFN9kAtUjqQV6GvmxSv17yFRAMGW&currency=USD";
+                    "https://www.paypal.com/sdk/js?client-id=ARQo20W2sOM32s5MaScgyPZCyAAp2fMkHGgGpVC3vSDcl34VttD0rhvF-DyvWz12rST9rB55GiqRbOix&currency=USD";
                 script.addEventListener("load", function () {
                     resolve();
                 });

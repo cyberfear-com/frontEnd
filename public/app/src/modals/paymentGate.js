@@ -318,13 +318,21 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                     },
                                     createOrder: function (data, actions) {
                                         return actions.order.create({
-                                            purchase_units: [
-                                                {
-                                                    amount: {
-                                                        value: thisComp.state
-                                                            .valueOfPayment/100,
-                                                    },
-                                                    items:[
+                                        purchase_units: [
+                                        {
+                                        amount: {
+                                        currency_code: "USD",
+                                        value:  thisComp.state
+                                                .valueOfPayment/100,
+                                        breakdown: {
+                                        item_total: {
+                                        currency_code: "USD",
+                                        value:  thisComp.state
+                                                .valueOfPayment/100
+                                        }
+                                        }
+                                        },
+                                    items:[
                                                         {
                                                             name:thisComp.state.paymentPlan +' plan',
                                                             description: thisComp.state.periodOfPayment == "yearly-two"

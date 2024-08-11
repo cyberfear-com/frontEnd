@@ -321,9 +321,17 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                             purchase_units: [
                                                 {
                                                     amount: {
-                                                        value: thisComp.state
+                    currency_code: "USD",
+                    value:  thisComp.state
                                                             .valueOfPayment/100,
-                                                    },
+                    breakdown: {
+                        item_total: {
+                            currency_code: "USD",
+                            value:  thisComp.state
+                                                            .valueOfPayment/100
+                        }
+                    }
+                },
                                                     items:[
                                                         {
                                                             name:thisComp.state.paymentPlan +' plan',

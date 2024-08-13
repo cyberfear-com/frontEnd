@@ -170,12 +170,12 @@ export default function Pricing() {
                 <div className="flex-grow-1"></div>
                 {/* spacer */}
 
-                <button
-                  className={classNames(styles.planbut, "btn fw-normal text-center w-100 border border-primary border-1")}
-                  onClick={() => window.location.href = '/mailbox/#signup'}
-                >
+                {/*<button className={classNames(styles.planbut, "btn fw-normal text-center w-100 border border-primary border-1")}>
+                  <a className="text-decoration-none" href="/mailbox/#signup">Get Started</a>
+                </button>*/}
+                <a className={classNames(styles.planbut, "btn fw-normal text-center w-100 border border-primary border-1 text-decoration-none")} href="/mailbox/#signup">
                   Get Started
-                </button>
+                </a>
               </div>
             </div>
           </div>
@@ -241,13 +241,12 @@ export default function Pricing() {
                   <li>Own Domain: 10</li>
                 </ul>
 
-                <button
-                  className="btn fw-normal text-center w-100"
-                  style={{ background: "#fff" }}
-                  onClick={() => window.location.href = '/mailbox/#signup'}
-                >
+                {/*<button className="btn fw-normal text-center w-100" style={{background:"#fff"}}>
+                  <a className="text-decoration-none text-black" href="/mailbox/#signup">Get Started</a>
+                </button>*/}
+                <a className={classNames("btn fw-normal text-center w-100 text-decoration-none text-black")} style={{background:"#fff"}} href="/mailbox/#signup">
                   Get Started
-                </button>
+                </a>
               </div>
             </div>
           </div>
@@ -308,12 +307,12 @@ export default function Pricing() {
                 <div className="flex-grow-1"></div>
                 {/* spacer */}
 
-                <button
-                  className={classNames(styles.planbut, "btn fw-normal text-center w-100 border border-primary border-1")}
-                  onClick={() => window.location.href = '/mailbox/#signup'}
-                >
+                {/*<button className={classNames(styles.planbut, "btn fw-normal text-center w-100 border border-primary border-1")}>
+                  <a className="text-decoration-none" href="/mailbox/#signup">Get Started</a>
+                </button>*/}
+                <a className={classNames(styles.planbut, "btn fw-normal text-center w-100 border border-primary border-1 text-decoration-none")} href="/mailbox/#signup">
                   Get Started
-                </button>
+                </a>
               </div>
             </div>
           </div>

@@ -1,7 +1,8 @@
-import React from 'react';
 import { ReactComponent as AppleStoreIconSVG } from "@/assets/apple-store-icon.svg";
 import { ReactComponent as GooglePlayIconSVG } from "@/assets/google-play-icon.svg";
 import { ReactComponent as FDroidIconSVG } from "@/assets/f-droid-icon.svg";
+import mailumUiImg from "@/assets/mailum-ui.webp";
+import mailumUiMobileImg from "@/assets/mailum-ui-mobile.webp";
 import classNames from "classnames";
 import styles from "./HomeBanner.module.scss";
 
@@ -35,6 +36,7 @@ export default function HomeBanner() {
       <div className="container overflow-hidden">
         <div className="row">
           <div className="col-lg-8 col-12 mx-auto">
+
             <h1 className='d-none d-md-inline'>
               Make Email Security a&nbsp;Priority
             </h1>
@@ -89,12 +91,11 @@ export default function HomeBanner() {
             </ul>
           </div>
         </div>
-        
         <div className="d-flex justify-content-center">
           <picture>
-            <source srcSet="/images/mailum-ui.webp" media="(min-width: 768px)" />
-            <source srcSet="/images/mailum-ui-mobile.webp" media="(max-width: 767px)" />
-            <img src="/images/mailum-ui-mobile.webp" className={styles.uiImage} alt="Screenshot of the mail user interface" />
+            <source srcSet={mailumUiImg} media="(min-width: 768px)" />
+            <source srcSet={mailumUiMobileImg} media="(max-width: 767px)" />
+            <img src={mailumUiMobileImg} className={styles.uiImage} alt="Screenshot of the mail user interface" />
           </picture>
         </div>
       </div>

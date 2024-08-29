@@ -9,11 +9,10 @@
           sizes="16x16"
           href="/images/icons/favicon-16x16.png"
   />
-    <!-- Preload the LCP image for mobile screens -->
-  <link rel="preload" href="%PUBLIC_URL%/assets/mailum-ui-mobile.webp" as="image" media="(max-width: 767px)" />
+  <!-- public/index.html -->
+  <link rel="preload" href="/assets/mailum-ui-mobile.webp" as="image" media="(max-width: 767px)" />
+  <link rel="preload" href="/assets/mailum-ui.webp" as="image" media="(min-width: 768px)" />
 
-  <!-- Preload the LCP image for desktop screens -->
-  <link rel="preload" href="%PUBLIC_URL%/assets/mailum-ui.webp" as="image" media="(min-width: 768px)" />
 
   <title>Mailum - Secure Encrypted Email Service | Private & Anonymous Email</title>
   <meta charset="UTF-8">

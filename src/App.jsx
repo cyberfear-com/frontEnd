@@ -34,8 +34,8 @@ export function App() {
     const isMainAddress = window.location.pathname === '/';
 
     if (isMainAddress && isWebView()) {
-      alert('You are accessing this site from a WebView! Redirecting...'); 
-      window.location.href = 'https://mailum.com/mailbox/#login'; 
+      //alert('You are accessing this site from a WebView! Redirecting...'); 
+      window.location.href = '/mailbox/#login'; 
     }
   }, []);
 

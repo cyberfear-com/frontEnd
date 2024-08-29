@@ -1,6 +1,6 @@
 export const isWebView = () => {
-  const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-
+  const userAgent = navigator.userAgent;
+  
   // Detect iOS WebView
   const iosWebView = !!(
     (userAgent.includes('iPhone') || userAgent.includes('iPod') || userAgent.includes('iPad')) &&

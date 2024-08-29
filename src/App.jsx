@@ -1,8 +1,7 @@
-import { useEffect, lazy, useState } from 'react';
+import { useEffect, lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Tooltip from 'bootstrap/js/src/tooltip';
-import { isWebView } from './utils/detectWebView';
-import CustomAlert from './components/CustomAlert'; // Import the CustomAlert component
+import { isWebView } from './utils/detectWebView'; // Import the utility function
 
 const pages = import.meta.glob('./pages/*.jsx');
 const meta = import.meta.glob('./pages/*.meta.js', { eager: true });
@@ -22,9 +21,6 @@ const routes = Object.keys(pages).map((path) => {
 });
 
 export function App() {
-  const [alertVisible, setAlertVisible] = useState(false); // State to control the visibility of the alert
-  const [alertMessage, setAlertMessage] = useState(''); // State for alert message
-
   useEffect(() => {
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
     const tooltipList = [...tooltipTriggerList].map((tooltipTriggerEl) => new Tooltip(tooltipTriggerEl));
@@ -38,22 +34,13 @@ export function App() {
     const isMainAddress = window.location.pathname === '/';
 
     if (isMainAddress && isWebView()) {
-      setAlertMessage('You are accessing this site from a WebView! Redirecting...');
-      setAlertVisible(true); // Show alert
-      setTimeout(() => {
-        window.location.href = 'https://mailum.com/mailbox/#login';
-      }, 3000); // Delay before redirection (3 seconds)
+      alert('You are accessing this site from a WebView! Redirecting...'); 
+      window.location.href = 'https://mailum.com/mailbox/#login'; 
     }
   }, []);
 
-  const handleCloseAlert = () => {
-    setAlertVisible(false); // Hide alert when close button is clicked
-  };
-
   return (
     <>
-      {alertVisible && <CustomAlert message={alertMessage} onClose={handleCloseAlert} />} {/* Render the alert if visible */}
-      
       <Routes>
         {routes.map(({ path, component: RouteComp }) => (
           <Route key={path} path={path} element={<RouteComp />} />

@@ -10,7 +10,6 @@ export const isWebView = () => {
   // Detect Android WebView
   const androidWebView = !!(
     userAgent.includes('Android') && userAgent.includes('wv')
-    alert('android webview');
   );
 
   return iosWebView || androidWebView;

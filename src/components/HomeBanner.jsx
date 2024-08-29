@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react';
 import { ReactComponent as AppleStoreIconSVG } from "@/assets/apple-store-icon.svg";
 import { ReactComponent as GooglePlayIconSVG } from "@/assets/google-play-icon.svg";
 import { ReactComponent as FDroidIconSVG } from "@/assets/f-droid-icon.svg";
@@ -25,7 +26,24 @@ const downloadLinks = [
   },
 ];
 
+const preloadImage = (href) => {
+  const link = document.createElement('link');
+  link.rel = 'preload';
+  link.href = href;
+  link.as = 'image';
+  document.head.appendChild(link);
+};
+
 export default function HomeBanner() {
+  useEffect(() => {
+    // Preload image based on screen width
+    if (window.innerWidth <= 767) {
+      preloadImage(mailumUiMobileImg);
+    } else {
+      preloadImage(mailumUiImg);
+    }
+  }, []);
+
   return (
     <div
       className={classNames(
@@ -36,7 +54,6 @@ export default function HomeBanner() {
       <div className="container overflow-hidden">
         <div className="row">
           <div className="col-lg-8 col-12 mx-auto">
-
             <h1 className='d-none d-md-inline'>
               Make Email Security a&nbsp;Priority
             </h1>
@@ -99,8 +116,6 @@ export default function HomeBanner() {
             <img src={mailumUiMobileImg} className={styles.uiImage} alt="Screenshot of the mail user interface" />
           </picture>
         </div>
-        
-
       </div>
     </div>
   );

@@ -1,7 +1,6 @@
 import { useEffect, lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Tooltip from 'bootstrap/js/src/tooltip';
-import { isWebView } from './utils/detectWebView'; // Import the utility function
 
 // Auto generates routes from files under ./pages
 // https://vitejs.dev/guide/features.html#glob-import
@@ -27,23 +26,11 @@ const routes = Object.keys(pages).map((path) => {
 
 export function App() {
   useEffect(() => {
-    // Tooltip initialization
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
     const tooltipList = [...tooltipTriggerList].map((tooltipTriggerEl) => new Tooltip(tooltipTriggerEl));
-
-    // Clean up tooltips on component unmount
     return () => {
       tooltipList.map((t) => t.dispose());
     };
-  }, []);
-
-  useEffect(() => {
-    // Redirection logic for WebView detection
-    const isMainAddress = window.location.hostname === 'mailum.com' && window.location.pathname === '/';
-    if (isMainAddress && isWebView()) {
-      // Perform the redirection logic only on the main address
-      window.location.href = '/mailbox/#login'; 
-    }
   }, []);
 
   return (

@@ -41,6 +41,7 @@ define([
                     ) : null}
                     <EmailRead
                         panel={this.state}
+                        emailId={this.props.emailId}
                         updateValue={this.updateValue}
                         resetClasses={this.resetClases}
                     />

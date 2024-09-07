@@ -112,7 +112,6 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
 
                                                             if (oldie < newie) {
                                                                 if(app.mailMan.get("webview")){
-                                                                    console.log('new mess');
                                                                     window.ReactNativeWebView.postMessage("You got " +(newie -oldie) +" new email(s)",);
 
                                                                   /*  Notification.requestPermission().then(function(result) {

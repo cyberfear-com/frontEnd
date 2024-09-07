@@ -664,6 +664,7 @@ define([
                             app.mixins.canNavigate(function (decision) {
                                 $("#wrapper").addClass("email-read-active");
                                 if (decision) {
+                                    console.log('can read');
                                     var id = $(event.target)
                                         .parents("tr")
                                         .attr("id");
@@ -676,7 +677,7 @@ define([
                                         app.globalF.resetCurrentMessage();
                                         app.globalF.resetDraftMessage();
 
-                                        Backbone.history.navigate(
+                                        Backbone.history.loadUrl(
                                             "/mail/" +
                                                 app.transform.from64str(folder),
                                             {
@@ -717,6 +718,14 @@ define([
                                             thisComp.setState({
                                                 messsageId: id,
                                             });
+
+                                            Backbone.history.navigate(
+                                                "/mail/" +
+                                                app.transform.from64str(folder)+'/'+app.transform.to64str(id),
+                                                {
+                                                    trigger: true,
+                                                }
+                                            );
 
                                             app.globalF.renderEmail(id);
 

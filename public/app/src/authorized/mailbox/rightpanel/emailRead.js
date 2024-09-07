@@ -42,6 +42,18 @@ define(["react", "app"], function (React, app) {
         },
         componentDidMount: function () {
             var thisComp = this;
+            this.setState({
+                backApp:function (event) {
+                    if(event.data=="goback"){
+                        thisComp.handleBackToEmailList();
+                    }
+                    //alert(event.data);
+                    // window.postMessage(event.data);
+                }
+            });
+
+
+
             // $("#sdasdasd").addClass("hidden"); - [NEW VERSION AVAILABLE BUTTON]
             app.user.on(
                 "change:currentMessageView",
@@ -294,6 +306,8 @@ define(["react", "app"], function (React, app) {
                 app.user.get("currentMessageView")["id"] !== undefined &&
                 app.user.get("currentMessageView")["id"] !== ""
             ) {
+                document.addEventListener("message",this.state.backApp);
+
                 //console.log(app.user.get("currentMessageView"));
                 clearTimeout(app.user.get("emailOpenTimeOut"));
 
@@ -1786,6 +1800,7 @@ define(["react", "app"], function (React, app) {
         handleBackToEmailList: function () {
             $("#appRightSide").css("display", "none");
             $("#wrapper").removeClass("email-read-active");
+            document.removeEventListener("message", this.state.backApp,false);
         },
 
         render: function () {

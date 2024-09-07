@@ -242,7 +242,6 @@ define([
             require(["cmpld/authorized/authCollection"], function (
                 AuthCollection
             ) {
-                //console.log(options);
                 //clearTimeout(app.mailMan.get('loading'));
 
                 //setTimeout(function(){
@@ -251,7 +250,7 @@ define([
                 //}, 1000);
 
                 React.render(
-                    <AuthCollection page={"mailBox"} folder={options} />,
+                    <AuthCollection page={"mailBox"} folder={options} emailId={msg}/>,
                     document.getElementById("wrapper")
                 );
             });

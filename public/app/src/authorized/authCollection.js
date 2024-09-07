@@ -36,6 +36,7 @@ define([
             return {
                 dfd: "",
                 foderId: "",
+                emailId:""
             };
         },
         componentDidMount: function () {
@@ -115,6 +116,7 @@ define([
                             activePage={this.state.folder}
                             changeFodlerId={this.changeFodlerId}
                             folderId={this.state.folder}
+                            emailId={this.props.emailId}
                             updateValue={this.updateValue}
                         />
                     );

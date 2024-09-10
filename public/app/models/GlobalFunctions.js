@@ -436,7 +436,7 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                 return false;
             }
         },
-        createDownloadLink: function (str, type, fileName) {
+        createDownloadLink: function (str, type, fileName,base64text) {
             if (window.navigator.msSaveOrOpenBlob) {
                 var fileData = [str];
                 var blobObject = new Blob(fileData);
@@ -453,14 +453,21 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                 });
 
                 $("#infoModal").modal("show");
-            } else {
+            } else{
                 var oMyBlob = new Blob([str], { type: type });
                 var a = document.createElement("a");
-
                 a.href = window.URL.createObjectURL(oMyBlob);
-                a.download = fileName;
-                document.body.appendChild(a);
-                a.click();
+                if(app.mailMan.get("webview")){
+                    var data={'what':'file','fileData':{'name':fileName,'type':type, blob:base64text,'uri':a.href}};
+                    window.ReactNativeWebView.postMessage(JSON.stringify(data));
+                }else{
+                    a.download = fileName;
+                    document.body.appendChild(a);
+                    a.click();
+                }
+
+
+
             }
         },
 

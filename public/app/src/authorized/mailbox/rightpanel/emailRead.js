@@ -1163,7 +1163,8 @@ define(["react", "app"], function (React, app) {
                                 app.globalF.createDownloadLink(
                                     arbuf,
                                     type,
-                                    name
+                                    name,
+                                    decryptedFile64
                                 );
                             }
                         }

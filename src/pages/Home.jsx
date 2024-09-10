@@ -61,6 +61,7 @@ const slides = [
             While other services only encrypt the email body, we&nbsp;encrypt body, subject, sender, recipient, and timestamp to&nbsp;protect your online privacy from unauthorized access.
             `,
     image: sliderImage1,
+    logoAlt: 'Image of four puzzles resembling four encrypted email elements.'
   },
   {
     header: "Get Up&nbsp;and Running Right Away",
@@ -74,6 +75,7 @@ const slides = [
             making it&nbsp;complicated.
             `,
     image: sliderImage2,
+    logoAlt: 'An illustration of a thunderbolt symbolizing rapid setup time.'
   },
   {
     header: "User-Friendly and Hassle-Free",
@@ -87,6 +89,7 @@ const slides = [
             Gmail, (minus the spying element.)
             `,
     image: sliderImage3,
+    logoAlt: 'An illustration of a finger snap symbolizing easy setup.'
   },
 ];
 
@@ -132,7 +135,7 @@ export default function Home() {
               "d-flex align-items-start justify-content-center justify-content-md-end"
             )}
           >
-            <img src={lockImg} className={styles.lockImg} />
+            <img src={lockImg} className={styles.lockImg} alt="digital lock" />
           </div>
         </div>
 
@@ -189,6 +192,7 @@ export default function Home() {
                   src={item.image}
                   width="300"
                   style={{ maxWidth: "100%", height: "auto" }}
+                  alt={item.logoAlt}
                 />
               </div>
               <div className="col-12 col-md-8 col-lg-6">
@@ -207,10 +211,10 @@ export default function Home() {
       <div className={classNames(styles.peaceOfMind, "container my-6")}>
         <div className="row">
           <div className="col-12 col-md-7 col-lg-8 order-2 order-md-1 mt-3 mt-md-0">
-            <h2 className='d-none d-md-block'>
+            <h1 className='d-none d-md-block'>
               <span className="text-primary">Peace of Mind</span><br />
               Without Relying on&nbsp;Trust!
-            </h2>
+            </h1>
             <h1 className='d-md-none'>
               <span className="text-primary">Peace of Mind</span><br />
               Without Relying on&nbsp;Trust!
@@ -245,7 +249,7 @@ export default function Home() {
             </p>
           </div>
           <div className="col-12 col-md-5 col-lg-4 d-flex justify-content-center align-items-center order-1">
-            <img src={safeImg} style={{ maxWidth: "100%" }} />
+            <img src={safeImg} style={{ maxWidth: "100%" }} alt="An illustration of a safe symbolizing secure data." />
           </div>
         </div>
       </div>
@@ -256,15 +260,15 @@ export default function Home() {
           "bg-dark text-bg-dark text-center my-5"
         )}
       >
-        <h4 className="fw-medium d-none d-md-block">
+        <h2 className="fw-medium d-none d-md-block">
           Join Us&nbsp;on&nbsp;Social Media
           <br />
           We&rsquo;d love to&nbsp;have you here!
-        </h4>
-        <h3 className="fw-medium d-md-none">
+        </h2>
+        <h2 className="fw-medium d-md-none">
           Join&nbsp;us on&nbsp;social media, we&rsquo;d love to&nbsp;have you
           there!
-        </h3>
+        </h2>
 
         <ul className="list-unstyled d-inline-flex flex-wrap mt-4 justify-content-center">
           {socialLinks.map((link, index) => (
@@ -300,17 +304,17 @@ export default function Home() {
       <CustomerReviews />
 
       <Banner className='bg-primary text-bg-primary text-center'>
-        <h4 className='fw-medium d-none d-md-block'>
+        <h2 className='fw-medium d-none d-md-block'>
           Sign up&nbsp;now to&nbsp;protect your online presence
-        </h4>
-        <h3 className='d-md-none fw-medium'>
+        </h2>
+        <h2 className='d-md-none fw-medium'>
           Sign up&nbsp;now to&nbsp;protect your online presence
-        </h3>
+        </h2>
         <p className='opacity-50 mt-3 mb-4'>
           Create a&nbsp;free-forever account and make sure your emails are secure.
         </p>
 
-        <a href="#" className='btn btn-light wide fw-bold d-block d-md-inline'>
+        <a href="/mailbox/#signup" className='btn btn-light wide fw-bold d-block d-md-inline'>
           Get Encrypted Email
         </a>
       </Banner>

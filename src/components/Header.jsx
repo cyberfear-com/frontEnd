@@ -30,17 +30,17 @@ export default function Header({ variant = 'default' }) {
 
         <nav className={classNames('navbar py-3 navbar-expand-lg', styles.navbar, navbarExpanded && styles.expanded)}>
           <div className={styles.headline}>
-            <a href="/" className='text-reset'>
+            <a href="/" className='text-reset' aria-label='Home'>
               <MailumSVG className={styles.brand} />
             </a>
 
-            <a
+            <a href="/mailbox/#signup"
               className={classNames(
                 styles.tryButton,
                 'btn small fw-bold d-lg-none',
                 variant == 'primary' ? 'btn-light' : 'btn-primary'
               )}
-            >Create Email Account</a>
+            >Create Email</a>
 
             <button
               onClick={() => {

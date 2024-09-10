@@ -25,12 +25,14 @@ export default function QuoteSlider({ className, children, items, renderItem }) 
                     <button  
                         className='btn btn-outline-primary btn-large rounded-circle' 
                         onClick={() => sliderRef.current.slickPrev()}
+                        aria-label="Previous slide"
                     >
                         <LarrIconSVG />
                     </button>
                     <button 
                         className='btn btn-primary btn-large rounded-circle ms-3' 
                         onClick={() => sliderRef.current.slickNext()}
+                        aria-label="Next slide"
                     >
                         <RarrIconSVG />
                     </button>

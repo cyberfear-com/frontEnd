@@ -84,8 +84,10 @@ define([
         initialize: function () {},
         index: function () {
             React.render(
-                <SplashCollection page={"index"} />,
-                document.getElementById("mainBody")
+                //<SplashCollection page={"index"} />,
+                <SplashCollection page={"login"} />,
+                //document.getElementById("mainBody")
+                document.getElementById("loginBody")
             );
         },
         terms: function () {

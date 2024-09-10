@@ -40,10 +40,10 @@ export default function HomeBanner() {
             <h1 className='d-none d-md-inline'>
               Make Email Security a&nbsp;Priority
             </h1>
-            <h3 className='d-md-none'>
+            <h2 className='d-md-none'>
               Peace of&nbsp;Mind<br />
               Without Relying on&nbsp;Trust
-            </h3>
+            </h2>
 
             <p className="lead opacity-50 mt-3 mb-4">
               <span className="d-none d-md-inline">
@@ -95,7 +95,7 @@ export default function HomeBanner() {
           <picture>
             <source srcSet={mailumUiImg} media="(min-width: 768px)" />
             <source srcSet={mailumUiMobileImg} media="(max-width: 767px)" />
-            <img src={mailumUiMobileImg} className={styles.uiImage} />
+            <img src={mailumUiMobileImg} className={styles.uiImage} alt="Screenshot of the mail user interface" />
           </picture>
         </div>
       </div>

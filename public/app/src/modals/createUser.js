@@ -732,7 +732,7 @@ define(["app", "react"], function (app, React) {
                                     <div className="share hidden">
                                         <a
                                             className=""
-                                            href="https://facebook.com/sharer/sharer.php?u=https://cyberfear.com"
+                                            href="https://facebook.com/sharer/sharer.php?u=https://mailum.com"
                                             target="_blank"
                                             aria-label=""
                                         >
@@ -741,7 +741,7 @@ define(["app", "react"], function (app, React) {
 
                                         <a
                                             className=""
-                                            href="https://twitter.com/intent/tweet/?text=I'm protecting my emails with cyberfear.com.&amp;url=https://cyberfear.com"
+                                            href="https://twitter.com/intent/tweet/?text=I'm protecting my emails with mailum.com.&amp;url=https://mailum.com"
                                             target="_blank"
                                             aria-label=""
                                         >
@@ -750,7 +750,7 @@ define(["app", "react"], function (app, React) {
 
                                         <a
                                             className=""
-                                            href="https://plus.google.com/share?url=https://cyberfear.com"
+                                            href="https://plus.google.com/share?url=https://mailum.com"
                                             target="_blank"
                                             aria-label=""
                                         >

@@ -569,7 +569,7 @@ export default function Email(props) {
         <div className='container'>
           <div className={styles.brandSection}>
             <MailumSVG className={styles.brand} />
-            <div className={styles.copyright}>© 2020-{new Date().getFullYear()}, Cyberfear. All rights reserved.</div>
+            <div className={styles.copyright}>© {new Date().getFullYear()}, Mailum. All rights reserved.</div>
           </div>
 
           <ul className={styles.social}>

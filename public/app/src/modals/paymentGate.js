@@ -174,7 +174,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                     console.log(thisComp.state);
                                 });
 
-                             /*   if (
+                                if (
                                     thisComp.state.typeOfPayment == "stripe" &&
                                     thisComp.state.paymentPlan !== "free"
                                 ) {
@@ -186,7 +186,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                     payLoad["stripeId"] = this.state.stripeId;
 
                                     app.stripeCheckOut.updateStripe(payLoad);
-                                }*/
+                                }
                             //}
                        // );
                     });

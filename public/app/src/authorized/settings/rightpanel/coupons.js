@@ -214,7 +214,7 @@ define([
                     $("body").append($temp);
                     $temp
                         .val(
-                            "https://cyberfear.com/index.html#createUser/" +
+                            app.defaults.get("domain") + "/mailbox/#signup/" +
                                 app.user.get("userPlan")["coupon"]
                         )
                         .select();

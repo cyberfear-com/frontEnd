@@ -2781,7 +2781,8 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
             ) {
                 app.user.set({ emailReplyState: "reply" });
                 var preReplyText =
-                    "<br/><br/>--------------------------------------------<br/><br/>" +
+                    //"<br/><br/>--------------------------------------------<br/><br/>" +
+                    "<br><hr><br>" +
                     "On " +
                     new Date(
                         currentMessage["meta"]["timeSent"] * 1000

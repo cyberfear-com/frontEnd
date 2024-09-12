@@ -244,7 +244,7 @@ define(["app", "react"], function (app, React) {
                         userObj["salt"] = app.transform.bin2hex(salt);
                         userObj["coupon"] = thisComp.state.coupon;
 
-                        console.log(userObj);
+                        //console.log(userObj);
                         $.ajax({
                             method: "POST",
                             url:
@@ -429,8 +429,18 @@ define(["app", "react"], function (app, React) {
         },
         handleDownloadToken: function () {
             var toFile = app.user.get("downloadToken");
+            /*
+            console.log(toFile);
+
+					if(app.mailMan.get("webview")){
+						var data={'what':'file','fileData':{'name':fileName,'type':type, blob:base64text,'uri':a.href}};
+						window.ReactNativeWebView.postMessage(JSON.stringify(data));
+					}else{
+             */
 
             var element = document.createElement("a");
+            console.log(toFile);
+
             element.setAttribute(
                 "href",
                 "data:attachment/plain;charset=utf-8," + toFile

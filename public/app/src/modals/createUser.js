@@ -244,7 +244,7 @@ define(["app", "react"], function (app, React) {
                         userObj["salt"] = app.transform.bin2hex(salt);
                         userObj["coupon"] = thisComp.state.coupon;
 
-                        console.log(userObj);
+                        //console.log(userObj);
                         $.ajax({
                             method: "POST",
                             url:
@@ -430,18 +430,29 @@ define(["app", "react"], function (app, React) {
         handleDownloadToken: function () {
             var toFile = app.user.get("downloadToken");
 
-            var element = document.createElement("a");
-            element.setAttribute(
-                "href",
-                "data:attachment/plain;charset=utf-8," + toFile
-            );
-            element.setAttribute("download", "secretToken.key");
+            if(app.mailMan.get("webview")){
+                var oMyBlob = new Blob([toFile], { type: "utf-8" });
+                var a = document.createElement("a");
+                a.href = window.URL.createObjectURL(oMyBlob);
+                var data={'what':'token','fileData':{'name':"token("+this.state.email.toLowerCase()+this.state.domain.toLowerCase()+").key",'type':"utf-8", blob:toFile,'uri':a.href}};
+                window.ReactNativeWebView.postMessage(JSON.stringify(data));
+            }else {
 
-            element.style.display = "none";
-            document.body.appendChild(element);
 
-            element.click();
-            document.body.removeChild(element);
+                var element = document.createElement("a");
+
+                element.setAttribute(
+                    "href",
+                    "data:attachment/plain;charset=utf-8," + toFile
+                );
+                element.setAttribute("download", "token("+this.state.email.toLowerCase()+this.state.domain.toLowerCase()+").key");
+
+                element.style.display = "none";
+                document.body.appendChild(element);
+
+                element.click();
+                document.body.removeChild(element);
+            }
         },
         render: function () {
             return (

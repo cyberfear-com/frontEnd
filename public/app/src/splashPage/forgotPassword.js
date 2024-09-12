@@ -97,19 +97,27 @@ define(["react", "app"], function (React, app) {
         handleDownloadToken: function () {
             var toFile = app.user.get("downloadToken");
 
-            var element = document.createElement("a");
-            element.setAttribute(
-                "href",
-                "data:attachment/plain;charset=utf-8," + toFile
-            );
-            element.setAttribute("download", this.state.email+".key");
+            if(app.mailMan.get("webview")){
+                var oMyBlob = new Blob([toFile], { type: "utf-8" });
+                var a = document.createElement("a");
+                a.href = window.URL.createObjectURL(oMyBlob);
+                var data={'what':'token','fileData':{'name':"token("+this.state.email+").key",'type':"utf-8", blob:toFile,'uri':a.href}};
+                window.ReactNativeWebView.postMessage(JSON.stringify(data));
+            }else {
+                var element = document.createElement("a");
+                element.setAttribute(
+                    "href",
+                    "data:attachment/plain;charset=utf-8," + toFile
+                );
+                element.setAttribute("download", this.state.email + ".key");
 
-            element.style.display = "none";
+                element.style.display = "none";
 
-            document.body.appendChild(element);
+                document.body.appendChild(element);
 
-            element.click();
-            document.body.removeChild(element);
+                element.click();
+                document.body.removeChild(element);
+            }
         },
 
         checkButton:(that)=>{

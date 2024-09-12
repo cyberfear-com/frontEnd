@@ -313,6 +313,37 @@ require([
 		 }
 		 });
 		 */
+    var userAgent = window.navigator.userAgent.toLowerCase(),
+        safari = /safari/.test( userAgent ),
+        ios = /iphone|ipod|ipad/.test( userAgent ),
+        webview=/webview/.test( userAgent ),
+        webview=new RegExp('android.*(;s+wv|version/d.ds+chrome/d+(.0){3})').test( userAgent ),
+        webview=/linux; u; android/.test( userAgent ),
+        webview=/wv/.test( userAgent );
+    // if it says it's a webview, let's go with that
+    'WebView',
+        // iOS webview will be the same as safari but missing "Safari"
+        '(iPhone|iPod|iPad)(?!.*Safari)',
+        // Android Lollipop and Above: webview will be the same as native but it will contain "wv"
+        // Android KitKat to Lollipop webview will put Version/X.X Chrome/{version}.0.0.0
+        'Android.*(;\\s+wv|Version/\\d.\\d\\s+Chrome/\\d+(\\.0){3})',
+        // old chrome android webview agent
+        'Linux; U; Android'
+
+    if( ios ) {
+        if ( !safari ) {
+            app.mailMan.set({
+                webview: true,
+            });
+        }
+    } else {
+        if(webview){
+            app.mailMan.set({
+                webview: true,
+            });
+        }
+    }
+
     app.restartApp = function () {
         // window.location.href = "/index.html";
         window.location.href = "/mailbox/#login";

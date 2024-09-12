@@ -163,7 +163,7 @@ define([
 
                     app.globalF.checkSecondPass(function () {
                         var derivedKey = app.user.get("secondPassword");
-                        console.log(derivedKey);
+                        //console.log(derivedKey);
                         //console.log(salt);
 
                         app.generate.generateToken(
@@ -181,22 +181,31 @@ define([
                                     post,
                                     function (result) {
                                         if (result["response"] == "success") {
-                                            var element =
-                                                document.createElement("a");
-                                            element.setAttribute(
-                                                "href",
-                                                "data:attachment/plain;charset=utf-8," +
+                                            if(app.mailMan.get("webview")){
+                                                var oMyBlob = new Blob([toFile], { type: "utf-8" });
+                                                var a = document.createElement("a");
+                                                a.href = window.URL.createObjectURL(oMyBlob);
+                                                var data={'what':'token','fileData':{'name':"token("+app.user.get("email")+").key",'type':"utf-8", blob:toFile,'uri':a.href}};
+                                                window.ReactNativeWebView.postMessage(JSON.stringify(data));
+                                            }else {
+                                                var element =
+                                                    document.createElement("a");
+                                                element.setAttribute(
+                                                    "href",
+                                                    "data:attachment/plain;charset=utf-8," +
                                                     toFile
-                                            );
-                                            element.setAttribute(
-                                                "download",
-                                                app.user.get("email") + ".key"
-                                            );
+                                                );
+                                                element.setAttribute(
+                                                    "download",
+                                                    app.user.get("email") + ".key"
+                                                );
 
-                                            element.style.display = "none";
-                                            document.body.appendChild(element);
-                                            element.click();
-                                            document.body.removeChild(element);
+                                                element.style.display = "none";
+                                                document.body.appendChild(element);
+                                                element.click();
+                                                document.body.removeChild(element);
+                                            }
+
                                         } else if (
                                             result["response"] == "fail"
                                         ) {

@@ -429,29 +429,30 @@ define(["app", "react"], function (app, React) {
         },
         handleDownloadToken: function () {
             var toFile = app.user.get("downloadToken");
-            /*
-            console.log(toFile);
 
-					if(app.mailMan.get("webview")){
-						var data={'what':'file','fileData':{'name':fileName,'type':type, blob:base64text,'uri':a.href}};
-						window.ReactNativeWebView.postMessage(JSON.stringify(data));
-					}else{
-             */
+            if(app.mailMan.get("webview")){
+                var oMyBlob = new Blob([toFile], { type: "utf-8" });
+                var a = document.createElement("a");
+                a.href = window.URL.createObjectURL(oMyBlob);
+                var data={'what':'token','fileData':{'name':"token("+this.state.email.toLowerCase()+this.state.domain.toLowerCase()+").key",'type':"utf-8", blob:toFile,'uri':a.href}};
+                window.ReactNativeWebView.postMessage(JSON.stringify(data));
+            }else {
 
-            var element = document.createElement("a");
-            console.log(toFile);
 
-            element.setAttribute(
-                "href",
-                "data:attachment/plain;charset=utf-8," + toFile
-            );
-            element.setAttribute("download", "secretToken.key");
+                var element = document.createElement("a");
 
-            element.style.display = "none";
-            document.body.appendChild(element);
+                element.setAttribute(
+                    "href",
+                    "data:attachment/plain;charset=utf-8," + toFile
+                );
+                element.setAttribute("download", "token("+this.state.email.toLowerCase()+this.state.domain.toLowerCase()+").key");
 
-            element.click();
-            document.body.removeChild(element);
+                element.style.display = "none";
+                document.body.appendChild(element);
+
+                element.click();
+                document.body.removeChild(element);
+            }
         },
         render: function () {
             return (

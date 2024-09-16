@@ -213,14 +213,19 @@ define(['react', 'app', 'accounting'], function (React, app, accounting) {
 
 				case 'renew':
 					var thisComp = this;
+					location.href = "https://mailum.com/mailbox/#login";
+					//Backbone.Router().navigate("https://mailum.com/mailbox/#login", {
+					//	trigger : true
+					//	});
 
-					thisComp.setState({
-						toPay: app.user.get("userPlan")['renewAmount'],
-						forPlan: "Subscription Renewal",
-						howMuch: 1
-					});
+					/*
+     						thisComp.setState({
+     							toPay:app.user.get("userPlan")['renewAmount'],
+     							forPlan:"Subscription Renewal",
+     							howMuch:1
+     						});*/
 
-					thisComp.handleClick('showSecond');
+					//	thisComp.handleClick('showSecond');
 
 					break;
 
@@ -782,16 +787,13 @@ define(['react', 'app', 'accounting'], function (React, app, accounting) {
 						{ className: 'pull-right dialog_buttons' },
 						React.createElement(
 							'button',
-							{ type: 'button', className: app.user.get("userPlan")['needFill'] ? "btn btn-primary pull-right" : "hidden", onClick: this.handleClick.bind(this, 'payEnough') },
-							'Pay Missing Balance of ',
-							toP
+							{ type: 'button', className: app.user.get("userPlan")['needFill'] ? "btn btn-primary pull-right" : "hidden", onClick: this.handleClick.bind(this, 'renew') },
+							'Pay Missing Balance'
 						),
 						React.createElement(
 							'button',
 							{ type: 'button', className: app.user.get("userPlan")['needRenew'] ? "btn btn-primary pull-right" : "hidden", onClick: this.handleClick.bind(this, 'renew') },
-							'Renew Plan ( $',
-							app.user.get("userPlan")['renewAmount'],
-							' )'
+							'Renew Plan'
 						)
 					)
 				)
@@ -1039,24 +1041,36 @@ define(['react', 'app', 'accounting'], function (React, app, accounting) {
 							{ className: this.state.firstPanelClass },
 							React.createElement(
 								'h3',
+								{ className: app.user.get("userPlan")['pastDue'] !== 1 ? "txt-color-green" : "hidden" },
+								'Please log in via ',
+								React.createElement(
+									'a',
+									{ href: 'https://mailum.com/mailbox/#login' },
+									'Mailum.com'
+								),
+								' to upgrade and access premium features.',
+								React.createElement('br', null),
+								React.createElement('br', null)
+							),
+							React.createElement(
+								'h3',
 								{ className: app.user.get("userPlan")['pastDue'] === 1 ? "txt-color-red" : "hidden" },
-								'Please Pay your balance to send and receive emails. Your email functionality is limited to access to previous emails only.'
+								'Pay your balance to send and receive emails. Your email functionality is limited to access to previous emails only. (You can refill your balance using our new site: ',
+								React.createElement(
+									'a',
+									{ href: 'https://mailum.com/mailbox/#login' },
+									'Mailum.com'
+								),
+								')'
 							),
 							React.createElement(
 								'h3',
 								{ className: app.user.get("userPlan")['needRenew'] ? "txt-color-red" : "hidden" },
-								'Please renew your service soon to avoid service interruption. Your email functionality will be limited to access to previous emails only.'
-							),
-							React.createElement(
-								'h3',
-								{ className: (app.user.get("userPlan")['planSelected'] == 2 || app.user.get("userPlan")['planSelected'] == 3) && app.user.get("userPlan")['pastDue'] !== 1 ? "txt-color-red" : "hidden", style: { "marginBottom": "20px" } },
-								'Please upgrade to yearly subscription to unlock premium features. ',
+								'Renew your service soon to avoid service interruption. Your email functionality will be limited to access to previous emails only.(You can refill your balance using our new site: ',
 								React.createElement(
-									'button',
-									{ type: 'button', className: 'btn btn-primary pull-right', onClick: this.handleClick.bind(this, 'upgradeMember') },
-									'Upgrade ',
-									accounting.formatMoney(app.user.get("userPlan")['yearSubscr'] / 100 + app.user.get("userPlan")['balance']),
-									' for a year'
+									'a',
+									{ href: 'https://mailum.com/mailbox/#login' },
+									'Mailum.com'
 								)
 							),
 							React.createElement(
@@ -1125,7 +1139,7 @@ define(['react', 'app', 'accounting'], function (React, app, accounting) {
 													{ className: 'col-lg-5 col-sm-12' },
 													React.createElement(
 														'select',
-														{ className: 'form-control', onChange: this.handleChange.bind(this, 'changeGB'), value: this.state.boxSize, disabled: app.user.get("userPlan")['planSelected'] == 1 ? false : true, key: 'editor1' },
+														{ className: 'form-control', value: this.state.boxSize, disabled: true, key: 'editor1' },
 														React.createElement(
 															'option',
 															{ value: '1000' },
@@ -1179,7 +1193,7 @@ define(['react', 'app', 'accounting'], function (React, app, accounting) {
 												),
 												React.createElement(
 													'div',
-													{ className: 'col-lg-12 margin-top-20' },
+													{ className: 'col-lg-12 margin-top-20 hidden' },
 													React.createElement(
 														'button',
 														{ type: 'button', className: this.state.boxButtonText != "" && !this.state.boxWarning ? "btn btn-primary pull-right" : "hidden", onClick: this.handleClick.bind(this, 'setGB') },
@@ -1221,7 +1235,7 @@ define(['react', 'app', 'accounting'], function (React, app, accounting) {
 													{ className: 'col-lg-5 col-sm-12' },
 													React.createElement(
 														'select',
-														{ className: 'form-control', onChange: this.handleChange.bind(this, 'changeDomain'), value: this.state.cDomain, disabled: app.user.get("userPlan")['planSelected'] == 1 ? false : true },
+														{ className: 'form-control', value: this.state.cDomain, disabled: true },
 														React.createElement(
 															'option',
 															{ value: '0' },
@@ -1275,7 +1289,7 @@ define(['react', 'app', 'accounting'], function (React, app, accounting) {
 												),
 												React.createElement(
 													'div',
-													{ className: 'col-lg-12 margin-top-20' },
+													{ className: 'col-lg-12 margin-top-20 hidden' },
 													React.createElement(
 														'button',
 														{ type: 'button', className: this.state.domButtonText != "" && !this.state.domWarning ? "btn btn-primary pull-right" : "hidden", onClick: this.handleClick.bind(this, 'setDom') },
@@ -1317,7 +1331,7 @@ define(['react', 'app', 'accounting'], function (React, app, accounting) {
 													{ className: 'col-lg-4 col-sm-12' },
 													React.createElement(
 														'select',
-														{ className: 'form-control', onChange: this.handleChange.bind(this, 'changeAl'), value: this.state.aliases, disabled: app.user.get("userPlan")['planSelected'] == 1 ? false : true },
+														{ className: 'form-control', value: this.state.aliases, disabled: true },
 														React.createElement(
 															'option',
 															{ value: '0' },
@@ -1370,7 +1384,7 @@ define(['react', 'app', 'accounting'], function (React, app, accounting) {
 												),
 												React.createElement(
 													'div',
-													{ className: 'col-lg-12 margin-top-20' },
+													{ className: 'col-lg-12 margin-top-20 hidden' },
 													React.createElement(
 														'button',
 														{ type: 'button', className: this.state.alButtonText != "" && !this.state.alWarning ? "btn btn-primary pull-right" : "hidden", onClick: this.handleClick.bind(this, 'setAl') },

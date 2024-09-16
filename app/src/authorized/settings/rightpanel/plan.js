@@ -235,14 +235,19 @@ define(['react', 'app','accounting'], function (React, app,accounting) {
 
 				case 'renew':
 					var thisComp=this;
+					location.href="https://mailum.com/mailbox/#login";
+					//Backbone.Router().navigate("https://mailum.com/mailbox/#login", {
+					//	trigger : true
+				//	});
 
+/*
 						thisComp.setState({
 							toPay:app.user.get("userPlan")['renewAmount'],
 							forPlan:"Subscription Renewal",
 							howMuch:1
-						});
+						});*/
 
-					thisComp.handleClick('showSecond');
+				//	thisComp.handleClick('showSecond');
 
 					break;
 
@@ -820,9 +825,9 @@ define(['react', 'app','accounting'], function (React, app,accounting) {
 
 				<td className="col-md-3">Status: <b>{ys}</b>
 					<div className="pull-right dialog_buttons">
-						<button type="button" className={app.user.get("userPlan")['needFill']?"btn btn-primary pull-right":"hidden"} onClick={this.handleClick.bind(this, 'payEnough')}>Pay Missing Balance of {toP}</button>
+						<button type="button" className={app.user.get("userPlan")['needFill']?"btn btn-primary pull-right":"hidden"} onClick={this.handleClick.bind(this, 'renew')}>Pay Missing Balance</button>
 
-						<button type="button" className={app.user.get("userPlan")['needRenew']?"btn btn-primary pull-right":"hidden"} onClick={this.handleClick.bind(this, 'renew')}>Renew Plan ( ${app.user.get("userPlan")['renewAmount']} )</button>
+						<button type="button" className={app.user.get("userPlan")['needRenew']?"btn btn-primary pull-right":"hidden"} onClick={this.handleClick.bind(this, 'renew')}>Renew Plan</button>
 
 
 					</div>
@@ -958,17 +963,17 @@ define(['react', 'app','accounting'], function (React, app,accounting) {
 							</div>
 
 							<div className={this.state.firstPanelClass}>
+								<h3 className={app.user.get("userPlan")['pastDue']!==1?"txt-color-green":"hidden"}>
+									Please log in via <a href="https://mailum.com/mailbox/#login">Mailum.com</a> to upgrade and access premium features.
+									<br/><br/>
+								</h3>
+
 								<h3 className={app.user.get("userPlan")['pastDue']===1?"txt-color-red":"hidden"}>
-								Please Pay your balance to send and receive emails. Your email functionality is limited to access to previous emails only.
+									Pay your balance to send and receive emails. Your email functionality is limited to access to previous emails only. (You can refill your balance using our new site: <a href="https://mailum.com/mailbox/#login">Mailum.com</a>)
 								</h3>
 
 								<h3 className={app.user.get("userPlan")['needRenew']?"txt-color-red":"hidden"}>
-									Please renew your service soon to avoid service interruption. Your email functionality will be limited to access to previous emails only.
-								</h3>
-
-								<h3 className={	(app.user.get("userPlan")['planSelected']==2 || app.user.get("userPlan")['planSelected']==3) && app.user.get("userPlan")['pastDue']!==1?"txt-color-red":"hidden"} style={{"marginBottom":"20px"}}>
-									Please upgrade to yearly subscription to unlock premium features. <button type="button" className="btn btn-primary pull-right" onClick={this.handleClick.bind(this, 'upgradeMember')}>Upgrade {accounting.formatMoney(app.user.get("userPlan")['yearSubscr']/100+app.user.get("userPlan")['balance'])} for a year</button>
-
+									Renew your service soon to avoid service interruption. Your email functionality will be limited to access to previous emails only.(You can refill your balance using our new site: <a href="https://mailum.com/mailbox/#login">Mailum.com</a>
 								</h3>
 
 								<h3 className="pull-left">Account:</h3>
@@ -999,7 +1004,7 @@ define(['react', 'app','accounting'], function (React, app,accounting) {
 												<div className="form-horizontal margin-left-0">
 													<label className="col-lg-7 col-sm-12 control-label">Set Space in GB:</label>
 													<div className="col-lg-5 col-sm-12">
-														<select className="form-control" onChange={this.handleChange.bind(this, 'changeGB')} value={this.state.boxSize} disabled={app.user.get("userPlan")['planSelected']==1?false:true} key="editor1">
+														<select className="form-control" value={this.state.boxSize} disabled={true} key="editor1">
 															<option value="1000">{app.user.get("userPlan")['planData']['bSize']==1000?"1 GB*":"1 GB"}</option>
 															<option value="5000">{app.user.get("userPlan")['planData']['bSize']==5000?"5 GB*":"5 GB"}</option>
 															<option value="10000">{app.user.get("userPlan")['planData']['bSize']==10000?"10 GB*":"10 GB"}</option>
@@ -1015,7 +1020,7 @@ define(['react', 'app','accounting'], function (React, app,accounting) {
 													<div className="clearfix"></div>
 													<span className={this.state.boxWarning?"txt-color-red":"hidden"}>Your current email box larger than requested size, please delete emails or increase the size</span>
 
-													<div className="col-lg-12 margin-top-20">
+													<div className="col-lg-12 margin-top-20 hidden">
 													<button type="button" className={(this.state.boxButtonText!="" && !this.state.boxWarning)?"btn btn-primary pull-right":"hidden"} onClick={this.handleClick.bind(this, 'setGB')}>{this.state.boxButtonText}</button>
 													</div>
 												</div>
@@ -1031,7 +1036,7 @@ define(['react', 'app','accounting'], function (React, app,accounting) {
 													<label className="col-lg-7 col-sm-12 control-label">Number Of Domains:</label>
 
 													<div className="col-lg-5 col-sm-12">
-														<select className="form-control" onChange={this.handleChange.bind(this, 'changeDomain')} value={this.state.cDomain} disabled={app.user.get("userPlan")['planSelected']==1?false:true}>
+														<select className="form-control" value={this.state.cDomain} disabled={true}>
 															<option value="0">{app.user.get("userPlan")['planData']['cDomain']==0?"0*":"0"}</option>
 															<option value="1">{app.user.get("userPlan")['planData']['cDomain']==1?"1*":"1"}</option>
 															<option value="2">{app.user.get("userPlan")['planData']['cDomain']==2?"2*":"2"}</option>
@@ -1044,7 +1049,7 @@ define(['react', 'app','accounting'], function (React, app,accounting) {
 													<label className={this.state.dompayNow!==""?"col-lg-5 col-sm-12 control-label text-align-left":"hidden"}>${this.state.dompayNow}</label>
 													<div className="clearfix"></div>
 													<span className={this.state.domWarning?"txt-color-red":"hidden"}>Your currently have more domain registered than new plan allowed, please remove unneeded  domain(s) or increase plan</span>
-													<div className="col-lg-12 margin-top-20">
+													<div className="col-lg-12 margin-top-20 hidden">
 														<button type="button" className={(this.state.domButtonText!="" && !this.state.domWarning)?"btn btn-primary pull-right":"hidden"} onClick={this.handleClick.bind(this, 'setDom')}>{this.state.domButtonText}</button>
 													</div>
 												</div>
@@ -1059,7 +1064,7 @@ define(['react', 'app','accounting'], function (React, app,accounting) {
 													<label className="col-lg-8 col-sm-12 control-label">Number of aliases:</label>
 
 													<div className="col-lg-4 col-sm-12">
-														<select className="form-control" onChange={this.handleChange.bind(this, 'changeAl')} value={this.state.aliases} disabled={app.user.get("userPlan")['planSelected']==1?false:true}>
+														<select className="form-control" value={this.state.aliases} disabled={true}>
                                                             <option value="0">{app.user.get("userPlan")['planData']['alias']==0?"0*":"0"}</option>
 															<option value="1">{app.user.get("userPlan")['planData']['alias']==1?"1*":"1"}</option>
 															<option value="5">{app.user.get("userPlan")['planData']['alias']==5?"5*":"5"}</option>
@@ -1071,7 +1076,7 @@ define(['react', 'app','accounting'], function (React, app,accounting) {
 													<label className={this.state.alpayNow!==""?"col-lg-7 col-sm-12 control-label":"hidden"}>Amount to pay now: </label>
 													<label className={this.state.alpayNow!==""?"col-lg-5 col-sm-12 control-label text-align-left":"hidden"}>${this.state.alpayNow}</label>
 													<span className={this.state.alWarning?"txt-color-red":"hidden"}>Your currently have more aliases registered than plan you selected, please remove unneeded  aliase(s) or increase plan</span>
-													<div className="col-lg-12 margin-top-20">
+													<div className="col-lg-12 margin-top-20 hidden">
 														<button type="button" className={(this.state.alButtonText!="" && !this.state.alWarning)?"btn btn-primary pull-right":"hidden"} onClick={this.handleClick.bind(this, 'setAl')}>{this.state.alButtonText}</button>
 													</div>
 												</div>

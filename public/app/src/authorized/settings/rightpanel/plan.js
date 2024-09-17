@@ -1195,7 +1195,7 @@ define([
             return new Promise(function (resolve, reject) {
                 var script = document.createElement("script");
                 script.src =
-                    "https://www.paypal.com/sdk/js?client-id=AaDCvbA992btr491o9RRqJk6wcqicJRaKwpfhHwQh84MSVNCU1ARqFN9kAtUjqQV6GvmxSv17yFRAMGW&currency=USD";
+                    "https://www.paypal.com/sdk/js?client-id=AWvU3zcq6qRAA5i316iSxoUYqNJ6t8ukW_jba3SB8XeSCLZbyESO4noshH81NnbjrrK-QMWpi53he_FY&currency=USD";
                 script.addEventListener("load", function () {
                     resolve();
                 });

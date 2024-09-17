@@ -321,20 +321,25 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                             purchase_units: [
                                                 {
                                                     amount: {
-                                                        value: thisComp.state
-                                                            .valueOfPayment/100,
+                                                        value: thisComp.state.valueOfPayment/100,
+                                                        currency_code:"USD",
+                                                        breakdown:{
+                                                            item_total:{
+                                                                currency_code: "USD",
+                                                                value: thisComp.state.valueOfPayment/100
+                                                            }
+                                                        }
                                                     },
                                                     items:[
                                                         {
-                                                            name:thisComp.state.paymentPlan +' plan',
+                                                            name: thisComp.state.paymentPlan +' plan',
                                                             description: thisComp.state.periodOfPayment == "yearly-two"
                                                                 ? "2 Years Subscription":
                                                                 thisComp.state.periodOfPayment == "yearly-one"
                                                                     ? "1 Year Subscription":"1 Month Subscription",
                                                             unit_amount:{
                                                                 currency_code:"USD",
-                                                                value:thisComp.state
-                                                                    .valueOfPayment/100
+                                                                value:thisComp.state.valueOfPayment/100
                                                             },
                                                             quantity:1
                                                         }
@@ -419,7 +424,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
             return new Promise(function (resolve, reject) {
                 var script = document.createElement("script");
                 script.src =
-                    "https://www.paypal.com/sdk/js?client-id=AaDCvbA992btr491o9RRqJk6wcqicJRaKwpfhHwQh84MSVNCU1ARqFN9kAtUjqQV6GvmxSv17yFRAMGW&currency=USD";
+                    "https://www.paypal.com/sdk/js?client-id=AWvU3zcq6qRAA5i316iSxoUYqNJ6t8ukW_jba3SB8XeSCLZbyESO4noshH81NnbjrrK-QMWpi53he_FY&currency=USD";
                 script.addEventListener("load", function () {
                     resolve();
                 });

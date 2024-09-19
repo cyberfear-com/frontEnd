@@ -17,6 +17,11 @@ define([
                 app.user.set({
                     warningSet: true
                 });
+
+                if((app.user.get("mailboxSize") / 1024 / 1024/1024)> (app.user.get("userPlan")["planData"]["bSize"]/1000)){
+                    Backbone.history.navigate("settings/Plan", {trigger: true});
+                }
+
                 if(app.user.get("userPlan")["needRenew"] || app.user.get("userPlan")["pastDue"] === 1) {
                     Backbone.history.navigate("settings/Plan", {trigger: true});
                 }

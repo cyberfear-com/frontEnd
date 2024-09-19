@@ -278,8 +278,8 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                 <div>
                     <span className="used_one">
                         {accounting.toFixed(
-                            app.user.get("mailboxSize") / 1024 / 1024 / 1024,
-                            2
+                            app.user.get("mailboxSize") / 1024 / 1024/1024,
+                            3
                         )}{" "}
                         GB{" "}
                     </span>
@@ -432,16 +432,8 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                 marginBottom: "2px",
             };
             var st2 = { marginTop: "3px" };
-            var st3 = {
-                width:
-                    (accounting.toFixed(
-                        app.user.get("mailboxSize") / 1024 / 1024,
-                        2
-                    ) *
-                        100) /
-                        app.user.get("userPlan")["planData"]["bSize"] +
-                    "%",
-            };
+            var barWidth=(accounting.toFixed(app.user.get("mailboxSize") / 1024 / 1024,2) * 100) /app.user.get("userPlan")["planData"]["bSize"];
+            var st3 = barWidth>100?100:barWidth;
 
             return (
                 <div>
@@ -853,7 +845,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                     {this.boxSize()}
                                 </div>
                                 <div className="storage-bar">
-                                    <span style={st3}></span>
+                                    <span style={{width:st3+"%"}}></span>
                                 </div>
                             </div>
                         </div>
@@ -1143,7 +1135,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                     {this.boxSize()}
                                 </div>
                                 <div className="storage-bar">
-                                    <span style={st3}></span>
+                                    <span style={{width:st3+"%"}}></span>
                                 </div>
                             </div>
                         </div>

@@ -1216,17 +1216,8 @@ define([
 
         render: function () {
             var classFullSettSelect = "col-xs-12";
-            var st3 = {
-                width:
-                    (accounting.toFixed(
-                            app.user.get("mailboxSize") / 1024 / 1024,
-                            2
-                        ) *
-                        100) /
-                    app.user.get("userPlan")["planData"]["bSize"] +
-                    "%",
-            };
-
+            var barWidth=(accounting.toFixed(app.user.get("mailboxSize") / 1024 / 1024,2) * 100) /app.user.get("userPlan")["planData"]["bSize"];
+            var st3 = barWidth>100?100:barWidth;
 
             return (
                 <div id="rightSettingPanel">
@@ -1284,6 +1275,16 @@ define([
                                 <div className="middle-content-top">
                                     <h3
                                         className={
+                                            ((app.user.get("mailboxSize") / 1024 / 1024/1024)> (app.user.get("userPlan")["planData"]["bSize"]/1000))? "txt-color-red"
+                                                : "d-none"
+                                        }
+                                    >
+                                        Your mailbox is full, please consider upgrading your account or delete unwanted emails.<br/><br/>
+                                    </h3>
+
+
+                                    <h3
+                                        className={
                                             app.user.get("userPlan")[
                                                 "pastDue"
                                             ] === 1
@@ -1294,7 +1295,7 @@ define([
                                         Pay your balance to send and
                                         receive emails. Your email functionality
                                         is limited to access to previous emails
-                                        only.
+                                        only.<br/><br/>
                                     </h3>
 
                                     <h3
@@ -1309,7 +1310,7 @@ define([
                                         Renew your service soon to avoid
                                         service interruption. Your email
                                         functionality will be limited to access
-                                        to previous emails only.
+                                        to previous emails only.<br/><br/>
                                     </h3>
                                 </div>
                                 <div className="upgrade-details-top">
@@ -1357,7 +1358,7 @@ define([
                                                                     1024 /
                                                                     1024/
                                                                 1024,
-                                                                2
+                                                                3
                                                             )}{" "}
                                                             GB{" "}
                                                             <span>
@@ -1371,7 +1372,7 @@ define([
                                                             </span>
                                                         </div>
                                                         <div className="storage-bar">
-                                                            <span style={st3}></span>
+                                                            <span style={{width:st3+"%"}}></span>
                                                         </div>
                                                     </div>
                                                 </div>

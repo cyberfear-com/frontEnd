@@ -77,6 +77,9 @@ export default function Header({ variant = 'default' }) {
               <li className='navbar-item fw-medium'>
                 <NavLink to="/contact-us" className='nav-link px-3 text-reset' activeclassname='active'>Contact</NavLink>
               </li>
+              <li className='navbar-item fw-medium'>
+                <NavLink to="/sign-up" className='nav-link px-3 text-reset' activeclassname='active'>NewsLetter</NavLink>
+              </li>
             </ul>
 
             <ul className='navbar-nav buttons'>

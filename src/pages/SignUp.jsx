@@ -25,7 +25,9 @@ export default function Signup() {
                     <p className='lead opacity-50'>
                         Please provide the email for newsletter
                     </p>
-
+<br/>
+                    <br/>
+                    <br/>
                     <form className='mt-5' action="api/submitNewsletter" method="POST">
                         <div className={classNames(styles.iconField, styles.email, 'mb-3')}>
                             <input
@@ -36,12 +38,20 @@ export default function Signup() {
                                 placeholder='Enter your email address'
                             />
                         </div>
-
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
                         <div className='d-grid mt-4'>
                             <button disabled={false} type='submit' className='btn btn-primary btn-block'>Submit</button>
                         </div>
                     </form>
                 </div>
+
+                <br/>
+                <br/>
+
+                <br/>
                 <div className={classNames(styles.bg, 'col-12 col-md-6 text-bg-primary d-none d-md-block')}>
                     <div className={classNames(styles.phoneWithText, 'text-center')}>
                         <img src={PhoneImg} className={styles.phone} />

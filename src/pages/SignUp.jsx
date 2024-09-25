@@ -33,7 +33,6 @@ export default function Signup() {
                                 className='form-control'
                                 id='email'
                                 name="email"
-                                value="test@ss.com"
                                 placeholder='Enter your email address'
                             />
                         </div>

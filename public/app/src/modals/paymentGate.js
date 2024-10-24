@@ -284,30 +284,30 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                 }),
                         */
 
-                    this.setState(
-                        {
-                            // typeOfPayment: "stripe",
-                            // type: "NewMembership",
-                            // price: this.state.valueOfPayment/100,
-                            // PaymentDescr: thisComp.state.periodOfPayment == "yearly-two"
-                            //     ? "2 Years Subscription":
-                            //     thisComp.state.periodOfPayment == "yearly-one"
-                            //         ? "1 Year Subscription":"1 month Subscription",
-                            // planSelector:this.state.paymentPlan
-                            typeOfPayment: "stripe",
-                            type: "NewMembership",
-                            price: this.state.valueOfPayment/100,
-                            PaymentDescr: thisComp.state.periodOfPayment == "yearly-two"
-                                ? "2 years":
-                                thisComp.state.periodOfPayment == "yearly-one"
-                                    ? "1 year":"1 month",
-                            planSelector:this.state.paymentPlan
-                        },
-                        function () {
-                            app.stripeCheckOut.start(this);
-                            app.stripeCheckOut.checkout(this);
-                        }
-                    );
+//                     this.setState(
+//                         {
+//                             // typeOfPayment: "stripe",
+//                             // type: "NewMembership",
+//                             // price: this.state.valueOfPayment/100,
+//                             // PaymentDescr: thisComp.state.periodOfPayment == "yearly-two"
+//                             //     ? "2 Years Subscription":
+//                             //     thisComp.state.periodOfPayment == "yearly-one"
+//                             //         ? "1 Year Subscription":"1 month Subscription",
+//                             // planSelector:this.state.paymentPlan
+//                             typeOfPayment: "stripe",
+//                             type: "NewMembership",
+//                             price: this.state.valueOfPayment/100,
+//                             PaymentDescr: thisComp.state.periodOfPayment == "yearly-two"
+//                                 ? "2 years":
+//                                 thisComp.state.periodOfPayment == "yearly-one"
+//                                     ? "1 year":"1 month",
+//                             planSelector:this.state.paymentPlan
+//                         },
+//                         function () {
+//                             app.stripeCheckOut.start(this);
+//                             app.stripeCheckOut.checkout(this);
+//                         }
+//                     );
 
                     break;
 
@@ -380,54 +380,6 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
 
                     break;
             }
-        },
-
-        async stripeHandleSubmit(e) {
-            //4000000000000002 -decline
-            //4242 4242 4242 4242 -good
-            e.preventDefault();
-            app.stripeCheckOut.setLoading(true);
-
-            var elements = app.stripeCheckOut.get("elements");
-            var stripe = app.stripeCheckOut.get("stripe");
-
-            const { error, paymentIntent } = await stripe.confirmPayment({
-                elements,
-                confirmParams: {
-                    // Make sure to change this to your payment completion page
-                    return_url: "https://mailum.com",
-                },
-                redirect: "if_required",
-            });
-
-            try {
-                if (paymentIntent.status === "succeeded") {
-                    console.log("paid");
-                    app.stripeCheckOut.showMessage(
-                        "Payment was accepted. Please wait to be redirected"
-                    );
-                }
-            } catch (error) {}
-
-            // This point will only be reached if there is an immediate error when
-            // confirming the payment. Otherwise, your customer will be redirected to
-            // your `return_url`. For some payment methods like iDEAL, your customer will
-            // be redirected to an intermediate site first to authorize the payment, then
-            // redirected to the `return_url`.
-            // console.log(error);
-            try {
-                if (
-                    error.type === "card_error" ||
-                    error.type === "validation_error"
-                ) {
-                    app.stripeCheckOut.showMessage(error.message);
-                } else {
-                    app.stripeCheckOut.showMessage(
-                        "An unexpected error occured."
-                    );
-                }
-            } catch (error) {}
-            app.stripeCheckOut.setLoading(false);
         },
 
         new_script: function () {

@@ -358,7 +358,7 @@ define([
 
                 case "stripe":
                     // Call the start function in StripeCheckOut.js
-                    app.stripeCheckOut.start(this);
+                    app.stripeCheckOut.generateStripeUrl(this);
                     break;
                 case "payPal":
                     var thisComp = this;

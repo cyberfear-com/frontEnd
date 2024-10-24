@@ -159,6 +159,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                 } else if (msg["response"] === "success") {
 
                     app.userObjects.loadUserPlan(function () {
+                        console.log('loadUserPlan');
                         //thisComp.setState(
                          //   {
                          //       butDis: false,
@@ -173,20 +174,21 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                     console.log('thisComp.state');
                                     console.log(thisComp.state);
                                 });
+                                //alert("setMembership: " + thisComp.state.periodOfPayment);
 
-                                if (
-                                    thisComp.state.typeOfPayment == "stripe" &&
-                                    thisComp.state.paymentPlan !== "free"
-                                ) {
-                                    var payLoad = {};
-                                    payLoad["planSelector"] = this.state.periodOfPayment;
-                                    payLoad["userToken"] =
-                                        app.user.get("userLoginToken");
-                                    payLoad["price"] = this.state.valueOfPayment;
-                                    payLoad["stripeId"] = this.state.stripeId;
-
-                                    app.stripeCheckOut.updateStripe(payLoad);
-                                }
+//                                 if (
+//                                     thisComp.state.typeOfPayment == "stripe" &&
+//                                     thisComp.state.paymentPlan !== "free"
+//                                 ) {
+//                                     var payLoad = {};
+//                                     payLoad["planSelector"] = this.state.periodOfPayment;
+//                                     payLoad["userToken"] =
+//                                         app.user.get("userLoginToken");
+//                                     payLoad["price"] = this.state.valueOfPayment;
+//                                     payLoad["stripeId"] = this.state.stripeId;
+// 
+//                                     app.stripeCheckOut.updateStripe(payLoad);
+//                                 }
                             //}
                        // );
                     });
@@ -245,6 +247,11 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                     break;
                 case "stripe":
                     var thisComp = this;
+                    this.setState({
+                        typeOfPayment: "stripe",
+                    });
+
+                    break;
 
 /*                    location:that.state.location,//'NewMembership','plan'
                         planSelector:that.state.forPlan, //free','basic','medium','pro'
@@ -263,29 +270,37 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                             this.state.periodOfPayment == "yearly-two"
                                 ? "2 Years Subscription":
                                 this.state.periodOfPayment == "yearly-one"
-                                    ? "1 Year Subscription":"1 Month Subscription"
+                                    ? "1 Year Subscription":"1 month Subscription"
                         }
 
-					price:that.state.price, //$
-					planSelector:that.state.planSelector, //free, basic, etc
-					duration:that.state.duration, //item/plan descr 1 year,
-					type:that.state.type, // new membership, renewal
+                    price:that.state.price, //$
+                    planSelector:that.state.planSelector, //free, basic, etc
+                    duration:that.state.duration, //item/plan descr 1 year,
+                    type:that.state.type, // new membership, renewal
 
-					userToken:app.user.get("userLoginToken"),
-					email:app.user.get('loginEmail'),
+                    userToken:app.user.get("userLoginToken"),
+                    email:app.user.get('loginEmail'),
 
-				}),
+                }),
                         */
 
                     this.setState(
                         {
+                            // typeOfPayment: "stripe",
+                            // type: "NewMembership",
+                            // price: this.state.valueOfPayment/100,
+                            // PaymentDescr: thisComp.state.periodOfPayment == "yearly-two"
+                            //     ? "2 Years Subscription":
+                            //     thisComp.state.periodOfPayment == "yearly-one"
+                            //         ? "1 Year Subscription":"1 month Subscription",
+                            // planSelector:this.state.paymentPlan
                             typeOfPayment: "stripe",
                             type: "NewMembership",
                             price: this.state.valueOfPayment/100,
                             PaymentDescr: thisComp.state.periodOfPayment == "yearly-two"
-                                ? "2 Years Subscription":
+                                ? "2 years":
                                 thisComp.state.periodOfPayment == "yearly-one"
-                                    ? "1 Year Subscription":"1 Month Subscription",
+                                    ? "1 year":"1 month",
                             planSelector:this.state.paymentPlan
                         },
                         function () {
@@ -321,25 +336,20 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                             purchase_units: [
                                                 {
                                                     amount: {
-                                                        value: thisComp.state.valueOfPayment/100,
-                                                        currency_code:"USD",
-                                                        breakdown:{
-                                                            item_total:{
-                                                                currency_code: "USD",
-                                                                value: thisComp.state.valueOfPayment/100
-                                                            }
-                                                        }
+                                                        value: thisComp.state
+                                                            .valueOfPayment/100,
                                                     },
                                                     items:[
                                                         {
-                                                            name: thisComp.state.paymentPlan +' plan',
+                                                            name:thisComp.state.paymentPlan +' plan',
                                                             description: thisComp.state.periodOfPayment == "yearly-two"
-                                                                ? "2 Years Subscription":
+                                                                ? "2 years":
                                                                 thisComp.state.periodOfPayment == "yearly-one"
-                                                                    ? "1 Year Subscription":"1 Month Subscription",
+                                                                    ? "1 year":"1 month",
                                                             unit_amount:{
                                                                 currency_code:"USD",
-                                                                value:thisComp.state.valueOfPayment/100
+                                                                value:thisComp.state
+                                                                    .valueOfPayment/100
                                                             },
                                                             quantity:1
                                                         }
@@ -424,7 +434,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
             return new Promise(function (resolve, reject) {
                 var script = document.createElement("script");
                 script.src =
-                    "https://www.paypal.com/sdk/js?client-id=AWvU3zcq6qRAA5i316iSxoUYqNJ6t8ukW_jba3SB8XeSCLZbyESO4noshH81NnbjrrK-QMWpi53he_FY&currency=USD";
+                    "https://www.paypal.com/sdk/js?client-id=AaDCvbA992btr491o9RRqJk6wcqicJRaKwpfhHwQh84MSVNCU1ARqFN9kAtUjqQV6GvmxSv17yFRAMGW&currency=USD";
                 script.addEventListener("load", function () {
                     resolve();
                 });
@@ -474,6 +484,23 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                     console.log(this.state.periodOfPayment);
 
 
+                    break;
+                case "payStripe":
+                    var thisComp = this;
+                    this.setState({
+                        type: "NewMembership",
+                        price: this.state.valueOfPayment / 100,
+                        PaymentDescr: thisComp.state.periodOfPayment == "yearly-two"
+                            ? "2 years"
+                            : thisComp.state.periodOfPayment == "yearly-one"
+                                ? "1 year"
+                                : "1 month",
+                        planSelector: this.state.paymentPlan, // "medium"
+                        typeOfPayment: "stripe",
+                    }, () => {
+                        // This callback runs after the state has been updated
+                        app.stripeCheckOut.generateStripeUrl(this);
+                    });
                     break;
                 case "freemium":
                     $.ajax({
@@ -1173,9 +1200,9 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                                 name="description"
                                                 value={
                                                     this.state.periodOfPayment == "yearly-two"
-                                                        ? "2 Years Subscription":
+                                                        ? "2 years":
                                                         this.state.periodOfPayment == "yearly-one"
-                                                            ? "1 Year Subscription":"1 Month Subscription"
+                                                            ? "1 year":"1 month"
                                                 }
                                             />
                                             <input
@@ -1241,9 +1268,9 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                                 name="item_desc"
                                                 value={
                                                     this.state.periodOfPayment == "yearly-two"
-                                                        ? "2 Years Subscription":
+                                                        ? "2 years":
                                                         this.state.periodOfPayment == "yearly-one"
-                                                    ? "1 Year Subscription":"1 Month Subscription"
+                                                    ? "1 year":"1 month"
                                                 }
                                             />
                                             <input
@@ -1279,30 +1306,40 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                         </form>
                                         <div className="clearfix"></div>
 
+                                        {/* <div */}
+                                        {/*     className={ */}
+                                        {/*         this.state.typeOfPayment == "stripe"&&  this.state.paymentPlan != "free" */}
+                                        {/*             ? "" */}
+                                        {/*             : "d-none" */}
+                                        {/*     } */}
+                                        {/*     id="stripe-container" */}
+                                        {/* > */}
+                                        {/*     <form id="payment-form"> */}
+                                        {/*         <div id="payment-element"></div> */}
+                                        {/*         <button id="submit"> */}
+                                        {/*             <div */}
+                                        {/*                 className="spinner d-none" */}
+                                        {/*                 id="spinner" */}
+                                        {/*             ></div> */}
+                                        {/*             <span id="button-text"> */}
+                                        {/*                 Pay now */}
+                                        {/*             </span> */}
+                                        {/*         </button> */}
+                                        {/*         <div */}
+                                        {/*             id="payment-message" */}
+                                        {/*             className="d-none" */}
+                                        {/*         ></div> */}
+                                        {/*     </form> */}
+                                        {/* </div> */}
                                         <div
                                             className={
-                                                this.state.typeOfPayment == "stripe"&&  this.state.paymentPlan != "free"
+                                                this.state.paym == "stripe"
                                                     ? ""
                                                     : "d-none"
                                             }
                                             id="stripe-container"
                                         >
-                                            <form id="payment-form">
-                                                <div id="payment-element"></div>
-                                                <button id="submit">
-                                                    <div
-                                                        className="spinner d-none"
-                                                        id="spinner"
-                                                    ></div>
-                                                    <span id="button-text">
-                                                        Pay now
-                                                    </span>
-                                                </button>
-                                                <div
-                                                    id="payment-message"
-                                                    className="d-none"
-                                                ></div>
-                                            </form>
+                                        <p>Stripe payment has been opened in a new tab.</p>
                                         </div>
 
                                         <div
@@ -1394,7 +1431,6 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                         Sign In
                                     </button>
 
-
                                     <button
                                         type="submit"
                                         form={
@@ -1424,6 +1460,31 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                         }}
                                     >
                                         Pay Now
+                                    </button>
+
+                                    <button
+                                        type="submit"
+                                        onClick={this.handleClick.bind(
+                                            this,
+                                            "payStripe"
+                                        )}
+                                        className={
+                                            (this.state.typeOfPayment === "stripe") &&
+                                            this.state.paymentPlan !== "free" &&
+                                            !this.state.butDis
+                                                ? "white-btn"
+                                                : "d-none"
+                                        }
+                                        disabled={
+                                            this.state.typeOfPayment == "" ||
+                                            this.state.butDis
+                                        }
+                                        style={{
+                                            float: "none",
+                                            display: "initial",
+                                        }}
+                                    >
+                                        Pay Now Stripe
                                     </button>
                                 </div>
                             </div>

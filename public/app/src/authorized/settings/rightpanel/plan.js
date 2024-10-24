@@ -357,18 +357,8 @@ define([
                     break;
 
                 case "stripe":
-
-                    this.setState(
-                        {
-                            paym: "stripe",
-                            email: app.user.get("loginEmail"),
-                        },
-                        async function () {
-                            await app.stripeCheckOut.start(this);
-                            await app.stripeCheckOut.checkout(this);
-                        }
-                    );
-
+                    // Call the start function in StripeCheckOut.js
+                    app.stripeCheckOut.start(this);
                     break;
                 case "payPal":
                     var thisComp = this;
@@ -568,223 +558,7 @@ define([
         componentWillUnmount: function () {
             app.user.off("change:userPlan");
         },
-      /*  calculateNewPrice: function () {
-            var thisComp = this;
-            var post = this.getPlansDataPost();
-
-            app.serverCall.ajaxRequest(
-                "calculatePrice",
-                post,
-                function (result) {
-                    if (result["response"] == "success") {
-                        if (thisComp.state.planSelector == "bSize") {
-                            if (result["data"]["warning"] == "mailbox2small") {
-                                thisComp.setState({
-                                    boxWarning: true,
-                                });
-                                //console.log('sdsd');
-                            } else {
-                                thisComp.setState({
-                                    boxWarning: false,
-                                });
-                            }
-                            if (
-                                result["data"]["oldPriceYear"] >
-                                result["data"]["newPriceYear"]
-                            ) {
-                                thisComp.setState({
-                                    boxButtonText: "Save",
-                                    GBprice: accounting.formatMoney(
-                                        result["data"]["oldPriceYear"] -
-                                            result["data"]["newPriceYear"]
-                                    ),
-                                    boxBy: "Plan will be decresed by",
-                                    GBpayNow: "",
-                                });
-                            } else if (
-                                result["data"]["oldPriceYear"] ==
-                                result["data"]["newPriceYear"]
-                            ) {
-                                thisComp.setState({
-                                    boxButtonText: "",
-                                    GBprice: accounting.formatMoney(
-                                        result["data"]["basePrice"] +
-                                            result["data"]["fullPrice"]
-                                    ),
-                                    boxBy: "",
-                                    GBpayNow: "",
-                                });
-                            } else if (
-                                result["data"]["oldPriceYear"] <
-                                result["data"]["newPriceYear"]
-                            ) {
-                                if (
-                                    result["data"]["changedByMinusBalance"] <= 0
-                                ) {
-                                    thisComp.setState({
-                                        boxButtonText: "Save",
-                                        GBprice: accounting.formatMoney(
-                                            result["data"]["newPriceYear"] -
-                                                result["data"]["oldPriceYear"]
-                                        ),
-                                        boxBy: "Plan will be increased by",
-                                        GBpayNow: "",
-                                    });
-                                } else {
-                                    thisComp.setState({
-                                        boxButtonText: "Pay Now",
-                                        GBprice: accounting.formatMoney(
-                                            result["data"]["newPriceYear"] -
-                                                result["data"]["oldPriceYear"]
-                                        ),
-                                        boxBy: "Plan will be increased by",
-                                        GBpayNow:
-                                            result["data"]["minimumCharge"],
-                                    });
-                                }
-                            }
-                        }
-
-                        if (thisComp.state.planSelector == "cDomain") {
-                            if (result["data"]["warning"] == "domain2small") {
-                                thisComp.setState({
-                                    domWarning: true,
-                                });
-                                //console.log('sdsd');
-                            } else {
-                                thisComp.setState({
-                                    domWarning: false,
-                                });
-                            }
-                            if (
-                                result["data"]["oldPriceYear"] >
-                                result["data"]["newPriceYear"]
-                            ) {
-                                thisComp.setState({
-                                    domButtonText: "Save",
-                                    Domprice: accounting.formatMoney(
-                                        result["data"]["oldPriceYear"] -
-                                            result["data"]["newPriceYear"]
-                                    ),
-                                    domBy: "Plan will be decresed by",
-                                    dompayNow: "",
-                                });
-                            } else if (
-                                result["data"]["oldPriceYear"] ==
-                                result["data"]["newPriceYear"]
-                            ) {
-                                thisComp.setState({
-                                    domButtonText: "",
-                                    Domprice: accounting.formatMoney(
-                                        result["data"]["basePrice"] +
-                                            result["data"]["fullPrice"]
-                                    ),
-                                    domBy: "",
-                                    dompayNow: "",
-                                });
-                            } else if (
-                                result["data"]["oldPriceYear"] <
-                                result["data"]["newPriceYear"]
-                            ) {
-                                if (
-                                    result["data"]["changedByMinusBalance"] <= 0
-                                ) {
-                                    thisComp.setState({
-                                        domButtonText: "Save",
-                                        Domprice: accounting.formatMoney(
-                                            result["data"]["newPriceYear"] -
-                                                result["data"]["oldPriceYear"]
-                                        ),
-                                        domBy: "Plan will be increased by",
-                                        dompayNow: "",
-                                    });
-                                } else {
-                                    thisComp.setState({
-                                        domButtonText: "Pay Now",
-                                        Domprice: accounting.formatMoney(
-                                            result["data"]["newPriceYear"] -
-                                                result["data"]["oldPriceYear"]
-                                        ),
-                                        domBy: "Plan will be increased by",
-                                        dompayNow:
-                                            result["data"]["minimumCharge"],
-                                    });
-                                }
-                            }
-                        }
-
-                        if (thisComp.state.planSelector == "alias") {
-                            if (result["data"]["warning"] == "alias2small") {
-                                thisComp.setState({
-                                    alWarning: true,
-                                });
-                                //console.log('sdsd');
-                            } else {
-                                thisComp.setState({
-                                    alWarning: false,
-                                });
-                            }
-                            if (
-                                result["data"]["oldPriceYear"] >
-                                result["data"]["newPriceYear"]
-                            ) {
-                                thisComp.setState({
-                                    alButtonText: "Save",
-                                    alprice: accounting.formatMoney(
-                                        result["data"]["oldPriceYear"] -
-                                            result["data"]["newPriceYear"]
-                                    ),
-                                    alBy: "Plan will be decresed by",
-                                    alpayNow: "",
-                                });
-                            } else if (
-                                result["data"]["oldPriceYear"] ==
-                                result["data"]["newPriceYear"]
-                            ) {
-                                thisComp.setState({
-                                    alButtonText: "",
-                                    alprice: accounting.formatMoney(
-                                        result["data"]["basePrice"] +
-                                            result["data"]["fullPrice"]
-                                    ),
-                                    alBy: "",
-                                    alpayNow: "",
-                                });
-                            } else if (
-                                result["data"]["oldPriceYear"] <
-                                result["data"]["newPriceYear"]
-                            ) {
-                                if (
-                                    result["data"]["changedByMinusBalance"] <= 0
-                                ) {
-                                    thisComp.setState({
-                                        alButtonText: "Save",
-                                        alprice: accounting.formatMoney(
-                                            result["data"]["newPriceYear"] -
-                                                result["data"]["oldPriceYear"]
-                                        ),
-                                        alBy: "Plan will be increased by",
-                                        alpayNow: "",
-                                    });
-                                } else {
-                                    thisComp.setState({
-                                        alButtonText: "Pay Now",
-                                        alprice: accounting.formatMoney(
-                                            result["data"]["newPriceYear"] -
-                                                result["data"]["oldPriceYear"]
-                                        ),
-                                        alBy: "Plan will be increased by",
-                                        alpayNow:
-                                            result["data"]["minimumCharge"],
-                                    });
-                                }
-                            }
-                        }
-                    }
-                }
-            );
-        },
-*/
+        
         presetValues: function () {
             var thisComp = this;
 
@@ -1144,7 +918,9 @@ define([
             return options;
         },
         async stripeHandleSubmit(e) {
+            alert('stripeHandleSubmit: ' . e);
             console.log("her55");
+            return;
             e.preventDefault();
             app.stripeCheckOut.setLoading(true);
 
@@ -1597,6 +1373,31 @@ define([
                                     id="paypal-button-container"
                                 ></div>
 
+                                {/* <div */}
+                                {/*     className={ */}
+                                {/*         this.state.paym == "stripe" */}
+                                {/*             ? "" */}
+                                {/*             : "d-none" */}
+                                {/*     } */}
+                                {/*     id="stripe-container" */}
+                                {/* > */}
+                                {/*     <form id="payment-form"> */}
+                                {/*         <div id="payment-element"></div> */}
+                                {/*         <button id="submit"> */}
+                                {/*             <div */}
+                                {/*                 className="spinner d-none" */}
+                                {/*                 id="spinner" */}
+                                {/*             ></div> */}
+                                {/*             <span id="button-text"> */}
+                                {/*                 Pay now */}
+                                {/*             </span> */}
+                                {/*         </button> */}
+                                {/*         <div */}
+                                {/*             id="payment-message" */}
+                                {/*             className="d-none" */}
+                                {/*         ></div> */}
+                                {/*     </form> */}
+                                {/* </div> */}
                                 <div
                                     className={
                                         this.state.paym == "stripe"
@@ -1605,22 +1406,7 @@ define([
                                     }
                                     id="stripe-container"
                                 >
-                                    <form id="payment-form">
-                                        <div id="payment-element"></div>
-                                        <button id="submit">
-                                            <div
-                                                className="spinner d-none"
-                                                id="spinner"
-                                            ></div>
-                                            <span id="button-text">
-                                                Pay now
-                                            </span>
-                                        </button>
-                                        <div
-                                            id="payment-message"
-                                            className="d-none"
-                                        ></div>
-                                    </form>
+                                <p>Stripe payment has been opened in a new tab.</p>
                                 </div>
                             </div>
 

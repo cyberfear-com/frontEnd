@@ -46,46 +46,49 @@ define([
 
 			})
 		},
-		start:async function(that){
+	    generateStripeUrl: function(that) {
+	        // Open a blank window immediately to avoid popup blockers
+	        var paymentWindow = window.open('', '_blank');
 
-			//4000000000000002 -decline
-			//4242 4242 4242 4242 -good
+	        // Collect necessary data before making the request
+	        var paymentData = {
+	            price: that.state.price,
+	            planSelector: that.state.planSelector + " plan",
+	            duration: that.state.PaymentDescr,
+	            type: that.state.planSelector + " plan",
+	            userToken: app.user.get("userLoginToken"),
+	            email: app.user.get('loginEmail'),
+	        };
+	        //alert(JSON.stringify(paymentData, null, 2));
+	        // Update the state (if necessary)
+	        that.setState({
+	            paym: "stripe",
+	            email: app.user.get("loginEmail"),
+	        });
 
-			if(!app.user.get("stipeLoaded")){
-				var stripe_script = await app.stripeCheckOut.stripe_script(this);
-			}
-
-			const { clientSecret,amount,id } = await fetch("/api/createOrderStripeV3", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-
-				body: JSON.stringify({
-					price:that.state.price, //$
-					planSelector:that.state.planSelector+" plan", //free, basic, etc
-					duration:that.state.PaymentDescr, //item/plan descr 1 year,
-					type:that.state.planSelector+" plan", // new membership, renewal
-
-					userToken:app.user.get("userLoginToken"),
-					email:app.user.get('loginEmail'),
-
-				}),
-
-			}).then((r) => r.json());
-
-			app.stripeCheckOut.set({
-				"elements":app.stripeCheckOut.get("stripe").elements({ clientSecret })
-			});
-
-			that.setState({
-				stripeAm:amount,
-				stripeId:id,
-				clientSecret:clientSecret
-			});
-
-			const paymentElement =app.stripeCheckOut.get("elements").create("payment");
-			paymentElement.mount("#payment-element");
-
-		},
+	        // Make the asynchronous call to get the Stripe URL
+	        fetch("/api/createOrderStripeV3", {
+	            method: "POST",
+	            headers: { "Content-Type": "application/json" },
+	            body: JSON.stringify(paymentData),
+	        })
+	        .then((response) => response.json())
+	        .then((result) => {
+	            if (result && result.url) {
+	                // Redirect the paymentWindow to the Stripe URL
+	                paymentWindow.location.href = result.url;
+	            } else {
+	                // Handle the error case
+	                paymentWindow.close();
+	                app.notifications.systemMessage("Failed to initiate payment. Please try again.");
+	            }
+	        })
+	        .catch((error) => {
+	            console.error('Error generating Stripe URL:', error);
+	            paymentWindow.close();
+	            app.notifications.systemMessage("An error occurred. Please try again.");
+	        });
+	    },
 
 		async checkStatus() {
 			console.log('checking123');

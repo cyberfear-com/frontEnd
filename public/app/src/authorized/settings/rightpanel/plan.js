@@ -274,7 +274,7 @@ define([
                  }*/
                     if(app.user.get("userPlan")["paymentVersion"]==2 && app.user.get("userPlan")["planSelected"]!=3 && !app.user.get("userPlan")["needRenew"]){
                         price=(app.user.get("userPlan")["renewAmount"]-app.user.get("userPlan")["currentPlanBalance"]-app.user.get("userPlan")["alrdPaid"])/100;
-                    } 
+                    }
                     if(app.user.get("userPlan")["paymentVersion"]==2 && app.user.get("userPlan")["planSelected"]!=3 && app.user.get("userPlan")["needRenew"]){
                         price=(app.user.get("userPlan")["renewAmount"]-app.user.get("userPlan")["currentPlanBalance"])/100;
                     }else if(app.user.get("userPlan")["paymentVersion"]==3 && app.user.get("userPlan")["planSelected"]!="free"){
@@ -602,7 +602,7 @@ define([
         componentWillUnmount: function () {
             app.user.off("change:userPlan");
         },
-        
+
         presetValues: function () {
             var thisComp = this;
 
@@ -1221,7 +1221,7 @@ define([
                                         </div>
 
 
-                                        <button 
+                                        <button
                                             type="button"
                                             className={app.user.get("userPlan")["needRenew"]||app.user.get("userPlan")["pastDue"]?"btn-border mb-3":"d-none"}
                                             onClick={this.handleClick.bind(this,"fill")}
@@ -1319,15 +1319,15 @@ define([
                                 </div>
                             </div>
 
-                            <div className={this.state.secondPanelClass}>
+                            <div className={this.state.secondPanelClass + " container"}>
                                 <h3 className="d-none">Payment</h3>
 
                                 {/* <div className="btn-row btn-group"> */}
-                                <div className="btn-row btn-group btn-container">
+                                <div className="btn-row d-sm-flex d-xs-flex">
                                     {/*<button type="submit" className="btn btn-primary" onClick={this.handleClick.bind(this, 'payPal')}>Pay With PayPal</button>*/}
                                     <button
                                         type="button"
-                                        className="btn-border fixed-width-btn"
+                                        className="btn-border fixed-width-btn col-sm mx-1"
                                         onClick={this.handleClick.bind(
                                             this,
                                             "showFirst"
@@ -1338,7 +1338,7 @@ define([
                                     <button
                                         type="submit"
                                         //className="btn-blue fixed-width-btn"
-                                        className={this.state.selectedPaymentOption == "subscription"? "d-none":"btn-blue fixed-width-btn"}
+                                        className={this.state.selectedPaymentOption == "subscription"? "d-none":"btn-blue fixed-width-btn col-sm mx-1"}
                                         form="crypF"
                                         onClick={this.handleClick.bind(
                                             this,
@@ -1349,7 +1349,7 @@ define([
                                     </button>
                                     <button
                                         type="submit"
-                                        className={this.state.selectedPaymentOption == "subscription"? "d-none":"btn-blue fixed-width-btn"}
+                                        className={this.state.selectedPaymentOption == "subscription"? "d-none":"btn-blue fixed-width-btn col-sm mx-1 d-none"}
                                         form="perfF"
                                         onClick={this.handleClick.bind(
                                             this,
@@ -1360,7 +1360,7 @@ define([
                                     </button>
                                     <button
                                         type="submit"
-                                        className="btn-blue fixed-width-btn"
+                                        className="btn-blue fixed-width-btn col-sm mx-1"
                                         onClick={this.handleClick.bind(
                                             this,
                                             "stripe"
@@ -1368,8 +1368,8 @@ define([
                                     >
                                         Stripe (Credit / Debit Card)
                                     </button>
-                                    <button
-                                        className={this.state.selectedPaymentOption == "subscription"? "d-none":"btn-blue fixed-width-btn"}
+                                    <button type="submit"
+                                        className={this.state.selectedPaymentOption == "subscription"? "d-none":"btn-blue fixed-width-btn col-sm mx-1"}
                                         onClick={this.handleClick.bind(
                                             this,
                                             "payPal"
@@ -1380,7 +1380,7 @@ define([
                                 </div>
 
                                 <div className="float-none"></div>
-                                <div 
+                                <div
                                 //className="info-text"
                                 className={this.state.selectedPaymentOption == "subscription"? "d-none":"info-text"}
                                 >

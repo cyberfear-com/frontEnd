@@ -141,10 +141,10 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
             // console.log("paymentPlan: " + this.state.paymentPlan);
             // Check if paymentPlan has just been set (changed from null to a value)
             //if (prevState.paymentPlan === null && this.state.paymentPlan !== null) {
-            if (prevState.paymentPlan != this.state.paymentPlan) {
+            //if (prevState.paymentPlan != this.state.paymentPlan) {
                 // Update paymentPackagesModalActive when paymentPlan is no longer null
-                this.setState({ paymentPackagesModalActive: false });
-            }
+              //  this.setState({ paymentPackagesModalActive: false });
+            //}
         },
         setMembership: function (plan,period,finalPrice) {
             console.log('setting price');
@@ -175,6 +175,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                             valueOfPayment:finalPrice,
                             paymentPlan:plan,
                             periodOfPayment:period,
+                            paymentPackagesModalActive: false,
 
                         },function(){
                             console.log('thisComp.state');
@@ -444,12 +445,15 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                     });
                     break;
                 case "freemium":
+                    var userObj = {};
+                    userObj["userToken"] = app.user.get("userLoginToken");
+
                     $.ajax({
                         method: "POST",
                         url:
                             app.defaults.get("apidomain") +
                             "/activateFreemiumV2",
-                        data: {},
+                        data: userObj,
                         dataType: "json",
                         xhrFields: {
                             withCredentials: true,
@@ -478,7 +482,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
         handleBackButton: function () {
             this.setState({
                 paymentPackagesModalActive: true,
-                choosePlanButtonIsLoading: false,
+                choosePlanButtonIsLoading: false
             });
         },
         handlePaymentOptionChange(optionId) {
@@ -699,21 +703,6 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                                                 }
                                                             </div>
                                                             <div className="btn-row">
-                                                                {/* <button */}
-                                                                {/*     className={paymentContentTab.title=="Medium"?"btn fw-normal text-center w-100 border-primary border-1":"btn fw-normal text-center w-100 border-primary border-1 normal"} */}
-                                                                {/*     style={{borderRadius:"0.75rem"}} */}
-                                                                {/*     onClick={this.handleClick.bind( */}
-                                                                {/*         null, */}
-                                                                {/*         'readytopay', */}
-                                                                {/*         paymentContentTab.id, */}
-                                                                {/*         this.state.currentTab */}
-                                                                {/*     )} */}
-                                                                {/*     data-type={ */}
-                                                                {/*         paymentContentTab.methodType */}
-                                                                {/*     } */}
-                                                                {/* > */}
-                                                                {/*     Choose plan */}
-                                                                {/* </button> */}
                                                                 <button
                                                                     className={
                                                                         paymentContentTab.title === "Medium"
@@ -723,7 +712,8 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                                                     style={{ borderRadius: "0.75rem" }}
                                                                     onClick={async () => {
                                                                         // Set the ID of the loading button
-                                                                        this.setState({ choosePlanButtonIsLoading: paymentContentTab.id });
+                                                                        this.setState({ choosePlanButtonIsLoading: paymentContentTab.id
+                                                                              });
 
                                                                         // Wait for handleClick to complete
                                                                         await this.handleClick(
@@ -736,15 +726,8 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                                                     }}
                                                                     data-type={paymentContentTab.methodType}
                                                                 >
-                                                                    {this.state.choosePlanButtonIsLoading === paymentContentTab.id
-                                                                        ? React.createElement(
-                                                                            'span',
-                                                                            {},
-                                                                            'Loading ',
-                                                                            React.createElement('span', { className: 'rotating-icon' }, '↻')
-                                                                          )
-                                                                        : "Choose plan"
-                                                                    }
+                                                                    <span>{this.state.choosePlanButtonIsLoading === paymentContentTab.id?"Loading ":"Choose plan"}<span className={this.state.choosePlanButtonIsLoading === paymentContentTab.id?"rotating-icon":""}>{this.state.choosePlanButtonIsLoading === paymentContentTab.id?"↻":""}</span></span>
+
                                                                 </button>
                                                             </div>
                                                         </div>
@@ -956,7 +939,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                             </div>
                                             <div className="clearfix"></div>
                                             <div
-                                                className={`radio ${this.state.paymentPlan == "free" || this.state.selectedPaymentOption == "subscription"? "d-none":this.state.typeOfPayment == "perfectm"? "selected": ""}`}
+                                                className={`d-none radio ${this.state.paymentPlan == "free" || this.state.selectedPaymentOption == "subscription"? "d-none":this.state.typeOfPayment == "perfectm"? "selected": ""}`}
 
                                             >
                                                 <label>

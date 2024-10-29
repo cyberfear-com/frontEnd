@@ -141,10 +141,10 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
             // console.log("paymentPlan: " + this.state.paymentPlan);
             // Check if paymentPlan has just been set (changed from null to a value)
             //if (prevState.paymentPlan === null && this.state.paymentPlan !== null) {
-            if (prevState.paymentPlan != this.state.paymentPlan) {
+            //if (prevState.paymentPlan != this.state.paymentPlan) {
                 // Update paymentPackagesModalActive when paymentPlan is no longer null
-                this.setState({ paymentPackagesModalActive: false });
-            }
+              //  this.setState({ paymentPackagesModalActive: false });
+            //}
         },
         setMembership: function (plan,period,finalPrice) {
             console.log('setting price');
@@ -175,6 +175,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                             valueOfPayment:finalPrice,
                             paymentPlan:plan,
                             periodOfPayment:period,
+                            paymentPackagesModalActive: false,
 
                         },function(){
                             console.log('thisComp.state');
@@ -481,7 +482,11 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
         handleBackButton: function () {
             this.setState({
                 paymentPackagesModalActive: true,
+                choosePlanButtonIsLoading: false
             });
+        },
+        handlePaymentOptionChange(optionId) {
+          this.setState({ selectedPaymentOption: optionId });
         },
         setPrices: function (){
             var price=[];
@@ -547,6 +552,11 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                 },
             ];
 
+            const paymentOptions = [
+              { id: "one-time", label: "One-time" },
+              { id: "subscription", label: "Subscription" },
+            ];
+
             return (
                 <div
                     className="modal modal-sheet position-fixed d-flex bg-secondary bg-opacity-75 py-0 overflow-hidden"
@@ -569,7 +579,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                 style={{ paddingTop: "10px" }}
                             >
                                 <ul
-                                    className="nav nav-tabs"
+                                    className="nav nav-tabs mb-2"
                                     id="myTab"
                                     role="tablist"
                                 >
@@ -611,6 +621,39 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                             </button>
                                         </li>
                                     ))}
+                                </ul>
+                                {/* <div */}
+                                {/*     className="nav nav-tabs" */}
+                                {/* > */}
+                                {/*   {paymentOptions.map((option) => ( */}
+                                {/*     <label key={option.id}> */}
+                                {/*       <input */}
+                                {/*         type="radio" */}
+                                {/*         value={option.id} */}
+                                {/*         checked={this.state.selectedPaymentOption === option.id} */}
+                                {/*         onChange={this.handlePaymentOptionChange} */}
+                                {/*         onClick={this.handlePaymentOptionChange.bind(this.handlePaymentOptionChange)} */}
+                                {/*       /> */}
+                                {/*       {option.label} */}
+                                {/*     </label> */}
+                                {/*   ))} */}
+                                {/* </div> */}
+                                <ul className="nav nav-tabs recurring-tabs" id="paymentOptionTab" role="tablist">
+                                  {paymentOptions.map((option, index) => (
+                                    <li role="presentation" key={index}>
+                                      <button
+                                        className={`${
+                                          this.state.selectedPaymentOption === option.id ? "active" : ""
+                                        }`}
+                                        id={`${option.id}-tab`}
+                                        type="button"
+                                        role="tab"
+                                        onClick={() => this.handlePaymentOptionChange(option.id)}
+                                      >
+                                        {option.label}
+                                      </button>
+                                    </li>
+                                  ))}
                                 </ul>
                             </div>
                             <div className="tab-content" id="myTabContent">
@@ -661,19 +704,30 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                                             </div>
                                                             <div className="btn-row">
                                                                 <button
-                                                                    className={paymentContentTab.title=="Medium"?"btn fw-normal text-center w-100 border-primary border-1":"btn fw-normal text-center w-100 border-primary border-1 normal"}
-                                                                    style={{borderRadius:"0.75rem"}}
-                                                                    onClick={this.handleClick.bind(
-                                                                        null,
-                                                                        'readytopay',
-                                                                        paymentContentTab.id,
-                                                                        this.state.currentTab
-                                                                    )}
-                                                                    data-type={
-                                                                        paymentContentTab.methodType
+                                                                    className={
+                                                                        paymentContentTab.title === "Medium"
+                                                                            ? "btn fw-normal text-center w-100 border-primary border-1"
+                                                                            : "btn fw-normal text-center w-100 border-primary border-1 normal"
                                                                     }
+                                                                    style={{ borderRadius: "0.75rem" }}
+                                                                    onClick={async () => {
+                                                                        // Set the ID of the loading button
+                                                                        this.setState({ choosePlanButtonIsLoading: paymentContentTab.id
+                                                                              });
+
+                                                                        // Wait for handleClick to complete
+                                                                        await this.handleClick(
+                                                                            'readytopay',
+                                                                            paymentContentTab.id,
+                                                                            this.state.currentTab
+                                                                        );
+
+                                                                        // `componentDidUpdate` will handle resetting choosePlanButtonIsLoading to null when complete
+                                                                    }}
+                                                                    data-type={paymentContentTab.methodType}
                                                                 >
-                                                                    Choose plan
+                                                                    <span>{this.state.choosePlanButtonIsLoading === paymentContentTab.id?"Loading ":"Choose plan"}<span className={this.state.choosePlanButtonIsLoading === paymentContentTab.id?"rotating-icon":""}>{this.state.choosePlanButtonIsLoading === paymentContentTab.id?"↻":""}</span></span>
+
                                                                 </button>
                                                             </div>
                                                         </div>
@@ -692,11 +746,9 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
 
                                                                             {[
                                                                                 paymentFeature=="Space: "?paymentFeature+space[paymentContentTab.id]:
-                                                                                    paymentFeature=="Email Address: "?"Email Address: "+aliases[paymentContentTab.id]:
-                                                                                        paymentFeature=="Sending: "?"Sending: "+sending[paymentContentTab.id]:
-                                                                                            paymentFeature=="Own Domain: "?"Own Domain: "+domain[paymentContentTab.id]:paymentFeature,
-
-
+                                                                                paymentFeature=="Email Address: "?"Email Address: "+aliases[paymentContentTab.id]:
+                                                                                paymentFeature=="Sending: "?"Sending: "+sending[paymentContentTab.id]:
+                                                                                paymentFeature=="Own Domain: "?"Own Domain: "+domain[paymentContentTab.id]:paymentFeature,
                                                                             ]
                                                                             }
                                                                         </li>
@@ -769,7 +821,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                             </div>
 
                                             <div
-                                                className={`radio ${this.state.paymentPlan == "free"? "d-none":this.state.typeOfPayment == "bitc"? "selected": ""}`}
+                                                className={`radio ${this.state.paymentPlan == "free" || this.state.selectedPaymentOption == "subscription"? "d-none":this.state.typeOfPayment == "bitc"? "selected": ""}`}
                                             >
                                                 <label>
                                                     <div className="te_text">
@@ -887,7 +939,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                             </div>
                                             <div className="clearfix"></div>
                                             <div
-                                                className={`radio d-none ${this.state.paymentPlan == "free" || this.state.selectedPaymentOption == "subscription"? "d-none":this.state.typeOfPayment == "perfectm"? "selected": ""}`}
+                                                className={`d-none radio ${this.state.paymentPlan == "free" || this.state.selectedPaymentOption == "subscription"? "d-none":this.state.typeOfPayment == "perfectm"? "selected": ""}`}
 
                                             >
                                                 <label>

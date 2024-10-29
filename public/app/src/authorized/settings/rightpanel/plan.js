@@ -1319,15 +1319,15 @@ define([
                                 </div>
                             </div>
 
-                            <div className={this.state.secondPanelClass}>
+                            <div className={this.state.secondPanelClass + " container"}>
                                 <h3 className="d-none">Payment</h3>
 
                                 {/* <div className="btn-row btn-group"> */}
-                                <div className="btn-row btn-group btn-container">
+                                <div className="btn-row d-sm-flex d-xs-flex">
                                     {/*<button type="submit" className="btn btn-primary" onClick={this.handleClick.bind(this, 'payPal')}>Pay With PayPal</button>*/}
                                     <button
                                         type="button"
-                                        className="btn-border fixed-width-btn"
+                                        className="btn-border fixed-width-btn col-sm mx-1"
                                         onClick={this.handleClick.bind(
                                             this,
                                             "showFirst"
@@ -1338,7 +1338,7 @@ define([
                                     <button
                                         type="submit"
                                         //className="btn-blue fixed-width-btn"
-                                        className={this.state.selectedPaymentOption == "subscription"? "d-none":"btn-blue fixed-width-btn"}
+                                        className={this.state.selectedPaymentOption == "subscription"? "d-none":"btn-blue fixed-width-btn col-sm mx-1"}
                                         form="crypF"
                                         onClick={this.handleClick.bind(
                                             this,
@@ -1349,7 +1349,7 @@ define([
                                     </button>
                                     <button
                                         type="submit"
-                                        className={this.state.selectedPaymentOption == "subscription"? "d-none":"btn-blue fixed-width-btn d-none"}
+                                        className={this.state.selectedPaymentOption == "subscription"? "d-none":"btn-blue fixed-width-btn col-sm mx-1 d-none"}
                                         form="perfF"
                                         onClick={this.handleClick.bind(
                                             this,
@@ -1360,7 +1360,7 @@ define([
                                     </button>
                                     <button
                                         type="submit"
-                                        className="btn-blue fixed-width-btn"
+                                        className="btn-blue fixed-width-btn col-sm mx-1"
                                         onClick={this.handleClick.bind(
                                             this,
                                             "stripe"
@@ -1368,8 +1368,8 @@ define([
                                     >
                                         Stripe (Credit / Debit Card)
                                     </button>
-                                    <button
-                                        className={this.state.selectedPaymentOption == "subscription"? "d-none":"btn-blue fixed-width-btn"}
+                                    <button type="submit"
+                                        className={this.state.selectedPaymentOption == "subscription"? "d-none":"btn-blue fixed-width-btn col-sm mx-1"}
                                         onClick={this.handleClick.bind(
                                             this,
                                             "payPal"

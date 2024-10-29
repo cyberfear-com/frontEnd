@@ -186,13 +186,13 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
 //                                         app.user.get("userLoginToken");
 //                                     payLoad["price"] = this.state.valueOfPayment;
 //                                     payLoad["stripeId"] = this.state.stripeId;
-// 
+//
 //                                     app.stripeCheckOut.updateStripe(payLoad);
 //                                 }
-                            //}
+                           // }
                        // );
                     });
-                }
+               }
 
                 //console.log(msg)
             });
@@ -455,12 +455,15 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                     });
                     break;
                 case "freemium":
+                    var userObj = {};
+                    userObj["userToken"] = app.user.get("userLoginToken");
+
                     $.ajax({
                         method: "POST",
                         url:
                             app.defaults.get("apidomain") +
                             "/activateFreemiumV2",
-                        data: {},
+                        data: userObj,
                         dataType: "json",
                         xhrFields: {
                             withCredentials: true,
@@ -895,7 +898,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                             </div>
                                             <div className="clearfix"></div>
                                             <div
-                                                className={`radio ${this.state.paymentPlan == "free"? "d-none":this.state.typeOfPayment == "perfectm"? "selected": ""}`}
+                                                className={`radio d-none ${this.state.paymentPlan == "free"? "d-none":this.state.typeOfPayment == "perfectm"? "selected": ""}`}
 
                                             >
                                                 <label>

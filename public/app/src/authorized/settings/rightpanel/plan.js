@@ -558,7 +558,7 @@ define([
         componentWillUnmount: function () {
             app.user.off("change:userPlan");
         },
-        
+
         presetValues: function () {
             var thisComp = this;
 
@@ -1323,7 +1323,7 @@ define([
                                     </button>
                                     <button
                                         type="submit"
-                                        className="btn-blue fixed-width-btn"
+                                        className="btn-blue fixed-width-btn d-none"
                                         form="perfF"
                                         onClick={this.handleClick.bind(
                                             this,

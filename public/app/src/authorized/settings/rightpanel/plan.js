@@ -70,9 +70,12 @@ define([
                 planTab:[],
                 duration:app.user.get("userPlan")['paymentVersion']==3?app.user.get("userPlan")['period']:"1 month",
                 planSelector:app.user.get("userPlan")['paymentVersion']==3?app.user.get("userPlan")['planSelected']:"free",
+                subStripeStatus:app.user.get("userPlan")['subStripeStatus'],
 
                 initialPeriod:app.user.get("userPlan")['period'],
-                PlanButton:true
+                PlanButton:true,
+                //selectedPaymentOption: "subscription",
+                selectedPaymentOption:app.user.get("userPlan")['subStripeStatus']=="active"||app.user.get("userPlan")['subStripeStatus']=="cancelled"||app.user.get("userPlan")['planSelected']=="free"?"subscription":"one-time",
 
             };
         },
@@ -80,8 +83,6 @@ define([
         handleClick: async function (i,id=null) {
             switch (i) {
                 case "choosePlan":
-
-
                     if(app.user.get("userPlan")['paymentVersion']==2){
                         console.log('need upgrade');
                     }else{
@@ -98,24 +99,43 @@ define([
                     var monthMult=this.state.duration=="2 years"?24:this.state.duration=="1 year"?12:1;
 
                     price=((planPrice-planPrice*totalDiscount)*monthMult)-paidOver-app.user.get("userPlan")['alrdPaid']+app.user.get("userPlan")['balanceUsedInPlan'];
-
+                    var priceNoBalance=((planPrice-planPrice*totalDiscount)*monthMult);
+                    var discount=priceNoBalance-price;
+                    // alert('planPrice: ' + priceNoBalance);
+                    // alert('price to pay: ' + price);
+                    // alert('discount: ' + discount);
                     console.log(price);
 
                     price=(price+app.user.get("userPlan")['balance'])/100;
+                    discount=(discount)/100;
+                    priceNoBalance=(priceNoBalance)/100;
                     if(price<=0){
                         console.log('we can proceed');
-                        this.handleClick('savePlan');
+                        if (this.state.selectedPaymentOption == "subscription") {
+                            this.setState({
+                                price:accounting.formatMoney(0,"",2),
+                                planPrice:accounting.formatMoney(planPrice,"",2),
+                                discount:accounting.formatMoney(priceNoBalance,"",2),
+                                PaymentDescr:this.state.duration,
+                                recurring: recurring,
+                            }, () => {
+                                // This callback runs after the state has been updated
+                                this.handleClick('showSecond');
+                            });
+                        } else if (app.user.get("userPlan")['subStripeStatus']=="active") {
+                            alert("Please cancel your subscription first by clicking 'Manage Subscription' button");
+                        } else {
+                            this.handleClick('savePlan');
+                        }
                     }else{
                         this.setState({
                             price:accounting.formatMoney(price,"",2),
+                            planPrice:accounting.formatMoney(planPrice,"",2),
+                            discount:accounting.formatMoney(discount,"",2),
                             PaymentDescr:this.state.duration
                         })
                         this.handleClick('showSecond');
                     }
-
-                   // console.log(app.user.get("userPlan")['alrdPaid']);
-                    //console.log(price);
-
                     break;
                 case "savePlan":
 
@@ -147,6 +167,15 @@ define([
                     break;
                 case "selectPeriod":
 
+                    console.log(id);
+
+                    this.setState({
+                        duration: id,
+                    });
+                    break;
+                case "manageSubscription":
+                    app.stripeCheckOut.generateStripePortalUrl(this);
+                    break;
                     console.log(id);
 
                     this.setState({
@@ -205,7 +234,12 @@ define([
 
                 case "upgradeMember":
                     var thisComp = this;
-
+                    planButtonStatus = false;
+                    // alert("thisComp.planSelector: " + this.state.planSelector);
+                    // alert("userPlan planSelected: " + app.user.get("userPlan")["planSelected"]);
+                    if (this.state.planSelector == app.user.get("userPlan")["planSelected"]) {
+                        planButtonStatus = true;
+                    }
                     this.setState({
                         firstPanelClass: "panel-body d-none",
                         firstTab: "",
@@ -213,6 +247,7 @@ define([
                         secondPanelClass: "panel-body d-none",
                         thirdTab: "active",
                         thirdPanelClass: "panel-body",
+                        PlanButton:planButtonStatus,
                        // duration:"1 month",
                       //  planSelector:"free",
 
@@ -239,12 +274,12 @@ define([
                  }*/
                     if(app.user.get("userPlan")["paymentVersion"]==2 && app.user.get("userPlan")["planSelected"]!=3 && !app.user.get("userPlan")["needRenew"]){
                         price=(app.user.get("userPlan")["renewAmount"]-app.user.get("userPlan")["currentPlanBalance"]-app.user.get("userPlan")["alrdPaid"])/100;
-                    } if(app.user.get("userPlan")["paymentVersion"]==2 && app.user.get("userPlan")["planSelected"]!=3 && app.user.get("userPlan")["needRenew"]){
-                    price=(app.user.get("userPlan")["renewAmount"]-app.user.get("userPlan")["currentPlanBalance"])/100;
-                }else if(app.user.get("userPlan")["paymentVersion"]==3 && app.user.get("userPlan")["planSelected"]!="free"){
-                    price=app.user.get("userPlan")["renewAmount"]/100;
-                }
-
+                    }
+                    if(app.user.get("userPlan")["paymentVersion"]==2 && app.user.get("userPlan")["planSelected"]!=3 && app.user.get("userPlan")["needRenew"]){
+                        price=(app.user.get("userPlan")["renewAmount"]-app.user.get("userPlan")["currentPlanBalance"])/100;
+                    }else if(app.user.get("userPlan")["paymentVersion"]==3 && app.user.get("userPlan")["planSelected"]!="free"){
+                        price=app.user.get("userPlan")["renewAmount"]/100;
+                    }
 
 
                     if(app.user.get("userPlan")["paymentVersion"]==2){
@@ -256,7 +291,7 @@ define([
                     }
 
                     this.setState({
-                        price:price<1?1:price,
+                        price:price<1?1:accounting.formatMoney(price,""),
                         planSelector:plan,
                         duration:duration,
                         PaymentDescr:"refill"
@@ -357,8 +392,13 @@ define([
                     break;
 
                 case "stripe":
-                    // Call the start function in StripeCheckOut.js
-                    app.stripeCheckOut.generateStripeUrl(this);
+                    var recurring = this.state.selectedPaymentOption == "subscription" ? 1 : 0;
+                    this.setState({
+                        recurring: recurring,
+                    }, () => {
+                        // This callback runs after the state has been updated
+                        app.stripeCheckOut.generateStripeCheckoutUrl(this);
+                    });
                     break;
                 case "payPal":
                     var thisComp = this;
@@ -553,6 +593,10 @@ define([
                     break;
                 //this.calculateNewPrice();
             }
+        },
+
+        handlePaymentOptionChange(optionId) {
+          this.setState({ selectedPaymentOption: optionId });
         },
 
         componentWillUnmount: function () {
@@ -917,55 +961,6 @@ define([
 
             return options;
         },
-        async stripeHandleSubmit(e) {
-            alert('stripeHandleSubmit: ' . e);
-            console.log("her55");
-            return;
-            e.preventDefault();
-            app.stripeCheckOut.setLoading(true);
-
-            var elements = app.stripeCheckOut.get("elements");
-            var stripe = app.stripeCheckOut.get("stripe");
-
-            const { error, paymentIntent } = await stripe.confirmPayment({
-                elements,
-                confirmParams: {
-                    // Make sure to change this to your payment completion page
-                    return_url: "https://mailum.com",
-                },
-                redirect: "if_required",
-            });
-
-            try {
-                if (paymentIntent.status === "succeeded") {
-                    console.log("paid2");
-                    app.stripeCheckOut.showMessage(
-                        "Payment was accepted. Please wait to be redirected"
-                    );
-                    this.handleClick("showFirst");
-                }
-            } catch (error) {}
-
-            // This point will only be reached if there is an immediate error when
-            // confirming the payment. Otherwise, your customer will be redirected to
-            // your `return_url`. For some payment methods like iDEAL, your customer will
-            // be redirected to an intermediate site first to authorize the payment, then
-            // redirected to the `return_url`.
-            // console.log(error);
-            try {
-                if (
-                    error.type === "card_error" ||
-                    error.type === "validation_error"
-                ) {
-                    app.stripeCheckOut.showMessage(error.message);
-                } else {
-                    app.stripeCheckOut.showMessage(
-                        "An unexpected error occured."
-                    );
-                }
-            } catch (error) {}
-            app.stripeCheckOut.setLoading(false);
-        },
 
         new_script: function () {
             return new Promise(function (resolve, reject) {
@@ -994,7 +989,10 @@ define([
             var classFullSettSelect = "col-xs-12";
             var barWidth=(accounting.toFixed(app.user.get("mailboxSize") / 1024 / 1024,2) * 100) /app.user.get("userPlan")["planData"]["bSize"];
             var st3 = barWidth>100?100:barWidth;
-
+            const paymentOptions = [
+              { id: "one-time", label: "One-time" },
+              { id: "subscription", label: "Subscription" },
+            ];
             return (
                 <div id="rightSettingPanel">
                     <div className="setting-middle upgrade-plan">
@@ -1090,6 +1088,7 @@ define([
                                     </h3>
                                 </div>
                                 <div className="upgrade-details-top">
+                                <div className="row">
                                     <div className="upgrade-details-left">
                                         <div className="top-row">
                                             <div className="row">
@@ -1201,21 +1200,46 @@ define([
                                     <div
                                         className={app.user.get("userPlan")["planSelected"]=="free" || app.user.get("userPlan")["planSelected"]=="3"?"d-none":"upgrade-details-right"}>
                                         <div className="title">
-                                            Next payment
+                                            {app.user.get("userPlan")["subStripeStatus"] == null ? "One-time payment, expires on" : "Next payment"}
                                         </div>
-                                        <div className="date">
-                                            on {new Date(
-                                            app.user.get("userPlan")["cycleEnd"] * 1000
-                                        ).toLocaleDateString("en-US",{year: "numeric", month: "short",day: "numeric"})}
-                                        </div>
-                                        <div className={app.user.get("userPlan")["needRenew"]||app.user.get("userPlan")["pastDue"]?"btn-box":"d-none"}>
-                                            <button className="btn-border"
-                                                    onClick={this.handleClick.bind(this,"fill")}
-                                            >
 
-                                                {app.user.get("userPlan")["needRenew"]?"Renew":app.user.get("userPlan")["pastDue"]?"Fill Balance":""}
-                                            </button>
+                                        <div className="date mb-3">
+                                            {app.user.get("userPlan")["subStripeStatus"] === "cancelled" ? (
+                                                "Subscription Cancelled"
+                                            ) : app.user.get("userPlan")["subStripeStatus"] === "deleted" ? (
+                                                "Subscription Deleted"
+                                            ) : (
+                                                "on " +
+                                                new Date(
+                                                    app.user.get("userPlan")["cycleEnd"] * 1000
+                                                ).toLocaleDateString("en-US", {
+                                                    year: "numeric",
+                                                    month: "short",
+                                                    day: "numeric",
+                                                })
+                                            )}
                                         </div>
+
+
+                                        <button
+                                            type="button"
+                                            className={app.user.get("userPlan")["needRenew"]||app.user.get("userPlan")["pastDue"]?"btn-border mb-3":"d-none"}
+                                            onClick={this.handleClick.bind(this,"fill")}
+                                        >
+
+                                            {app.user.get("userPlan")["needRenew"]?"Renew":app.user.get("userPlan")["pastDue"]?"Fill Balance":""}
+                                        </button>
+                                        <button
+                                            type="button"
+                                            className={app.user.get("userPlan")['subStripeStatus']?"btn-border":"d-none"}
+                                            onClick={this.handleClick.bind(
+                                                null,
+                                                "manageSubscription"
+                                            )}
+                                        >
+                                            Manage Subscription
+                                        </button>
+                                    </div>
                                     </div>
                                 </div>
 
@@ -1298,7 +1322,8 @@ define([
                             <div className={this.state.secondPanelClass}>
                                 <h3 className="d-none">Payment</h3>
 
-                                <div className="btn-row btn-group">
+                                {/* <div className="btn-row btn-group"> */}
+                                <div className="btn-row btn-group btn-container">
                                     {/*<button type="submit" className="btn btn-primary" onClick={this.handleClick.bind(this, 'payPal')}>Pay With PayPal</button>*/}
                                     <button
                                         type="button"
@@ -1312,7 +1337,8 @@ define([
                                     </button>
                                     <button
                                         type="submit"
-                                        className="btn-blue fixed-width-btn"
+                                        //className="btn-blue fixed-width-btn"
+                                        className={this.state.selectedPaymentOption == "subscription"? "d-none":"btn-blue fixed-width-btn"}
                                         form="crypF"
                                         onClick={this.handleClick.bind(
                                             this,
@@ -1323,7 +1349,7 @@ define([
                                     </button>
                                     <button
                                         type="submit"
-                                        className="btn-blue fixed-width-btn d-none"
+                                        className={this.state.selectedPaymentOption == "subscription"? "d-none":"btn-blue fixed-width-btn d-none"}
                                         form="perfF"
                                         onClick={this.handleClick.bind(
                                             this,
@@ -1343,7 +1369,7 @@ define([
                                         Stripe (Credit / Debit Card)
                                     </button>
                                     <button
-                                        className="btn-blue fixed-width-btn"
+                                        className={this.state.selectedPaymentOption == "subscription"? "d-none":"btn-blue fixed-width-btn"}
                                         onClick={this.handleClick.bind(
                                             this,
                                             "payPal"
@@ -1354,7 +1380,10 @@ define([
                                 </div>
 
                                 <div className="float-none"></div>
-                                <div className="info-text">
+                                <div
+                                //className="info-text"
+                                className={this.state.selectedPaymentOption == "subscription"? "d-none":"info-text"}
+                                >
                                     Info: It may take some time to reflect new
                                     balance after successfull payment. <br /> If
                                     you pay with bitcoin, make sure you enter
@@ -1372,32 +1401,6 @@ define([
                                     }
                                     id="paypal-button-container"
                                 ></div>
-
-                                {/* <div */}
-                                {/*     className={ */}
-                                {/*         this.state.paym == "stripe" */}
-                                {/*             ? "" */}
-                                {/*             : "d-none" */}
-                                {/*     } */}
-                                {/*     id="stripe-container" */}
-                                {/* > */}
-                                {/*     <form id="payment-form"> */}
-                                {/*         <div id="payment-element"></div> */}
-                                {/*         <button id="submit"> */}
-                                {/*             <div */}
-                                {/*                 className="spinner d-none" */}
-                                {/*                 id="spinner" */}
-                                {/*             ></div> */}
-                                {/*             <span id="button-text"> */}
-                                {/*                 Pay now */}
-                                {/*             </span> */}
-                                {/*         </button> */}
-                                {/*         <div */}
-                                {/*             id="payment-message" */}
-                                {/*             className="d-none" */}
-                                {/*         ></div> */}
-                                {/*     </form> */}
-                                {/* </div> */}
                                 <div
                                     className={
                                         this.state.paym == "stripe"
@@ -1407,6 +1410,14 @@ define([
                                     id="stripe-container"
                                 >
                                 <p>Stripe payment has been opened in a new tab.</p>
+                                </div>
+                                <div
+                                    className={
+                                        this.state.selectedPaymentOption == "subscription"? "info-text":"d-none"
+                                    }
+                                    id="stripe-container"
+                                >
+                                <p>Subscriptions can be paid via Stripe only. If you wish to pay via Crypto Currency, select one-time payment.</p>
                                 </div>
                             </div>
 
@@ -1418,7 +1429,7 @@ define([
                                 </p>
                                 <div className="tab-section">
                                     <ul
-                                        className="nav nav-tabs"
+                                        className="nav nav-tabs mb-2"
                                         id="myTab"
                                         role="tablist"
                                     >
@@ -1486,6 +1497,25 @@ define([
                                             </button>
                                         </li>
                                     </ul>
+
+                                    <ul className="nav nav-tabs recurring-tabs" id="paymentOptionTab" role="tablist">
+                                      {paymentOptions.map((option, index) => (
+                                        <li role="presentation" key={index}>
+                                          <button
+                                            className={`${
+                                              this.state.selectedPaymentOption === option.id ? "nav-link active" : "nav-link"
+                                            }`}
+                                            id={`${option.id}-tab`}
+                                            type="button"
+                                            role="tab"
+                                            onClick={() => this.handlePaymentOptionChange(option.id)}
+                                          >
+                                            {option.label}
+                                          </button>
+                                        </li>
+                                      ))}
+                                    </ul>
+
                                     <div
                                         className="tab-content"
                                         id="additional-plans"
@@ -1544,8 +1574,8 @@ define([
                                                         Compare plans
                                                     </button>
                                                 </div>
-                                                <div className="btn-row">
-                                                    <button className="btn-blue fixed-width-btn"
+                                                <div className="col-sm-12">
+                                                    <button className="btn-blue full-width mt60 mb-2"
                                                             disabled={this.state.PlanButton}
                                                     onClick={this.handleClick.bind(null,'choosePlan')}>
                                                         Choose plan

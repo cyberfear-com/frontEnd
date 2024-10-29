@@ -9,14 +9,15 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                 valueOfPayment:"", //$
                 periodOfPayment:"", //month/year
                 paymentPlan:"",
-
                 butDis: false,
                 stripeId: "",
                 currentTab: "yearly-one",
                 paymentPackagesModalActive: true,
                 paymentTabContents:[],
                 prices: {
-                }
+                },
+                selectedPaymentOption: "subscription",
+                choosePlanButtonIsLoading: false,
             };
         },
 
@@ -134,6 +135,17 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
         componentWillUnmount: function () {
             app.user.off("change:userPlan");
         },
+        componentDidUpdate(prevProps, prevState) {
+            // console.log("prevState: " + JSON.stringify(prevState, null, 2));
+            // console.log("prevState.paymentPlan: " + prevState.paymentPlan);
+            // console.log("paymentPlan: " + this.state.paymentPlan);
+            // Check if paymentPlan has just been set (changed from null to a value)
+            //if (prevState.paymentPlan === null && this.state.paymentPlan !== null) {
+            if (prevState.paymentPlan != this.state.paymentPlan) {
+                // Update paymentPackagesModalActive when paymentPlan is no longer null
+                this.setState({ paymentPackagesModalActive: false });
+            }
+        },
         setMembership: function (plan,period,finalPrice) {
             console.log('setting price');
             var userObj = {};
@@ -143,7 +155,6 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
             userObj["period"] = period;
             userObj["finalPrice"] = finalPrice;
             userObj["userToken"] = app.user.get("userLoginToken");
-
             $.ajax({
                 method: "POST",
                 url: app.defaults.get("apidomain") + "/SetMembershipPriceV3",
@@ -160,41 +171,18 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
 
                     app.userObjects.loadUserPlan(function () {
                         console.log('loadUserPlan');
-                        //thisComp.setState(
-                         //   {
-                         //       butDis: false,
-                        //    },
-                         //   function () {
-                                thisComp.setState({
-                                    valueOfPayment:finalPrice,
-                                    paymentPlan:plan,
-                                    periodOfPayment:period,
+                        thisComp.setState({
+                            valueOfPayment:finalPrice,
+                            paymentPlan:plan,
+                            periodOfPayment:period,
 
-                                },function(){
-                                    console.log('thisComp.state');
-                                    console.log(thisComp.state);
-                                });
-                                //alert("setMembership: " + thisComp.state.periodOfPayment);
+                        },function(){
+                            console.log('thisComp.state');
+                            console.log(thisComp.state);
+                        });
 
-//                                 if (
-//                                     thisComp.state.typeOfPayment == "stripe" &&
-//                                     thisComp.state.paymentPlan !== "free"
-//                                 ) {
-//                                     var payLoad = {};
-//                                     payLoad["planSelector"] = this.state.periodOfPayment;
-//                                     payLoad["userToken"] =
-//                                         app.user.get("userLoginToken");
-//                                     payLoad["price"] = this.state.valueOfPayment;
-//                                     payLoad["stripeId"] = this.state.stripeId;
-//
-//                                     app.stripeCheckOut.updateStripe(payLoad);
-//                                 }
-                           // }
-                       // );
                     });
-               }
-
-                //console.log(msg)
+                }
             });
         },
 
@@ -386,7 +374,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
             return new Promise(function (resolve, reject) {
                 var script = document.createElement("script");
                 script.src =
-                    "https://www.paypal.com/sdk/js?client-id=AaDCvbA992btr491o9RRqJk6wcqicJRaKwpfhHwQh84MSVNCU1ARqFN9kAtUjqQV6GvmxSv17yFRAMGW&currency=USD";
+                    "https://www.paypal.com/sdk/js?client-id=AWvU3zcq6qRAA5i316iSxoUYqNJ6t8ukW_jba3SB8XeSCLZbyESO4noshH81NnbjrrK-QMWpi53he_FY&currency=USD";
                 script.addEventListener("load", function () {
                     resolve();
                 });
@@ -397,18 +385,17 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
             });
         },
 
-        handleClick: function (action, event,period) {
+        handleClick: function (action, event, period) {
 
-            this.setState({
-                paymentPackagesModalActive: false,
-            });
+            // this.setState({
+            //     paymentPackagesModalActive: false,
+            // });
             switch (action) {
                 case 'readytopay':
                     console.log('readytopay');
                     console.log(event);
                     console.log(period);
                     console.log(this.state.prices[event]);
-
                     //calc total
                     var finalPrice=0;
                     //event; //pan type
@@ -439,6 +426,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                     break;
                 case "payStripe":
                     var thisComp = this;
+                    var recurring = this.state.selectedPaymentOption == "subscription" ? 1 : 0;
                     this.setState({
                         type: "NewMembership",
                         price: this.state.valueOfPayment / 100,
@@ -449,9 +437,10 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                 : "1 month",
                         planSelector: this.state.paymentPlan, // "medium"
                         typeOfPayment: "stripe",
+                        recurring: recurring,
                     }, () => {
                         // This callback runs after the state has been updated
-                        app.stripeCheckOut.generateStripeUrl(this);
+                        app.stripeCheckOut.generateStripeCheckoutUrl(this);
                     });
                     break;
                 case "freemium":
@@ -898,7 +887,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                             </div>
                                             <div className="clearfix"></div>
                                             <div
-                                                className={`radio d-none ${this.state.paymentPlan == "free"? "d-none":this.state.typeOfPayment == "perfectm"? "selected": ""}`}
+                                                className={`radio d-none ${this.state.paymentPlan == "free" || this.state.selectedPaymentOption == "subscription"? "d-none":this.state.typeOfPayment == "perfectm"? "selected": ""}`}
 
                                             >
                                                 <label>
@@ -993,7 +982,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                             </div>
                                             <div className="clearfix"></div>
                                             <div
-                                                className={`radio ${this.state.paymentPlan == "free"? "d-none":this.state.typeOfPayment == "paypal"? "selected": ""}`}
+                                                className={`radio ${this.state.paymentPlan == "free" || this.state.selectedPaymentOption == "subscription"? "d-none":this.state.typeOfPayment == "paypal"? "selected": ""}`}
                                             >
                                                 <label>
                                                     <div className="te_text">
@@ -1077,6 +1066,14 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
 </svg>
                                                     </span>
                                                 </label>
+                                            </div>
+                                            <div
+                                                className={
+                                                    this.state.selectedPaymentOption == "subscription"? "info-text":"d-none"
+                                                }
+                                                id="stripe-container"
+                                            >
+                                            <p>Subscriptions can be paid via Stripe only. If you wish to pay via Crypto Currency, select one-time payment.</p>
                                             </div>
                                         </div>
 
@@ -1406,7 +1403,9 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                                 : "d-none"
                                         }
                                         disabled={
-                                            this.state.typeOfPayment == "" ||
+                                            this.state.typeOfPayment === "" ||
+                                            this.state.paymentPlan === "" ||
+                                            this.state.paymentPlan === null ||
                                             this.state.butDis
                                         }
                                         style={{
@@ -1414,15 +1413,12 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                             display: "initial",
                                         }}
                                     >
-                                        Pay Now
+                                        {!this.state.paymentPlan ? "Loading..." : "Pay Now"}
                                     </button>
 
                                     <button
                                         type="submit"
-                                        onClick={this.handleClick.bind(
-                                            this,
-                                            "payStripe"
-                                        )}
+                                        onClick={this.handleClick.bind(this, "payStripe")}
                                         className={
                                             (this.state.typeOfPayment === "stripe") &&
                                             this.state.paymentPlan !== "free" &&
@@ -1431,7 +1427,9 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                                 : "d-none"
                                         }
                                         disabled={
-                                            this.state.typeOfPayment == "" ||
+                                            this.state.typeOfPayment === "" ||
+                                            this.state.paymentPlan === "" ||
+                                            this.state.paymentPlan === null ||
                                             this.state.butDis
                                         }
                                         style={{
@@ -1439,8 +1437,9 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                             display: "initial",
                                         }}
                                     >
-                                        Pay Now Stripe
+                                        {!this.state.paymentPlan ? "Loading..." : "Pay Now Stripe"}
                                     </button>
+
                                 </div>
                             </div>
 

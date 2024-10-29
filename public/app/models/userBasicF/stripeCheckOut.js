@@ -46,7 +46,7 @@ define([
 
 			})
 		},
-	    generateStripeUrl: function(that) {
+	    generateStripeCheckoutUrl: function(that) {
 	        // Open a blank window immediately to avoid popup blockers
 	        var paymentWindow = window.open('', '_blank');
 
@@ -58,7 +58,11 @@ define([
 	            type: that.state.planSelector + " plan",
 	            userToken: app.user.get("userLoginToken"),
 	            email: app.user.get('loginEmail'),
+	            recurring: that.state.recurring,
+	            discount: that.state.discount,
 	        };
+	        //alert(that.state.discount);
+
 	        //alert(JSON.stringify(paymentData, null, 2));
 	        // Update the state (if necessary)
 	        that.setState({
@@ -89,6 +93,45 @@ define([
 	            app.notifications.systemMessage("An error occurred. Please try again.");
 	        });
 	    },
+		generateStripePortalUrl: function(that) {
+		    // Open a blank window immediately to avoid popup blockers
+		    var paymentWindow = window.open('', '_blank');
+
+		    // Prepare the data to send
+		    var paymentData = {
+	            userToken: app.user.get("userLoginToken"),
+		    };
+
+		    // Update the state if necessary
+		    that.setState({
+		        paym: "stripe",
+		        email: app.user.get("loginEmail"),
+		    });
+
+		    // Make the asynchronous POST request
+		    fetch("/api/createPortalStripeV3", {
+		        method: "POST",
+		        headers: { "Content-Type": "application/json" },
+		        body: JSON.stringify(paymentData),
+		    })
+		    .then((response) => response.json())
+		    .then((result) => {
+		        if (result && result.url) {
+		            // Redirect the paymentWindow to the Stripe URL
+		            paymentWindow.location.href = result.url;
+		        } else {
+		            // Handle the error case
+		            paymentWindow.close();
+		            app.notifications.systemMessage("Failed to initiate payment. Please try again.");
+		        }
+		    })
+		    .catch((error) => {
+		        console.error('Error generating Stripe URL:', error);
+		        paymentWindow.close();
+		        app.notifications.systemMessage("An error occurred. Please try again.");
+		    });
+		},
+
 
 		async checkStatus() {
 			console.log('checking123');

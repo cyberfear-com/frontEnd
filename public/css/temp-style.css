@@ -12725,11 +12725,20 @@ footer .footer-bottom-row .copyright {
 }
 
 @media screen and (min-width: 768px) {
-    .pricing-top .nav-tabs li {
+    /* Styles for tabs with three options (paymentTabs) */
+    .pricing-top .nav-tabs:not(.recurring-tabs) li {
         width: 33.33%;
         border-right: 1px solid #eee;
         border-bottom: none;
     }
+
+    /* Styles for tabs with two options (paymentOptions) */
+    .nav-tabs.recurring-tabs li {
+        width: 50%;
+        border-right: 1px solid #eee;
+        border-bottom: none;
+    }
+
     .pricing-top .nav-tabs li:first-child button.active {
         border-radius: 12px 0 0 12px;
     }
@@ -12737,6 +12746,8 @@ footer .footer-bottom-row .copyright {
         border-radius: 0 12px 12px 0;
     }
 }
+
+
 @media screen and (min-width: 992px) {
     .tab-content .pricing-box {
         padding: 30px;
@@ -18029,7 +18040,8 @@ body.shrinked #folderMenu {
     .upgrade-details-top .upgrade-details-right {
         position: absolute;
         right: 0;
-        height: 100%;
+        min-height: 100%;
+        height: auto;
         margin: 0;
         width: 202px;
         background-color: #f6f7f9;
@@ -18050,11 +18062,24 @@ body.shrinked #folderMenu {
     .tab-section .nav-tabs {
         border-radius: 12px;
     }
-    .tab-section .nav-tabs li {
+    .tab-section .nav-tabs:not(.recurring-tabs) li {
         width: 33.33%;
         border: none;
         border-radius: 0;
         margin: 0;
+    }
+    .tab-section .nav-tabs li {
+        width: 50%;
+        border: none;
+        border-radius: 0;
+        margin: 0;
+    }
+    /* Styling for the active button in recurring-tabs */
+    .nav-tabs.recurring-tabs li:first-child button.active {
+        border-radius: 12px 0 0 12px;
+    }
+    .nav-tabs.recurring-tabs li:last-child button.active {
+        border-radius: 0 12px 12px 0;
     }
     .tab-section .nav-tabs li:first-child .nav-link {
         border-radius: 12px 0 0 12px;
@@ -22826,4 +22851,13 @@ body.shrinked .folder-menu .accordion-button:after {
 }
 .compose-email-wrapper.compose-maximize.c-editor-actions {
     padding-bottom: 17px;
+}
+.btn-container {
+  display: flex;
+  flex-wrap: wrap; /* Allow buttons to wrap */
+  justify-content: flex-start;
+}
+.rotating-icon {
+    display: inline-block;
+    animation: rotate 1s linear infinite;
 }

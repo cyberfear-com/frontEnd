@@ -107,7 +107,7 @@ define(["react", "app"], function (React, app) {
                                         id="passLabel"
                                         className="control-label pull-left d-none"
 
-                                        htmlFor="password"
+                                        htmlFor="askPasInput"
                                     >
                                     </label>
                                     <span className="input-icon">

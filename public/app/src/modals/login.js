@@ -192,7 +192,7 @@ define(['react','app','validation',"ajaxQueue"], function (React,app,Validation,
 										<div className="form-group">
 											<div className="input-group">
 												<input type="text" name="email" id="LoginForm_username" className="form-control" defaultValue={app.defaults.get('userName')} placeholder="Email" maxLength="160"/>
-													<span className="input-group-addon">@CYBERFEAR.COM</span>
+													<span className="input-group-addon">@MAILUM.COM</span>
 											</div>
 										</div>
 										<div className="form-group">

@@ -29,57 +29,67 @@ define(["react", "app", "cmpld/modals/paymentGate","ajaxQueue"], function (
                 //domain:app.defaults.get( "defLogDomain" ),
                 firstTimeUser: false,
 
-                working: false,
+                working: true,
                 buttonTag: "",
                 buttonText: "SIGN IN",
                 inPasswordViewMode: false,
+                domain: "",
             };
         },
         componentWillUnmount: function () {
         },
 
         componentDidMount: async function () {
-            if (
-                document.domain ==
-                "mailum3h3jwoeptq7p6wxoigqvc4m25kujxfybu7mud3uxkmebnphmad.onion"
-            ) {
+            if (document.domain == "mailum3h3jwoeptq7p6wxoigqvc4m25kujxfybu7mud3uxkmebnphmad.onion") {
                 app.defaults.set({
                     apidomain:
                         "http://mailum3h3jwoeptq7p6wxoigqvc4m25kujxfybu7mud3uxkmebnphmad.onion/api",
                 });
             }
-            let response = await fetch(app.defaults.get("apidomain") + `/availableForRegistrationV3`, {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-            })
-            let data = await response.json()
+            try {
+                let response = await fetch(
+                    app.defaults.get("apidomain") + `/availableForRegistrationV3`,
+                    {
+                        method: "GET",
+                        headers: {
+                            Accept: "application/json",
+                            "Content-Type": "application/json",
+                        },
+                    }
+                );
+                let data = await response.json();
 
-            var domList=[];
-            data.data.map((x) =>{
-                domList.push("@"+x.domain);
-                if(x.def2reg=="1"){
-                    this.setState({domain:"@"+x.domain});
-                }
-            })
-            this.setState({domainList:domList})
+                var domList = [];
+                data.data.map((x) => {
+                    domList.push("@" + x.domain);
+                    if (x.def2reg == "1") {
+                        this.setState({ domain: "@" + x.domain });
+                    }
+                });
+                this.setState({ domainList: domList });
+
+                // Set working to false after data is loaded and state is updated
+                this.setState({ working: false });
+            } catch (error) {
+                console.error("Error fetching domain list:", error);
+                // Handle the error, possibly set a default domain or show an error message
+                this.setState({ working: false });
+            }
 
             if (app.defaults.get("dev") === true) {
-                if(this.state.email!=""){
+                if (this.state.email != "") {
                     this.setState({
-                        signDisabled:false
-                    })
+                        signDisabled: false,
+                    });
                 }
-            //   this.handleClick("login");
+                // this.handleClick("login");
                 // this.handleUserNameChange();
             }
-            if(app.defaults.get("dev")){
-                this.handleClick('login',this);
+            if (app.defaults.get("dev")) {
+                this.handleClick("login", this);
             }
-
         },
+
         /**
          *
          * @param {string} action
@@ -369,7 +379,7 @@ define(["react", "app", "cmpld/modals/paymentGate","ajaxQueue"], function (
                                 </div>
                                 <div className="progress-content">
                                     <h4>Welcome back!</h4>
-                                    <p>Please wait a few second...</p>
+                                    <p>Please wait a few seconds...</p>
                                 </div>
                             </div>
                         </div>
@@ -411,7 +421,7 @@ define(["react", "app", "cmpld/modals/paymentGate","ajaxQueue"], function (
                                                         ? "hidden"
                                                         : "invalid-feedback")
                                                 }
-                                                htmlFor="resetEmail"
+                                                htmlFor="LoginForm_username"
                                             >
                                                 {this.state.emailError}
                                             </label>
@@ -475,7 +485,7 @@ define(["react", "app", "cmpld/modals/paymentGate","ajaxQueue"], function (
                                                         ? "hidden"
                                                         : "invalid-feedback")
                                                 }
-                                                htmlFor="newPass"
+                                                htmlFor="LoginUser_password"
                                             >
                                                 {this.state.passError}
                                             </label>

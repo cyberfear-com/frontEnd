@@ -46,86 +46,60 @@ define([
 
 			})
 		},
-		generateStripeCheckoutUrl: function(that) {
-		    // Determine if the app is running in a webview
-		    var isWebView = app.mailMan.get("webview");
-		    // Initialize paymentWindow only if in webview to avoid unnecessary pop-ups
-		    var paymentWindow = null;
-		    if (isWebView) {
-		        // Open a blank window immediately to avoid popup blockers
-		        paymentWindow = window.open('', '_blank');
-		    } else {
-		    	alert('isWebView: ' + isWebView);
-		    }
+	    generateStripeCheckoutUrl: function(that) {
+	        // Open a blank window immediately to avoid popup blockers
+	        var paymentWindow = window.open('', '_blank');
 
-		    // Collect necessary data before making the request
-		    var paymentData = {
-		        price: that.state.price,
-		        planSelector: that.state.planSelector + " plan",
-		        duration: that.state.PaymentDescr,
-		        type: that.state.planSelector + " plan",
-		        userToken: app.user.get("userLoginToken"),
-		        email: app.user.get('loginEmail'),
-		        recurring: that.state.recurring,
-		        discount: that.state.discount,
-		    };
+	        // Collect necessary data before making the request
+	        var paymentData = {
+	            price: that.state.price,
+	            planSelector: that.state.planSelector + " plan",
+	            duration: that.state.PaymentDescr,
+	            type: that.state.planSelector + " plan",
+	            userToken: app.user.get("userLoginToken"),
+	            email: app.user.get('loginEmail'),
+	            recurring: that.state.recurring,
+	            discount: that.state.discount,
+	        };
+	        //alert(that.state.discount);
 
-		    // Update the state (if necessary)
-		    that.setState({
-		        paym: "stripe",
-		        email: app.user.get("loginEmail"),
-		    });
+	        //alert(JSON.stringify(paymentData, null, 2));
+	        // Update the state (if necessary)
+	        that.setState({
+	            paym: "stripe",
+	            email: app.user.get("loginEmail"),
+	        });
 
-		    // Make the asynchronous call to get the Stripe URL
-		    fetch("/api/createOrderStripeV3", {
-		        method: "POST",
-		        headers: { "Content-Type": "application/json" },
-		        body: JSON.stringify(paymentData),
-		    })
-		    .then((response) => response.json())
-		    .then((result) => {
-		        if (result && result.url) {
-		            if (isWebView) {
-		                // Redirect the paymentWindow to the Stripe URL
-		                paymentWindow.location.href = result.url;
-		            } else {
-		                // Redirect the current window to the Stripe URL
-		                window.location.href = result.url;
-		            }
-		        } else {
-		            if (isWebView && paymentWindow) {
-		                // Close the payment window if there's an error
-		                paymentWindow.close();
-		            }
-		            // Handle the error case
-		            app.notifications.systemMessage("Failed to initiate payment. Please try again.");
-		        }
-		    })
-		    .catch((error) => {
-		        console.error('Error generating Stripe URL:', error);
-		        if (isWebView && paymentWindow) {
-		            // Close the payment window if there's an error
-		            paymentWindow.close();
-		        }
-		        // Notify the user about the error
-		        app.notifications.systemMessage("An error occurred. Please try again.");
-		    });
-		},
-
+	        // Make the asynchronous call to get the Stripe URL
+	        fetch("/api/createOrderStripeV3", {
+	            method: "POST",
+	            headers: { "Content-Type": "application/json" },
+	            body: JSON.stringify(paymentData),
+	        })
+	        .then((response) => response.json())
+	        .then((result) => {
+	            if (result && result.url) {
+	                // Redirect the paymentWindow to the Stripe URL
+	                paymentWindow.location.href = result.url;
+	            } else {
+	                // Handle the error case
+	                paymentWindow.close();
+	                app.notifications.systemMessage("Failed to initiate payment. Please try again.");
+	            }
+	        })
+	        .catch((error) => {
+	            console.error('Error generating Stripe URL:', error);
+	            paymentWindow.close();
+	            app.notifications.systemMessage("An error occurred. Please try again.");
+	        });
+	    },
 		generateStripePortalUrl: function(that) {
-		    // Determine if the app is running in a webview
-		    var isWebView = app.mailMan.get("webview");
-
-		    // Initialize paymentWindow only if in webview to avoid unnecessary pop-ups
-		    var paymentWindow = null;
-		    if (isWebView) {
-		        // Open a blank window immediately to avoid popup blockers
-		        paymentWindow = window.open('', '_blank');
-		    }
+		    // Open a blank window immediately to avoid popup blockers
+		    var paymentWindow = window.open('', '_blank');
 
 		    // Prepare the data to send
 		    var paymentData = {
-		        userToken: app.user.get("userLoginToken"),
+	            userToken: app.user.get("userLoginToken"),
 		    };
 
 		    // Update the state if necessary
@@ -143,33 +117,20 @@ define([
 		    .then((response) => response.json())
 		    .then((result) => {
 		        if (result && result.url) {
-		            if (isWebView) {
-		                // Redirect the paymentWindow to the Stripe Portal URL
-		                paymentWindow.location.href = result.url;
-		            } else {
-		                // Redirect the current window to the Stripe Portal URL
-		                window.location.href = result.url;
-		            }
+		            // Redirect the paymentWindow to the Stripe URL
+		            paymentWindow.location.href = result.url;
 		        } else {
-		            if (isWebView && paymentWindow) {
-		                // Close the payment window if there's an error
-		                paymentWindow.close();
-		            }
 		            // Handle the error case
+		            paymentWindow.close();
 		            app.notifications.systemMessage("Failed to initiate payment. Please try again.");
 		        }
 		    })
 		    .catch((error) => {
-		        console.error('Error generating Stripe Portal URL:', error);
-		        if (isWebView && paymentWindow) {
-		            // Close the payment window if there's an error
-		            paymentWindow.close();
-		        }
-		        // Notify the user about the error
+		        console.error('Error generating Stripe URL:', error);
+		        paymentWindow.close();
 		        app.notifications.systemMessage("An error occurred. Please try again.");
 		    });
 		},
-
 
 
 		async checkStatus() {

@@ -54,6 +54,8 @@ define([
 		    if (isWebView) {
 		        // Open a blank window immediately to avoid popup blockers
 		        paymentWindow = window.open('', '_blank');
+		    } else {
+		    	alert('isWebView: ' + isWebView);
 		    }
 
 		    // Collect necessary data before making the request

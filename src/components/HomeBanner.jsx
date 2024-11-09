@@ -42,8 +42,7 @@ export default function HomeBanner() {
               Secure Email Service <br /> That Respects Your Privacy
             </h1>
             <h2 className='d-md-none'>
-              Peace of&nbsp;Mind<br />
-              Without Relying on&nbsp;Trust
+              Secure Email Service <br /> That Respects Your Privacy
             </h2>
 
             <p className="lead opacity-50 mt-3 mb-4">

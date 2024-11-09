@@ -307,11 +307,11 @@ export default function Home() {
 
       <Banner className='bg-primary text-bg-primary text-center'>
         <h2 className='fw-medium d-none d-md-block'>
-          Secure Your Communications with a Secure Email Provider
+          Protect Your Communications with a Secure Email Provider
           {/*Sign up&nbsp;now to&nbsp;protect your online presence*/}
         </h2>
         <h2 className='d-md-none fw-medium'>
-          Secure Your Communications with a Secure Email Provider
+          Protect Your Communications with a Secure Email Provider
           {/*Sign up&nbsp;now to&nbsp;protect your online presence*/}
         </h2>
         <p className='opacity-50 mt-3 mb-4'>

@@ -52,8 +52,9 @@ export default function HomeBanner() {
                 is&nbsp;safeguarded from start to&nbsp;finish.
               </span>
               <span className="d-md-none">
-                Mailum is&nbsp;committed to&nbsp;keeping the Internet
-                an&nbsp;anonymous space free from surveillance.
+                Protect confidential emails and information with open-source,
+                most complete encryption that ensures your data
+                is&nbsp;safeguarded from start to&nbsp;finish.
               </span>
             </p>
 

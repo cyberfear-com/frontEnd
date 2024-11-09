@@ -39,7 +39,7 @@ export default function HomeBanner() {
 
             <h1 className='d-none d-md-inline'>
               {/*Make Email Security a&nbsp;Priority*/}
-              Email Service That Respects Your&nbsp;Privacy
+              Secure Email Service <br /> That Respects Your Privacy
             </h1>
             <h2 className='d-md-none'>
               Peace of&nbsp;Mind<br />

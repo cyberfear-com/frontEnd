@@ -212,11 +212,11 @@ export default function Home() {
         <div className="row">
           <div className="col-12 col-md-7 col-lg-8 order-2 order-md-1 mt-3 mt-md-0">
             <h1 className='d-none d-md-block'>
-              <span className="text-primary">Peace of Mind</span><br />
+              <span className="text-primary">Encrypted Email Service</span><br />
               Without Relying on&nbsp;Trust!
             </h1>
             <h1 className='d-md-none'>
-              <span className="text-primary">Peace of Mind</span><br />
+              <span className="text-primary">Encrypted Email Service</span><br />
               Without Relying on&nbsp;Trust!
             </h1>
 
@@ -245,7 +245,9 @@ export default function Home() {
               website on&nbsp;their computers locally. This allows users
               to&nbsp;have an&nbsp;absolute certainty that scripts loaded
               by&nbsp;their browsers have neither been maliciously modified nor
-              been altered.
+              been altered. 
+              Protect your private communications with our encrypted email service, 
+              featuring end-to-end encryption for maximum security and privacy.
             </p>
           </div>
           <div className="col-12 col-md-5 col-lg-4 d-flex justify-content-center align-items-center order-1">
@@ -305,13 +307,17 @@ export default function Home() {
 
       <Banner className='bg-primary text-bg-primary text-center'>
         <h2 className='fw-medium d-none d-md-block'>
-          Sign up&nbsp;now to&nbsp;protect your online presence
+          Secure Your Communications with a Secure Email Provider
+          {/*Sign up&nbsp;now to&nbsp;protect your online presence*/}
         </h2>
         <h2 className='d-md-none fw-medium'>
-          Sign up&nbsp;now to&nbsp;protect your online presence
+          Secure Your Communications with a Secure Email Provider
+          {/*Sign up&nbsp;now to&nbsp;protect your online presence*/}
         </h2>
         <p className='opacity-50 mt-3 mb-4'>
-          Create a&nbsp;free-forever account and make sure your emails are secure.
+          Create a&nbsp;free-forever account today and make sure your emails are secure.
+          Protect your sensitive communications with a secure email provider, offering advanced end-to-end encryption
+          to keep your emails private and confidential. We safeguard your data against cyber threats and unauthorized access.
         </p>
 
         <a href="/mailbox/#signup" className='btn btn-light wide fw-bold d-block d-md-inline'>

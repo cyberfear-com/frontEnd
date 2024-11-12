@@ -181,11 +181,11 @@ define([
 				case 'email2often':
 					this.omgAnswer("You've reached hourly sending limit. Please try again later or upgrade your plan.");
 					break;
-
-
-
-
-
+                case "outgoingFreeLimited":
+                    this.omgAnswer(
+                        "Free plan can only email CyberFear and Mailum users."
+                    );
+                    break;
 			}
 		},
 

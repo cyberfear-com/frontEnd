@@ -1690,7 +1690,9 @@ define(["react", "app", "select2","summernote"], function (
                                             function () {
                                                 if (
                                                     error["data"] !=
-                                                    "email2often"
+                                                    "email2often" &&
+                                                    error["data"] !=
+                                                    "outgoingFreeLimited"
                                                 ) {
                                                     app.notifications.systemMessage(
                                                         "tryAgain"
@@ -1708,6 +1710,13 @@ define(["react", "app", "select2","summernote"], function (
                                                 ) {
                                                     app.notifications.systemMessage(
                                                         "reuploadAttachm"
+                                                    );
+                                                } else if (
+                                                    error["data"] ==
+                                                    "outgoingFreeLimited"
+                                                ) {
+                                                    app.notifications.systemMessage(
+                                                        "outgoingFreeLimited"
                                                     );
                                                 }
                                             }

@@ -423,7 +423,8 @@ define(['react','app','dataTable','dataTableBoot'], function (React,app,DataTabl
 									secondTab:"",
 
 									button1visible:'hidden',
-									signature:'<div>Sent using Encrypted Email Service -&nbsp;<a href="https://cyberfear.com/index.html#createUser/'+app.user.get("userPlan")['coupon']+'" target="_blank">CyberFear.com</a></div>'
+									//signature:'<div>Sent using Encrypted Email Service -&nbsp;<a href="https://cyberfear.com/index.html#createUser/'+app.user.get("userPlan")['coupon']+'" target="_blank">CyberFear.com</a></div>'
+									signature:'<div>Sent using Encrypted Email Service -&nbsp;<a href="https://cyberfear.com" target="_blank">CyberFear.com</a></div>'
 
 								}
 							);

@@ -149,10 +149,10 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
               }, time);
 
               app.mailMan.set({ mailCheckInterval: schedule });
-              //app.globalF.syncUpdates();
-              if (newEmailsFound) {
-                app.globalF.syncUpdates();
-              }
+              app.globalF.syncUpdates();
+              // if (newEmailsFound) {
+              //   app.globalF.syncUpdates();
+              // }
             });
           });
         });

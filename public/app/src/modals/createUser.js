@@ -19,12 +19,13 @@ define(["app", "react"], function (app, React) {
                 repPassSucc: false,
                 couponSucc: false,
 
-                working: false,
+                working: true,
                 buttonTag: "",
                 buttonText: "SIGN UP",
 
                 accountCreationStatus: null,
                 accountCreationError: "",
+                maintenanceMode: false,
             };
         },
 
@@ -47,6 +48,8 @@ define(["app", "react"], function (app, React) {
                  this.checkCouponTyping();
              })
          }
+
+        try {
             let response = await fetch(app.defaults.get("apidomain") + `/availableForRegistrationV3`, {
                 method: 'GET',
                 headers: {
@@ -63,7 +66,15 @@ define(["app", "react"], function (app, React) {
                     this.setState({domain:"@"+x.domain});
                 }
             })
+
             this.setState({domainList:domList})
+            this.setState({ working: false });
+        } catch (error) {
+            this.setState({ working: false });
+            this.setState({ maintenanceMode: true });
+            console.error("Error fetching domain list:", error);
+        }
+
         },
         handleChange: function (action, event) {
             switch (action) {
@@ -455,7 +466,27 @@ define(["app", "react"], function (app, React) {
             }
         },
         render: function () {
-            return (
+            const maintenanceContent = (
+              <div className="maintenance-message">
+                <h1>Maintenance</h1>
+                <div className="welcome-text">
+                  Our site is currently undergoing maintenance.
+                </div>
+                <p
+                  style={{
+                    fontSize: '16px',
+                    fontWeight: '700',
+                    marginTop: '10px',
+                  }}
+                >
+                  We apologize for any inconvenience and appreciate your patience.
+                  <br />
+                  Please check back in a few minutes.
+                </p>
+              </div>
+            );
+            const originalContent = (
+
                 <div className="" id="createAccount-modal">
                     <div
                         className={`loading-screen welcome ${
@@ -831,7 +862,10 @@ define(["app", "react"], function (app, React) {
                         </div>
                     </div>
                 </div>
-            );
+            )
+
+            const content = this.state.maintenanceMode ? maintenanceContent : originalContent;
+            return <div>{content}</div>;
         },
     });
 });

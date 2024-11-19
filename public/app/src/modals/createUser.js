@@ -528,7 +528,7 @@ define(["app", "react"], function (app, React) {
                                     </div>
                                 </div>
                                 <div className="progress-content">
-                                    <h4>Creating account!</h4>
+                                    <h4>Processing!</h4>
                                     <p>Please wait a few second...</p>
                                 </div>
                             </div>

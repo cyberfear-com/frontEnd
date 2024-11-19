@@ -40,14 +40,14 @@ define([
                 this.props.folderId != ""
             ) {
            //     console.log('I RECEIEVED NEW PROP');
-               // this.updateEmails(nextProps.folderId, "noRefresh");
+                this.updateEmails(nextProps.folderId, "noRefresh");
             }
         },
-        updateEmails: function (folderId, Refresh) {
+        updateEmails: function (folderId, noRefresh) {
             //console.log('folderId');
            // console.log(folderId);
 
-            Refresh=app.user.get("needRefresh");
+            //Refresh=app.user.get("needRefresh");
             var thisComp = this;
             //console.log('Refresh');
             //console.log(Refresh);
@@ -81,10 +81,11 @@ define([
 
             var emailListCopy = app.user.get("folderCached");
             //console.log(emailListCopy);
-            Refresh=true;
+            //Refresh=true;
 
-            if (Refresh || emailListCopy[folderId]=== undefined) {
-                    emailListCopy[folderId] = {};
+            if(emailListCopy[folderId]===undefined){
+                emailListCopy[folderId]={};
+            }
 
                // console.log("HERE");
               //  console.log(Object.keys(emails).length);
@@ -403,7 +404,7 @@ define([
 
             var emTab = $("#emailListTable").DataTable();
             emTab.clear();
-
+            if (noRefresh == '') {
                 emTab.draw();
                 thisComp.setState(
                     {
@@ -415,26 +416,9 @@ define([
                         $("#selectAllAlt > input").prop("checked", false);
                     }
                 );
-                emTab.rows.add(data);
-                emTab.draw(false);
-            }else{
-
-                var emTab = $("#emailListTable").DataTable();
-                emTab.clear();
-                emTab.draw();
-                thisComp.setState(
-                    {
-                        messsageId: "",
-                        allChecked: false,
-                    },
-                    function () {
-                        $("#selectAll>input").prop("checked", false);
-                        $("#selectAllAlt > input").prop("checked", false);
-                    }
-                );
-                emTab.rows.add(emailListCopy[folderId]);
-                emTab.draw(false);
             }
+            emTab.rows.add(data);
+            emTab.draw(false);
 
 
             if (thisComp.state.showReadUnread == "read") {
@@ -606,11 +590,11 @@ define([
             app.user.on(
                 "change:emailListRefresh",
                 function () {
-                    console.log('I WAS REFRESHED');
+                    //console.log('I WAS REFRESHED');
                     //console.log(app.user.get("activeFolderId"));
                     // $("#sdasdasd").addClass("hidden"); - find this in original inbox page
 
-                    thisComp.updateEmails(app.user.get("activeFolderId"), false);
+                    thisComp.updateEmails(app.user.get("activeFolderId"), 'noRefresh');
                 },
                 thisComp
             );

@@ -335,8 +335,27 @@ define(["react", "app", "cmpld/modals/paymentGate","ajaxQueue"], function (
             var overflow = {
                 overflow: "hidden",
             };
-
-            return (
+            const maintenanceMode = true;
+            const maintenanceContent = (
+              <div className="maintenance-message">
+                <h1>Maintenance</h1>
+                <div className="welcome-text">
+                  Our site is currently undergoing maintenance.
+                </div>
+                <p
+                  style={{
+                    fontSize: '16px',
+                    fontWeight: '700',
+                    marginTop: '10px',
+                  }}
+                >
+                  We apologize for any inconvenience and appreciate your patience.
+                  <br />
+                  Please check back in a few minutes.
+                </p>
+              </div>
+            );
+            const originalContent = (
                 <div>
                     <div
                         className={`loading-screen welcome ${
@@ -585,7 +604,9 @@ define(["react", "app", "cmpld/modals/paymentGate","ajaxQueue"], function (
                         </div>
                     </div>
                 </div>
-            );
+            )
+            const content = maintenanceMode ? maintenanceContent : originalContent;
+            return <div>{content}</div>;
         },
     });
 });

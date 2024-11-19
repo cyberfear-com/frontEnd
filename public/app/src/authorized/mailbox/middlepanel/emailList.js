@@ -377,7 +377,7 @@ define([
                             titleTag +
                             emailListCopyT["sb"] +
                             "</div> <p><label class='from'>" +
-                            fromTitle +
+                            fromTitle + "<span style='display:none;'>" + fromEmail + "</span>" +
                             ": </label>" +
                             emailListCopyT["bd"] +
                             "</p></div>" +

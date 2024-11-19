@@ -34,6 +34,7 @@ define(["react", "app", "cmpld/modals/paymentGate","ajaxQueue"], function (
                 buttonText: "SIGN IN",
                 inPasswordViewMode: false,
                 domain: "",
+                maintenanceMode: false,
             };
         },
         componentWillUnmount: function () {
@@ -71,6 +72,7 @@ define(["react", "app", "cmpld/modals/paymentGate","ajaxQueue"], function (
                 // Set working to false after data is loaded and state is updated
                 this.setState({ working: false });
             } catch (error) {
+                this.setState({ maintenanceMode: true });
                 console.error("Error fetching domain list:", error);
                 // Handle the error, possibly set a default domain or show an error message
                 this.setState({ working: false });
@@ -335,7 +337,7 @@ define(["react", "app", "cmpld/modals/paymentGate","ajaxQueue"], function (
             var overflow = {
                 overflow: "hidden",
             };
-            const maintenanceMode = true;
+
             const maintenanceContent = (
               <div className="maintenance-message">
                 <h1>Maintenance</h1>
@@ -605,7 +607,7 @@ define(["react", "app", "cmpld/modals/paymentGate","ajaxQueue"], function (
                     </div>
                 </div>
             )
-            const content = maintenanceMode ? maintenanceContent : originalContent;
+            const content = this.state.maintenanceMode ? maintenanceContent : originalContent;
             return <div>{content}</div>;
         },
     });

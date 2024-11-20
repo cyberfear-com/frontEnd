@@ -344,10 +344,14 @@ require([
         }
     }
 
+    // app.restartApp = function () {
+    //     // window.location.href = "/index.html";
+    //     window.location.href = "/mailbox/#login";
+    //     window.location.reload();
+    // };
+
     app.restartApp = function () {
-        // window.location.href = "/index.html";
-        window.location.href = "/mailbox/#login";
-        window.location.reload();
+        window.location.href = '';
     };
 
     app.run();

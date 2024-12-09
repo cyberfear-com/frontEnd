@@ -1753,26 +1753,26 @@ define(["react", "app", "select2", "ckeditor"], function (
               : ""
           }${this.state.isMobile ? " mobile" : ""}`}
         >
-          <button
-            id="dev-test-button"
-            style={{
-              position: "fixed",
-              bottom: "20px",
-              right: "20px",
-              zIndex: 999999,
-              background: "#fff",
-              color: "#000",
-              border: "1px solid #ccc",
-              padding: "10px 15px",
-              cursor: "pointer",
-            }}
-            onClick={() => {
-              app.mailMan.set("webview", !app.mailMan.get("webview"));
-              this.setState((prevState) => ({ isMobile: !prevState.isMobile }));
-            }}
-          >
-            Tog
-          </button>
+          {/* <button */}
+          {/*   id="dev-test-button" */}
+          {/*   style={{ */}
+          {/*     position: "fixed", */}
+          {/*     bottom: "20px", */}
+          {/*     right: "20px", */}
+          {/*     zIndex: 999999, */}
+          {/*     background: "#fff", */}
+          {/*     color: "#000", */}
+          {/*     border: "1px solid #ccc", */}
+          {/*     padding: "10px 15px", */}
+          {/*     cursor: "pointer", */}
+          {/*   }} */}
+          {/*   onClick={() => { */}
+          {/*     app.mailMan.set("webview", !app.mailMan.get("webview")); */}
+          {/*     this.setState((prevState) => ({ isMobile: !prevState.isMobile })); */}
+          {/*   }} */}
+          {/* > */}
+          {/*   Tog */}
+          {/* </button> */}
 
           <div className="compose-ec">
             <style>

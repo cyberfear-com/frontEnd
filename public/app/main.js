@@ -41,6 +41,7 @@ require.config({
         select2: "/js/Plugins/select2/select2.full",
         openpgp: "/js/Plugins/openpgp/openpgp",
         apptheme: "/js/app",
+        ckeditor: "/js/Plugins/ckeditor/ckeditor",
 
         //Elements:"@stripe/react-stripe-js",
         //loadStripe:"/js/Plugins/@stripe/stripe-js/dist/stripe",
@@ -343,6 +344,9 @@ require([
             });
         }
     }
+        // app.mailMan.set({
+        //     webview: true,
+        // });
 
     // app.restartApp = function () {
     //     // window.location.href = "/index.html";

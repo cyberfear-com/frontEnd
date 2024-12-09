@@ -161,7 +161,8 @@ define([
                                     </svg>
                                 </button>
                             </div>
-                            <a href="#" className="mobile-logo">
+                            {/* <a href="#" className="mobile-logo"> */}
+                            <span className="mobile-logo">
                                 <img
                                     src="images/logo.svg"
                                     alt=""
@@ -177,7 +178,8 @@ define([
                                     alt=""
                                     className="dark-theme"
                                 />
-                            </a>
+                            {/* </a> */}
+                            </span>
                         </div>
                         <div className="right-top-data">
                             {((app.user.get("userPlan")["paymentVersion"]==2 && app.user.get("userPlan")["planSelected"]==3) || (app.user.get("userPlan")["paymentVersion"]==3 && app.user.get("userPlan")["planSelected"]=="free") ) &&

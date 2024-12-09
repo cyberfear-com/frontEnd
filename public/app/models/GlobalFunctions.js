@@ -2773,40 +2773,65 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
             //console.log(draft);
             //if(action=='replyStrict' || action=='replyFull'){
 
+//             if (
+//                 action == "replyStrict" ||
+//                 action == "replyFull" ||
+//                 action == "replyAStrict" ||
+//                 action == "replyAFull"
+//             ) {
+//                 app.user.set({ emailReplyState: "reply" });
+//                 var preReplyText =
+//                     //"<br/><br/>--------------------------------------------<br/><br/>" +
+//                     "<br><hr><br>" +
+//                     "On " +
+//                     new Date(
+//                         currentMessage["meta"]["timeSent"] * 1000
+//                     ).toDateString(options) +
+//                     " at " +
+//                     new Date(
+//                         currentMessage["meta"]["timeSent"] * 1000
+//                     ).toLocaleTimeString() +
+//                     ", " +
+//                     fromMail["htmlFdisplay"] +
+//                     " wrote: <br/>";
+// 
+//                 draft["body"]["html"] =
+//                     preReplyText +
+//                     '<pre class="reply-indentation" spellcheck="false">' +
+//                     $("#virtualization").contents().find("html").html() +
+//                     "</pre>";
+//             } else if (action == "forwardStrict" || action == "forwardFull") {
+//                 app.user.set({ emailReplyState: "forward" });
+//                 draft["body"]["html"] = $("#virtualization")
+//                     .contents()
+//                     .find("html")
+//                     .html();
+//             }
             if (
-                action == "replyStrict" ||
-                action == "replyFull" ||
-                action == "replyAStrict" ||
-                action == "replyAFull"
+                action === "replyStrict" ||
+                action === "replyFull" ||
+                action === "replyAStrict" ||
+                action === "replyAFull"
             ) {
                 app.user.set({ emailReplyState: "reply" });
                 var preReplyText =
-                    //"<br/><br/>--------------------------------------------<br/><br/>" +
-                    "<br><hr><br>" +
-                    "On " +
-                    new Date(
-                        currentMessage["meta"]["timeSent"] * 1000
-                    ).toDateString(options) +
-                    " at " +
-                    new Date(
-                        currentMessage["meta"]["timeSent"] * 1000
-                    ).toLocaleTimeString() +
-                    ", " +
-                    fromMail["htmlFdisplay"] +
-                    " wrote: <br/>";
+                    //"<br>" +
+                    "On " + new Date(currentMessage["meta"]["timeSent"] * 1000).toDateString(options) +
+                    " at " + new Date(currentMessage["meta"]["timeSent"] * 1000).toLocaleTimeString() +
+                    //", " + fromMail["htmlFdisplay"] + " wrote: <br/>";
+                    ", " + fromMail["htmlFdisplay"] + " wrote:";
 
+                // Use a blockquote for indentation
                 draft["body"]["html"] =
                     preReplyText +
-                    '<pre class="reply-indentation" spellcheck="false">' +
+                    '<blockquote class="reply-indentation" style="border-left:2px solid #ccc; margin-left:10px; padding-left:10px;">' +
                     $("#virtualization").contents().find("html").html() +
-                    "</pre>";
-            } else if (action == "forwardStrict" || action == "forwardFull") {
+                    "</blockquote>";
+            } else if (action === "forwardStrict" || action === "forwardFull") {
                 app.user.set({ emailReplyState: "forward" });
-                draft["body"]["html"] = $("#virtualization")
-                    .contents()
-                    .find("html")
-                    .html();
+                draft["body"]["html"] = $("#virtualization").contents().find("html").html();
             }
+
 
             //}
             //draft['body']['html']="";

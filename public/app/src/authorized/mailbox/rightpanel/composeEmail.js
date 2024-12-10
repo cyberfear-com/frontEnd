@@ -1708,14 +1708,43 @@ define(["react", "app", "select2", "ckeditor"], function (
               isMaximized: !this.state.isMaximized,
               isMinimized: false,
             });
+
+            this.setState((prevState) => {
+              const newIsMaximized = !this.state.isMaximized;
+              const newIsMinimized = false;
+
+              return {
+                isMaximized: newIsMaximized,
+                isMinimized: newIsMinimized,
+              };
+            }, () => {
+              // This callback runs after the state is updated
+              // if (this.state.isMaximized) {
+              //   document.body.style.overflow = 'hidden';
+              // }
+            });
+
             break;
+
           case "minimize":
-            this.setState((prevState) => ({
-              isMaximized: prevState.isMinimized && this.state.isMobile ? true : false,
-              isMinimized: !prevState.isMinimized,
-            }));
+            this.setState((prevState) => {
+              const newIsMaximized = prevState.isMinimized && this.state.isMobile ? true : false;
+              const newIsMinimized = !prevState.isMinimized;
+
+              return {
+                isMaximized: newIsMaximized,
+                isMinimized: newIsMinimized,
+              };
+            }, () => {
+              if (this.state.isMinimized) {
+                document.body.style.overflow = 'auto';
+              } else {
+                document.body.style.overflow = 'hidden';
+              }
+            });
             break;
         }
+
 
     },
     handleToLabelClick: function () {

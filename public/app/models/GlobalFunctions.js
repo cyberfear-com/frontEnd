@@ -3116,7 +3116,8 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                 });
             } else {
                 var messageDisplayedBody =
-                    '<style>.showMessage{white-space: pre-line;}</style><div class="showMessage">' +
+                    //'<style>.showMessage{white-space: pre-line;}</style><div class="showMessage">' +
+                    '<div class="showMessage">' +
                     app.globalF.stripHTML(text) +
                     "</div>";
             }
@@ -3207,12 +3208,14 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                 });
             } else if (text.trim() != "") {
                 var messageDisplayedBody =
-                    '<style>.showMessage{white-space: pre-line;}</style><div class="showMessage">' +
+                    //'<style>.showMessage{white-space: pre-line;}</style><div class="showMessage">' +
+                    '<div class="showMessage">' +
                     app.globalF.stripHTML(text) +
                     "</div>";
             } else {
                 var messageDisplayedBody =
-                    '<style>.showMessage{white-space: pre-line;}.text-center {text-align: center!important;}</style><div class="showMessage text-center">Email don\'t have any text.</div>';
+                    //'<style>.showMessage{white-space: pre-line;}.text-center {text-align: center!important;}</style><div class="showMessage text-center">Email don\'t have any text.</div>';
+                    '<div class="showMessage text-center">Email don\'t have any text.</div>';
             }
 
             callback(messageDisplayedBody);

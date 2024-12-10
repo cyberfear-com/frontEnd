@@ -79,6 +79,7 @@ define(["react", "app", "select2", "ckeditor"], function (
         isMaximized: app.mailMan.get("webview"),
         isMobile: app.mailMan.get("webview"),
         isMinimized: false,
+        composeOriginate: app.user.get('composeOriginate'),
       };
     },
     componentDidMount: async function () {
@@ -1104,10 +1105,10 @@ define(["react", "app", "select2", "ckeditor"], function (
           }
         });
 
-        console.log("PIN");
-        console.log(this.state.enablePin);
-        console.log(this.state.pinText);
-        console.log(this.state.userPin);
+        // console.log("PIN");
+        // console.log(this.state.enablePin);
+        // console.log(this.state.pinText);
+        // console.log(this.state.userPin);
         if (
           Object.keys(outsiders).length == 1 &&
           this.state.enablePin === true &&

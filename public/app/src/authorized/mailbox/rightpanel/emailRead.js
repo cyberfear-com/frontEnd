@@ -393,7 +393,7 @@ define(["react", "app"], function (React, app) {
                     email["meta"]["version"] == 2 &&
                     email["meta"]["pin"] != ""
                 ) {
-                    console.log(email["meta"]["pin"])
+                    //console.log(email["meta"]["pin"])
                     pin.push(
                         <span className="pinHeader email-head" key="pin2">
                             PIN:{" "}

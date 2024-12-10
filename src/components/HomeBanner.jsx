@@ -16,7 +16,7 @@ const downloadLinks = [
   {
     iconClass: GooglePlayIconSVG,
     source: "Google Play",
-    url: "#",
+    url: "https://play.google.com/store/apps/details?id=com.mailum.mailapp",
   },
   {
     iconClass: FDroidIconSVG,

@@ -155,7 +155,8 @@ define(["react", "app", "select2", "ckeditor"], function (
           } else {
             oldEmailText = thisComp.state.body;
           }
-
+          
+          editor.editing.view.focus();
           editor.setData(newEmailBody + oldEmailText);
 
           thisComp.setState({

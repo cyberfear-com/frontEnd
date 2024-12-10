@@ -1688,20 +1688,35 @@ define(["react", "app", "select2", "ckeditor"], function (
       }
     },
     handleEmailHeaderAction: function (i) {
-      switch (i) {
-        case "maximize":
-          this.setState({
-            isMaximized: this.state.isMaximized ? false : true,
-            isMinimized: false,
-          });
-          break;
-        case "minimize":
-          this.setState({
-            isMaximized: false,
-            isMinimized: this.state.isMinimized ? false : true,
-          });
-          break;
-      }
+      // switch (i) {
+      //   case "maximize":
+      //     this.setState({
+      //       isMaximized: this.state.isMaximized ? false : true,
+      //       isMinimized: false,
+      //     });
+      //     break;
+      //   case "minimize":
+      //     this.setState({
+      //       isMaximized: false,
+      //       isMinimized: this.state.isMinimized ? false : true,
+      //     });
+      //     break;
+      // }
+        switch (i) {
+          case "maximize":
+            this.setState({
+              isMaximized: !this.state.isMaximized,
+              isMinimized: false,
+            });
+            break;
+          case "minimize":
+            this.setState((prevState) => ({
+              isMaximized: prevState.isMinimized && this.state.isMobile ? true : false,
+              isMinimized: !prevState.isMinimized,
+            }));
+            break;
+        }
+
     },
     handleToLabelClick: function () {
       const searchField = document.querySelector(
@@ -1851,7 +1866,8 @@ define(["react", "app", "select2", "ckeditor"], function (
                       this,
                       "minimize"
                     )}
-                    className={this.state.isMobile ? "d-none" : ""}
+                    // className={this.state.isMobile ? "d-none" : ""}
+                    className={this.state.isMobile ? "" : ""}
                   >
                     <span
                       className={`icon ${

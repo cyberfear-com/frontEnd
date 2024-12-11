@@ -8,21 +8,21 @@ import styles from "./HomeBanner.module.scss";
 
 // TODO update links
 const downloadLinks = [
-  {
-    iconClass: AppleStoreIconSVG,
-    source: "Apple Store",
-    url: "#",
-  },
+  // {
+  //   iconClass: AppleStoreIconSVG,
+  //   source: "Apple Store",
+  //   url: "#",
+  // },
   {
     iconClass: GooglePlayIconSVG,
     source: "Google Play",
     url: "https://play.google.com/store/apps/details?id=com.mailum.mailapp",
   },
-  {
-    iconClass: FDroidIconSVG,
-    source: "F-Droid",
-    url: "#",
-  },
+  // {
+  //   iconClass: FDroidIconSVG,
+  //   source: "F-Droid",
+  //   url: "#",
+  // },
 ];
 
 export default function HomeBanner() {

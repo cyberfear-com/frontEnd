@@ -3209,6 +3209,7 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
             } else if (text.trim() != "") {
                 var messageDisplayedBody =
                     //'<style>.showMessage{white-space: pre-line;}</style><div class="showMessage">' +
+                    '<div class="showMessage" style="white-space: pre-line">' +
                     '<div class="showMessage">' +
                     app.globalF.stripHTML(text) +
                     "</div>";

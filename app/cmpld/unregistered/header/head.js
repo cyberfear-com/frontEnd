@@ -107,7 +107,7 @@ define(['react', 'app'], function (React, app) {
 							null,
 							React.createElement(
 								'a',
-								{ className: 'nav-link white-btn-menu', href: '/index.html#createUser' },
+								{ className: 'nav-link white-btn-menu', href: 'https://mailum.com/mailbox/#signup' },
 								'Sign Up'
 							)
 						)

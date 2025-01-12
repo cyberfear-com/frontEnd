@@ -48,7 +48,7 @@ define(['react'], function (React) {
 								</li>
 								<li><a onClick={this.handleClick.bind(this, 'reportBug')}>Contact Us</a></li>
 								<li>
-									<a href="pricing.html">Pricing</a>
+									<a href="https://mailum.com/pricing">Pricing</a>
 								</li>
 								<li>
 									<a className="nav-link dark-btn-menu" onClick={this.handleClick.bind(this, 'login')}>Login</a>

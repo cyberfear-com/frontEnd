@@ -25,7 +25,6 @@ define(['react'], function (React) {
 			}
 		},
 		render: function () {
-			//console.log(this);
 
 			return React.createElement(
 				'nav',
@@ -96,7 +95,7 @@ define(['react'], function (React) {
 								null,
 								React.createElement(
 									'a',
-									{ className: 'nav-link white-btn-menu', onClick: this.handleClick.bind(this, 'signUp') },
+									{ className: 'nav-link white-btn-menu', href: 'https://mailum.com/mailbox/#signup' },
 									'Sign Up'
 								)
 							),

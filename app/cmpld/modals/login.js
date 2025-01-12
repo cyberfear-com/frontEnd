@@ -9,7 +9,8 @@ define(['react', 'app', 'validation'], function (React, app, Validation) {
 				compSafe: false,
 				secondFactorInput: false,
 				fac2Text: "",
-				fac2Type: ""
+				fac2Type: "",
+				mailUm: false
 
 			};
 		},
@@ -52,6 +53,14 @@ define(['react', 'app', 'validation'], function (React, app, Validation) {
 			if (app.defaults.get('dev') === true) {
 				this.handleClick('login');
 			}
+			//window.ReactNativeWebView.postMessage('notificationsEnabled');
+
+			/*	Notification.requestPermission().then(function(result) {
+   		if (result === 'granted') {
+   			// Send message to React Native indicating that notifications are enabled
+   			window.ReactNativeWebView.postMessage('notificationsEnabled');
+   		}
+   	});*/
 		},
 
 		/**
@@ -141,6 +150,10 @@ define(['react', 'app', 'validation'], function (React, app, Validation) {
 								thisComp.setState({
 									fac2Type: 2
 								});
+							} else if (result == 'useMailUm') {
+								thisComp.setState({
+									mailUm: true
+								});
 							}
 						});
 					}
@@ -214,6 +227,17 @@ define(['react', 'app', 'validation'], function (React, app, Validation) {
 									'div',
 									{ className: 'form-group' },
 									React.createElement('input', { type: 'password', name: 'pP', id: 'LoginUser_password', className: 'form-control  input-lg', defaultValue: app.defaults.get('firstPassfield'), placeholder: 'Password' })
+								),
+								React.createElement(
+									'div',
+									{ className: "form-group " + (!this.state.mailUm ? "hidden" : "") },
+									'Your account have been upgraded, please use ',
+									React.createElement(
+										'a',
+										{ href: 'https://mailum.com/mailbox/#login' },
+										'Mailum.com'
+									),
+									' to log in.'
 								),
 								React.createElement(
 									'div',

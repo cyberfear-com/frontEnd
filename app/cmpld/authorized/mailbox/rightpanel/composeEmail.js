@@ -252,7 +252,8 @@ define(['react', 'app', 'summernote', 'select2'], function (React, app, summerno
 			if (thisComp.state.signature != "") {
 				$('.emailsignature').html(thisComp.state.signature);
 			} else {
-				$('.emailsignature').html('<div>Sent using Encrypted Email Service -&nbsp;<a href="https://cyberfear.com/index.html#createUser/' + app.user.get("userPlan")['coupon'] + '" target="_blank">CyberFear.com</a></div>');
+				//$('.emailsignature').html('<div>Sent using Encrypted Email Service -&nbsp;<a href="https://cyberfear.com/index.html#createUser/'+app.user.get("userPlan")['coupon']+'" target="_blank">CyberFear.com</a></div>');
+				$('.emailsignature').html('<div>Sent using Encrypted Email Service -&nbsp;<a href="https://cyberfear.com" target="_blank">CyberFear.com</a></div>');
 			}
 
 			//
@@ -1248,12 +1249,14 @@ define(['react', 'app', 'summernote', 'select2'], function (React, app, summerno
 									messages[emailId]['tp'] = 3;
 
 									app.globalF.move2Folder(origFolder, [emailId], function () {
-										if (error['data'] != "email2often") {
+										if (error['data'] != "email2often" && error["data"] != "outgoingFreeLimited") {
 											app.notifications.systemMessage('tryAgain');
 										} else if (error['data'] == "email2often") {
 											app.notifications.systemMessage('email2often');
 										} else if (error['data'] == 'attachmentError') {
 											app.notifications.systemMessage('reuploadAttachm');
+										} else if (error["data"] == "outgoingFreeLimited") {
+											app.notifications.systemMessage('outgoingFreeLimited');
 										}
 									});
 

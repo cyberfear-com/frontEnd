@@ -210,6 +210,21 @@ define(['react', 'app', 'accounting'], function (React, app, accounting) {
 							' '
 						),
 						React.createElement(
+							'div',
+							{ style: { color: "#fff", marginTop: "-4px", backgroundImage: "url('/img/mumintback.png')", fontSize: "14px", padding: "6px 35px" }, className: '' },
+							'Discover our new interface at ',
+							React.createElement(
+								'a',
+								{ style: { color: "#fff", textDecoration: "underline" }, href: 'https://mailum.com', target: "_blank" },
+								'mailum.com'
+							)
+						),
+						React.createElement(
+							'h6',
+							null,
+							' '
+						),
+						React.createElement(
 							'ul',
 							{ className: 'inbox-menu-lg', id: 'folderul' },
 							Object.keys(this.state.mainFolders).map(function (folderData, i) {

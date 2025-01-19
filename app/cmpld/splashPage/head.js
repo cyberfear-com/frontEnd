@@ -77,7 +77,7 @@ define(['react'], function (React) {
 								null,
 								React.createElement(
 									'a',
-									{ href: 'pricing.html' },
+									{ href: 'https://mailum.com/pricing' },
 									'Pricing'
 								)
 							),

@@ -26,12 +26,12 @@ define([
 			var text = "";
 			var possible = "QWE7DSAZXC6RTYHG2FVB3NOIU4JKLM5P";
 
-			for (var i = 1; i < 30; i++){
-				if(i % 5==0){
-					text += '-';
-				}else{
+			for (var i = 1; i <= 32; i++){
+				//if(i % 5==0){
+				//	text += '-';
+				//}else{
 					text += possible.charAt(Math.floor(Math.random() * possible.length));
-				}
+				//}
 
 			}
 

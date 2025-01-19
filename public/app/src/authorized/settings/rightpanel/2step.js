@@ -920,7 +920,7 @@ define([
                     app.user.get("loginEmail") +
                     "?secret=" +
                     secret +
-                    "&issuer=CyberFear.com",
+                    "&issuer=Mailum.com",
                 width: 128,
                 height: 128,
                 colorDark: "#000000",

@@ -330,6 +330,30 @@ define([
 
                     break;
 
+                case "showFirstIfMob":
+                    if(app.mailMan.get("webview")){
+
+                    }else{
+                        this.setState({
+                            firstPanelClass: "panel-body",
+                            firstTab: "active",
+
+                            secondTab: "",
+                            secondPanelClass: "panel-body d-none",
+
+                            thirdTab: "",
+                            thirdPanelClass: "panel-body d-none",
+
+                            editDisabled: true,
+                            cancelEditClass: "d-none",
+
+                            editPlanButtonClass: "",
+                            saveButtonClass: "d-none",
+                            paym: "",
+                        });
+                    }
+                    break;
+
                 case "showFirst":
                     //{this.state.planSelector+" plan "+ this.state.type +" for " + this.state.duration}
                     console.log(this.state.planSelector);
@@ -1342,7 +1366,7 @@ define([
                                         form="crypF"
                                         onClick={this.handleClick.bind(
                                             this,
-                                            "showFirst"
+                                            "showFirstIfMob"
                                         )}
                                     >
                                         CoinPayments

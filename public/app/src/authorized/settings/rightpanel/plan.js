@@ -98,15 +98,30 @@ define([
                     var paidOver=app.user.get("userPlan")['currentPlanBalance'];
                     var monthMult=this.state.duration=="2 years"?24:this.state.duration=="1 year"?12:1;
 
-                    price=((planPrice-planPrice*totalDiscount)*monthMult)-paidOver-app.user.get("userPlan")['alrdPaid']+app.user.get("userPlan")['balanceUsedInPlan'];
+                    if(app.user.get("userPlan")['pastDue']==1){
+                         price=((planPrice-planPrice*totalDiscount)*monthMult)-paidOver-app.user.get("userPlan")['alrdPaid'];  //prorated cost without subscription already in use
+                    }else{
+                        price=((planPrice-planPrice*totalDiscount)*monthMult)-paidOver-app.user.get("userPlan")['alrdPaid']+app.user.get("userPlan")['balanceUsedInPlan'];
+                    }
+                    //price=((planPrice-planPrice*totalDiscount)*monthMult)-paidOver-app.user.get("userPlan")['alrdPaid']+app.user.get("userPlan")['balanceUsedInPlan']; //prorated cost with subscription already in use
+
+                    //console.log(app.user.get("userPlan"));
+                   // price=((planPrice-planPrice*totalDiscount)*monthMult)-paidOver-app.user.get("userPlan")['alrdPaid'];  //prorated cost without subscription already in use
+
+                    if(price<100 &&price>0){
+                        price=100;
+                    }else if(price<0){
+                        price=0;
+                    }
                     var priceNoBalance=((planPrice-planPrice*totalDiscount)*monthMult);
                     var discount=priceNoBalance-price;
-                    // alert('planPrice: ' + priceNoBalance);
-                    // alert('price to pay: ' + price);
-                    // alert('discount: ' + discount);
-                    console.log(price);
+                    if(discount<0){
+                        discount=0;
+                    }
 
-                    price=(price+app.user.get("userPlan")['balance'])/100;
+
+                    //price=(price+app.user.get("userPlan")['balance'])/100;//price with previous balance owed
+                    price=price/100;//price without previous balance owed
                     discount=(discount)/100;
                     priceNoBalance=(priceNoBalance)/100;
                     if(price<=0){
@@ -731,7 +746,7 @@ define([
                 },
                 this
             );
-            console.log(app.user.get("userPlan"))
+           // console.log(app.user.get("userPlan"))
           //  this.createPlanTab();
         },
 
@@ -782,11 +797,20 @@ define([
             }else if(app.user.get("userPlan")["paymentVersion"]==3 && app.user.get("userPlan")["planSelected"]!="free"){
                 price=app.user.get("userPlan")["renewAmount"]/100;
             }
+         //   var showPrice=app.user.get("userPlan")["balance"]>0?accounting.formatMoney(price<0?0:price+app.user.get("userPlan")["balance"]/100,"$",2):accounting.formatMoney(price<0?0:price+app.user.get("userPlan")["balance"]/100,"$",2);
+
             options.push(
                 <div className="information-table-row" key="1a">
                     <label>{app.user.get("userPlan")["needFill"]?"Balance Due:":"Balance Due at renewal:"}</label>
                     <div className="information-row-right">
-                        <b>{accounting.formatMoney(price<0?0:price,"$",2)}</b> {price<1?"(min. charge $1)":""}
+                        <b>
+                            {app.user.get("userPlan")["balance"]>0 &&
+                                <s style={{color:"#999"}}>{accounting.formatMoney(price<0?0:price+app.user.get("userPlan")["balance"]/100,"$",2)}</s>
+                            }
+                            {app.user.get("userPlan")["balance"]>0 &&
+                                <span> {accounting.formatMoney(price<0?0:price,"$",2)} "Limited time offer: Pay now, and your previous balance is on us!"</span>
+                            }
+                        </b> {price<1?"(min. charge $1)":""}
                     </div>
                 </div>
             );
@@ -876,9 +900,11 @@ define([
                 >
                     <label>Previous Unpaid Balance:</label>
                     <div className="information-row-right">
-                        <b>{accounting.formatMoney(
+                        <b><s style={{color:"#999"}}>{accounting.formatMoney(
                             app.user.get("userPlan")["balance"]/100
-                        )}</b>
+                        )}</s>
+                             &nbsp;$0
+                        </b> "Limited time offer: Pay now, and your previous balance is on us!"
                     </div>
                 </div>
             );
@@ -1362,7 +1388,7 @@ define([
                                     <button
                                         type="submit"
                                         //className="btn-blue fixed-width-btn"
-                                        className={this.state.selectedPaymentOption == "subscription"? "d-none":"btn-blue fixed-width-btn col-sm mx-1"}
+                                        className={(this.state.selectedPaymentOption == "subscription" || app.mailMan.get("webview"))? "d-none":"btn-blue fixed-width-btn col-sm mx-1"}
                                         form="crypF"
                                         onClick={this.handleClick.bind(
                                             this,

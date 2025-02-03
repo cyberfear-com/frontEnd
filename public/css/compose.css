@@ -1,0 +1,334 @@
+.compose-ec .the-content {
+    background-color: #fff;
+}
+.compose-ec .the-header,
+.select2-results {
+    box-shadow: 0 4px 4px 0 rgb(0 0 0 / 25%);
+}
+.compose-ec .the-header {
+    background-color: #415067;
+    padding: 17px 25px;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    position: relative;
+}
+.compose-ec .the-header .c-title {
+    font-size: 17px;
+}
+.compose-ec .the-header .c-title h3 {
+    margin-bottom: 0;
+    font-size: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    font-weight: inherit;
+    color: inherit;
+}
+.compose-ec .the-header .c-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.c-editor-actions .c-editor-formating button,
+.c-editor-actions .c-editor-formating select,
+.com-content-header .com-cc-bcc-buttons button,
+.compose-ec .the-header .c-actions button {
+    padding: 0;
+    margin: 0;
+    position: relative;
+    background: 0 0;
+    box-shadow: none;
+    border: none;
+}
+.c-editor-actions .c-editor-formating button:not(:last-child),
+.c-editor-actions .c-editor-formating select,
+.compose-ec .the-header .c-actions button:not(:last-child) {
+    margin-right: 11px;
+}
+.c-editor-actions .icon,
+.compose-ec .the-header .c-actions .icon {
+    height: 23px;
+    width: 23px;
+    fill: #ffffff;
+    display: block;
+}
+.compose-ec .the-header .c-actions .icon.type-max-min {
+    height: 21px;
+    width: 21px;
+}
+.compose-ec .the-content-wrapper {
+    padding: 17px 25px;
+}
+.compose-ec .c-editor-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /*padding-top: 17px;*/
+    /*border-top: 1px solid #e9f1fe;*/
+    /*box-shadow: 0 -5px 5px -5px rgb(34 119 246 / 15%);*/
+}
+.c-editor-actions .icon {
+    /*height: 21px;*/
+    /*width: 21px;*/
+    height: 23px;
+    width: 23px;
+    fill: #415067;
+}
+.compose-ec .c-editor-actions .delete-draft .icon {
+    height: 26px;
+    width: 26px;
+}
+.compose-ec .c-editor-send-actions .send-email-button {
+    background: #2277f6;
+    text-align: center;
+    color: #fff;
+    padding: 11px 25px;
+    box-shadow: 0 4px 4px 0 rgb(0 0 0 / 25%);
+    border-radius: 12px;
+    border: none;
+    font-size: 14px;
+}
+.compose-ec .c-editor-actions .delete-draft {
+    appearance: none;
+    -webkit-appearance: none;
+    border: none;
+    background: 0 0;
+    margin-right: 10px;
+}
+.compose-ec .c-editor-actions .delete-draft .icon {
+    line-height: 1;
+}
+.compose-ec .c-editor-actions .delete-draft svg {
+    stroke: #415067;
+}
+
+.compose-email-wrapper.compose-minimize {
+    max-height: 57px;
+    min-height: 57px;
+    width: 571px;
+    max-width: 571px;
+/*    bottom: 30px;*/
+}
+.com-content-header {
+    margin-bottom: 15px;
+}
+.com-content-header .he-item {
+    display: flex;
+    align-items: center;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f6f6f6;
+}
+.com-content-header .he-item.att-bar .form-group {
+    margin: 0;
+    padding: 0;
+}
+.com-content-header .he-item .he-label {
+    padding-right: 15px;
+    color: #a0a7b3;
+    font-size: 14px;
+    font-weight: 700;
+}
+.com-content-header .he-item .he-label .the-icon {
+    width: 29px;
+    height: 29px;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    align-content: center;
+    background: rgb(226 232 240);
+    border: 1px solid rgb(203 213 225);
+}
+.com-content-header .he-item .he-label .the-icon svg {
+    width: 21px;
+    height: 21px;
+    stroke: rgb(51 65 85);
+}
+.com-content-header .he-item input,
+.com-content-header .he-item select {
+    appearance: none;
+    -webkit-appearance: none;
+    color: #415067;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    background: 0 0;
+    width: 100%;
+    font-size: 14px;
+    height: auto;
+    outline: 0;
+}
+.com-content-header .he-item .inputs-wrap {
+    flex: 1;
+    position: relative;
+}
+.com-content-header .inputs-wrap .select2-selection__rendered,
+.com-content-header .inputs-wrap ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.com-content-header .com-cc-bcc-buttons {
+    display: flex;
+    position: absolute;
+    right: 0;
+    top: 2px;
+    background-color: #fff;
+}
+.com-content-header .com-cc-bcc-buttons button {
+    color: #2277f6;
+    padding: 0 12px;
+    font-size: 14px;
+}
+.com-content-header .com-cc-bcc-buttons button:not(:last-child) {
+    border-right: 2px solid #f6f6f6;
+}
+.select2-container .select2-selection--multiple .select2-selection__rendered {
+    display: flex;
+}
+.select2-container--default .select2-results > .select2-results__options,
+.select2-container--default .select2-search--inline .select2-search__field {
+    font-size: 14px;
+}
+.select2-container .select2-search--inline .select2-search__field {
+    margin-top: 0;
+    font-size: 14px;
+}
+.select2-container--default .select2-selection--multiple,
+.select2-container--default.select2-container--focus
+    .select2-selection--multiple {
+    border: none;
+    min-height: auto;
+}
+.select2-container--default
+    .select2-selection--multiple
+    .select2-selection__choice {
+    background-color: #f6f6f6;
+    color: #415067;
+    font-size: 14px;
+    float: none;
+    clear: both;
+}
+@media screen and (max-width: 639px) {
+
+    .compose-ec .c-editor-actions {
+        justify-content: start;
+        align-items: self-start;
+        flex-direction: column;
+    }
+    .compose-ec .c-editor-actions .c-editor-formating {
+        margin-bottom: 7px;
+    }
+    .compose-ec .c-editor-actions .c-editor-send-actions {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+    .compose-email-wrapper,
+    .compose-email-wrapper.compose-minimize {
+        width: 90%;
+        left: 5%;
+    }
+}
+@media screen and (min-width: 640px) {
+    .compose-ec .c-editor-actions {
+        justify-content: start;
+        align-items: self-start;
+        flex-direction: column;
+    }
+    .compose-ec .c-editor-actions .c-editor-formating {
+        margin-bottom: 7px;
+    }
+    .compose-ec .c-editor-actions .c-editor-send-actions {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+    .compose-email-wrapper,
+    .compose-email-wrapper.compose-minimize {
+        width: 90%;
+       /* left: 5%;*/
+    }
+}
+.compose-email-wrapper {
+    position: fixed;
+    bottom: 0;
+    right: 43px;
+
+    width: 571px;
+    z-index: 1039;
+}
+.compose-email-wrapper .compose-ec {
+    box-shadow: 0 36px 100px 0 rgb(0 0 0 / 10%);
+}
+.compose-email-wrapper.compose-maximize {
+    width: 95%;
+    height: 95%;
+    top: 2.5%;
+    left: 2.5%;
+}
+.compose-email-wrapper.compose-maximize .compose-ec .the-content {
+/*    height: calc(100% - 57px);*/
+    height: 100%;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+.compose-email-wrapper.compose-maximize .the-content .the-content-wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.compose-email-wrapper.compose-maximize .the-content .com-content-editor {
+    height: 100%;
+    flex-grow: 1;
+}
+.compose-email-wrapper.compose-maximize.c-editor-actions {
+    padding-bottom: 17px;
+}
+.compose-email-wrapper.compose-maximize .compose-ec {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+}
+.compose-window {
+    margin: auto;
+}
+.compose-window {
+    width: 100%;
+    max-width: 100%;
+    min-height: 430px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.compose-window.compose-maximize {
+    width: 98%;
+    max-width: 98%;
+    max-height: 98%;
+    min-height: 98%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.compose-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    padding-top: 1rem;
+    overflow-y: auto;
+    padding: 12px;
+}

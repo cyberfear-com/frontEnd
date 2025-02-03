@@ -80,8 +80,8 @@ export const testimonials = [
 ]
 
 export default function Testimonials({
-    titleDesktop = 'Trusted by&nbsp;Security Experts',
-    titleMobile = 'Trusted by&nbsp;Security Experts',
+    titleDesktop = 'Private Email Trusted by&nbsp;Security Experts',
+    titleMobile = 'Private Email Trusted by&nbsp;Security Experts',
 }) {
     return (
         <QuoteSlider
@@ -103,7 +103,8 @@ export default function Testimonials({
             <h2 className='d-none d-md-block' dangerouslySetInnerHTML={{ __html: titleDesktop }} />
             <h1 className='d-md-none' dangerouslySetInnerHTML={{ __html: titleMobile }} />
             <p className='opacity-50 py-3'>
-                The Verdict is&nbsp;in: Mailum is&nbsp;the go-to service to&nbsp;take back your digital privacy.
+                Experience unparalleled privacy with our Private Email Service, trusted by security experts for its advanced encryption and unmatched security
+                {/*The Verdict is&nbsp;in: Mailum is&nbsp;the go-to private email service to&nbsp;take back your digital privacy.*/}
             </p>
         </QuoteSlider>
     )

@@ -8,21 +8,21 @@ import styles from "./HomeBanner.module.scss";
 
 // TODO update links
 const downloadLinks = [
-  {
-    iconClass: AppleStoreIconSVG,
-    source: "Apple Store",
-    url: "#",
-  },
+  // {
+  //   iconClass: AppleStoreIconSVG,
+  //   source: "Apple Store",
+  //   url: "#",
+  // },
   {
     iconClass: GooglePlayIconSVG,
     source: "Google Play",
-    url: "#",
+    url: "https://play.google.com/store/apps/details?id=com.mailum.mailapp",
   },
-  {
-    iconClass: FDroidIconSVG,
-    source: "F-Droid",
-    url: "#",
-  },
+  // {
+  //   iconClass: FDroidIconSVG,
+  //   source: "F-Droid",
+  //   url: "#",
+  // },
 ];
 
 export default function HomeBanner() {
@@ -39,11 +39,10 @@ export default function HomeBanner() {
 
             <h1 className='d-none d-md-inline'>
               {/*Make Email Security a&nbsp;Priority*/}
-              Email Service That Respects Your&nbsp;Privacy
+              Secure Email Service <br /> That Respects Your Privacy
             </h1>
             <h2 className='d-md-none'>
-              Peace of&nbsp;Mind<br />
-              Without Relying on&nbsp;Trust
+              Secure Email Service <br /> That Respects Your Privacy
             </h2>
 
             <p className="lead opacity-50 mt-3 mb-4">
@@ -53,8 +52,9 @@ export default function HomeBanner() {
                 is&nbsp;safeguarded from start to&nbsp;finish.
               </span>
               <span className="d-md-none">
-                Mailum is&nbsp;committed to&nbsp;keeping the Internet
-                an&nbsp;anonymous space free from surveillance.
+                Protect confidential emails and information with open-source,
+                most complete encryption that ensures your data
+                is&nbsp;safeguarded from start to&nbsp;finish.
               </span>
             </p>
 

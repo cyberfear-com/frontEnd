@@ -198,6 +198,11 @@ define(["app", "SmartNotification"], function (app, SmartNotification) {
                         "You've reached hourly sending limit. Please try again later or upgrade your plan."
                     );
                     break;
+                case "outgoingFreeLimited":
+                    this.omgAnswer(
+                        "Free plan can only email Mailum users."
+                    );
+                    break;
             }
         },
 

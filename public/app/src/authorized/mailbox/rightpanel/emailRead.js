@@ -93,9 +93,9 @@ define(["react", "app"], function (React, app) {
             $("#virtualization")
                 .contents()
                 .find("html")
-                .append(
-                    "<style>table,table tbody,table tr,table td{display:block;width:100%;}</style>"
-                );
+                // .append(
+                //     "<style>table,table tbody,table tr,table td{display:block;width:100%;}</style>"
+                // );
         },
         getTagColor: function (tagName) {
             var colorCode = `#c9d0da`;
@@ -393,7 +393,7 @@ define(["react", "app"], function (React, app) {
                     email["meta"]["version"] == 2 &&
                     email["meta"]["pin"] != ""
                 ) {
-                    console.log(email["meta"]["pin"])
+                    //console.log(email["meta"]["pin"])
                     pin.push(
                         <span className="pinHeader email-head" key="pin2">
                             PIN:{" "}
@@ -1366,9 +1366,9 @@ define(["react", "app"], function (React, app) {
                                     $("#virtualization")
                                         .contents()
                                         .find("html")
-                                        .append(
-                                            "<style>table,table tbody,table tr,table td{display:block;width:100%;}</style>"
-                                        );
+                                        // .append(
+                                        //     "<style>table,table tbody,table tr,table td{display:block;width:100%;}</style>"
+                                        // );
 
                                     $("#virtualization").height(
                                         $("#virtualization")
@@ -1398,9 +1398,9 @@ define(["react", "app"], function (React, app) {
                                     $("#virtualization")
                                         .contents()
                                         .find("html")
-                                        .append(
-                                            "<style>table,table tbody,table tr,table td{display:block;width:100%;}</style>"
-                                        );
+                                        // .append(
+                                        //     "<style>table,table tbody,table tr,table td{display:block;width:100%;}</style>"
+                                        // );
                                     $("#virtualization").height(
                                         $("#virtualization")
                                             .contents()
@@ -1725,9 +1725,9 @@ define(["react", "app"], function (React, app) {
                         $("#virtualization")
                             .contents()
                             .find("html")
-                            .append(
-                                "<style>table,table tbody,table tr,table td{display:block;width:100%;}</style>"
-                            );
+                            // .append(
+                            //     "<style>table,table tbody,table tr,table td{display:block;width:100%;}</style>"
+                            // );
                         $("#virtualization").height(
                             $("#virtualization")
                                 .contents()
@@ -1768,9 +1768,9 @@ define(["react", "app"], function (React, app) {
                         $("#virtualization")
                             .contents()
                             .find("html")
-                            .append(
-                                "<style>table,table tbody,table tr,table td{display:block;width:100%;}</style>"
-                            );
+                            // .append(
+                            //     "<style>table,table tbody,table tr,table td{display:block;width:100%;}</style>"
+                            // );
                         $("#virtualization").height(
                             $("#virtualization")
                                 .contents()

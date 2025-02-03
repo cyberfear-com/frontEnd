@@ -34,6 +34,7 @@ define(["react", "app", "cmpld/modals/paymentGate","ajaxQueue"], function (
                 buttonText: "SIGN IN",
                 inPasswordViewMode: false,
                 domain: "",
+                maintenanceMode: false,
             };
         },
         componentWillUnmount: function () {
@@ -71,6 +72,7 @@ define(["react", "app", "cmpld/modals/paymentGate","ajaxQueue"], function (
                 // Set working to false after data is loaded and state is updated
                 this.setState({ working: false });
             } catch (error) {
+                this.setState({ maintenanceMode: true });
                 console.error("Error fetching domain list:", error);
                 // Handle the error, possibly set a default domain or show an error message
                 this.setState({ working: false });
@@ -336,7 +338,26 @@ define(["react", "app", "cmpld/modals/paymentGate","ajaxQueue"], function (
                 overflow: "hidden",
             };
 
-            return (
+            const maintenanceContent = (
+              <div className="maintenance-message">
+                <h1>Maintenance</h1>
+                <div className="welcome-text">
+                  Our site is currently undergoing maintenance.
+                </div>
+                <p
+                  style={{
+                    fontSize: '16px',
+                    fontWeight: '700',
+                    marginTop: '10px',
+                  }}
+                >
+                  We apologize for any inconvenience and appreciate your patience.
+                  <br />
+                  Please check back in a few minutes.
+                </p>
+              </div>
+            );
+            const originalContent = (
                 <div>
                     <div
                         className={`loading-screen welcome ${
@@ -585,7 +606,9 @@ define(["react", "app", "cmpld/modals/paymentGate","ajaxQueue"], function (
                         </div>
                     </div>
                 </div>
-            );
+            )
+            const content = this.state.maintenanceMode ? maintenanceContent : originalContent;
+            return <div>{content}</div>;
         },
     });
 });

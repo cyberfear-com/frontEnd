@@ -100,8 +100,17 @@ define(["react", "app", "select2", "ckeditor"], function (
           "undo",
           "redo",
         ],
+        htmlSupport: {
+          allow: [
+            {
+              name: 'div',
+              classes: ['emailbody', 'emailsignature', 'oldemail','fileattach']
+            }
+          ]
+        }
       })
         .then((editor) => {
+
           thisComp.editor = editor;
 
           // Set initial data
@@ -155,13 +164,15 @@ define(["react", "app", "select2", "ckeditor"], function (
           } else {
             oldEmailText = thisComp.state.body;
           }
-          
+
           editor.editing.view.focus();
           editor.setData(newEmailBody + oldEmailText);
 
           thisComp.setState({
             originalHash: thisComp.getEmailHash(),
           });
+          // Override the downcast converter for the 'paragraph' model element.
+
         })
         .catch((error) => {
           console.error("Error initializing CKEditor:", error);
@@ -969,8 +980,11 @@ define(["react", "app", "select2", "ckeditor"], function (
         // Remove file attachments from the editor content
         if (this.editor) {
           var data = this.editor.getData();
+          console.log('emaildata:');
+          console.log(data);
+         // console.log();
           var updatedData = data.replace(
-            /<div class='fileattach'[^>]*>[\s\S]*?<\/div>/gi,
+            /<p[^>]*>Files will be available for download until[\s\S]*?<\/p>/gi,
             ""
           );
           this.editor.setData(updatedData);
@@ -1003,13 +1017,20 @@ define(["react", "app", "select2", "ckeditor"], function (
         linkbody += "</div>";
 
         if (Object.keys(fileObj).length > 0 && this.editor) {
-          var data = this.editor.getData();
-          var updatedData = data + linkbody;
-          this.editor.setData(updatedData);
+          var data = this.editor.getData()
+          var updatedData = data.replace(
+              /<p[^>]*>Files will be available for download until[\s\S]*?<p><a[\s\S]*?<\/p>/gi,
+              ""
+          );
+          var updatedData1 = updatedData + linkbody;
+          console.log('emaildata:');
+          console.log(updatedData);
+          this.editor.setData(updatedData1);
         }
       }
     },
     fileRemove: function (fileName64, callback) {
+      console.log('removing');
       clearInterval(this.state.savingDraft);
       var thisComp = this;
       var fileObject = thisComp.state.fileObject;
@@ -1036,7 +1057,7 @@ define(["react", "app", "select2", "ckeditor"], function (
 
             selectedValues = [];
 
-            $("#atachFiles").children().remove();
+           // $("#atachFiles").children().remove();
 
             if (Object.keys(fileObject).length > 0) {
               $.each(Object.keys(fileObject), function (index, value) {
@@ -1055,6 +1076,7 @@ define(["react", "app", "select2", "ckeditor"], function (
               });
             }
             $("#atachFiles").val(selectedValues).trigger("change");
+            console.log('going to link');
             thisComp.addFileLink();
             thisComp.fileTag();
             thisComp.prepareToSafeDraft("", function () {});

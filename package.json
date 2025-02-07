@@ -11,11 +11,13 @@
     "postbuild": "purgecss --css dist/assets/*.css --content dist/index.html dist/assets/*.js --output dist/assets && node_modules/babel-cli/bin/babel.js --presets react public/app/src/ --watch --out-dir  dist/app/cmpld/"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-react": "^9.4.0",
     "@popperjs/core": "^2.11.8",
     "babel-cli": "^6.18.0",
     "babel-preset-es2015": "^6.18.0",
     "babel-preset-react": "^6.16.0",
     "bootstrap": "5.3.0-alpha3",
+    "ckeditor5": "^44.1.0",
     "classnames": "^2.3.2",
     "iro": "^0.9.3",
     "lunr": "^2.3.9",

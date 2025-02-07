@@ -4054,6 +4054,7 @@ footer .footer-bottom-row .copyright {
     border-top: none;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
+    display:none;
 }
 .select2-search--dropdown {
     display: block;
@@ -12013,4 +12014,7 @@ body.shrinked .folder-menu .accordion-button:after {
 }
 .body-no-scroll {
     overflow: hidden;
+}
+.ck.ck-balloon-panel.ck-powered-by-balloon .ck.ck-powered-by {
+    display:none;
 }

@@ -219,8 +219,8 @@ define(["react", "app", "select2"], function (
                 // Set initial data
                 var newEmailBody = "";
                 //var newEmailText = '<div class="emailbody"><br/><br/></div>';
-               // var newEmailText = '<div class="emailbody"></div>';
-                var newEmailText = '';
+                var newEmailText = '<div class="emailbody"></div>';
+                //var newEmailText = '';
                 var signature = "";
                 var curSig = app.transform
                   .from64str(this.fromField("sig"))
@@ -244,7 +244,7 @@ define(["react", "app", "select2"], function (
               cSig +
               "</div>";
           } else {
-            signature = '<div class="emailsignature"></div>';
+            signature = '';
           }
 
           // cSig = 'Sent using Encrypted Email Service - ' + thisComp.state.correctSig;
@@ -1107,6 +1107,8 @@ define(["react", "app", "select2"], function (
             ""
         );
         emailBody=removeOldemail;
+        console.log(emailBody);
+
       this.editor.setData(removeOldemail);
       }
 
@@ -1151,7 +1153,7 @@ define(["react", "app", "select2"], function (
           linkbody += "</div>";
         }
       }
-      var finaltext = (emailBody!=undefined?emailBody:"") + linkbody+(signature!=undefined?signature:"")+(oldemail!=undefined?oldemail:"");
+      var finaltext = ((emailBody==undefined||emailBody=="")?'<div class="emailbody"></div>':emailBody) + linkbody+(signature==undefined?"":signature)+(oldemail==undefined?"":oldemail);
 
       this.editor.setData(finaltext);
     },
@@ -1201,7 +1203,6 @@ define(["react", "app", "select2"], function (
               });
             }
             $("#atachFiles").val(selectedValues).trigger("change");
-            console.log('going to link');
             thisComp.addFileLink();
             thisComp.fileTag();
             thisComp.prepareToSafeDraft("", function () {});

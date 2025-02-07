@@ -1107,7 +1107,6 @@ define(["react", "app", "select2"], function (
             ""
         );
         emailBody=removeOldemail;
-        console.log(emailBody);
 
       this.editor.setData(removeOldemail);
       }

@@ -4054,7 +4054,7 @@ footer .footer-bottom-row .copyright {
     border-top: none;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
-    display:none;
+   /* display:none;*/
 }
 .select2-search--dropdown {
     display: block;

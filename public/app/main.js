@@ -199,7 +199,7 @@ require.config({
             exports: "Poppers",
         },
     },
-    urlArgs: "bust=" + 62,
+    urlArgs: "bust=" + 63,
 });
 
 require([

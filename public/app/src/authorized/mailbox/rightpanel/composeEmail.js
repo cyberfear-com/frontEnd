@@ -1151,6 +1151,9 @@ define(["react", "app", "select2"], function (
           linkbody += "</div>";
         }
       }
+      var finaltext = (emailBody!=undefined?emailBody:"") + linkbody+(signature!=undefined?signature:"")+(oldemail!=undefined?oldemail:"");
+
+      this.editor.setData(finaltext);
     },
     fileRemove: function (fileName64, callback) {
       clearInterval(this.state.savingDraft);

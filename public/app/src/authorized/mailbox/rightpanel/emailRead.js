@@ -1254,43 +1254,51 @@ define(["react", "app"], function (React, app) {
                     break;
 
                 case "showHeader":
-                    var w = window.open();
-                    var html =
-                        "<pre " +
-                        'style="white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; white-space: pre-wrap; word-wrap: break-word;">' +
-                        app.transform.escapeTags(
-                            app.transform.from64str(
-                                app.user.get("currentMessageView")[
-                                    "originalBody"
-                                ]["rawHeader"]
-                            )
-                        ) +
-                        "<pre>";
-                    html +=
-                        "------ HTML ---------" +
-                        "<br /><pre " +
-                        'style="white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; white-space: pre-wrap; word-wrap: break-word;">' +
-                        app.transform.escapeTags(
-                            app.transform.from64str(
-                                app.user.get("currentMessageView")[
-                                    "originalBody"
-                                ]["body"]["html"]
-                            )
-                        ) +
-                        "<pre><br />------END HTML ---------<br /><br />";
-                    html +=
-                        "------ TEXT ---------" +
-                        "<br /><pre " +
-                        'style="white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; white-space: pre-wrap; word-wrap: break-word;">' +
-                        app.transform.escapeTags(
-                            app.transform.from64str(
-                                app.user.get("currentMessageView")[
-                                    "originalBody"
-                                ]["body"]["text"]
-                            )
-                        ) +
-                        "<pre><br />------ END TEXT ---------";
-                    $(w.document.body).html(html);
+
+                        var html =
+                           " <html><head><title>Dynamic Content</title></head><body>"+
+                            "<pre " +
+                            'style="white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; white-space: pre-wrap; word-wrap: break-word;">' +
+                            app.transform.escapeTags(
+                                app.transform.from64str(
+                                    app.user.get("currentMessageView")[
+                                        "originalBody"
+                                        ]["rawHeader"]
+                                )
+                            ) +
+                            "<pre>";
+                        html +=
+                            "------ HTML ---------" +
+                            "<br /><pre " +
+                            'style="white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; white-space: pre-wrap; word-wrap: break-word;">' +
+                            app.transform.escapeTags(
+                                app.transform.from64str(
+                                    app.user.get("currentMessageView")[
+                                        "originalBody"
+                                        ]["body"]["html"]
+                                )
+                            ) +
+                            "<pre><br />------END HTML ---------<br /><br />";
+                        html +=
+                            "------ TEXT ---------" +
+                            "<br /><pre " +
+                            'style="white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; white-space: pre-wrap; word-wrap: break-word;">' +
+                            app.transform.escapeTags(
+                                app.transform.from64str(
+                                    app.user.get("currentMessageView")[
+                                        "originalBody"
+                                        ]["body"]["text"]
+                                )
+                            ) +
+                            "<pre><br />------ END TEXT --------- </body></html>";
+                    if(app.mailMan.get("webview")){
+                        var data={'what':'rawemail','text':html};
+                        window.ReactNativeWebView.postMessage(JSON.stringify(data));
+                    }else {
+                        var w = window.open();
+                        $(w.document.body).html(html);
+
+                    }
                     break;
 
                 case "pinToTop":
@@ -2431,7 +2439,7 @@ define(["react", "app"], function (React, app) {
                                                                 Report Spam
                                                             </button>
                                                         </li>
-                                                        <li>
+                                                        <li className={app.mailMan.get("webview")?"d-none":""}>
                                                             <button
                                                                 onClick={this.handleClick.bind(
                                                                     null,

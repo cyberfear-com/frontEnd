@@ -1,4 +1,3 @@
-console.log('main.js!')
 require.config({
     deps: ["main"],
     paths: {
@@ -41,7 +40,7 @@ require.config({
         select2: "/js/Plugins/select2/select2.full",
         openpgp: "/js/Plugins/openpgp/openpgp",
         apptheme: "/js/app",
-        ckeditor: "/js/Plugins/ckeditor/ckeditor",
+       // ckeditor: "/js/Plugins/ckeditor/ckeditor",
 
         //Elements:"@stripe/react-stripe-js",
         //loadStripe:"/js/Plugins/@stripe/stripe-js/dist/stripe",

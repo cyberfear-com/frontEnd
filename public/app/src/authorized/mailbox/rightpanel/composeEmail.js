@@ -1,8 +1,7 @@
-define(["react", "app", "select2", "ckeditor"], function (
+define(["react", "app", "select2"], function (
   React,
   app,
-  select2,
-  ClassicEditor
+  select2
 ) {
   return React.createClass({
     getInitialState: function () {
@@ -88,8 +87,28 @@ define(["react", "app", "select2", "ckeditor"], function (
       await this.fromField("initialize");
       fileSelector = $("#fileselector");
       // Initialize CKEditor 5
-      ClassicEditor.create(document.querySelector("#composeEmail"), {
-        //toolbar: ['bold', 'italic', 'underline', 'bulletedList', 'numberedList', 'link', 'undo', 'redo']
+
+      const {
+        ClassicEditor,
+        BlockQuote,
+        Bold,
+        Essentials,
+        GeneralHtmlSupport,
+        HtmlComment,
+        HtmlEmbed,
+        Indent,
+        IndentBlock,
+        Italic,
+        Link,
+        List,
+        ListProperties,
+        Paragraph,
+        ShowBlocks,
+        TodoList,
+        Underline
+      } = window.CKEDITOR;
+
+     /* const editorConfig = {
         toolbar: [
           "bold",
           "italic",
@@ -100,30 +119,124 @@ define(["react", "app", "select2", "ckeditor"], function (
           "undo",
           "redo",
         ],
-      })
-        .then((editor) => {
-          thisComp.editor = editor;
-
-          // Set initial data
-          var newEmailBody = "";
-          //var newEmailText = '<div class="emailbody"><br/><br/></div>';
-          var newEmailText = '<div class="emailbody"></div>';
-          var signature = "";
-          var curSig = app.transform
-            .from64str(this.fromField("sig"))
-            .toLowerCase();
-          var cSig = app.transform.from64str(this.fromField("sig"));
-          if (app.user.get("composeOriginate") == "new") {
-            if (
-              (curSig.includes("mailum.com") ||
-                curSig.includes("cyberfear.com")) &&
-              !curSig.includes('href="https://mailum.com"')
-            ) {
-              cSig =
-                "Sent using Encrypted Email Service - " +
-                thisComp.state.correctSig;
+        plugins: [
+          BlockQuote,
+          Bold,
+          Essentials,
+          GeneralHtmlSupport,
+          HtmlComment,
+          HtmlEmbed,
+          Indent,
+          IndentBlock,
+          Italic,
+          Link,
+          List,
+          ListProperties,
+          Paragraph,
+          ShowBlocks,
+          TodoList,
+          Underline
+        ],
+        htmlSupport: {
+          allow: [
+            {
+              name: /^.*$/,
+              styles: true,
+              attributes: true,
+              classes: true
+            }
+          ]
+        },
+        licenseKey: LICENSE_KEY,
+        link: {
+          addTargetToExternalLinks: true,
+          defaultProtocol: 'https://',
+          decorators: {
+            toggleDownloadable: {
+              mode: 'manual',
+              label: 'Downloadable',
+              attributes: {
+                download: 'file'
+              }
             }
           }
+        },
+        list: {
+          properties: {
+            styles: true,
+            startIndex: true,
+            reversed: true
+          }
+        }
+      };
+*/
+     // ClassicEditor.create(document.querySelector('#composeEmail'), editorConfig);
+
+            ClassicEditor.create(document.querySelector("#composeEmail"), {
+              //toolbar: ['bold', 'italic', 'underline', 'bulletedList', 'numberedList', 'link', 'undo', 'redo']
+              toolbar: [
+                "bold",
+                "italic",
+                "bulletedList",
+                "numberedList",
+                "link",
+                "blockquote",
+                "undo",
+                "redo",
+              ],
+              plugins: [
+                BlockQuote,
+                Bold,
+                Essentials,
+                GeneralHtmlSupport,
+                HtmlComment,
+                HtmlEmbed,
+                Indent,
+                IndentBlock,
+                Italic,
+                Link,
+                List,
+                ListProperties,
+                Paragraph,
+                ShowBlocks,
+                TodoList,
+                Underline
+              ],
+              licenseKey: 'GPL',
+              htmlSupport: {
+                allow: [
+                  {
+                    name: 'div',
+                    classes: ['emailbody', 'emailsignature', 'oldemail','fileattach']
+                  }
+                ]
+              }
+            })
+              .then((editor) => {
+
+                thisComp.editor = editor;
+
+                // Set initial data
+                var newEmailBody = "";
+                //var newEmailText = '<div class="emailbody"><br/><br/></div>';
+                var newEmailText = '<div class="emailbody"></div>';
+                //var newEmailText = '';
+                var signature = "";
+                var curSig = app.transform
+                  .from64str(this.fromField("sig"))
+                  .toLowerCase();
+                var cSig = app.transform.from64str(this.fromField("sig"));
+                if (app.user.get("composeOriginate") == "new") {
+                  if (
+                    (curSig.includes("mailum.com") ||
+                      curSig.includes("cyberfear.com")) &&
+                    !curSig.includes('href="https://mailum.com"')
+                  ) {
+                    cSig =
+                      "Sent using Encrypted Email Service - " +
+                      thisComp.state.correctSig;
+                  }
+                }
 
           if (this.state.fromArray[this.state.fromEmail]["includeSignature"]) {
             signature =
@@ -131,7 +244,7 @@ define(["react", "app", "select2", "ckeditor"], function (
               cSig +
               "</div>";
           } else {
-            signature = '<div class="emailsignature"></div>';
+            signature = '';
           }
 
           // cSig = 'Sent using Encrypted Email Service - ' + thisComp.state.correctSig;
@@ -155,13 +268,15 @@ define(["react", "app", "select2", "ckeditor"], function (
           } else {
             oldEmailText = thisComp.state.body;
           }
-          
+
           editor.editing.view.focus();
           editor.setData(newEmailBody + oldEmailText);
 
           thisComp.setState({
             originalHash: thisComp.getEmailHash(),
           });
+          // Override the downcast converter for the 'paragraph' model element.
+
         })
         .catch((error) => {
           console.error("Error initializing CKEditor:", error);
@@ -259,6 +374,7 @@ define(["react", "app", "select2", "ckeditor"], function (
         });
 
         thisComp.checkRcpt();
+        thisComp.addFileLink();
       });
       $("#toCCRcpt").on("select2:unselect", function (e) {
         thisComp.setState({
@@ -880,7 +996,8 @@ define(["react", "app", "select2", "ckeditor"], function (
         }
       });
 
-      $("#ddd").val("");
+     // $("#ddd").val("");
+     $("#fileselector").val("");
     },
 
     fileUpload: function () {
@@ -963,51 +1080,82 @@ define(["react", "app", "select2", "ckeditor"], function (
     },
 
     addFileLink: function () {
-      var time = new Date(new Date().setYear(new Date().getFullYear() + 1));
+      var time = new Date(new Date().setYear(new Date().getFullYear() + 1))
+      //remove attachment at start
+
+      var signature="";
+      var oldemail="";
+      var linkbody="";
+      var emailBody="";
+
+      signature=$('.emailsignature').prop('outerHTML');
+      oldemail=$('.oldemail').prop('outerHTML');
+
+      if (this.editor) {
+      var data = this.editor.getData();
+
+      var updatedData = data.replace(
+          /<div\s+class="fileattach">([\s\S]*?)<\/div><\/div>/gi,
+          ""
+      );
+        var removeSig = updatedData.replace(
+            /<div\s+class="emailsignature">([\s\S]*?)<\/div>/gi,
+            ""
+        );
+        var removeOldemail = removeSig.replace(
+            /<div\s+class="oldemail">([\s\S]*?)<\/div>/gi,
+            ""
+        );
+        emailBody=removeOldemail;
+        console.log(emailBody);
+
+      this.editor.setData(removeOldemail);
+      }
+
 
       if (this.state.emailProtected === 3 || this.state.emailProtected === 1) {
         // Remove file attachments from the editor content
-        if (this.editor) {
+     /*   if (this.editor) {
           var data = this.editor.getData();
           var updatedData = data.replace(
-            /<div class='fileattach'[^>]*>[\s\S]*?<\/div>/gi,
+            /<p><br>&nbsp;<\/p><div\s+class="fileattach">([\s\S]*?)<\/div><\/div>/gi,
             ""
           );
           this.editor.setData(updatedData);
-        }
-      } else {
+        }*/
+      } else{
         // Build the file attachment links
-        var linkbody =
-          "<br/><div class='fileattach' style='background-color:#F2F2F2;'><span>Files will be available for download until " +
-          time.toLocaleString() +
-          //"<br/>";
-          "";
-
         var fileObj = this.state.fileObject;
-        var c = 1;
-        $.each(fileObj, function (fName, fData) {
-          linkbody +=
-            '<div style="clear:both; margin-top:5px;">' +
-            ' <a href="' +
-            app.defaults.get("domainVPS") +
-            "/api/dFV2/" +
-            fData["fileName"] +
-            "1/p/" +
-            app.transform.bin2hex(app.transform.from64bin(fData["key"])) +
-            '" target="_blank" contenteditable="false">' +
-            app.transform.from64str(fName) +
-            "</a></div>";
-          c++;
-        });
-
-        linkbody += "</div>";
 
         if (Object.keys(fileObj).length > 0 && this.editor) {
-          var data = this.editor.getData();
-          var updatedData = data + linkbody;
-          this.editor.setData(updatedData);
+          linkbody =
+              "<div class='fileattach' style='background-color:#F2F2F2;'><span>Files will be available for download until " +
+              time.toLocaleString() +
+              //"<br/>";
+              "";
+
+          var c = 1;
+          $.each(fileObj, function (fName, fData) {
+            linkbody +=
+                '<div style="clear:both; margin-top:5px;">' +
+                ' <a href="' +
+                app.defaults.get("domainVPS") +
+                "/api/dFV2/" +
+                fData["fileName"] +
+                "1/p/" +
+                app.transform.bin2hex(app.transform.from64bin(fData["key"])) +
+                '" target="_blank" contenteditable="false">' +
+                app.transform.from64str(fName) +
+                "</a></div>";
+            c++;
+          });
+
+          linkbody += "</div>";
         }
       }
+      var finaltext = ((emailBody==undefined||emailBody=="")?'<div class="emailbody"></div>':emailBody) + linkbody+(signature==undefined?"":signature)+(oldemail==undefined?"":oldemail);
+
+      this.editor.setData(finaltext);
     },
     fileRemove: function (fileName64, callback) {
       clearInterval(this.state.savingDraft);
@@ -1036,7 +1184,7 @@ define(["react", "app", "select2", "ckeditor"], function (
 
             selectedValues = [];
 
-            $("#atachFiles").children().remove();
+           // $("#atachFiles").children().remove();
 
             if (Object.keys(fileObject).length > 0) {
               $.each(Object.keys(fileObject), function (index, value) {

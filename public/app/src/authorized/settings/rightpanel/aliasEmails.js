@@ -4,8 +4,7 @@ define([
     "dataTable",
     "dataTableBoot",
     "cmpld/authorized/settings/rightpanel/rightTop",
-    "ckeditor"
-], function (React, app, DataTable, dataTableBoot, RightTop, ClassicEditor) {
+], function (React, app, DataTable, dataTableBoot, RightTop) {
     "use strict";
     return React.createClass({
         getInitialState: function () {
@@ -195,17 +194,65 @@ define([
             this.domains();
 
             // Initialize CKEditor
+            const {
+                ClassicEditor,
+                BlockQuote,
+                Bold,
+                Essentials,
+                GeneralHtmlSupport,
+                HtmlComment,
+                HtmlEmbed,
+                Indent,
+                IndentBlock,
+                Italic,
+                Link,
+                List,
+                ListProperties,
+                Paragraph,
+                ShowBlocks,
+                TodoList,
+                Underline
+            } = window.CKEDITOR;
+
             ClassicEditor.create(document.querySelector("#com-the-con-editor__alias"), {
+                //toolbar: ['bold', 'italic', 'underline', 'bulletedList', 'numberedList', 'link', 'undo', 'redo']
                 toolbar: [
-                  "bold",
-                  "italic",
-                  "bulletedList",
-                  "numberedList",
-                  "link",
-                  "blockquote",
-                  "undo",
-                  "redo",
+                    "bold",
+                    "italic",
+                    "bulletedList",
+                    "numberedList",
+                    "link",
+                    "blockquote",
+                    "undo",
+                    "redo",
                 ],
+                plugins: [
+                    BlockQuote,
+                    Bold,
+                    Essentials,
+                    GeneralHtmlSupport,
+                    HtmlComment,
+                    HtmlEmbed,
+                    Indent,
+                    IndentBlock,
+                    Italic,
+                    Link,
+                    List,
+                    ListProperties,
+                    Paragraph,
+                    ShowBlocks,
+                    TodoList,
+                    Underline
+                ],
+                licenseKey: 'GPL',
+                htmlSupport: {
+                    allow: [
+                        {
+                            name: 'div',
+                            classes: ['emailbody', 'emailsignature', 'oldemail','fileattach']
+                        }
+                    ]
+                }
             })
             .then(editor => {
                 thsComp.editor = editor;

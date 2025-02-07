@@ -807,6 +807,9 @@ define([
                             {app.user.get("userPlan")["balance"]>0 &&
                                 <s style={{color:"#999"}}>{accounting.formatMoney(price<0?0:price+app.user.get("userPlan")["balance"]/100,"$",2)}</s>
                             }
+                            {(app.user.get("userPlan")["balance"]==0 && app.user.get("userPlan")["renewAmount"]>0) &&
+                                <span>{accounting.formatMoney(app.user.get("userPlan")["renewAmount"]/100,"$",2)}</span>
+                            }
                             {app.user.get("userPlan")["balance"]>0 &&
                                 <span> {accounting.formatMoney(price<0?0:price,"$",2)} "Limited time offer: Pay now, and your previous balance is on us!"</span>
                             }

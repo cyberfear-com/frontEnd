@@ -788,59 +788,11 @@ define(["react", "app"], function (React, app) {
                                             key={"abcd" + index}
                                             onClick={thisComp.handleClick.bind(
                                                 thisComp,
-                                                "downloadFile"
+                                                "downloadFilePGP"
                                             )}
                                         >
-                                            Download
+                                            Show PGP message
                                         </button>
-                                        <button
-                                            type="button"
-                                            className="btn btn-primary dropdown-toggle"
-                                            data-toggle="dropdown"
-                                            aria-haspopup="true"
-                                            aria-expanded="false"
-                                        >
-                                            <span className="caret"></span>
-                                            <span className="sr-only">
-                                                Toggle Dropdown
-                                            </span>
-                                        </button>
-                                        <ul className="dropdown-menu">
-                                            <li
-                                                onClick={thisComp.handleClick.bind(
-                                                    thisComp,
-                                                    "downloadFilePGP"
-                                                )}
-                                            >
-                                                <a href="javascript:void(0);">
-                                                    Decrypt & Display
-                                                </a>
-                                            </li>
-                                            <li
-                                                onClick={thisComp.handleClick.bind(
-                                                    thisComp,
-                                                    "downloadFilePGP"
-                                                )}
-                                            >
-                                                <a href="javascript:void(0);">
-                                                    Decrypt & Download
-                                                </a>
-                                            </li>
-                                            <li
-                                                role="separator"
-                                                className="divider"
-                                            ></li>
-                                            <li
-                                                onClick={thisComp.handleClick.bind(
-                                                    thisComp,
-                                                    "downloadFile"
-                                                )}
-                                            >
-                                                <a href="javascript:void(0);">
-                                                    Download
-                                                </a>
-                                            </li>
-                                        </ul>
                                     </div>
                                 </span>
                             );
@@ -980,8 +932,6 @@ define(["react", "app"], function (React, app) {
                     var email = app.user.get("currentMessageView");
                     var emailAttachments = email["attachment"];
                     var fileBId = fileButton
-                        .parent()
-                        .parent()
                         .parent()
                         .children()
                         .attr("id");
@@ -1347,6 +1297,7 @@ define(["react", "app"], function (React, app) {
 
                     break;
                 case "togglePlainHTML":
+                    console.log('html');
                     if (this.state.toggleHTMLtext == "html") {
                         this.setState({
                             toggleHTMLtext: "text",
@@ -1355,6 +1306,7 @@ define(["react", "app"], function (React, app) {
                         app.globalF.renderBodyNoImages(
                             "",
                             this.state.emailBodyTXT,
+                            ifPGP,
                             function (prerenderedBody) {
                                 $("#virtualization").height(0);
 
@@ -1380,13 +1332,14 @@ define(["react", "app"], function (React, app) {
                             }
                         );
                     } else if (this.state.toggleHTMLtext == "text") {
+                        console.log('text');
                         this.setState({
                             toggleHTMLtext: "html",
                         });
 
                         app.globalF.renderBodyNoImages(
                             this.state.emailBody,
-                            "",
+                            "",ifPGP,
                             function (prerenderedBody) {
                                 $("#virtualization").height(0);
 
@@ -1712,9 +1665,16 @@ define(["react", "app"], function (React, app) {
             // console.log(this.state.emailLoading);
         },
         renderFull: function () {
+
+            var ifPGP=false;
+            if(Object.keys(app.user.get("currentMessageView")['attachment']).length > 0 && app.user.get("currentMessageView")['attachment'][Object.keys(app.user.get("currentMessageView")['attachment'])[0]]['isPgp']!==undefined){
+                ifPGP=app.user.get("currentMessageView")['attachment'][Object.keys(app.user.get("currentMessageView")['attachment'])[0]]['isPgp'];
+            }
+
             app.globalF.renderBodyFull(
                 this.state.emailBody,
                 this.state.emailBodyTXT,
+                ifPGP,
                 function (prerenderedBody) {
                     $("#virtualization").height(0);
                     setTimeout(function () {
@@ -1742,11 +1702,19 @@ define(["react", "app"], function (React, app) {
             });
         },
 
-        renderStrictBody: function () {
-            var thisComp = this;
+        renderStrictBody: function ()
+        {
+
+            var thisComp = this
+            var ifPGP=false;
+            if(Object.keys(app.user.get("currentMessageView")['attachment']).length > 0 && app.user.get("currentMessageView")['attachment'][Object.keys(app.user.get("currentMessageView")['attachment'])[0]]['isPgp']!==undefined){
+                ifPGP=app.user.get("currentMessageView")['attachment'][Object.keys(app.user.get("currentMessageView")['attachment'])[0]]['isPgp'];
+            }
+
             app.globalF.renderBodyNoImages(
                 this.state.emailBody,
                 this.state.emailBodyTXT,
+                ifPGP,
                 function (prerenderedBody) {
                     $("#virtualization").height(0);
 

@@ -224,7 +224,7 @@ define(["react", "app", "cmpld/modals/paymentGate","ajaxQueue"], function (
                             password,
                             factor2,
                             function (result) {
-                                console.log(result);
+                                //console.log(result);
                                 thisComp.setState({
                                     working: false,
                                     buttonTag: "",

@@ -21,8 +21,8 @@ define(["react", "app", "select2"], function (
         showBCC: "",
         showAtt: "",
         showPin: "",
-        attachAs:"",
-        attachAsTemp:"",
+        attachAs:app.user.get("draftMessageView")["meta"]["attachmentType"],
+        attachAsTemp:app.user.get("draftMessageView")["meta"]["attachmentType"],
 
         subject: app.user.get("draftMessageView")["meta"]["subject"],
         body: app.globalF.filterXSSwhite(
@@ -287,7 +287,7 @@ define(["react", "app", "select2"], function (
       thisComp.toSelect();
       thisComp.toCCSelect();
       thisComp.toBCCSelect();
-      //thisComp.attachFiles();
+      thisComp.attachFiles();
 
       $("#toRcpt").on("select2:selecting", function (e) {
         var limits = thisComp.countTotalRcpt();
@@ -601,6 +601,8 @@ define(["react", "app", "select2"], function (
     },
     attachFiles: function () {
       var thisComp = this;
+    //  console.log('reading attach');
+    //  console.log(thisComp.state.fileObject);
 
       $("#atachFiles").select2({
         tags: true,
@@ -1155,7 +1157,12 @@ define(["react", "app", "select2"], function (
           linkbody += "</div>";
         }
       }
-      var finaltext = ((emailBody==undefined||emailBody=="")?'<div class="emailbody"></div>':emailBody) + linkbody+(signature==undefined?"":signature)+(oldemail==undefined?"":oldemail);
+      if(this.state.attachAsTemp=="link"){
+        var finaltext = ((emailBody==undefined||emailBody=="")?'<div class="emailbody"></div>':emailBody) + linkbody+(signature==undefined?"":signature)+(oldemail==undefined?"":oldemail);
+      }else{
+        var finaltext = ((emailBody==undefined||emailBody=="")?'<div class="emailbody"></div>':emailBody) + (signature==undefined?"":signature)+(oldemail==undefined?"":oldemail);
+      }
+
 
       this.editor.setData(finaltext);
     },
@@ -1202,6 +1209,8 @@ define(["react", "app", "select2"], function (
             } else {
               thisComp.setState({
                 showAtt: "d-none",
+                attachAsTemp:"",
+                attachAs:""
               });
             }
             $("#atachFiles").val(selectedValues).trigger("change");
@@ -1415,6 +1424,7 @@ define(["react", "app", "select2"], function (
 
         draft["meta"]["modKey"] = thisComp.state.modKey;
         draft["meta"]["pinTop"] = draft["meta"]["timeSent"];
+        draft["meta"]["attachmentType"] = thisComp.state.attachAsTemp;
 
         draft["attachment"] = thisComp.getFileMeta(thisComp.state.fileObject);
         draft["size"] =
@@ -1422,6 +1432,8 @@ define(["react", "app", "select2"], function (
           JSON.stringify(draft["body"]).length +
           thisComp.getFilesize(this.state.fileObject);
         draft["modKey"] = thisComp.state.modKey;
+
+        console.log(draft);
 
         app.globalF.saveDraft(
           draft,
@@ -1654,6 +1666,7 @@ define(["react", "app", "select2"], function (
 
               draft["meta"]["type"] = 3;
               draft["meta"]["version"] = 2;
+              draft["meta"]["attachmentType"]=thisComp.state.attachAs;
               draft["meta"]["pinTop"] = draft["meta"]["timeSent"];
 
               draft["attachment"] = jQuery.extend(
@@ -1661,6 +1674,9 @@ define(["react", "app", "select2"], function (
                 {},
                 thisComp.state.fileObject
               );
+
+              //create fileobject in global function to save for sending
+              //AttachArray.push({'fileNameSaved':fData["fileName"],'fileKey':app.transform.bin2hex(app.transform.from64bin(fData["key"])),'fileNameDisplay':fName});
 
               thisComp.checkRcpt(function (result) {
                 app.globalF

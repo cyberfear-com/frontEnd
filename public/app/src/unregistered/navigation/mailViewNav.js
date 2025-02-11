@@ -100,7 +100,7 @@ define(['react','app','accounting'], function (React,app,accounting) {
 			var st2={marginTop:'3px'};
 			var st3={width:'30px'};
 		return (
-			<div className="emailHeader">
+            <div className="emailHeader pull-right">
                 <div className="email-read-icons col-xs-12">
 
                     <div className={"btn-group m-r-sm pull-right unregIcons "+(this.state.navPage=='readEmail'?"":"hidden")}>
@@ -112,8 +112,8 @@ define(['react','app','accounting'], function (React,app,accounting) {
 
                     <div className={"btn-group m-r-sm pull-right unregIcons "+(this.state.navPage=='composeEmail'?"":"hidden")}>
 
-                    <button id="sendingMailUnreg" className="btn btn-primary btn-sm" onClick={this.handleClick.bind(this, 'sendEmail')}>Send</button>
-                    <button className="btn btn-danger btn-sm" onClick={this.handleClick.bind(this, 'cancelCompose')}>Cancel</button>
+                        <button id="sendingMailUnreg" className="btn btn-primary btn-sm" onClick={this.handleClick.bind(this, 'sendEmail')}>Send</button>
+                        <button className="btn btn-danger btn-sm" onClick={this.handleClick.bind(this, 'cancelCompose')}>Cancel</button>
                     </div>
 
                 </div>

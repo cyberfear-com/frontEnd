@@ -462,8 +462,7 @@ define(["app"], function (app) {
                     app.userObjects.set({
                         modalText: "System Variables Loaded",
                     });
-                    // dfd_arr[6].resolve();
-                    console.log('dddd22');
+                    // dfd_arr[6].resolve();dddd22');
                     eightStep.resolve();
 
                 });

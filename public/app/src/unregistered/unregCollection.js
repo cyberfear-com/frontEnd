@@ -50,7 +50,6 @@ define(['react','app','xss','jsui','cmpld/unregistered/header/head',
 					<div className="mailBody">
 						<div className="Top"><Header /></div>
                         <EmailReadCollection emailId={this.props.emailId} activePage={this.props.page}/>
-						<Footer />
 						<InfoPop />
 						<AskForPass />
 						<DialogPop />

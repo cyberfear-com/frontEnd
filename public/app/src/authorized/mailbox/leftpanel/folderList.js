@@ -116,9 +116,9 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                         this
                     );
 
-                    console.log('navigating');
-                    console.log(thisComp.props.activePage);
-                    console.log($(event.target).attr("id"));
+                  //  console.log('navigating');
+                  //  console.log(thisComp.props.activePage);
+                  //  console.log($(event.target).attr("id"));
                     if (
                         thisComp.props.activePage != $(event.target).attr("id")
                     ) {
@@ -207,7 +207,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
             // Let's check whether notification permissions have already been granted
             else if (Notification.permission === "granted") {
                 // If it's okay let's create a notification
-                console.log('granted notif');
+               // console.log('granted notif');
             }
 
             // Otherwise, we need to ask the user for permission

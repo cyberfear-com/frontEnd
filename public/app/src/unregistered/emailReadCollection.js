@@ -1,11 +1,12 @@
 define(['react', 'app','cmpld/unregistered/Body/emailRead',
     'cmpld/unregistered/navigation/mailViewNav',
-    'cmpld/unregistered/Body/composeEmail'
+    'cmpld/unregistered/Body/composeEmail',
+    'bootstrap'
 
 
     //'cmpld/authorized/mailbox/rightpanel/composeEmail'
 
-], function (React,app,EmailRead,MailViewNav,ComposeEmail
+], function (React,app,EmailRead,MailViewNav,ComposeEmail,bootstrap
             // ComposeEmail
 ) {
 
@@ -41,10 +42,16 @@ define(['react', 'app','cmpld/unregistered/Body/emailRead',
             $('#askPasInput').attr("placeholder", "Pin");
 
 
-            $('#askforPass').modal({
-                backdrop: 'static',
-                keyboard: true
-            });
+            var modal1 = new bootstrap.Modal(document.getElementById('askforPass'));
+            $("#askPasInput").val('123')
+
+            //modal1.toggle();
+            modal1.show();
+            $("#askPasInput").val('123');
+           // $('#askforPass').modal({
+            //    backdrop: 'static',
+            //    keyboard: true
+            //);
             //$('#askPasInput').focus();
 
             $('#askPasSub').on('click', function () {
@@ -200,7 +207,7 @@ define(['react', 'app','cmpld/unregistered/Body/emailRead',
             return (
                 <section>
                     <MailViewNav updateHtmlState={this.updateHtmlState} page={this.props.activePage} sendMail={this.sendMail} canReply={this.state.canReply}/>
-                    <div className="Container">
+                    <div className="Container1">
                         {body}
                     </div>
                 </section>

@@ -334,8 +334,8 @@ define(['react','app'], function (React,app) {
                         this.setState({
                             toggleHTMLtext:'text'
                         });
-
-                        app.globalF.renderBodyNoImages('',this.state.emailBodyTXT,function(prerenderedBody){
+						var ifPGP=false;
+                        app.globalF.renderBodyNoImages('',this.state.emailBodyTXT,ifPGP,function(prerenderedBody){
                             $("#virtualization").height(0);
 
                             setTimeout(function(){
@@ -351,7 +351,7 @@ define(['react','app'], function (React,app) {
                             toggleHTMLtext:'html'
                         });
 
-                        app.globalF.renderBodyFull(this.state.emailBody,'',function(prerenderedBody){
+                        app.globalF.renderBodyFull(this.state.emailBody,'',ifPGP,function(prerenderedBody){
                             $("#virtualization").height(0);
 
                             setTimeout(function(){
@@ -430,8 +430,8 @@ define(['react','app'], function (React,app) {
                    			//console.log('finish loading');
 		},
 		renderFull:function(){
-
-			app.globalF.renderBodyFull(this.state.emailBody,this.state.emailBodyTXT,function(prerenderedBody){
+			var ifPGP=false;
+			app.globalF.renderBodyFull(this.state.emailBody,this.state.emailBodyTXT,ifPGP,function(prerenderedBody){
 
 				$("#virtualization").height(0);
 				setTimeout(function(){
@@ -450,7 +450,7 @@ define(['react','app'], function (React,app) {
 
 		renderStrictBody: function(){
 
-			app.globalF.renderBodyNoImages(this.state.emailBody,this.state.emailBodyTXT,function(prerenderedBody){
+			app.globalF.renderBodyNoImages(this.state.emailBody,this.state.emailBodyTXT,ifPGP,function(prerenderedBody){
 				$("#virtualization").height(0);
 
 					setTimeout(function(){
@@ -502,7 +502,7 @@ define(['react','app'], function (React,app) {
 
 								<div className="" id="test123">
 									<iframe id="virtualization" scrolling="no" frameBorder="0" width="100%">
-										
+
 									</iframe>
 
 

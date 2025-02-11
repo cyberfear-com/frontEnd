@@ -927,22 +927,13 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
             var key = app.transform.from64bin(message["p"]);
             var version = message["vr"];
 
-            //console.log(emailId);
+
             //console.log(key);
 
             var folderKey = app.transform.from64bin(
                 app.user.get("emails")["messages"][emailId]["p"]
             );
             //console.log(folderKey);
-
-            /*
-			console.log(message);
-			 $.each(message, function( index, emailData ) {
-			 console.log(index);
-			 console.log(emailData);
-			 });
-			 */
-
             var post = {
                 messageId: emailId,
                 modKey: modKey,
@@ -1257,10 +1248,15 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                                         draft["meta"]["signatureOn"] =
                                             body["meta"]["signatureOn"];
 
+                                        draft["meta"]["attachmentType"] =
+                                            body["meta"]["attachmentType"]==undefined?"": body["meta"]["attachmentType"];
+
                                         draft["meta"]["version"] =
                                             body["meta"]["version"];
                                     }
 
+                                    console.log('draft');
+                                    console.log(draft);
                                     draft["meta"]["attachment"] =
                                         body["meta"]["attachment"];
                                     draft["meta"]["body"] =
@@ -1460,6 +1456,7 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                     );
 
                     emailPreObj["attachments"] = newAttach;
+                    emailPreObj["attachmentsType"] = draft['meta']['attachmentType'];
                     emailPreObj["meta"]["from"] = draft["meta"]["from"];
                     emailPreObj["body"] = draft["body"];
                     emailPreObj["meta"]["subj"] = draft["meta"]["subject"];
@@ -2794,7 +2791,7 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
 //                     ", " +
 //                     fromMail["htmlFdisplay"] +
 //                     " wrote: <br/>";
-// 
+//
 //                 draft["body"]["html"] =
 //                     preReplyText +
 //                     '<pre class="reply-indentation" spellcheck="false">' +
@@ -3025,7 +3022,7 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
             return html;
         },
 
-        renderBodyFull: function (html, text, callback) {
+        renderBodyFull: function (html, text,ifPGP, callback) {
             if (html != "") {
                 var messageDisplayedBody = filterXSS(html, {
                     whiteList: {
@@ -3114,18 +3111,21 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                         }
                     },
                 });
-            } else {
+            }else if(ifPGP){
                 var messageDisplayedBody =
-                    //'<style>.showMessage{white-space: pre-line;}</style><div class="showMessage">' +
-                    '<div class="showMessage">' +
-                    app.globalF.stripHTML(text) +
-                    "</div>";
+                    //'<style>.showMessage{white-space: pre-line;}.text-center {text-align: center!important;}</style><div class="showMessage text-center">Email don\'t have any text.</div>';
+                    '<div class="showMessage text-center">PGP email detected. If you want to see email, please click: "Show PGP message" down below.</div>';
+            }else{
+                var messageDisplayedBody =
+                    //'<style>.showMessage{white-space: pre-line;}.text-center {text-align: center!important;}</style><div class="showMessage text-center">Email don\'t have any text.</div>';
+                    '<div class="showMessage text-center">'+ app.globalF.stripHTML(text) +'</div>';
             }
+
 
             callback(messageDisplayedBody);
         },
 
-        renderBodyNoImages: function (html, text, callback) {
+        renderBodyNoImages: function (html, text, ifPGP,callback) {
             //console.log(html.length);
             //console.log(text.length);
 
@@ -3213,7 +3213,11 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                     '<div class="showMessage">' +
                     app.globalF.stripHTML(text) +
                     "</div>";
-            } else {
+            } else if(ifPGP){
+                var messageDisplayedBody =
+                    //'<style>.showMessage{white-space: pre-line;}.text-center {text-align: center!important;}</style><div class="showMessage text-center">Email don\'t have any text.</div>';
+                    '<div class="showMessage text-center">PGP email detected. If you want to see email, please click: "Show PGP message" down below.</div>';
+            }else{
                 var messageDisplayedBody =
                     //'<style>.showMessage{white-space: pre-line;}.text-center {text-align: center!important;}</style><div class="showMessage text-center">Email don\'t have any text.</div>';
                     '<div class="showMessage text-center">Email don\'t have any text.</div>';
@@ -3282,6 +3286,7 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                         type: "",
                         version: "",
                         signatureOn: false,
+                        attachmentType:"",
                     },
                     body: {
                         html: "",

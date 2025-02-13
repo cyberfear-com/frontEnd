@@ -334,8 +334,8 @@ define(['react','app'], function (React,app) {
                         this.setState({
                             toggleHTMLtext:'text'
                         });
-						var ifPGP=false;
-                        app.globalF.renderBodyNoImages('',this.state.emailBodyTXT,ifPGP,function(prerenderedBody){
+
+                        app.globalF.renderBodyNoImages('',this.state.emailBodyTXT,function(prerenderedBody){
                             $("#virtualization").height(0);
 
                             setTimeout(function(){
@@ -351,7 +351,7 @@ define(['react','app'], function (React,app) {
                             toggleHTMLtext:'html'
                         });
 
-                        app.globalF.renderBodyFull(this.state.emailBody,'',ifPGP,function(prerenderedBody){
+                        app.globalF.renderBodyFull(this.state.emailBody,'',function(prerenderedBody){
                             $("#virtualization").height(0);
 
                             setTimeout(function(){
@@ -430,8 +430,8 @@ define(['react','app'], function (React,app) {
                    			//console.log('finish loading');
 		},
 		renderFull:function(){
-			var ifPGP=false;
-			app.globalF.renderBodyFull(this.state.emailBody,this.state.emailBodyTXT,ifPGP,function(prerenderedBody){
+
+			app.globalF.renderBodyFull(this.state.emailBody,this.state.emailBodyTXT,function(prerenderedBody){
 
 				$("#virtualization").height(0);
 				setTimeout(function(){
@@ -450,7 +450,7 @@ define(['react','app'], function (React,app) {
 
 		renderStrictBody: function(){
 
-			app.globalF.renderBodyNoImages(this.state.emailBody,this.state.emailBodyTXT,ifPGP,function(prerenderedBody){
+			app.globalF.renderBodyNoImages(this.state.emailBody,this.state.emailBodyTXT,function(prerenderedBody){
 				$("#virtualization").height(0);
 
 					setTimeout(function(){

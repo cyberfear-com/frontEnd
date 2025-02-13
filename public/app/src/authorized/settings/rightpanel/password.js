@@ -103,7 +103,6 @@ define([
          */
         checkIfFirstPassGood: function (testPass, callback) {
             var post = {};
-            console.log(app.user.get("oneStep"));
             //post['Testpassword'] = testPass;
 
             if (app.user.get("oneStep")) {
@@ -608,7 +607,6 @@ define([
                     $("#askforPass").modal("show");
 
                     $("#askPasSub").on("click", function () {
-                        console.log("check First");
                         thisComp.handleClick(
                             "veryfyFirstPass",
                             $("#askPasInput").val()

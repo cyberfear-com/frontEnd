@@ -1433,7 +1433,7 @@ define(["react", "app", "select2"], function (
           thisComp.getFilesize(this.state.fileObject);
         draft["modKey"] = thisComp.state.modKey;
 
-        console.log(draft);
+        //console.log(draft);
 
         app.globalF.saveDraft(
           draft,
@@ -1667,6 +1667,7 @@ define(["react", "app", "select2"], function (
               draft["meta"]["type"] = 3;
               draft["meta"]["version"] = 2;
               draft["meta"]["attachmentType"]=thisComp.state.attachAs;
+              draft["meta"]["origDomain"] = 1;
               draft["meta"]["pinTop"] = draft["meta"]["timeSent"];
 
               draft["attachment"] = jQuery.extend(

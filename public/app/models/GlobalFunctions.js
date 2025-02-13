@@ -1440,7 +1440,11 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                                 key,
                                 newAttach[gt]["type"]
                             );
-                            delete newAttach[gt]["key"];
+                            if(draft['meta']['attachmentType']!='file'){
+                                delete newAttach[gt]["key"];
+                            }else{
+                                newAttach[gt]["key"]=app.transform.bin2hex(app.transform.from64bin(newAttach[gt]["key"]));
+                            }
                             gt++;
                         });
                     }
@@ -1460,6 +1464,8 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                     emailPreObj["meta"]["from"] = draft["meta"]["from"];
                     emailPreObj["body"] = draft["body"];
                     emailPreObj["meta"]["subj"] = draft["meta"]["subject"];
+                    emailPreObj["meta"]["origDomain"] = draft["meta"]["origDomain"];
+
                     emailPreObj["modKey"] = app.globalF.makeModKey();
 
                     //var key = app.globalF.createEncryptionKey256();
@@ -1525,6 +1531,7 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                     attachments: attach,
                     pKeyHash: "",
                     refId: refId,
+                    origDomain: draft["meta"]["origDomain"],
                     sender: draft["meta"]["from"],
                     subject: draft["meta"]["subject"],
                 };
@@ -1542,7 +1549,7 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                         recipients["cc"]
                     );
                     emailPreObj["meta"]["subject"] = draft["meta"]["subject"];
-
+                    emailPreObj["meta"]["origDomain"] = draft["meta"]["origDomain"];
                     emailPreObj["meta"]["timeSent"] = draft["meta"]["timeSent"];
                     emailPreObj["attachments"] = draft["attachment"];
                     emailPreObj["meta"]["from"] = draft["meta"]["from"];
@@ -1583,6 +1590,7 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                         emailPreObjBCC["body"] = draft["body"];
                         emailPreObjBCC["meta"]["subj"] =
                             draft["meta"]["subject"];
+                        emailPreObj["meta"]["origDomain"] = draft["meta"]["origDomain"];
                         emailPreObjBCC["modKey"] = modKey;
 
                         // console.log(emailPreObj);

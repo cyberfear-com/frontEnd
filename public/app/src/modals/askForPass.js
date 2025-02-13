@@ -5,7 +5,7 @@ define(["react", "app"], function (React, app) {
                 $("#askPasInput").focus();
                 //$( "#askPasSub" ).trigger( "click" ); //todo remove for dev
             });
-            $("#askPasInput").val(app.defaults.get("secondPassfield"));
+            //$("#askPasInput").val(app.defaults.get("secondPassfield"));
 
             $("#askforPass").on("hide.bs.modal", function (event) {
                 //console.log('off');

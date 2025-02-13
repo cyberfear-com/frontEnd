@@ -21,6 +21,8 @@ define(["react", "app", "select2"], function (
         showBCC: "",
         showAtt: "",
         showPin: "",
+        attachAs:app.user.get("draftMessageView")["meta"]["attachmentType"],
+        attachAsTemp:app.user.get("draftMessageView")["meta"]["attachmentType"],
 
         subject: app.user.get("draftMessageView")["meta"]["subject"],
         body: app.globalF.filterXSSwhite(
@@ -599,6 +601,8 @@ define(["react", "app", "select2"], function (
     },
     attachFiles: function () {
       var thisComp = this;
+    //  console.log('reading attach');
+    //  console.log(thisComp.state.fileObject);
 
       $("#atachFiles").select2({
         tags: true,
@@ -1056,6 +1060,7 @@ define(["react", "app", "select2"], function (
 
               thisComp.setState({
                 fileSize: thisComp.getFilesize(newList),
+                attachAs: thisComp.state.attachAsTemp
               });
             } else if (result["fileSize"] == "overLimit") {
               app.notifications.systemMessage("MaxFiles");
@@ -1152,7 +1157,12 @@ define(["react", "app", "select2"], function (
           linkbody += "</div>";
         }
       }
-      var finaltext = ((emailBody==undefined||emailBody=="")?'<div class="emailbody"></div>':emailBody) + linkbody+(signature==undefined?"":signature)+(oldemail==undefined?"":oldemail);
+      if(this.state.attachAsTemp=="link"){
+        var finaltext = ((emailBody==undefined||emailBody=="")?'<div class="emailbody"></div>':emailBody) + linkbody+(signature==undefined?"":signature)+(oldemail==undefined?"":oldemail);
+      }else{
+        var finaltext = ((emailBody==undefined||emailBody=="")?'<div class="emailbody"></div>':emailBody) + (signature==undefined?"":signature)+(oldemail==undefined?"":oldemail);
+      }
+
 
       this.editor.setData(finaltext);
     },
@@ -1199,6 +1209,8 @@ define(["react", "app", "select2"], function (
             } else {
               thisComp.setState({
                 showAtt: "d-none",
+                attachAsTemp:"",
+                attachAs:""
               });
             }
             $("#atachFiles").val(selectedValues).trigger("change");
@@ -1412,6 +1424,7 @@ define(["react", "app", "select2"], function (
 
         draft["meta"]["modKey"] = thisComp.state.modKey;
         draft["meta"]["pinTop"] = draft["meta"]["timeSent"];
+        draft["meta"]["attachmentType"] = thisComp.state.attachAsTemp;
 
         draft["attachment"] = thisComp.getFileMeta(thisComp.state.fileObject);
         draft["size"] =
@@ -1419,6 +1432,8 @@ define(["react", "app", "select2"], function (
           JSON.stringify(draft["body"]).length +
           thisComp.getFilesize(this.state.fileObject);
         draft["modKey"] = thisComp.state.modKey;
+
+        //console.log(draft);
 
         app.globalF.saveDraft(
           draft,
@@ -1546,6 +1561,20 @@ define(["react", "app", "select2"], function (
           );
 
           break;
+        case "attachFileAsLink":
+          this.setState({
+            attachAsTemp:"link"
+          });
+          fileSelector.click();
+        break;
+
+        case "attachFileAsFile":
+          this.setState({
+            attachAsTemp:"file"
+          });
+          fileSelector.click();
+        break;
+
         case "attachFile":
           fileSelector.click();
           break;
@@ -1637,6 +1666,8 @@ define(["react", "app", "select2"], function (
 
               draft["meta"]["type"] = 3;
               draft["meta"]["version"] = 2;
+              draft["meta"]["attachmentType"]=thisComp.state.attachAs;
+              draft["meta"]["origDomain"] = 1;
               draft["meta"]["pinTop"] = draft["meta"]["timeSent"];
 
               draft["attachment"] = jQuery.extend(
@@ -1644,6 +1675,9 @@ define(["react", "app", "select2"], function (
                 {},
                 thisComp.state.fileObject
               );
+
+              //create fileobject in global function to save for sending
+              //AttachArray.push({'fileNameSaved':fData["fileName"],'fileKey':app.transform.bin2hex(app.transform.from64bin(fData["key"])),'fileNameDisplay':fName});
 
               thisComp.checkRcpt(function (result) {
                 app.globalF
@@ -2352,20 +2386,24 @@ define(["react", "app", "select2"], function (
 
                     {/* Right side: Attach and Send buttons */}
                     <div className="d-flex align-items-center">
-                      <button
-                        type="button"
-                        className="attach-button btn me-3"
-                        onClick={this.handleClick.bind(this, "attachFile")}
-                      >
-                        <span className="icon">
+                      <div className="dropdown me-3">
+                        <button className="btn dropdown-toggle dropdown-toggle-labels" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false" style={{backgroundColor:"#ffffff",borderColor:"#ffffff"}}>
+                         <span className="icon">
                           <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
                           >
                             <path d="M21.586 10.461l-10.05 10.075c-1.95 1.949-5.122 1.949-7.071 0s-1.95-5.122 0-7.072l10.628-10.585c1.17-1.17 3.073-1.17 4.243 0 1.169 1.17 1.17 3.072 0 4.242l-8.507 8.464c-.39.39-1.024.39-1.414 0s-.39-1.024 0-1.414l7.093-7.05-1.415-1.414-7.093 7.049c-1.172 1.172-1.171 3.073 0 4.244s3.071 1.171 4.242 0l8.507-8.464c.977-.977 1.464-2.256 1.464-3.536 0-2.769-2.246-4.999-5-4.999-1.28 0-2.559.488-3.536 1.465l-10.627 10.583c-1.366 1.368-2.05 3.159-2.05 4.951 0 3.863 3.13 7 7 7 1.792 0 3.583-.684 4.95-2.05l10.05-10.075-1.414-1.414z" />
                           </svg>
                         </span>
-                      </button>
+                        </button>
+                        <ul className="dropdown-menu">
+                          <li><a className={this.state.attachAs=="link" || this.state.attachAs==""?"dropdown-item":"dropdown-item disabled"} onClick={this.handleClick.bind(this, "attachFileAsLink")}>Attach as Link</a></li>
+                          <li><a className={this.state.attachAs=="file" || this.state.attachAs==""?"dropdown-item":"dropdown-item disabled"} onClick={this.handleClick.bind(this, "attachFileAsFile")}>Attach as File</a></li>
+                        </ul>
+                      </div>
+
                       <button
                         type="submit"
                         className="send-email-button btn btn-primary ml-2"

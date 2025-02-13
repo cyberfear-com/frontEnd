@@ -196,6 +196,7 @@ define(["app"], function (app) {
                         type: "",
                         version: "",
                         signatureOn: false,
+                        attachmentType:"",
                     },
                     body: {
                         html: "",

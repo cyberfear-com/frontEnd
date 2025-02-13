@@ -88,7 +88,7 @@ define([
                     }else{
                         console.log('new version');
                     }
-                    console.log('plan is:')
+                   // console.log('plan is:')
                     var price=0;
                     var planList=app.user.get("userPlan")['planList'];
                     var planPrice=planList[this.state.planSelector]['price'];
@@ -125,7 +125,7 @@ define([
                     discount=(discount)/100;
                     priceNoBalance=(priceNoBalance)/100;
                     if(price<=0){
-                        console.log('we can proceed');
+                        //console.log('we can proceed');
                         if (this.state.selectedPaymentOption == "subscription") {
                             this.setState({
                                 price:accounting.formatMoney(0,"",2),

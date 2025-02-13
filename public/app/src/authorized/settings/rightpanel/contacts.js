@@ -272,7 +272,7 @@ define([
                     var id = thisComp.state.contactId;
 
                     var contacts = app.user.get("contacts");
-                    console.log(contacts[id]);
+                    //console.log(contacts[id]);
 
                     $("#dialogModHead").html("Delete Contact");
                     $("#dialogModBody").html(
@@ -379,7 +379,7 @@ define([
                 case "editContact":
                     var contacts = app.user.get("contacts");
                     var contact = contacts[event];
-                    console.log(contact);
+                   // console.log(contact);
                     var thisComp = this;
 
                     $("#settings-spinner")
@@ -628,7 +628,7 @@ define([
                 case "changePGP":
                     var thisComp = this;
 
-                    console.log(event.target.value);
+                    //console.log(event.target.value);
                     this.setState(
                         {
                             pgpField: event.target.value,
@@ -636,7 +636,7 @@ define([
                         function () {
                             app.globalF.getPublicKeyInfo(thisComp.state.pgpField,function (result) {
 
-                                    console.log(result);
+                                    //console.log(result);
                                     thisComp.setState({
                                         keyStrength: result["strength"],
                                         keyFingerprint: result["fingerprint"],

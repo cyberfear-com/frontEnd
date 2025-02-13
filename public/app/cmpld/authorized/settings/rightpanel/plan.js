@@ -344,7 +344,6 @@ define(["react", "app", "accounting", "cmpld/authorized/settings/rightpanel/righ
         },
 
         async stripeHandleSubmit(e) {
-            console.log("her55");
             e.preventDefault();
             app.stripeCheckOut.setLoading(true);
 
@@ -362,7 +361,6 @@ define(["react", "app", "accounting", "cmpld/authorized/settings/rightpanel/righ
 
             try {
                 if (paymentIntent.status === "succeeded") {
-                    console.log("paid2");
                     app.stripeCheckOut.showMessage("Payment was accepted. Please wait to be redirected");
                     this.handleClick("showFirst");
                 }

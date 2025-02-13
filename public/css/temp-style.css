@@ -4056,6 +4056,9 @@ footer .footer-bottom-row .copyright {
     border-top-right-radius: 0;
    /* display:none;*/
 }
+#select2-atachFiles-results{
+    display:none;
+}
 .select2-search--dropdown {
     display: block;
     padding: 4px;

@@ -908,16 +908,21 @@ define(["react", "app", "select2"], function (
         var fileObject = thisComp.state.fileObject;
 
         if (
-          Object.keys(thisComp.state.fileObject).length <= 10 &&
-          thisComp.state.fileSize + file["size"] <=
+            Object.keys(thisComp.state.fileObject).length <= 10 &&
+            ((thisComp.state.attachAsTemp!=="file" && thisComp.state.fileSize + file["size"] <=
             parseInt(app.user.get("userPlan")["planData"]["attSize"]) *
               1024 *
               1024 *
               1.1
-        ) {
+            ) || (thisComp.state.attachAsTemp =="file" && thisComp.state.fileSize + file["size"] <=
+                15 *
+                1024 *
+                1024 *
+                1.1
+            )) ) {
           if (
             file["size"] <
-            parseInt(app.user.get("userPlan")["planData"]["attSize"]) *
+            15 *
               1024 *
               1024 *
               1.1
@@ -996,7 +1001,12 @@ define(["react", "app", "select2"], function (
             app.notifications.systemMessage("tooBig");
           }
         } else {
-          app.notifications.systemMessage("MaxFiles");
+          if(thisComp.state.attachAsTemp =="file"){
+            app.notifications.systemMessage("MaxFilesInline");
+          }else{
+            app.notifications.systemMessage("MaxFiles");
+          }
+
         }
       });
 
@@ -2057,6 +2067,7 @@ define(["react", "app", "select2"], function (
               type="file"
               id="fileselector"
               name="files"
+              multiple
               className="invisible d-none"
               onChange={this.handleChange.bind(this, "getFile")}
             />

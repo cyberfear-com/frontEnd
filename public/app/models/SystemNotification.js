@@ -67,10 +67,16 @@ define(["app", "SmartNotification"], function (app, SmartNotification) {
                     break;
 
                 case "MaxFiles":
-                    this.noAnswer(
-                        "Your file is larger than it is allowed by plan. Please upgrade plan"
+                    this.longAnswer(
+                        "Your combined attachments is larger than it is allowed by plan. Please upgrade plan or send with multiple messages."
                     ); //
                     break;
+                case "MaxFilesInline":
+                    this.longAnswer(
+                        "Your combined attachments is larger than it is allowed for inline attachments (15MB). Please send file as link or break down into multiple emails."
+                    ); //
+                    break;
+
 
                 case "rcptLimit":
                     this.noAnswer(
@@ -88,7 +94,7 @@ define(["app", "SmartNotification"], function (app, SmartNotification) {
                     this.noAnswer("Email no longer available.");
                     break;
                 case "tooBig":
-                    this.noAnswer("Maximum allowed size for file is 15MB.");
+                    this.longAnswer("Maximum allowed size for single file is 15MB.");
                     break;
 
                 case "unregAttempt":
@@ -220,7 +226,7 @@ define(["app", "SmartNotification"], function (app, SmartNotification) {
             $.smallBox({
                 title: text,
                 content: "",
-                color: "#B4990D",
+                color: "#ffd4a8",
                 iconSmall: "fa fa-times",
                 timeout: 5000,
             });
@@ -233,6 +239,15 @@ define(["app", "SmartNotification"], function (app, SmartNotification) {
                 color: "#FFFFFF",
                 iconSmall: "fa fa-check",
                 timeout: 2000,
+            });
+        },
+        longAnswer: function (text) {
+            $.smallBox({
+                title: text,
+                content: "",
+                color: "#FFFFFF",
+                iconSmall: "fa fa-check",
+                timeout: 8000,
             });
         },
     });

@@ -2222,7 +2222,7 @@ define(["react", "app", "select2"], function (
                             className="form-control"
                             id="toRcpt"
                             multiple="multiple"
-                            style={{width: "100%"}}
+                            style={{width: "96%"}}
                           ></select>
                         </div>
                       </div>
@@ -2239,7 +2239,7 @@ define(["react", "app", "select2"], function (
                             className="form-control"
                             id="toCCRcpt"
                             multiple="multiple"
-                            style={{width: "100%"}}
+                            style={{width: "96%"}}
                           ></select>
                         </div>
                       </div>
@@ -2256,7 +2256,7 @@ define(["react", "app", "select2"], function (
                             className="form-control"
                             id="toBCCRcpt"
                             multiple="multiple"
-                            style={{width: "100%"}}
+                            style={{width: "96%"}}
                           ></select>
                         </div>
                       </div>
@@ -2283,7 +2283,7 @@ define(["react", "app", "select2"], function (
                             className="form-control attachFiles"
                             id="atachFiles"
                             multiple="multiple"
-                            style={{width: "100%"}}
+                            style={{width: "96%"}}
                           ></select>
                         </div>
                       </div>

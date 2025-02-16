@@ -2231,7 +2231,7 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                                             if (result["data"] == "saved") {
                                                 app.globalF.syncUpdates();
                                                 //app.user.set({"currentMessageView":{}});
-                                                app.globalF.resetCurrentMessage();
+                                               // app.globalF.resetCurrentMessage();
                                                 app.globalF.resetDraftMessage();
 
                                                 //console.log(app.user.get("currentFolder"));
@@ -3264,6 +3264,7 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                         from: "",
                         modKey: "",
                         opened: "",
+                        pinEnabled:"",
                         pin: "",
                         status: "",
                         subject: "",

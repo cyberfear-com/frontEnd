@@ -511,7 +511,7 @@ define(["react", "app", "select2"], function (
           "Recipients can see each other emails. Maximum " +
           app.user.get("userPlan")["planData"]["recipPerMail"] +
           " recipients per mail",
-        tokenSeparators: [";"],
+        tokenSeparators: [";"," "],
         selectOnClose: true,
         minimumInputLength: 2,
         maximumInputLength: 250,
@@ -546,7 +546,7 @@ define(["react", "app", "select2"], function (
           "Recipient can see each other emails. Maximum " +
           app.user.get("userPlan")["planData"]["recipPerMail"] +
           " recipients per mail",
-        tokenSeparators: [";"],
+        tokenSeparators: [";"," "],
         minimumInputLength: 2,
         maximumInputLength: 250,
         maximumSelectionLength: thisComp.state.recipientLimit,
@@ -580,7 +580,7 @@ define(["react", "app", "select2"], function (
           "Recipient can not see each other emails. Maximum " +
           app.user.get("userPlan")["planData"]["recipPerMail"] +
           " recipients per mail",
-        tokenSeparators: [";"],
+        tokenSeparators: [";"," "],
         minimumInputLength: 2,
         maximumInputLength: 250,
         maximumSelectionLength: thisComp.state.recipientLimit,
@@ -1701,7 +1701,7 @@ define(["react", "app", "select2"], function (
                   )
                   .then(function (response) {
                     app.globalF.syncUpdates();
-                    app.globalF.resetCurrentMessage();
+                    //app.globalF.resetCurrentMessage();
                     app.globalF.resetDraftMessage();
 
                     app.user.set({
@@ -2222,6 +2222,7 @@ define(["react", "app", "select2"], function (
                             className="form-control"
                             id="toRcpt"
                             multiple="multiple"
+                            style={{width: "100%"}}
                           ></select>
                         </div>
                       </div>
@@ -2238,6 +2239,7 @@ define(["react", "app", "select2"], function (
                             className="form-control"
                             id="toCCRcpt"
                             multiple="multiple"
+                            style={{width: "100%"}}
                           ></select>
                         </div>
                       </div>
@@ -2254,6 +2256,7 @@ define(["react", "app", "select2"], function (
                             className="form-control"
                             id="toBCCRcpt"
                             multiple="multiple"
+                            style={{width: "100%"}}
                           ></select>
                         </div>
                       </div>
@@ -2280,6 +2283,7 @@ define(["react", "app", "select2"], function (
                             className="form-control attachFiles"
                             id="atachFiles"
                             multiple="multiple"
+                            style={{width: "100%"}}
                           ></select>
                         </div>
                       </div>

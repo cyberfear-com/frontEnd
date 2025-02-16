@@ -2887,6 +2887,7 @@ define(["app"], function (app) {
 
                             if (result["response"] == "success") {
                                 if (result["data"] == "saved") {
+                                    app.notifications.systemMessage("Sent");
                                     $.each(
                                         newFolderObj,
                                         function (index, foldData) {
@@ -3005,6 +3006,7 @@ define(["app"], function (app) {
 
                             if (result["response"] == "success") {
                                 if (result["data"] == "saved") {
+                                    app.notifications.systemMessage("Sent");
                                     $.each(
                                         newFolderObj,
                                         function (index, foldData) {
@@ -3118,6 +3120,7 @@ define(["app"], function (app) {
                         function (result) {
                             if (result["response"] == "success") {
                                 if (result["data"] == "saved") {
+                                    app.notifications.systemMessage("Sent");
                                     $.each(
                                         newFolderObj,
                                         function (index, foldData) {
@@ -3238,6 +3241,7 @@ define(["app"], function (app) {
 
                             if (result["response"] == "success") {
                                 if (result["data"] == "saved") {
+                                    app.notifications.systemMessage("Sent");
                                     $.each(
                                         newFolderObj,
                                         function (index, foldData) {

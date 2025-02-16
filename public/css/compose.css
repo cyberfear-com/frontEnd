@@ -187,9 +187,17 @@
 .com-content-header .com-cc-bcc-buttons button:not(:last-child) {
     border-right: 2px solid #f6f6f6;
 }
-.select2-container .select2-selection--multiple .select2-selection__rendered {
-    display: flex;
+.compose-window.compose-maximize .select2-container .select2-selection--multiple .select2-selection__rendered {
+    /*display: flex;*/
+ /*   max-height:60px;
+    overflow: auto;*/
 }
+.compose-window .select2-container .select2-selection--multiple .select2-selection__rendered {
+    /*display: flex;*/
+    max-height:60px;
+    overflow: auto;
+}
+
 .select2-container--default .select2-results > .select2-results__options,
 .select2-container--default .select2-search--inline .select2-search__field {
     font-size: 14px;
@@ -210,8 +218,8 @@
     background-color: #f6f6f6;
     color: #415067;
     font-size: 14px;
-    float: none;
-    clear: both;
+    float: left;
+   /* clear: both;*/
 }
 @media screen and (max-width: 639px) {
 

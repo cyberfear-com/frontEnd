@@ -136,7 +136,7 @@ export default function Email(props) {
         })
       })
       let pkData = await response.json()
-      console.debug('retrievePublicKeyUnregV2>', pkData)
+      //console.debug('retrievePublicKeyUnregV2>', pkData)
       if (pkData.response !== 'success') {
         // TODO
       }
@@ -489,10 +489,18 @@ export default function Email(props) {
                   <div className={styles.avatar}>
                     <span>{message.meta.from.charAt(0)}</span>
                   </div>
-                  <div className={styles.fromTo}>
-                    <div className={styles.from}>{ message.meta.from }</div>
-                    <div className={styles.to}>To: { getEmailsFromString(message.meta.to[0]) }</div>
-                  </div>
+                    {isReplying &&
+                        <div className={styles.fromTo}>
+                            <div className={styles.from}>{getEmailsFromString(message.meta.to[0])} via Mailum</div>
+                            <div className={styles.to}>To:{message.meta.from} </div>
+                        </div>
+                    }
+                    {!isReplying &&
+                        <div className={styles.fromTo}>
+                            <div className={styles.from}>{message.meta.from}</div>
+                            <div className={styles.to}>To: {getEmailsFromString(message.meta.to[0])}</div>
+                        </div>
+                    }
                 </div>
                 <div className={styles.controls}>
                 { isReplying &&

@@ -166,6 +166,7 @@ define(["app"], function (app) {
                         from: "",
                         modKey: "",
                         opened: "",
+                        pinEnabled:"",
                         pin: "",
                         status: "",
                         subject: "",
@@ -414,7 +415,7 @@ define(["app"], function (app) {
             }
         },
         startTimer: function () {
-            console.log('timer started');
+            //console.log('timer started');
             var sessionExpire = this.get("sessionExpiration");
             this.set({ timeLeft: sessionExpire });
             var thisComp = this;

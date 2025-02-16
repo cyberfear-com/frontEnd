@@ -175,7 +175,7 @@ define(["app", "SmartNotification"], function (app, SmartNotification) {
                     this.Answer("Saved.");
                     break;
                 case "Sent":
-                    this.Answer("Sent");
+                    this.Answer("Email Sent");
                     break;
                 case "messageMoved":
                     this.Answer("Moved");

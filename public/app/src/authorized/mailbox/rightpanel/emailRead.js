@@ -394,7 +394,8 @@ define(["react", "app"], function (React, app) {
                     email["meta"]["pin"] != ""
                 ) {
                     //console.log(email["meta"]["pin"])
-                    pin.push(
+                    pin=app.transform.from64str(email["meta"]["pin"]);
+                   /* pin.push(
                         <span className="pinHeader email-head" key="pin2">
                             PIN:{" "}
                             <span
@@ -404,7 +405,7 @@ define(["react", "app"], function (React, app) {
                                 {app.transform.from64str(email["meta"]["pin"])}
                             </span>
                         </span>
-                    );
+                    );*/
                 } else if (
                     email["meta"]["pin"] != undefined &&
                     email["meta"]["pin"] != ""
@@ -2154,7 +2155,7 @@ define(["react", "app"], function (React, app) {
                                                         <li>
                                                             <span>to:</span>
                                                             <div>
-                                                                {this.state.to}
+                                                               &nbsp; {this.state.to}
                                                             </div>
                                                         </li>
                                                         <li className="sent_date_time">
@@ -2177,6 +2178,19 @@ define(["react", "app"], function (React, app) {
                                                                 }
                                                             </div>
                                                         </li>
+                                                        {(app.user.get("currentMessageView")['meta']!==undefined && app.user.get("currentMessageView")['meta']['pinEnabled']) &&
+                                                            <li>
+                                                            <span>
+                                                                PIN:
+                                                            </span>
+                                                                <div>
+                                                                    {
+                                                                        this.state
+                                                                            .pin
+                                                                    }
+                                                                </div>
+                                                            </li>
+                                                        }
                                                     </ul>
                                                 </div>
                                             </div>

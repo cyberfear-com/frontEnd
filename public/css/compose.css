@@ -195,7 +195,7 @@
 .compose-window .select2-container .select2-selection--multiple .select2-selection__rendered {
     /*display: flex;*/
     max-height:60px;
-    overflow: auto;
+    overflow-y: auto;
 }
 
 .select2-container--default .select2-results > .select2-results__options,

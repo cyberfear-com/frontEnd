@@ -1695,6 +1695,9 @@ define(["react", "app"], function (React, app) {
                                 .find("html")
                                 .height() + 50
                         );
+                        $("#virtualization").width(
+                            $("#virtualization").contents().prop("documentElement").scrollWidth
+                        );
                     }, 300);
                 }
             );
@@ -1745,6 +1748,9 @@ define(["react", "app"], function (React, app) {
                                 .contents()
                                 .find("html")
                                 .height() + 50
+                        );
+                        $("#virtualization").width(
+                            $("#virtualization").contents().prop("documentElement").scrollWidth
                         );
 
                         var tt = app.mixins.touchMixins();

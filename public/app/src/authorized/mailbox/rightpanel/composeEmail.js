@@ -77,7 +77,7 @@ define(["react", "app", "select2"], function (
         oldPublicKeysHash: "",
         sizeBarText: "",
 
-        isMaximized: app.mailMan.get("webview"),
+        isMaximized: app.mailMan.get("webview") || $(window).width()<630,
         isMobile: app.mailMan.get("webview"),
         isMinimized: false,
         composeOriginate: app.user.get('composeOriginate'),
@@ -1789,7 +1789,7 @@ define(["react", "app", "select2"], function (
 
               if (selected.length > 0) {
                 // Delete email physically
-                app.globalF.resetCurrentMessage();
+              //  app.globalF.resetCurrentMessage();
                 app.globalF.resetDraftMessage();
 
                 app.globalF.deleteEmailsFromFolder(
@@ -2118,18 +2118,21 @@ define(["react", "app", "select2"], function (
                         <path d="M6 42V27h3v9.9L36.9 9H27V6h15v15h-3v-9.9L11.1 39H21v3Z" />
                       </svg>
                     </span>
-                    <span
-                      className={`icon type-max-min ${
-                        this.state.isMaximized ? "d-block" : "d-none"
-                      }`}
-                    >
+                    {$(window).width() > 630 &&
+                        <span
+                            className={`icon type-max-min ${
+                                this.state.isMaximized ? "d-block" : "d-none"
+                            }`}
+                        >
                       <svg
-                        viewBox="0 0 48 48"
-                        xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 48 48"
+                          xmlns="http://www.w3.org/2000/svg"
                       >
-                        <path d="M8.1 42 6 39.9l10.7-10.7h-5.9v-3h11v11h-3v-5.9Zm18.15-20.25v-11h3v5.9L39.9 6 42 8.1 31.35 18.75h5.9v3Z" />
+                        <path
+                            d="M8.1 42 6 39.9l10.7-10.7h-5.9v-3h11v11h-3v-5.9Zm18.15-20.25v-11h3v5.9L39.9 6 42 8.1 31.35 18.75h5.9v3Z"/>
                       </svg>
                     </span>
+                    }
                   </button>
 
                   <button

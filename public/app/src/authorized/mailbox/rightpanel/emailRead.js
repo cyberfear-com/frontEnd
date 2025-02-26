@@ -1647,7 +1647,7 @@ define(["react", "app"], function (React, app) {
 
         renderStrictBody: function ()
         {
-
+            $("#virtualization").width(0);
             function scalePage() {
                 $(document).ready(function() {
                     var screenWidth = $(window).width();
@@ -1671,7 +1671,8 @@ define(["react", "app"], function (React, app) {
             }
 
             // Recalculate scaling on page load and when the window is resized
-            window.addEventListener('load', scalePage);
+            scalePage();
+            //window.addEventListener('load', scalePage);
             window.addEventListener('resize', scalePage);
 
 
@@ -1715,9 +1716,43 @@ define(["react", "app"], function (React, app) {
                                 .find("html")
                                 .height() + 50
                         );
-                        $("#virtualization").width(
-                            $("#virtualization").contents().prop("documentElement").scrollWidth
-                        );
+
+                        function getMinContentWidth($element) {
+                            var $clone = $element.clone().css({
+                                width: "100%",
+                                position: "absolute",
+                                visibility: "hidden",
+                                whiteSpace: "nowrap"  // Prevent wrapping for accurate width
+                            }).appendTo("body");
+
+                            var minWidth = $clone.contents().prop("documentElement").scrollWidth; // Get exact width
+                            $clone.remove(); // Remove the cloned element
+
+                            return minWidth;
+                        }
+                       // setTimeout(function () {
+                            var minWidth = getMinContentWidth($("#virtualization"));
+                            console.log(minWidth);
+                        //},1000);
+
+                        if(minWidth<$("#virtualization").contents().prop("documentElement").scrollWidth){
+                            $("#virtualization").width(
+                                $("#virtualization").contents().prop("documentElement").scrollWidth
+                             );
+                            $("#appRightSide").css('overflow-x','auto');
+                        }else{
+                            $("#virtualization").width(
+                                minWidth
+                            );
+                        }
+
+
+
+                        console.log($("#virtualization").contents().prop("documentElement").scrollWidth);
+
+                        //$("#virtualization").width(
+                        //    $("#virtualization").contents().prop("documentElement").scrollWidth
+                       // );
 
                         var tt = app.mixins.touchMixins();
 
@@ -2515,7 +2550,6 @@ define(["react", "app"], function (React, app) {
                                     id="virtualization"
                                     scrolling="no"
                                     frameBorder="0"
-                                    width="100%"
                                 ></iframe>
                                 {this.displayAttachments()}
                             </div>

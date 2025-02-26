@@ -1095,86 +1095,66 @@ define(["react", "app", "select2"], function (
     },
 
     addFileLink: function () {
-      var time = new Date(new Date().setYear(new Date().getFullYear() + 1))
-      //remove attachment at start
+      // Compute the expiration time for file links (1 year from now)
+      const time = new Date();
+      time.setFullYear(time.getFullYear() + 1);
 
-      var signature="";
-      var oldemail="";
-      var linkbody="";
-      var emailBody="";
+      // Retrieve signature and old email elements from the current document
+      const signatureElement = document.querySelector('.emailsignature');
+      const oldEmailElement = document.querySelector('.oldemail');
+      const signature = signatureElement ? signatureElement.outerHTML : '';
+      const oldemail = oldEmailElement ? oldEmailElement.outerHTML : '';
 
-      signature=$('.emailsignature').prop('outerHTML');
-      oldemail=$('.oldemail').prop('outerHTML');
-
+      let emailBody = '';
       if (this.editor) {
-      var data = this.editor.getData();
+        // Parse the editor's current HTML content
+        const data = this.editor.getData();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(data, 'text/html');
 
-      var updatedData = data.replace(
-          /<div\s+class="fileattach">([\s\S]*?)<\/div><\/div>/gi,
-          ""
-      );
-        var removeSig = updatedData.replace(
-            /<div\s+class="emailsignature">([\s\S]*?)<\/div>/gi,
-            ""
-        );
-        var removeOldemail = removeSig.replace(
-            /<div\s+class="oldemail">([\s\S]*?)<\/div>/gi,
-            ""
-        );
-        emailBody=removeOldemail;
+        // Remove divs
+        ['fileattach', 'emailsignature', 'oldemail'].forEach((cls) => {
+          doc.querySelectorAll(`div.${cls}`).forEach((el) => el.remove());
+        });
 
-      this.editor.setData(removeOldemail);
+        // Extract the cleaned-up HTML from the document body
+        emailBody = doc.body.innerHTML;
+        this.editor.setData(emailBody);
       }
 
-
-      if (this.state.emailProtected === 3 || this.state.emailProtected === 1) {
-        // Remove file attachments from the editor content
-     /*   if (this.editor) {
-          var data = this.editor.getData();
-          var updatedData = data.replace(
-            /<p><br>&nbsp;<\/p><div\s+class="fileattach">([\s\S]*?)<\/div><\/div>/gi,
-            ""
-          );
-          this.editor.setData(updatedData);
-        }*/
-      } else{
-        // Build the file attachment links
-        var fileObj = this.state.fileObject;
-
-        if (Object.keys(fileObj).length > 0 && this.editor) {
-          linkbody =
-              "<div class='fileattach' style='background-color:#F2F2F2;'><span>Files will be available for download until " +
-              time.toLocaleString() +
-              //"<br/>";
-              "";
-
-          var c = 1;
-          $.each(fileObj, function (fName, fData) {
-            linkbody +=
-                '<div style="clear:both; margin-top:5px;">' +
-                ' <a href="' +
-                app.defaults.get("domainVPS") +
-                "/api/dFV2/" +
-                fData["fileName"] +
-                "1/p/" +
-                app.transform.bin2hex(app.transform.from64bin(fData["key"])) +
-                '" target="_blank" contenteditable="false">' +
-                app.transform.from64str(fName) +
-                "</a></div>";
-            c++;
+      let linkbody = '';
+      // Only add file attachment links if emailProtected is not 3 or 1
+      if (!(this.state.emailProtected === 3 || this.state.emailProtected === 1)) {
+        const fileObj = this.state.fileObject;
+        if (fileObj && Object.keys(fileObj).length > 0 && this.editor) {
+          // Start building the attachment links container
+          linkbody = `<div class="fileattach" style="background-color:#F2F2F2;">
+            <span>Files will be available for download until ${time.toLocaleString()}</span>`;
+          // Loop through each file and build a link
+          Object.entries(fileObj).forEach(([fName, fData]) => {
+            // Build the URL
+            const url = `${app.defaults.get("domainVPS")}/api/dFV2/${fData.fileName}1/p/${app.transform.bin2hex(app.transform.from64bin(fData.key))}`;
+            const displayName = app.transform.from64str(fName);
+            linkbody += `<div style="clear:both; margin-top:5px;margin-bottom:5px;">
+              <a href="${url}" target="_blank" rel="noopener noreferrer" contenteditable="false">
+                ${displayName}
+              </a>
+            </div>`;
           });
-
-          linkbody += "</div>";
+          linkbody += `</div>`;
         }
       }
-      if(this.state.attachAsTemp=="link"){
-        var finaltext = ((emailBody==undefined||emailBody=="")?'<div class="emailbody"></div>':emailBody) + linkbody+(signature==undefined?"":signature)+(oldemail==undefined?"":oldemail);
-      }else{
-        var finaltext = ((emailBody==undefined||emailBody=="")?'<div class="emailbody"></div>':emailBody) + (signature==undefined?"":signature)+(oldemail==undefined?"":oldemail);
+
+      // Compose the final content.
+      // If attachAsTemp is "link", include the file links; otherwise, do not.
+      const baseEmailBody = emailBody || '<div class="emailbody"></div>';
+      const finaltext = this.state.attachAsTemp === "link"
+        ? `${baseEmailBody}${linkbody}${signature}${oldemail}`
+        : `${baseEmailBody}${signature}${oldemail}`;
+
+      if (this.editor) {
+        this.editor.setData(finaltext);
       }
-
-
-      this.editor.setData(finaltext);
     },
     fileRemove: function (fileName64, callback) {
       clearInterval(this.state.savingDraft);

@@ -1255,8 +1255,8 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                                             body["meta"]["version"];
                                     }
 
-                                    console.log('draft');
-                                    console.log(draft);
+                                   // console.log('draft');
+                                   // console.log(draft);
                                     draft["meta"]["attachment"] =
                                         body["meta"]["attachment"];
                                     draft["meta"]["body"] =

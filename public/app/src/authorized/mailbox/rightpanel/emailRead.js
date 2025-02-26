@@ -387,81 +387,21 @@ define(["react", "app"], function (React, app) {
                 }
 
                 var pins = "";
-                var pin = [];
+                var pin = "";
+
 
                 if (
                     email["meta"]["version"] == 2 &&
                     email["meta"]["pin"] != ""
                 ) {
-                    //console.log(email["meta"]["pin"])
                     pin=app.transform.from64str(email["meta"]["pin"]);
-                   /* pin.push(
-                        <span className="pinHeader email-head" key="pin2">
-                            PIN:{" "}
-                            <span
-                                className="label label-success"
-                                key="pinLabel2"
-                            >
-                                {app.transform.from64str(email["meta"]["pin"])}
-                            </span>
-                        </span>
-                    );*/
-                } else if (
-                    email["meta"]["pin"] != undefined &&
-                    email["meta"]["pin"] != ""
-                ) {
-                    pins = JSON.parse(email["meta"]["pin"]);
+
                 }
 
                 $.each(emailsTo, function (index, folderData) {
                     folderData = app.transform.from64str(folderData);
 
-                    if (emailsTo.length <= 3) {
-                        if (
-                            pins[app.globalF.parseEmail(folderData)["email"]] !=
-                            undefined
-                        ) {
-                            var lock = <i className="fa fa-lock"></i>;
-                            var title =
-                                '<i class="fa fa-lock"></i> ' +
-                                app.transform.from64str(
-                                    pins[
-                                        app.globalF.parseEmail(folderData)[
-                                            "email"
-                                        ]
-                                    ]["pin"]
-                                );
-                        } else {
-                            var lock = "";
-                            var title =
-                                '<i class="fa fa-envelope-o"></i> ' +
-                                app.globalF.parseEmail(folderData)["email"];
-                        }
-                    } else {
-                        if (
-                            pins[app.globalF.parseEmail(folderData)["email"]] !=
-                            undefined
-                        ) {
-                            var lock = <i className="fa fa-lock"></i>;
-                            var title =
-                                '<i class="fa fa-envelope-o"></i> ' +
-                                app.globalF.parseEmail(folderData)["email"] +
-                                "<br/>" +
-                                '<i class="fa fa-lock"></i> ' +
-                                app.transform.from64str(
-                                    pins[
-                                        app.globalF.parseEmail(folderData)[
-                                            "email"
-                                        ]
-                                    ]["pin"]
-                                );
-                        } else {
-                            var lock = "";
-                            var title =
-                                '<i class="fa fa-envelope-o"></i> ' +
-                                app.globalF.parseEmail(folderData)["email"];
-                        }
-                    }
+                    var title = app.globalF.parseEmail(folderData)["email"];
 
                     if (
                         app.globalF.parseEmail(folderData)["name"] !=
@@ -471,22 +411,11 @@ define(["react", "app"], function (React, app) {
                             <span
                                 key={index}
                                 className="" // badge light email-head
-                                data-placement="bottom"
-                                data-toggle="popover-hover"
-                                title=""
-                                data-content={title}
+                                style={{marginRight:"5px",wordBreak:"break-all"}}
                             >
-                                {lock}{" "}
                                 <b key={index + "b"}>
                                     {app.globalF.parseEmail(folderData)["name"]}
                                 </b>
-                                {emailsTo.length <= 3
-                                    ? " <" +
-                                      app.globalF.parseEmail(folderData)[
-                                          "email"
-                                      ] +
-                                      ">"
-                                    : ""}
                             </span>
                         );
                     } else {
@@ -494,13 +423,42 @@ define(["react", "app"], function (React, app) {
                             <span
                                 key={index}
                                 className="" // badge light email-head
-                                data-placement="bottom"
-                                data-toggle="popover-hover"
-                                title=""
-                                data-content={title}
+                                style={{marginRight:"5px"}}
                             >
-                                {lock}{" "}
                                 {app.globalF.parseEmail(folderData)["email"]}
+                            </span>
+                        );
+                        to.push(
+                            <span
+                                key={index+"1"}
+                                className="" // badge light email-head
+                                style={{marginRight:"5px"}}
+                            >
+                                <b key={index + "b"}>
+                                    {app.globalF.parseEmail(folderData)["name"]}
+                                </b>
+                            </span>
+                        );
+                        to.push(
+                            <span
+                                key={index+"2"}
+                                className="" // badge light email-head
+                                style={{marginRight:"5px"}}
+                            >
+                                <b key={index + "b"}>
+                                    {app.globalF.parseEmail(folderData)["name"]}
+                                </b>
+                            </span>
+                        );
+                        to.push(
+                            <span
+                                key={index+"3"}
+                                className="" // badge light email-head
+                                style={{marginRight:"5px"}}
+                            >
+                                <b key={index + "b"}>
+                                    {app.globalF.parseEmail(folderData)["name"]}
+                                </b>
                             </span>
                         );
                     }
@@ -510,17 +468,7 @@ define(["react", "app"], function (React, app) {
                     $.each(emailsCC, function (index, folderData) {
                         folderData = app.transform.from64str(folderData);
 
-                        if (emailsCC.length <= 1) {
-                            var lock = "";
-                            var title =
-                                '<i class="fa fa-envelope-o"></i> ' +
-                                app.globalF.parseEmail(folderData)["email"];
-                        } else {
-                            var lock = "";
-                            var title =
-                                '<i class="fa fa-envelope-o"></i> ' +
-                                app.globalF.parseEmail(folderData)["email"];
-                        }
+                        var title = app.globalF.parseEmail(folderData)["email"];
 
                         if (
                             app.globalF.parseEmail(folderData)["name"] !=
@@ -530,12 +478,8 @@ define(["react", "app"], function (React, app) {
                                 <span
                                     key={index}
                                     className="" // badge light email-head
-                                    data-placement="bottom"
-                                    data-toggle="popover-hover"
-                                    title=""
-                                    data-content={title}
                                 >
-                                    {lock}{" "}
+
                                     <b key={index + "b"}>
                                         {
                                             app.globalF.parseEmail(folderData)[
@@ -557,12 +501,7 @@ define(["react", "app"], function (React, app) {
                                 <span
                                     key={index}
                                     className="" // badge light email-head
-                                    data-placement="bottom"
-                                    data-toggle="popover-hover"
-                                    title=""
-                                    data-content={title}
                                 >
-                                    {lock}{" "}
                                     {
                                         app.globalF.parseEmail(folderData)[
                                             "email"
@@ -1709,6 +1648,33 @@ define(["react", "app"], function (React, app) {
         renderStrictBody: function ()
         {
 
+            function scalePage() {
+                $(document).ready(function() {
+                    var screenWidth = $(window).width();
+                    var screenHeight = $(window).height();
+
+
+                    $('#mail-data-content').width($('#appRightSide').width());
+                    $('#mail-data-content').css('max-width','100%');
+
+                    if($('#appRightSide').width()<$('#virtualization').width()){
+
+                        $('#appRightSide').css('overflow-x','visible');
+                    }else{
+                        $('#appRightSide').css('overflow-x','hidden');
+                    }
+
+                });
+
+                //$('#appRightSide').css('transform', 'calc(100vw / 800)');
+                //document.body.style.transform = `scale(${scale})`;
+            }
+
+            // Recalculate scaling on page load and when the window is resized
+            window.addEventListener('load', scalePage);
+            window.addEventListener('resize', scalePage);
+
+
             var thisComp = this
             var ifPGP=false;
             if(Object.keys(app.user.get("currentMessageView")['attachment']).length > 0 && app.user.get("currentMessageView")['attachment'][Object.keys(app.user.get("currentMessageView")['attachment'])[0]]['isPgp']!==undefined){
@@ -2137,6 +2103,7 @@ define(["react", "app"], function (React, app) {
                                                     <ul
                                                         className="dropdown-menu"
                                                         aria-labelledby="sender-details"
+                                                        style={{width:"95%"}}
                                                     >
                                                         <li>
                                                             <span>from:</span>
@@ -2160,10 +2127,27 @@ define(["react", "app"], function (React, app) {
                                                         </li>
                                                         <li>
                                                             <span>to:</span>
-                                                            <div>
-                                                               &nbsp; {this.state.to}
+                                                            <div style={{wordBreak:"break-all"}}>
+                                                               {this.state.to}
                                                             </div>
                                                         </li>
+                                                        {this.state.cc.length > 0 &&
+                                                            <li>
+                                                                <span>cc:</span>
+                                                                <div>
+                                                                    {this.state.cc}
+                                                                </div>
+                                                            </li>
+                                                        }
+                                                        {this.state.bcc.length > 0 &&
+                                                            <li>
+                                                                <span>bcc:</span>
+                                                                <div>
+                                                                    {this.state.bcc}
+                                                                </div>
+                                                            </li>
+                                                        }
+
                                                         <li className="sent_date_time">
                                                             <span>date:</span>
                                                             <div>

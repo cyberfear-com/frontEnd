@@ -27,6 +27,7 @@ define(["react", "app"], function (React, app) {
                 decryptedEmail: false,
                 emailLoading: app.user.get("isDecryptingEmail"),
                 pinTop: 0,
+                minVirtWidth:0
             };
         },
         componentWillUnmount: function () {
@@ -1647,6 +1648,7 @@ define(["react", "app"], function (React, app) {
 
         renderStrictBody: function ()
         {
+            var that=this;
             $("#virtualization").width(0);
             function scalePage() {
                 $(document).ready(function() {
@@ -1657,13 +1659,18 @@ define(["react", "app"], function (React, app) {
                     $('#mail-data-content').width($('#appRightSide').width());
                     $('#mail-data-content').css('max-width','100%');
 
-                    if($('#appRightSide').width()<$('#virtualization').width()){
-
-                        $('#appRightSide').css('overflow-x','visible');
-                    }else{
+                    if(that.state.minVirtWidth>0 && ($("#virtualization").width()>that.state.minVirtWidth || $("#mail-data-content").width()>that.state.minVirtWidth)){
+                        $("#virtualization").width(
+                            $("#mail-data-content").width()-50
+                        );
                         $('#appRightSide').css('overflow-x','hidden');
                     }
-
+                    if(that.state.minVirtWidth>0 && $("#mail-data-content").width()<that.state.minVirtWidth){
+                        $('#appRightSide').css('overflow-x','visible');
+                        $("#virtualization").width(
+                            $("#mail-data-content").width()
+                        );
+                    }
                 });
 
                 //$('#appRightSide').css('transform', 'calc(100vw / 800)');
@@ -1717,7 +1724,10 @@ define(["react", "app"], function (React, app) {
                                 .height() + 50
                         );
 
-
+                        thisComp.setState({
+                            "minVirtWidth":$("#virtualization").contents().prop("documentElement").scrollWidth
+                        });
+                        console.log($("#virtualization").contents().prop("documentElement").scrollWidth);
                         if($("#virtualization").contents().prop("documentElement").scrollWidth>=$("#mail-data-content").width()){
                             $("#virtualization").width(
                                 $("#virtualization").contents().prop("documentElement").scrollWidth
@@ -1725,8 +1735,9 @@ define(["react", "app"], function (React, app) {
                             $("#appRightSide").css('overflow-x','auto');
                         }else{
                             $("#virtualization").width(
-                                $("#virtualization").contents().prop("documentElement").scrollWidth
+                                $("#mail-data-content").width()
                             );
+                            $('#appRightSide').css('overflow-x','hidden');
                         }
 
 

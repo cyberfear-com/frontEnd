@@ -1717,42 +1717,18 @@ define(["react", "app"], function (React, app) {
                                 .height() + 50
                         );
 
-                        function getMinContentWidth($element) {
-                            var $clone = $element.clone().css({
-                                width: "100%",
-                                position: "absolute",
-                                visibility: "hidden",
-                                whiteSpace: "nowrap"  // Prevent wrapping for accurate width
-                            }).appendTo("body");
 
-                            var minWidth = $clone.contents().prop("documentElement").scrollWidth; // Get exact width
-                            $clone.remove(); // Remove the cloned element
-
-                            return minWidth;
-                        }
-                       // setTimeout(function () {
-                            var minWidth = getMinContentWidth($("#virtualization"));
-                            console.log(minWidth);
-                        //},1000);
-
-                        if(minWidth<$("#virtualization").contents().prop("documentElement").scrollWidth){
+                        if($("#virtualization").contents().prop("documentElement").scrollWidth>=$("#mail-data-content").width()){
                             $("#virtualization").width(
                                 $("#virtualization").contents().prop("documentElement").scrollWidth
                              );
                             $("#appRightSide").css('overflow-x','auto');
                         }else{
                             $("#virtualization").width(
-                                minWidth
+                                $("#virtualization").contents().prop("documentElement").scrollWidth
                             );
                         }
 
-
-
-                        console.log($("#virtualization").contents().prop("documentElement").scrollWidth);
-
-                        //$("#virtualization").width(
-                        //    $("#virtualization").contents().prop("documentElement").scrollWidth
-                       // );
 
                         var tt = app.mixins.touchMixins();
 

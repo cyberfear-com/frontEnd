@@ -1238,7 +1238,6 @@ define(["react", "app"], function (React, app) {
 
                     break;
                 case "togglePlainHTML":
-                    console.log('html');
                     if (this.state.toggleHTMLtext == "html") {
                         this.setState({
                             toggleHTMLtext: "text",
@@ -1273,7 +1272,7 @@ define(["react", "app"], function (React, app) {
                             }
                         );
                     } else if (this.state.toggleHTMLtext == "text") {
-                        console.log('text');
+
                         this.setState({
                             toggleHTMLtext: "html",
                         });
@@ -1668,7 +1667,7 @@ define(["react", "app"], function (React, app) {
                     if(that.state.minVirtWidth>0 && $("#mail-data-content").width()<that.state.minVirtWidth){
                         $('#appRightSide').css('overflow-x','visible');
                         $("#virtualization").width(
-                            $("#mail-data-content").width()
+                            that.state.minVirtWidth
                         );
                     }
                 });
@@ -1727,7 +1726,6 @@ define(["react", "app"], function (React, app) {
                         thisComp.setState({
                             "minVirtWidth":$("#virtualization").contents().prop("documentElement").scrollWidth
                         });
-                        console.log($("#virtualization").contents().prop("documentElement").scrollWidth);
                         if($("#virtualization").contents().prop("documentElement").scrollWidth>=$("#mail-data-content").width()){
                             $("#virtualization").width(
                                 $("#virtualization").contents().prop("documentElement").scrollWidth

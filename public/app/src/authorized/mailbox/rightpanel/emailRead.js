@@ -1649,6 +1649,9 @@ define(["react", "app"], function (React, app) {
         {
             var that=this;
             $("#virtualization").width(0);
+            this.setState({
+                minVirtWidth:0
+            })
             function scalePage() {
                 $(document).ready(function() {
                     var screenWidth = $(window).width();

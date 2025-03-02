@@ -1505,7 +1505,7 @@ define([
                         <div className="middle-top">
                             <div className="desktop-search">
                                 <input
-                                    type="search"
+                                    type="search1"
                                     placeholder="Search..."
                                     id="desktop-search"
                                     onChange={this.handleSearchChange}

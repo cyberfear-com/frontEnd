@@ -1504,6 +1504,9 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                                     if (result["response"] == "fail") {
                                         deff.reject(result);
                                     }
+                                    if (result["recipPerMail"] == "overLimit") {
+                                        deff.reject(result);
+                                    }
                                 }
                             }
                         );

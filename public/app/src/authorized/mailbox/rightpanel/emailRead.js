@@ -27,7 +27,8 @@ define(["react", "app"], function (React, app) {
                 decryptedEmail: false,
                 emailLoading: app.user.get("isDecryptingEmail"),
                 pinTop: 0,
-                minVirtWidth:0
+                minVirtWidth:0,
+                replyAllVisible:false
             };
         },
         componentWillUnmount: function () {
@@ -309,7 +310,6 @@ define(["react", "app"], function (React, app) {
             ) {
                 document.addEventListener("message",this.state.backApp);
 
-                //console.log(app.user.get("currentMessageView"));
                 clearTimeout(app.user.get("emailOpenTimeOut"));
 
                 var email = app.user.get("currentMessageView");
@@ -413,6 +413,7 @@ define(["react", "app"], function (React, app) {
                                 key={index}
                                 className="" // badge light email-head
                                 style={{marginRight:"5px",wordBreak:"break-all"}}
+                                title={title}
                             >
                                 <b key={index + "b"}>
                                     {app.globalF.parseEmail(folderData)["name"]}
@@ -424,46 +425,15 @@ define(["react", "app"], function (React, app) {
                             <span
                                 key={index}
                                 className="" // badge light email-head
-                                style={{marginRight:"5px"}}
+                                style={{marginRight:"5px",wordBreak:"break-all"}}
+                                title={title}
                             >
                                 {app.globalF.parseEmail(folderData)["email"]}
                             </span>
                         );
-                        to.push(
-                            <span
-                                key={index+"1"}
-                                className="" // badge light email-head
-                                style={{marginRight:"5px"}}
-                            >
-                                <b key={index + "b"}>
-                                    {app.globalF.parseEmail(folderData)["name"]}
-                                </b>
-                            </span>
-                        );
-                        to.push(
-                            <span
-                                key={index+"2"}
-                                className="" // badge light email-head
-                                style={{marginRight:"5px"}}
-                            >
-                                <b key={index + "b"}>
-                                    {app.globalF.parseEmail(folderData)["name"]}
-                                </b>
-                            </span>
-                        );
-                        to.push(
-                            <span
-                                key={index+"3"}
-                                className="" // badge light email-head
-                                style={{marginRight:"5px"}}
-                            >
-                                <b key={index + "b"}>
-                                    {app.globalF.parseEmail(folderData)["name"]}
-                                </b>
-                            </span>
-                        );
                     }
                 });
+
 
                 if (emailsCC.length > 0) {
                     $.each(emailsCC, function (index, folderData) {
@@ -479,8 +449,9 @@ define(["react", "app"], function (React, app) {
                                 <span
                                     key={index}
                                     className="" // badge light email-head
+                                    title={title}
+                                    style={{marginRight:"5px",wordBreak:"break-all"}}
                                 >
-
                                     <b key={index + "b"}>
                                         {
                                             app.globalF.parseEmail(folderData)[
@@ -488,13 +459,6 @@ define(["react", "app"], function (React, app) {
                                             ]
                                         }
                                     </b>
-                                    {emailsCC.length <= 1
-                                        ? " <" +
-                                          app.globalF.parseEmail(folderData)[
-                                              "email"
-                                          ] +
-                                          ">"
-                                        : ""}
                                 </span>
                             );
                         } else {
@@ -502,6 +466,8 @@ define(["react", "app"], function (React, app) {
                                 <span
                                     key={index}
                                     className="" // badge light email-head
+                                    style={{marginRight:"5px",wordBreak:"break-all"}}
+                                    title={title}
                                 >
                                     {
                                         app.globalF.parseEmail(folderData)[
@@ -520,14 +486,10 @@ define(["react", "app"], function (React, app) {
 
                         if (emailsCC.length <= 3) {
                             var lock = "";
-                            var title =
-                                '<i class="fa fa-envelope-o"></i> ' +
-                                app.globalF.parseEmail(folderData)["email"];
+                            var title =app.globalF.parseEmail(folderData)["email"];
                         } else {
                             var lock = "";
-                            var title =
-                                '<i class="fa fa-envelope-o"></i> ' +
-                                app.globalF.parseEmail(folderData)["email"];
+                            var title =   app.globalF.parseEmail(folderData)["email"];
                         }
 
                         if (
@@ -538,12 +500,9 @@ define(["react", "app"], function (React, app) {
                                 <span
                                     key={index}
                                     className="" // badge light email-head
-                                    data-placement="bottom"
-                                    data-toggle="popover-hover"
-                                    title=""
-                                    data-content={title}
+                                    title={title}
+                                    style={{marginRight:"5px",wordBreak:"break-all"}}
                                 >
-                                    {lock}{" "}
                                     <b key={index + "b"}>
                                         {
                                             app.globalF.parseEmail(folderData)[
@@ -551,13 +510,6 @@ define(["react", "app"], function (React, app) {
                                             ]
                                         }
                                     </b>
-                                    {emailsCC.length <= 3
-                                        ? " <" +
-                                          app.globalF.parseEmail(folderData)[
-                                              "email"
-                                          ] +
-                                          ">"
-                                        : ""}
                                 </span>
                             );
                         } else {
@@ -565,12 +517,9 @@ define(["react", "app"], function (React, app) {
                                 <span
                                     key={index}
                                     className="" // badge light email-head
-                                    data-placement="bottom"
-                                    data-toggle="popover-hover"
-                                    title=""
-                                    data-content={title}
+                                    title={title}
+                                    style={{marginRight:"5px",wordBreak:"break-all"}}
                                 >
-                                    {lock}{" "}
                                     {
                                         app.globalF.parseEmail(folderData)[
                                             "email"
@@ -579,6 +528,15 @@ define(["react", "app"], function (React, app) {
                                 </span>
                             );
                         }
+                    });
+                }
+                if(cc.length==0 && bcc.length==0 && to.length<2){
+                    this.setState({
+                        replyAllVisible:false
+                    });
+                }else{
+                    this.setState({
+                        replyAllVisible:true
                     });
                 }
                 var message = app.user.get("emails")["messages"][email["id"]];
@@ -2348,13 +2306,25 @@ define(["react", "app"], function (React, app) {
                                                     </ul>
                                                 </div>
                                                 <button
+                                                    title="Reply"
                                                     className="back"
                                                     onClick={this.handleClick.bind(
                                                         null,
                                                         "reply"
                                                     )}
                                                 ></button>
+                                                {this.state.replyAllVisible &&
+                                                    <button
+                                                        title="Reply All"
+                                                        className="replyAll"
+                                                        onClick={this.handleClick.bind(
+                                                            null,
+                                                            "replyAll"
+                                                        )}
+                                                    ></button>
+                                                }
                                                 <button
+                                                    title="Forward"
                                                     className="next"
                                                     onClick={this.handleClick.bind(
                                                         null,
@@ -2363,6 +2333,7 @@ define(["react", "app"], function (React, app) {
                                                 ></button>
                                                 {/* <button className="star"></button> */}
                                                 <button
+                                                    title="Move to trash"
                                                     className="delete"
                                                     onClick={this.handleClick.bind(
                                                         null,
@@ -2393,6 +2364,18 @@ define(["react", "app"], function (React, app) {
                                                                 Reply
                                                             </button>
                                                         </li>
+                                                        {this.state.replyAllVisible &&
+                                                            <li>
+                                                                <button
+                                                                    onClick={this.handleClick.bind(
+                                                                        null,
+                                                                        "replyAll"
+                                                                    )}
+                                                                >
+                                                                    Reply All
+                                                                </button>
+                                                            </li>
+                                                        }
                                                         <li>
                                                             <button
                                                                 onClick={this.handleClick.bind(

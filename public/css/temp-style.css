@@ -8414,6 +8414,11 @@ textarea {
     background: url("../images/icon-back.svg") left top/24px no-repeat;
     opacity: 0.4;
 }
+.right-side .email-content-top-right .button-group button.replyAll {
+    background: url("../images/reply-all.svg") left top/24px no-repeat;
+    opacity: 0.4;
+}
+
 .right-side .email-content-top-right .button-group button.next {
     background: url("../images/icon-next.svg") left top/24px no-repeat;
     opacity: 0.4;
@@ -12020,4 +12025,8 @@ body.shrinked .folder-menu .accordion-button:after {
 }
 .ck.ck-balloon-panel.ck-powered-by-balloon .ck.ck-powered-by {
     display:none;
+}
+
+.desktop-search.has-data{
+    background: rgba(34, 99, 273, 0.4);
 }

@@ -1702,7 +1702,6 @@ define(["react", "app", "select2"], function (
                     Backbone.history.loadUrl(Backbone.history.fragment);
                   })
                   .fail(function (error) {
-                    //  console.log(error);
                     var emailId = thisComp.state.messageId;
                     var messages = app.user.get("emails")["messages"];
                     var origFolder =
@@ -1710,17 +1709,16 @@ define(["react", "app", "select2"], function (
                     messages[emailId]["tp"] = 3;
 
                     app.globalF.move2Folder(origFolder, [emailId], function () {
-                      if (
-                        error["data"] != "email2often" &&
-                        error["data"] != "outgoingFreeLimited"
-                      ) {
-                        app.notifications.systemMessage("tryAgain");
-                      } else if (error["data"] == "email2often") {
+                      if (error["data"] == "email2often") {
                         app.notifications.systemMessage("email2often");
                       } else if (error["data"] == "attachmentError") {
                         app.notifications.systemMessage("reuploadAttachm");
                       } else if (error["data"] == "outgoingFreeLimited") {
                         app.notifications.systemMessage("outgoingFreeLimited");
+                      } else if (error["recipPerMail"] == "overLimit") {
+                        app.notifications.systemMessage("rcptLimit");
+                      }else{
+                        app.notifications.systemMessage("tryAgain");
                       }
                     });
 

@@ -84,6 +84,7 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
             //	console.log(app.globalF.IsEmail(email));
 
             if (app.globalF.IsEmail(email)) {
+
                 if (emailText.indexOf("<") != -1) {
                     var name = app.globalF.stripHTML(
                         emailText.substring(0, emailText.indexOf("<"))
@@ -95,24 +96,14 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                 } else {
                     var name = "";
                 }
+                name=name.trim();
+                if (name.startsWith('"') && name.endsWith('"')) {
+                    name = name.slice(1, -1); // Removes the first and last character
+                }
 
-                name =
-                    name.indexOf('"') === 0
-                        ? name.substr(1, name.length - 1)
-                        : name;
-                name =
-                    name.lastIndexOf('"') === name.length - 1
-                        ? name.substr(0, name.length - 1)
-                        : name;
-
-                name =
-                    name.indexOf("'") === 0
-                        ? name.substr(1, name.length - 1)
-                        : name;
-                name =
-                    name.lastIndexOf("'") === name.length - 1
-                        ? name.substr(0, name.length - 1)
-                        : name;
+                if (name.startsWith("'") && name.endsWith("'")) {
+                    name = name.slice(1, -1); // Removes the first and last character
+                }
 
                 var myMails = [];
                 $.each(app.user.get("allKeys"), function (index, folderData) {
@@ -120,7 +111,7 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                 });
 
                 if ($.inArray(email, myMails) != -1 && personalize) {
-                    name = "Me";
+                    // name = "Me";
                 }
 
                 name = name.trim();
@@ -323,9 +314,18 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
         },
 
         emailSelection: function (item) {
-            //console.log(item);
             var contacts = app.user.get("contacts");
+         /*
 
+            var markup =
+                "<span class='" +
+                app.transform.SHA256(item.email) +
+                "' title='" +
+                item.email +
+                "'> <i class='fa fa-refresh fa-spin'></i> " +
+                item.name +
+                "</span>";
+*/
             //console.log(item);
             //console.log(app.user.get("recipientList"));
 
@@ -2660,6 +2660,25 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                     }
                 });
 
+               if(currentMessage["meta"]["reply2"] != undefined){
+                   var emailObj = app.globalF.parseEmail(app.transform.from64str(currentMessage["meta"]["reply2"]));
+                   var emailCl = emailObj["email"];
+                   var emName = emailObj["name"];
+
+                   fromAll[app.transform.to64str(emailCl)] = {
+                       dest: "to",
+                       name: app.transform.to64str(emName),
+                   };
+               }else if(currentMessage["meta"]["to"] != undefined){
+                   var emailObj = app.globalF.parseEmail(app.transform.from64str(currentMessage["meta"]["to"]));
+                   var emailCl = emailObj["email"];
+
+                   var emName = emailObj["name"];
+                   fromAll[app.transform.to64str(emailCl)] = {
+                       dest: "to",
+                       name: app.transform.to64str(emName),
+                   };
+               }
                 //create array to propagate TO field
                 if (currentMessage["meta"]["to"] != undefined) {
                     $.each(sendTo, function (index, fromValue) {

@@ -340,3 +340,11 @@
     overflow-y: auto;
     padding: 12px;
 }
+
+.scaleUp{
+    width:491px!important;
+}
+
+.scaleDown{
+    width:80vw!important;
+}

@@ -648,7 +648,6 @@ define([
                             app.mixins.canNavigate(function (decision) {
                                 $("#wrapper").addClass("email-read-active");
                                 if (decision) {
-                                    console.log('can read');
                                     var id = $(event.target)
                                         .parents("tr")
                                         .attr("id");

@@ -2728,7 +2728,7 @@ define(["app"], function (app) {
                                     app.userObjects.set({
                                         EncryptedContactsObject: newContactsObj,
                                     });
-                                    app.notifications.systemMessage("saved");
+                                   // app.notifications.systemMessage("saved");
                                 } else if (response == "newerFound") {
                                     app.notifications.systemMessage("newerFnd");
                                 } else if (response == "nothingUpdt") {

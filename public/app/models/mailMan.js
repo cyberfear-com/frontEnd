@@ -104,7 +104,7 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                                           "You got " +
                                           (newie - oldie) +
                                           " new email(s)",
-                                        requireInteraction: true,
+                                        requireInteraction: false,
                                         vibrate: [200, 100, 200],
                                       }
                                     );

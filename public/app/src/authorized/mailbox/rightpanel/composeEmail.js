@@ -83,11 +83,39 @@ define(["react", "app", "select2"], function (
         composeOriginate: app.user.get('composeOriginate'),
       };
     },
+        /*  scalePage() {
+            $(document).ready(function() {
+              var screenWidth = $(window).width();
+              var screenHeight = $(wdow).height();
+
+      /*
+              if(screenWidth>620){
+                //$(".select2-selection--multiple .select2-search__field").css( "width","491px!important")
+                $(".select2-selection--multiple .select2-search__field").addClass("scaleUp");
+                $(".select2-selection--multiple .select2-search__field").removeClass("scaleDown");
+              }else{
+                $(".select2-selection--multiple .select2-search__field").removeClass("scaleUp");
+                $(".select2-selection--multiple .select2-search__field").addClass("scaleDown");
+              }
+
+            });
+
+
+      //$('#appRightSide').css('transform', 'calc(100vw / 800)');
+      //document.body.style.transform = `scale(${scale})`;
+    }, */
     componentDidMount: async function () {
       //return;
       var thisComp = this;
       await this.fromField("initialize");
       fileSelector = $("#fileselector");
+
+
+      // Recalculate scaling on page load and when the window is resized
+      //this.scalePage();
+      //window.addEventListener('load', scalePage);
+      //window.addEventListener('resize',  this.scalePage);
+
       // Initialize CKEditor 5
 
       const {
@@ -288,6 +316,7 @@ define(["react", "app", "select2"], function (
       thisComp.toCCSelect();
       thisComp.toBCCSelect();
       thisComp.attachFiles();
+      //thisComp.scalePage();
 
       $("#toRcpt").on("select2:selecting", function (e) {
         var limits = thisComp.countTotalRcpt();
@@ -683,8 +712,11 @@ define(["react", "app", "select2"], function (
 
       var contacts = app.user.get("contacts");
 
+      var rcpt1 = this.state.contactArray.filter(item => ($("#toRcpt").val()==null?[]:$("#toRcpt").val()).includes(item.id));
       var rcpt = $("#toRcpt").val();
+      var ccRcpt1 = this.state.contactArray.filter(item => ($("#toCCRcpt").val()==null?[]:$("#toCCRcpt").val()).includes(item.id));
       var ccRcpt = $("#toCCRcpt").val();
+      var bccRcpt1 = this.state.contactArray.filter(item => ($("#toBCCRcpt").val()==null?[]:$("#toBCCRcpt").val()).includes(item.id));
       var bccRcpt = $("#toBCCRcpt").val();
 
       if (rcpt == null) {
@@ -693,21 +725,36 @@ define(["react", "app", "select2"], function (
         total += rcpt.length;
 
         $.each(rcpt, function (index, value) {
-          if (!app.transform.check64str(value)) {
+          if (app.transform.check64str(value)) {
+            var parsed = app.globalF.parseEmail(app.transform.from64str(value));
+            var ind = app.transform.to64str(parsed["email"]);
+
+            let row = rcpt1.find(item => item.id === value);
+            if(row!==undefined){
+              allList["to"][ind] = {
+                name:app.transform.to64str(row["name"]),
+                dest: "to",
+              };
+              allList["noDups"][ind] = {
+                name: app.transform.to64str(row["name"]),
+                dest: "to",
+              };
+            }else{
+              allList["to"][ind] = {
+                name: app.transform.to64str(parsed["name"]),
+                dest: "to",
+              };
+              allList["noDups"][ind] = {
+                name: app.transform.to64str(parsed["name"]),
+                dest: "to",
+              };
+            }
+          } else {
             var parsed = app.globalF.parseEmail(value);
             var ind = app.transform.to64str(parsed["email"]);
 
-            allList["to"][ind] = {
-              name: app.transform.to64str(parsed["name"]),
-              dest: "to",
-            };
-            allList["noDups"][ind] = {
-              name: app.transform.to64str(parsed["name"]),
-              dest: "to",
-            };
-          } else {
-            allList["to"][value] = { name: "", dest: "to" };
-            allList["noDups"][value] = { name: "", dest: "to" };
+            allList["to"][ind] = { name: app.transform.to64str(parsed["name"]), dest: "to" };
+            allList["noDups"][ind] = { name: app.transform.to64str(parsed["name"]), dest: "to" };
           }
         });
       }
@@ -718,21 +765,38 @@ define(["react", "app", "select2"], function (
         total += ccRcpt.length;
 
         $.each(ccRcpt, function (index, value) {
-          if (!app.transform.check64str(value)) {
+          if (app.transform.check64str(value)) {
+            var parsed = app.globalF.parseEmail(app.transform.from64str(value));
+            var ind = app.transform.to64str(parsed["email"]);
+
+            let row = ccRcpt1.find(item => item.id === value);
+            if(row!==undefined){
+
+              allList["cc"][ind] = {
+                name: app.transform.to64str(row["name"]),
+                dest: "cc",
+              };
+              allList["noDups"][ind] = {
+                name: app.transform.to64str(row["name"]),
+                dest: "cc",
+              };
+            }else{
+              allList["cc"][ind] = {
+                name: app.transform.to64str(parsed["name"]),
+                dest: "cc",
+              };
+              allList["noDups"][ind] = {
+                name: app.transform.to64str(parsed["name"]),
+                dest: "cc",
+              };
+            }
+
+          } else {
             var parsed = app.globalF.parseEmail(value);
             var ind = app.transform.to64str(parsed["email"]);
 
-            allList["cc"][ind] = {
-              name: app.transform.to64str(parsed["name"]),
-              dest: "cc",
-            };
-            allList["noDups"][ind] = {
-              name: app.transform.to64str(parsed["name"]),
-              dest: "cc",
-            };
-          } else {
-            allList["cc"][value] = { name: "", dest: "cc" };
-            allList["noDups"][value] = { name: "", dest: "cc" };
+            allList["to"][ind] = { name: app.transform.to64str(parsed["name"]), dest: "cc" };
+            allList["noDups"][ind] = { name: app.transform.to64str(parsed["name"]), dest: "cc" };
           }
         });
       }
@@ -743,21 +807,38 @@ define(["react", "app", "select2"], function (
         total += bccRcpt.length;
 
         $.each(bccRcpt, function (index, value) {
-          if (!app.transform.check64str(value)) {
+          if (app.transform.check64str(value)) {
+            var parsed = app.globalF.parseEmail(app.transform.from64str(value));
+            var ind = app.transform.to64str(parsed["email"]);
+
+            let row = bccRcpt1.find(item => item.id === value);
+            if(row!==undefined){
+              allList["bcc"][ind] = {
+                name:app.transform.to64str(row["name"]),
+                dest: "bcc",
+              };
+              allList["noDups"][ind] = {
+                name: app.transform.to64str(row["name"]),
+                dest: "bcc",
+              };
+            }else{
+              allList["bcc"][ind] = {
+                name: app.transform.to64str(parsed["name"]),
+                dest: "bcc",
+              };
+              allList["noDups"][ind] = {
+                name: app.transform.to64str(parsed["name"]),
+                dest: "bcc",
+              };
+            }
+
+
+          } else {
             var parsed = app.globalF.parseEmail(value);
             var ind = app.transform.to64str(parsed["email"]);
 
-            allList["bcc"][ind] = {
-              name: app.transform.to64str(parsed["name"]),
-              dest: "bcc",
-            };
-            allList["noDups"][ind] = {
-              name: app.transform.to64str(parsed["name"]),
-              dest: "bcc",
-            };
-          } else {
-            allList["bcc"][value] = { name: "", dest: "bcc" };
-            allList["noDups"][value] = { name: "", dest: "bcc" };
+            allList["bcc"][ind] = { name: app.transform.to64str(parsed["name"]), dest: "bcc" };
+            allList["noDups"][ind] = { name: app.transform.to64str(parsed["name"]), dest: "bcc" };
           }
         });
       }
@@ -790,8 +871,7 @@ define(["react", "app", "select2"], function (
 
             requestHashes.push(ind);
           } else {
-            var newCont = app.transform.from64str(email64);
-
+            var newCont = app.transform.from64str(app.transform.from64str(email64));
             AllRecipients[app.transform.SHA512(newCont)] = {
               email: email64,
               name: email64 != data["name"] ? data["name"] : "",
@@ -1255,10 +1335,6 @@ define(["react", "app", "select2"], function (
           }
         });
 
-        // console.log("PIN");
-        // console.log(this.state.enablePin);
-        // console.log(this.state.pinText);
-        // console.log(this.state.userPin);
         if (
           Object.keys(outsiders).length == 1 &&
           this.state.enablePin === true &&
@@ -1422,8 +1498,6 @@ define(["react", "app", "select2"], function (
           JSON.stringify(draft["body"]).length +
           thisComp.getFilesize(this.state.fileObject);
         draft["modKey"] = thisComp.state.modKey;
-
-        //console.log(draft);
 
         app.globalF.saveDraft(
           draft,

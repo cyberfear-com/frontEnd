@@ -295,6 +295,7 @@ define([
                             "",
                             function (result) {
                                 if (result == "saved") {
+                                    app.notifications.systemMessage("saved");
                                     thisComp.getContacts();
 
                                     thisComp.handleClick("showFirst");
@@ -456,6 +457,7 @@ define([
                             "",
                             function (result) {
                                 if (result == "saved") {
+                                    app.notifications.systemMessage("saved");
                                     thisComp.getContacts();
 
                                     thisComp.handleClick("showFirst");
@@ -530,6 +532,7 @@ define([
                                 "",
                                 function (result) {
                                     if (result == "saved") {
+                                        app.notifications.systemMessage("saved");
                                         thisComp.getContacts();
 
                                         thisComp.handleClick("showFirst");
@@ -586,6 +589,7 @@ define([
                         "",
                         function (response) {
                             if (response === "saved") {
+                                app.notifications.systemMessage("saved");
                                 app.user.set({ inProcess: false });
                             } else if (response === "newerFound") {
                                 app.user.set({ inProcess: false });

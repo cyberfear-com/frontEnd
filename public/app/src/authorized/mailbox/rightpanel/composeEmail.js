@@ -83,25 +83,27 @@ define(["react", "app", "select2"], function (
         composeOriginate: app.user.get('composeOriginate'),
       };
     },
-    scalePage() {
-      $(document).ready(function() {
-        var screenWidth = $(window).width();
-        var screenHeight = $(window).height();
+        /*  scalePage() {
+            $(document).ready(function() {
+              var screenWidth = $(window).width();
+              var screenHeight = $(wdow).height();
 
-        if(screenWidth>620){
-          //$(".select2-selection--multiple .select2-search__field").css( "width","491px!important")
-          $(".select2-selection--multiple .select2-search__field").addClass("scaleUp");
-          $(".select2-selection--multiple .select2-search__field").removeClass("scaleDown");
-        }else{
-          $(".select2-selection--multiple .select2-search__field").removeClass("scaleUp");
-          $(".select2-selection--multiple .select2-search__field").addClass("scaleDown");
-        }
+      /*
+              if(screenWidth>620){
+                //$(".select2-selection--multiple .select2-search__field").css( "width","491px!important")
+                $(".select2-selection--multiple .select2-search__field").addClass("scaleUp");
+                $(".select2-selection--multiple .select2-search__field").removeClass("scaleDown");
+              }else{
+                $(".select2-selection--multiple .select2-search__field").removeClass("scaleUp");
+                $(".select2-selection--multiple .select2-search__field").addClass("scaleDown");
+              }
 
-      });
+            });
+
 
       //$('#appRightSide').css('transform', 'calc(100vw / 800)');
       //document.body.style.transform = `scale(${scale})`;
-    },
+    }, */
     componentDidMount: async function () {
       //return;
       var thisComp = this;
@@ -110,9 +112,9 @@ define(["react", "app", "select2"], function (
 
 
       // Recalculate scaling on page load and when the window is resized
-      this.scalePage();
+      //this.scalePage();
       //window.addEventListener('load', scalePage);
-      window.addEventListener('resize',  this.scalePage);
+      //window.addEventListener('resize',  this.scalePage);
 
       // Initialize CKEditor 5
 
@@ -314,7 +316,7 @@ define(["react", "app", "select2"], function (
       thisComp.toCCSelect();
       thisComp.toBCCSelect();
       thisComp.attachFiles();
-      thisComp.scalePage();
+      //thisComp.scalePage();
 
       $("#toRcpt").on("select2:selecting", function (e) {
         var limits = thisComp.countTotalRcpt();
@@ -747,7 +749,6 @@ define(["react", "app", "select2"], function (
                 dest: "to",
               };
             }
-         //   sdfdsfd@sdsdsd.com 111@sddsdsdsd.com
           } else {
             var parsed = app.globalF.parseEmail(value);
             var ind = app.transform.to64str(parsed["email"]);

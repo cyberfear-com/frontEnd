@@ -1311,8 +1311,7 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
         addToContact: function (emailObj, pin) {
             var contact = app.user.get("contacts");
             var changed = false;
-
-            $.each(emailObj, function (email64, emptyStr) {
+                        $.each(emailObj, function (email64, emptyStr) {
                 var emObj = app.globalF.parseEmail(
                     app.transform.from64str(email64)
                 );
@@ -1324,7 +1323,7 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                     ) {
                         contact[app.transform.to64str(emObj["email"])] = {
                             e: app.transform.to64str(emObj["email"]),
-                            n: app.transform.to64str(emObj["name"]),
+                            n: app.transform.to64str(app.transform.from64str(emptyStr["name"])),
                             p: app.transform.to64str(pin),
                             pgp: "",
                             pgpOn: false,

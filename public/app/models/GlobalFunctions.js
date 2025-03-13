@@ -2668,15 +2668,6 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                        dest: "to",
                        name: app.transform.to64str(emName),
                    };
-               }else if(currentMessage["meta"]["to"] != undefined){
-                   var emailObj = app.globalF.parseEmail(app.transform.from64str(currentMessage["meta"]["to"]));
-                   var emailCl = emailObj["email"];
-
-                   var emName = emailObj["name"];
-                   fromAll[app.transform.to64str(emailCl)] = {
-                       dest: "to",
-                       name: app.transform.to64str(emName),
-                   };
                }
                 //create array to propagate TO field
                 if (currentMessage["meta"]["to"] != undefined) {

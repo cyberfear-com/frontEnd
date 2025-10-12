@@ -256,6 +256,7 @@ define(["react", "app", "cmpld/modals/paymentGate","ajaxQueue"], function (
                                         secondFactorInput: true,
                                         fac2Type: 2
                                     });
+
                                 }
                                 if(result=='noinet'){
                                     $.ajaxQueue.clear();
@@ -525,7 +526,7 @@ define(["react", "app", "cmpld/modals/paymentGate","ajaxQueue"], function (
                                                 <span
                                                     className={
                                                         "mt-n1 " +
-                                                        (this.state.fac2Type == 1 ? "": "d-none")
+                                                        (this.state.fac2Type == 1 ? "": " d-none")
                                                     }
                                                 >
                                                     <svg
@@ -539,7 +540,7 @@ define(["react", "app", "cmpld/modals/paymentGate","ajaxQueue"], function (
                                                     </svg>
                                                 </span>
                                                 <span
-                                                    className={"mt-n1" + (this.state.fac2Type==2?"":"d-none")}
+                                                    className={"mt-n1" + (this.state.fac2Type==2?"":" d-none")}
                                                 >
                                                     <svg
                                                         xmlns="http://www.w3.org/2000/svg"

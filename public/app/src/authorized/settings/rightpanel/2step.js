@@ -287,6 +287,10 @@ define([
                                 } else if (result["data"] == "newerFound") {
                                     app.notifications.systemMessage("newerFnd");
                                 }
+                                else if (result["data"] == "fld2upd") {
+                                    app.notifications.systemMessage("fld2upd");
+                                }
+
                             }
                         }
                     );
@@ -323,6 +327,9 @@ define([
                                     });
                                 } else if (result["data"] == "newerFound") {
                                     app.notifications.systemMessage("newerFnd");
+                                }
+                                else if (result["data"] == "fld2upd") {
+                                    app.notifications.systemMessage("fld2upd");
                                 }
                             }
                         }
@@ -422,6 +429,11 @@ define([
                                                     result["data"] ==
                                                     "newerFound"
                                                 ) {
+                                                    app.notifications.systemMessage("newerFnd");
+                                                }
+                                                else if (result["data"] == "fld2upd") {
+                                                    console.log('dddddddd');
+                                                    app.notifications.systemMessage("fld2upd");
                                                 }
                                             }
                                         }

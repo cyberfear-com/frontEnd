@@ -468,6 +468,9 @@ define([
             });
         },
         componentWillUnmount: function () {
+            // Clear any custom search filters
+            $.fn.dataTable.ext.search = [];
+            
             app.user.off("change:checkNewEmails");
             app.user.off("change:emailListRefresh");
             app.user.off("change:resetSelectedItems");
@@ -1414,31 +1417,69 @@ define([
             this.setState({
                 showReadUnread: "",
             });
-            $("#emailListTable td > div").removeClass("d-none");
+            // Remove any custom filter
+            $.fn.dataTable.ext.search.pop();
+            $("#emailListTable").DataTable().draw();
         },
+
         handleShowRead: function (event) {
+            var thisComp = this;
             this.setState({
                 showReadUnread: "read",
             });
-            $("#emailListTable td > div").removeClass("d-none");
-            $("#emailListTable td > div").each(function () {
-                jElement = $(this);
-                if (jElement.hasClass("unread")) {
-                    jElement.addClass("d-none");
+            
+            // Remove any existing custom filter
+            $.fn.dataTable.ext.search.pop();
+            
+            // Add custom filter for read emails
+            $.fn.dataTable.ext.search.push(
+                function(settings, data, dataIndex) {
+                    // Check if this is the email table
+                    if (settings.nTable.id !== 'emailListTable') {
+                        return true;
+                    }
+                    
+                    // Get the row element and check if it has 'unread' class
+                    var row = $("#emailListTable").DataTable().row(dataIndex).node();
+                    if ($(row).find('.email').hasClass('unread')) {
+                        return false; // Hide unread emails
+                    }
+                    return true; // Show read emails
                 }
-            });
+            );
+            
+            // Redraw the table with the filter
+            $("#emailListTable").DataTable().draw();
         },
+
         handleShowUnRead: function (event) {
+            var thisComp = this;
             this.setState({
                 showReadUnread: "unread",
             });
-            $("#emailListTable td > div").addClass("d-none");
-            $("#emailListTable td > div").each(function () {
-                jElement = $(this);
-                if (jElement.hasClass("unread")) {
-                    jElement.removeClass("d-none");
+            
+            // Remove any existing custom filter
+            $.fn.dataTable.ext.search.pop();
+            
+            // Add custom filter for unread emails
+            $.fn.dataTable.ext.search.push(
+                function(settings, data, dataIndex) {
+                    // Check if this is the email table
+                    if (settings.nTable.id !== 'emailListTable') {
+                        return true;
+                    }
+                    
+                    // Get the row element and check if it has 'unread' class
+                    var row = $("#emailListTable").DataTable().row(dataIndex).node();
+                    if (!$(row).find('.email').hasClass('unread')) {
+                        return false; // Hide read emails
+                    }
+                    return true; // Show unread emails
                 }
-            });
+            );
+            
+            // Redraw the table with the filter
+            $("#emailListTable").DataTable().draw();
         },
         handleClickMoveToFolder: function (event) {
             const currentPosition = this.state.moveToFolderFlag;

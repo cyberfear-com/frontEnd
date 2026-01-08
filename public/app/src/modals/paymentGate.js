@@ -1040,7 +1040,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                             </div>
                                             <div className="clearfix"></div>
                                             <div
-                                                className={`radio ${this.state.paymentPlan == "free" || this.state.selectedPaymentOption == "subscription"? "d-none":this.state.typeOfPayment == "paypal"? "selected": ""}`}
+                                                className={`d-none radio ${this.state.paymentPlan == "free" || this.state.selectedPaymentOption == "subscription"? "d-none":this.state.typeOfPayment == "paypal"? "selected": ""}`}
                                             >
                                                 <label>
                                                     <div className="te_text">

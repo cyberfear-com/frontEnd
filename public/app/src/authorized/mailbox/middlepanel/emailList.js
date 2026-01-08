@@ -7,6 +7,7 @@ define([
 ], function (React, app) {
     return React.createClass({
         mixins: [app.mixins.touchMixins()],
+
         getInitialState: function () {
             var dataSet = [];
 
@@ -43,408 +44,379 @@ define([
                 this.updateEmails(nextProps.folderId, "noRefresh");
             }
         },
-        updateEmails: function (folderId, noRefresh) {
-            //console.log('folderId');
-           // console.log(folderId);
+                updateEmails: function (folderId, noRefresh) {
 
-            //Refresh=app.user.get("needRefresh");
-            var thisComp = this;
-            //console.log('Refresh');
-            //console.log(Refresh);
-            var emails = app.user.get("emails")["folders"][folderId];
+                    //console.log('folderId');
+                   // console.log(folderId);
 
-            thisComp.setState({
-                displayedFolder: app.transform.from64str(app.user.get("folders")[folderId]["name"]),
-                emailInFolder: Object.keys(emails).length,
-            });
+                    //Refresh=app.user.get("needRefresh");
+                    var thisComp = this;
+                    //console.log('Refresh');
+                    //console.log(Refresh);
+                    var emails = app.user.get("emails")["folders"][folderId];
 
-            app.user.set({
-                currentFolder: app.transform.from64str(
-                    app.user.get("folders")[folderId]["name"]
-                ),
-            });
+                    thisComp.setState({
+                        displayedFolder: app.transform.from64str(app.user.get("folders")[folderId]["name"]),
+                        emailInFolder: Object.keys(emails).length,
+                    });
 
-            if (app.user.get("folders")[folderId]["role"] != undefined) {
-                var t = app.transform.from64str(
-                    app.user.get("folders")[folderId]["role"]
-                );
-            } else {
-                var t = "";
-            }
+                    app.user.set({
+                        currentFolder: app.transform.from64str(
+                            app.user.get("folders")[folderId]["name"]
+                        ),
+                    });
 
-            //console.log(t);
-
-            var data = [];
-            var d = new Date();
-            var trusted = app.user.get("trustedSenders");
-            var encrypted2 = "";
-
-            var emailListCopy = app.user.get("folderCached");
-            //console.log(emailListCopy);
-            //Refresh=true;
-
-            if(emailListCopy[folderId]===undefined){
-                emailListCopy[folderId]={};
-            }
-
-               // console.log("HERE");
-              //  console.log(Object.keys(emails).length);
-            $.each(emails, function (index, folderData) {
-                var time =
-                    folderData["tr"] != undefined
-                        ? folderData["tr"]
-                        : folderData["tc"] != undefined
-                        ? folderData["tc"]
-                        : "";
-
-                if (
-                    d.toDateString() ==
-                    new Date(parseInt(time + "000")).toDateString()
-                ) {
-                    var dispTime = new Date(
-                        parseInt(time + "000")
-                    ).toLocaleTimeString();
-                } else {
-                    var dispTime = new Date(
-                        parseInt(time + "000")
-                    ).toLocaleDateString();
-                }
-                var fromEmail = [];
-                var fromTitle = [];
-                var recipient = [];
-                var recipientTitle = [];
-                var trust = "";
-                if (folderData["to"].length > 0) {
-                    $.each(folderData["to"], function (indexTo, email) {
-                        if (app.transform.check64str(email)) {
-                            var str = app.transform.from64str(email);
-                        } else {
-                            var str = email;
-                        }
-
-                        recipient.push(app.globalF.parseEmail(str)["name"]);
-                        recipientTitle.push(
-                            app.globalF.parseEmail(str)["email"]
+                    if (app.user.get("folders")[folderId]["role"] != undefined) {
+                        var t = app.transform.from64str(
+                            app.user.get("folders")[folderId]["role"]
                         );
-                    });
-                } else if (Object.keys(folderData["to"]).length > 0) {
-                    $.each(folderData["to"], function (indexTo, email) {
-                        try {
-                            var str = app.transform.from64str(indexTo);
-
-                            var name = "";
-                            if (email === undefined) {
-                                name = str;
-                            } else {
-                                if (email["name"] === undefined) {
-                                    name = str;
-                                } else {
-                                    if (email["name"] === "") {
-                                        name = str;
-                                    } else {
-                                        name = app.transform.from64str(
-                                            email["name"]
-                                        );
-                                    }
-                                }
-                            }
-
-                            recipient.push(name);
-                            recipientTitle.push(str);
-                        } catch (err) {
-                            recipient.push("error");
-                            recipientTitle.push("error");
-                        }
-                    });
-                }
-                if (t == "Sent" || t == "Draft") {
-                    fromEmail = "";
-                    fromTitle = "";
-
-                    if (
-                        folderData["cc"] != undefined &&
-                        Object.keys(folderData["cc"]).length > 0
-                    ) {
-                        $.each(folderData["cc"], function (indexCC, email) {
-                            try {
-                                var str = app.transform.from64str(indexCC);
-                                var name = "";
-                                if (email === undefined) {
-                                    name = str;
-                                } else {
-                                    if (email["name"] === undefined) {
-                                        name = str;
-                                    } else {
-                                        if (email["name"] === "") {
-                                            name = str;
-                                        } else {
-                                            name = app.transform.from64str(
-                                                email["name"]
-                                            );
-                                        }
-                                    }
-                                }
-                                recipient.push(name);
-                                recipientTitle.push(str);
-                            } catch (err) {
-                                recipient.push("error");
-                                recipientTitle.push("error");
-                            }
-                        });
-                    }
-
-                    if (
-                        folderData["bcc"] != undefined &&
-                        Object.keys(folderData["bcc"]).length > 0
-                    ) {
-                        $.each(folderData["bcc"], function (indexBCC, email) {
-                            try {
-                                var str = app.transform.from64str(indexBCC);
-                                var name = "";
-                                if (email === undefined) {
-                                    name = str;
-                                } else {
-                                    if (email["name"] === undefined) {
-                                        name = str;
-                                    } else {
-                                        if (email["name"] === "") {
-                                            name = str;
-                                        } else {
-                                            name = app.transform.from64str(
-                                                email["name"]
-                                            );
-                                        }
-                                    }
-                                }
-                                recipient.push(name);
-                                recipientTitle.push(str);
-                            } catch (err) {
-                                recipient.push("error");
-                                recipientTitle.push("error");
-                            }
-                        });
-                    }
-
-                    recipient = recipient.join(", ");
-                    recipientTitle = recipientTitle.join(", ");
-
-                    fromEmail = recipient;
-                    fromTitle = recipientTitle;
-                } else {
-                    var str = app.transform.from64str(folderData["fr"]);
-
-                    fromEmail = app.globalF.parseEmail(str, true)["email"];
-                    fromTitle = app.globalF.parseEmail(str, true)["name"]!=""?app.globalF.parseEmail(str, true)["name"]:app.globalF.parseEmail(str, true)["email"];
-
-                    if (
-                        trusted.indexOf(
-                            app.transform.SHA256(
-                                app.globalF.parseEmail(str)["email"]
-                            )
-                        ) !== -1
-                    ) {
-                        trust =
-                            "<img src='/img/logo/logo.png' style='height:25px'/>";
                     } else {
-                        trust = "";
+                        var t = "";
                     }
-                    recipient = recipient.join(", ");
-                    recipientTitle = recipientTitle.join(", ");
-                }
 
-                var titleTag = "";
+                    //console.log(t);
 
-                if (folderData["tg"].length > 0) {
-                    var tag = folderData["tg"][0]["name"];
-                    var tagColor = thisComp.getTagColor(tag);
-                    titleTag =
-                        '<span class="taggs" title="' +
-                        tag +
-                        '"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" > <path d="M13.5119 9.2475L12.5969 8.3325C12.3794 8.145 12.2519 7.8675 12.2444 7.56C12.2294 7.2225 12.3644 6.885 12.6119 6.6375L13.5119 5.7375C14.2919 4.9575 14.5844 4.2075 14.3369 3.615C14.0969 3.03 13.3544 2.7075 12.2594 2.7075H4.42187V2.0625C4.42187 1.755 4.16687 1.5 3.85937 1.5C3.55187 1.5 3.29688 1.755 3.29688 2.0625V15.9375C3.29688 16.245 3.55187 16.5 3.85937 16.5C4.16687 16.5 4.42187 16.245 4.42187 15.9375V12.2775H12.2594C13.3394 12.2775 14.0669 11.9475 14.3144 11.355C14.5619 10.7625 14.2769 10.02 13.5119 9.2475Z" fill="' +
-                        tagColor +
-                        '"/></svg></span>';
-                } else {
-                    var tag = "";
-                }
+                    var data = [];
+                    var d = new Date();
+                    var trusted = app.user.get("trustedSenders");
+                    var encrypted2 = "";
 
-                if (parseInt(folderData["en"]) == 1) {
-                    encrypted2 = "<i class='fa fa-lock fa-lg'></i>";
-                } else if (parseInt(folderData["en"]) == 0) {
-                    encrypted2 = "<i class='fa fa-unlock fa-lg'></i>";
-                } else if (parseInt(folderData["en"]) == 3) {
-                    encrypted2 = "";
-                }
+                    var emailListCopy = app.user.get("folderCached");
+                    //console.log(emailListCopy);
+                    //Refresh=true;
 
-                tag = app.globalF.stripHTML(app.transform.from64str(tag));
-                var unread =
-                    folderData["st"] == 0
-                        ? "unread"
-                        : folderData["st"] == 1
-                        ? "fa fa-mail-reply"
-                        : folderData["st"] == 2
-                        ? "fa fa-mail-forward"
-                        : "";
+                    if(emailListCopy[folderId]===undefined){
+                        emailListCopy[folderId]={};
+                    }
 
-                var attch =
-                    folderData["at"] == "1"
-                        ? '<span class=""><img src="../images/icon-attachment.svg"/></span>'
-                        : "";
+                       // console.log("HERE");
+                      //  console.log(Object.keys(emails).length);
+                        $.each(emails, function (index, folderData) {
+                            var time = folderData["tr"] != undefined
+                                ? folderData["tr"]
+                                : folderData["tc"] != undefined
+                                    ? folderData["tc"]
+                                    : "";
 
-                var sonn =
-                    folderData["pt"] === -1
-                        ? '<span class="pinned"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.0516 6.34999L9.65156 1.94999C9.45156 1.74999 9.15156 1.74999 8.95156 1.94999L7.35156 3.54999C7.10156 3.79999 7.20156 4.09999 7.35156 4.24999L7.70156 4.59999L6.20156 6.09999C5.45156 5.94999 3.40156 5.59999 2.30156 6.69999C2.10156 6.89999 2.10156 7.19999 2.30156 7.39999L5.15156 10.25L2.00156 13.4C1.80156 13.6 1.80156 13.9 2.00156 14.1C2.20156 14.3 2.55156 14.25 2.70156 14.1L5.85156 10.95L8.70156 13.8C9.00156 14.05 9.30156 13.95 9.40156 13.8C10.5016 12.7 10.1516 10.65 10.0016 9.89999L11.5016 8.39999L11.8516 8.74999C12.0516 8.94999 12.3516 8.94999 12.5516 8.74999L14.1516 7.14999C14.2516 6.84999 14.2516 6.54999 14.0516 6.34999Z" fill="#4D535C"/></svg></span>'
-                        : "";
+                        if (
+                            d.toDateString() ==
+                            new Date(parseInt(time + "000")).toDateString()
+                        ) {
+                            var dispTime = new Date(
+                                parseInt(time + "000")
+                            ).toLocaleTimeString();
+                            } else {
+                            var dispTime = new Date(
+                                parseInt(time + "000")
+                            ).toLocaleDateString();
+                            }
 
-                // console.log(folderData["pt"]);
+                            var fromEmail = [];
+                            var fromTitle = [];
+                            var recipient = [];
+                            var recipientTitle = [];
+                            var trust = "";
+                        if (folderData["to"].length > 0) {
+                                $.each(folderData["to"], function (indexTo, email) {
+                                    if (app.transform.check64str(email)) {
+                                        var str = app.transform.from64str(email);
+                                    } else {
+                                        var str = email;
+                                    }
+                                    recipient.push(app.globalF.parseEmail(str)["name"]);
+                                    recipientTitle.push(app.globalF.parseEmail(str)["email"]);
+                                });
+                        } else if (Object.keys(folderData["to"]).length > 0) {
+                                $.each(folderData["to"], function (indexTo, email) {
+                                    try {
+                                        var str = app.transform.from64str(indexTo);
+                                        var name = "";
+                                        if (email === undefined) {
+                                            name = str;
+                                        } else {
+                                            if (email["name"] === undefined) {
+                                                name = str;
+                                            } else {
+                                                if (email["name"] === "") {
+                                                    name = str;
+                                                } else {
+                                                    name = app.transform.from64str(email["name"]);
+                                                }
+                                            }
+                                        }
+                                        recipient.push(name);
+                                        recipientTitle.push(str);
+                                    } catch (err) {
+                                        recipient.push("error");
+                                        recipientTitle.push("error");
+                                    }
+                                });
+                            }
 
-                if (fromEmail == "") {
-                    fromEmail = fromTitle;
-                }
+                            if (t == "Sent" || t == "Draft") {
+                                fromEmail = "";
+                                fromTitle = "";
 
-                // var checkBpart = '<label><input class="emailchk hidden-xs" type="checkbox" /></label>';
-                var checkBpart =
-                    '<div class="select-checkbox"><label class="container-checkbox"><input type="checkbox" name="inbox-email"> <span class="checkmark"></span></label></div>';
+                                if (folderData["cc"] != undefined && Object.keys(folderData["cc"]).length > 0) {
+                                    $.each(folderData["cc"], function (indexCC, email) {
+                                        try {
+                                            var str = app.transform.from64str(indexCC);
+                                            var name = "";
+                                            if (email === undefined) {
+                                                name = str;
+                                            } else {
+                                                if (email["name"] === undefined) {
+                                                    name = str;
+                                                } else {
+                                                    if (email["name"] === "") {
+                                                        name = str;
+                                                    } else {
+                                                        name = app.transform.from64str(email["name"]);
+                                                    }
+                                                }
+                                            }
+                                            recipient.push(name);
+                                            recipientTitle.push(str);
+                                        } catch (err) {
+                                            recipient.push("error");
+                                            recipientTitle.push("error");
+                                        }
+                                    });
+                                }
 
-                // var fromPart =
-                //     '<span class="from no-padding col-xs-8 col-md-3 ellipsisText margin-right-10" data-placement="bottom" data-toggle="popover-hover" title="" data-content="' +
-                //     fromTitle +
-                //     '">' +
-                //     trust +
-                //     " " +
-                //     fromEmail +
-                //     "</span>";
+                                if (folderData["bcc"] != undefined && Object.keys(folderData["bcc"]).length > 0) {
+                                    $.each(folderData["bcc"], function (indexBCC, email) {
+                                        try {
+                                            var str = app.transform.from64str(indexBCC);
+                                            var name = "";
+                                            if (email === undefined) {
+                                                name = str;
+                                            } else {
+                                                if (email["name"] === undefined) {
+                                                    name = str;
+                                                } else {
+                                                    if (email["name"] === "") {
+                                                        name = str;
+                                                    } else {
+                                                        name = app.transform.from64str(email["name"]);
+                                                    }
+                                                }
+                                            }
+                                            recipient.push(name);
+                                            recipientTitle.push(str);
+                                        } catch (err) {
+                                            recipient.push("error");
+                                            recipientTitle.push("error");
+                                        }
+                                    });
+                                }
 
-                var fromPart = '<span class="unread-bullet"></span>';
+                                recipient = recipient.join(", ");
+                                recipientTitle = recipientTitle.join(", ");
+                                fromEmail = recipient;
+                                fromTitle = recipientTitle;
+                            } else {
+                                var str = app.transform.from64str(folderData["fr"]);
+                                fromEmail = app.globalF.parseEmail(str, true)["email"];
+                                fromTitle = app.globalF.parseEmail(str, true)["name"]!=""?app.globalF.parseEmail(str, true)["name"]:app.globalF.parseEmail(str, true)["email"];
 
-                // var dateAtPart =
-                //     '<span class="no-padding date col-xs-3 col-sm-2">' +
-                //     attch +
-                //     "&nbsp;" +
-                //     encrypted2 +
-                //     " " +
-                //     dispTime +
-                //     '<span class="label label-primary f-s-10"></span><span class="label label-primary f-s-10"></span></span>';
+                                if (trusted.indexOf(app.transform.SHA256(app.globalF.parseEmail(str)["email"])) !== -1) {
+                                    trust = "<img src='/img/logo/logo.png' style='height:25px'/>";
+                                } else {
+                                    trust = "";
+                                }
+                                recipient = recipient.join(", ");
+                                recipientTitle = recipientTitle.join(", ");
+                            }
 
-                var dateAtPart =
-                    '<div class="date-time" data-time="' +
-                    time +
-                    '">' +
-                    sonn +
-                    attch +
-                    "&nbsp;" +
-                    encrypted2 +
-                    " " +
-                    dispTime +
-                    "</div>";
+                            var titleTag = "";
 
-                var tagPart =
-                    '<div class="mailListLabel pull-right text-right col-xs-2"><div class="ellipsisText visible-xs"><span class="label label-success">' +
-                    tag +
-                    '</span></div><div class="ellipsisText hidden-xs col-xs-12 pull-right"><span class="label label-success">' +
-                    tag +
-                    "</span></div></div>";
+                        if (folderData["tg"].length > 0) {
+                                var tag = folderData["tg"][0]["name"];
+                                var tagColor = thisComp.getTagColor(tag);
+                            titleTag =
+                                '<span class="taggs" title="' +
+                                tag +
+                                '"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" > <path d="M13.5119 9.2475L12.5969 8.3325C12.3794 8.145 12.2519 7.8675 12.2444 7.56C12.2294 7.2225 12.3644 6.885 12.6119 6.6375L13.5119 5.7375C14.2919 4.9575 14.5844 4.2075 14.3369 3.615C14.0969 3.03 13.3544 2.7075 12.2594 2.7075H4.42187V2.0625C4.42187 1.755 4.16687 1.5 3.85937 1.5C3.55187 1.5 3.29688 1.755 3.29688 2.0625V15.9375C3.29688 16.245 3.55187 16.5 3.85937 16.5C4.16687 16.5 4.42187 16.245 4.42187 15.9375V12.2775H12.2594C13.3394 12.2775 14.0669 11.9475 14.3144 11.355C14.5619 10.7625 14.2769 10.02 13.5119 9.2475Z" fill="' +
+                                tagColor +
+                                '"/></svg></span>';
+                            } else {
+                                var tag = "";
+                            }
 
-                // var tagPart = "";
+                            if (parseInt(folderData["en"]) == 1) {
+                                encrypted2 = "<i class='fa fa-lock fa-lg'></i>";
+                            } else if (parseInt(folderData["en"]) == 0) {
+                                encrypted2 = "<i class='fa fa-unlock fa-lg'></i>";
+                            } else if (parseInt(folderData["en"]) == 3) {
+                                encrypted2 = "";
+                            }
 
-                let emailListCopyT = {
-                    DT_RowId: index,
-                    unread: unread,
-                    checkBpart: checkBpart,
-                    dateAtPart: dateAtPart,
-                    fromPart: fromPart,
-                    sb: app.transform.escapeTags(
-                        app.transform.from64str(folderData["sb"])
-                    ),
-                    bd:" "+ app.transform.escapeTags(
-                        app.transform.from64str(folderData["bd"])
-                    ),
-                    tagPart: tagPart,
-                    timestamp: time,
-                    son: folderData["pt"],
-                };
-               // var showPreview = thisComp.state.showPreview ? "" : "view-minimized";
-                var row = {
-                    DT_RowId: index,
-                    email: {
-                        display:
-                            '<div class="email no-padding ' +
-                            emailListCopyT["unread"] +
+                        tag = app.globalF.stripHTML(app.transform.from64str(tag));
+                            var unread = folderData["st"] == 0
+                                ? "unread"
+                                : folderData["st"] == 1
+                                    ? "fa fa-mail-reply"
+                                    : folderData["st"] == 2
+                                        ? "fa fa-mail-forward"
+                                        : "";
+
+                            var attch = folderData["at"] == "1"
+                                ? '<span class=""><img src="../images/icon-attachment.svg"/></span>'
+                                : "";
+
+                            var sonn = folderData["pt"] === -1
+                                ? '<span class="pinned"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.0516 6.34999L9.65156 1.94999C9.45156 1.74999 9.15156 1.74999 8.95156 1.94999L7.35156 3.54999C7.10156 3.79999 7.20156 4.09999 7.35156 4.24999L7.70156 4.59999L6.20156 6.09999C5.45156 5.94999 3.40156 5.59999 2.30156 6.69999C2.10156 6.89999 2.10156 7.19999 2.30156 7.39999L5.15156 10.25L2.00156 13.4C1.80156 13.6 1.80156 13.9 2.00156 14.1C2.20156 14.3 2.55156 14.25 2.70156 14.1L5.85156 10.95L8.70156 13.8C9.00156 14.05 9.30156 13.95 9.40156 13.8C10.5016 12.7 10.1516 10.65 10.0016 9.89999L11.5016 8.39999L11.8516 8.74999C12.0516 8.94999 12.3516 8.94999 12.5516 8.74999L14.1516 7.14999C14.2516 6.84999 14.2516 6.54999 14.0516 6.34999Z" fill="#4D535C"/></svg></span>'
+                                : "";
+
+                        // console.log(folderData["pt"]);
+
+                            if (fromEmail == "") {
+                                fromEmail = fromTitle;
+                            }
+
+                        // var checkBpart = '<label><input class="emailchk hidden-xs" type="checkbox" /></label>';
+                        var checkBpart =
+                            '<div class="select-checkbox"><label class="container-checkbox"><input type="checkbox" name="inbox-email"> <span class="checkmark"></span></label></div>';
+
+                        // var fromPart =
+                        //     '<span class="from no-padding col-xs-8 col-md-3 ellipsisText margin-right-10" data-placement="bottom" data-toggle="popover-hover" title="" data-content="' +
+                        //     fromTitle +
+                        //     '">' +
+                        //     trust +
+                        //     " " +
+                        //     fromEmail +
+                        //     "</span>";
+
+                            var fromPart = '<span class="unread-bullet"></span>';
+
+                        // var dateAtPart =
+                        //     '<span class="no-padding date col-xs-3 col-sm-2">' +
+                        //     attch +
+                        //     "&nbsp;" +
+                        //     encrypted2 +
+                        //     " " +
+                        //     dispTime +
+                        //     '<span class="label label-primary f-s-10"></span><span class="label label-primary f-s-10"></span></span>';
+
+                        var dateAtPart =
+                            '<div class="date-time" data-time="' +
+                            time +
                             '">' +
-                            emailListCopyT["checkBpart"] +
-                            emailListCopyT["dateAtPart"] +
-                            emailListCopyT["fromPart"] +
-                            '<div class="mail-toggle ' +
-                            '"><div class="mail-title">' +
-                            titleTag +
-                            emailListCopyT["sb"] +
-                            "</div> <p><label class='from'>" +
-                            fromTitle + "<span style='display:none;'>" + fromEmail + "</span>" +
-                            ": </label>" +
-                            emailListCopyT["bd"] +
-                            "</p></div>" +
-                            emailListCopyT["tagPart"] +
-                            "</div>",
+                            sonn +
+                            attch +
+                            "&nbsp;" +
+                            encrypted2 +
+                            " " +
+                            dispTime +
+                            "</div>";
 
-                        timestamp: emailListCopyT["timestamp"],
-                        sortOrder:
-                            folderData["pt"] === undefined
-                                ? emailListCopyT["timestamp"]
-                                : folderData["pt"],
-                    },
-                };
+                        var tagPart =
+                            '<div class="mailListLabel pull-right text-right col-xs-2"><div class="ellipsisText visible-xs"><span class="label label-success">' +
+                            tag +
+                            '</span></div><div class="ellipsisText hidden-xs col-xs-12 pull-right"><span class="label label-success">' +
+                            tag +
+                            "</span></div></div>";
 
-                data.push(row);
+                        // var tagPart = "";
+
+                        let emailListCopyT = {
+                            DT_RowId: index,
+                            unread: unread,
+                            checkBpart: checkBpart,
+                            dateAtPart: dateAtPart,
+                            fromPart: fromPart,
+                            sb: app.transform.escapeTags(
+                                app.transform.from64str(folderData["sb"])
+                            ),
+                            bd:" "+ app.transform.escapeTags(
+                                app.transform.from64str(folderData["bd"])
+                            ),
+                            tagPart: tagPart,
+                            timestamp: time,
+                            son: folderData["pt"],
+                        };
+                       // var showPreview = thisComp.state.showPreview ? "" : "view-minimized";
+                            var row = {
+                                DT_RowId: index,
+                                email: {
+                                display:
+                                    '<div class="email no-padding ' +
+                                    emailListCopyT["unread"] +
+                                    '">' +
+                                    emailListCopyT["checkBpart"] +
+                                    emailListCopyT["dateAtPart"] +
+                                    emailListCopyT["fromPart"] +
+                                    '<div class="mail-toggle ' +
+                                    '"><div class="mail-title">' +
+                                    titleTag +
+                                    emailListCopyT["sb"] +
+                                    "</div> <p><label class='from'>" +
+                                    fromTitle + "<span style='display:none;'>" + fromEmail + "</span>" +
+                                    ": </label>" +
+                                    emailListCopyT["bd"] +
+                                    "</p></div>" +
+                                    emailListCopyT["tagPart"] +
+                                    "</div>",
+
+                                timestamp: emailListCopyT["timestamp"],
+                                sortOrder:
+                                    folderData["pt"] === undefined
+                                        ? emailListCopyT["timestamp"]
+                                        : folderData["pt"],
+                            },
+                            };
+
+                            data.push(row);
                 emailListCopy[folderId]=data;
-            });
+                        });
 
-            app.user.set({
-                folderCached: emailListCopy,
-              //  needRefresh:false
-            });
+                    app.user.set({
+                        folderCached: emailListCopy,
+                      //  needRefresh:false
+                    });
 
-            var emTab = $("#emailListTable").DataTable();
-            emTab.clear();
-            if (noRefresh == '') {
-                emTab.draw();
-                thisComp.setState(
-                    {
-                        messsageId: "",
-                        allChecked: false,
-                    },
-                    function () {
-                        $("#selectAll>input").prop("checked", false);
-                        $("#selectAllAlt > input").prop("checked", false);
+                    var emTab = $("#emailListTable").DataTable();
+                    emTab.clear();
+                    if (noRefresh == '') {
+                        emTab.draw();
+                        thisComp.setState({
+                            messsageId: "",
+                            allChecked: false,
+                        }, function () {
+                            $("#selectAll>input").prop("checked", false);
+                            $("#selectAllAlt > input").prop("checked", false);
                     }
-                );
-            }
-            emTab.rows.add(data);
-            emTab.draw(false);
+                        );
+                    }
+                    emTab.rows.add(data);
+                    emTab.draw(false);
 
 
-            if (thisComp.state.showReadUnread == "read") {
-                this.handleShowRead();
-            }
-            if (thisComp.state.showReadUnread == "unread") {
-                this.handleShowUnRead();
-            }
+                    if (thisComp.state.showReadUnread == "read") {
+                        this.handleShowRead();
+                    }
+                    if (thisComp.state.showReadUnread == "unread") {
+                        this.handleShowUnRead();
+                    }
 
-            // this.attachTooltip();
-            //emTab.row.add(data).draw(false).node();
-           // emTab.addClass('myClass');
+                    // this.attachTooltip();
+                    //emTab.row.add(data).draw(false).node();
+                   // emTab.addClass('myClass');
 
             $("#emailListTable td").click(function () {
-                var selectedEmails = app.user.get("selectedEmails");
-                // ".emailchk"
-                if ($(this).find('[name="inbox-email"]').prop("checked")) {
-                    selectedEmails[$(this).parents("tr").attr("id")] = true;
-                    $("#mail-extra-options").addClass("active");
-                } else {
-                    delete selectedEmails[$(this).parents("tr").attr("id")];
-                    $("#mail-extra-options").removeClass("active");
-                }
+                        var selectedEmails = app.user.get("selectedEmails");
+                        // ".emailchk"
+                        if ($(this).find('[name="inbox-email"]').prop("checked")) {
+                            selectedEmails[$(this).parents("tr").attr("id")] = true;
+                            $("#mail-extra-options").addClass("active");
+                        } else {
+                            delete selectedEmails[$(this).parents("tr").attr("id")];
+                            $("#mail-extra-options").removeClass("active");
+                        }
             });
-           // $("#emailListTable tr").addClass("view-minimized");
-        },
+                   // $("#emailListTable tr").addClass("view-minimized");
+                },
         getTagColor: function (tagName) {
             var colorCode = `#c9d0da`;
             $.each(app.user.get("tags"), function (index, labelData) {
@@ -454,13 +426,14 @@ define([
             });
             return colorCode;
         },
+
         handleShowPreview: function () {
             var thisComp = this;
             if (thisComp.state.showPreview) {
-                    $("#emailListTable tr").addClass("view-minimized");
+                $("#emailListTable tr").addClass("view-minimized");
               //  $(document).find(".mail-toggle").addClass("view-minimized");
             } else {
-            $("#emailListTable tr").removeClass("view-minimized");
+                $("#emailListTable tr").removeClass("view-minimized");
                // $(document).find(".mail-toggle").removeClass("view-minimized");
             }
             thisComp.setState({
@@ -475,6 +448,7 @@ define([
             app.user.off("change:emailListRefresh");
             app.user.off("change:resetSelectedItems");
         },
+
         componentDidMount: function () {
             this.getMainFolderList();
             this.getCustomFolderList();
@@ -580,13 +554,12 @@ define([
 
                 thisComp.updateEmails(inbox, "");
             });
-            app.user.on(
-                "change:resetSelectedItems",
-                function () {
-                    if (app.user.get("resetSelectedItems")) {
+
+            app.user.on("change:resetSelectedItems", function () {
+                if (app.user.get("resetSelectedItems")) {
                         app.user.set({ selectedEmails: {} });
                         app.user.set({ resetSelectedItems: false });
-                    }
+                }
                 },
                 thisComp
             );
@@ -602,6 +575,7 @@ define([
                 thisComp
             );
         },
+
         handleClick: function (i, event) {
             app.user.set({
                 isDecryptingEmail: true,
@@ -612,27 +586,18 @@ define([
                 case "wholeFolder":
                     //  console.log('wholeFolder')
                     break;
-
                 case "thisPage":
                     //  console.log('thisPage')
                     break;
-
                 case "readEmail":
-                    if (
-                        $(event.target).prop("class").toString() ===
-                        "dataTables_empty"
-                    ) {
+                    if ($(event.target).prop("class").toString() === "dataTables_empty") {
                         app.user.set({ isComposingEmail: false });
                         app.user.set({ isDraftOpened: false });
                         app.user.set({ isDecryptingEmail: false });
                         Backbone.history.loadUrl(Backbone.history.fragment);
                     } else {
-                        if (
-                            $(event.target).prop("tagName").toUpperCase() !==
-                                "INPUT" &&
-                            $(event.target).prop("tagName").toUpperCase() !==
-                                "SPAN"
-                        ) {
+                        if ($(event.target).prop("tagName").toUpperCase() !== "INPUT" &&
+                            $(event.target).prop("tagName").toUpperCase() !== "SPAN") {
                             var thisComp = this;
 
                             var folder =
@@ -643,31 +608,20 @@ define([
                             if (this.props.folderId === `ebf12ef47c`) {
                                 app.user.set({ isComposingEmail: false });
                                 app.user.set({ isDraftOpened: false });
-                                Backbone.history.loadUrl(
-                                    Backbone.history.fragment
-                                );
+                                Backbone.history.loadUrl(Backbone.history.fragment);
                             }
 
                             app.mixins.canNavigate(function (decision) {
                                 $("#wrapper").addClass("email-read-active");
                                 if (decision) {
-                                    var id = $(event.target)
-                                        .parents("tr")
-                                        .attr("id");
-                                    if (
-                                        $(event.target).prop("tagName") !==
-                                            "INPUT" ||
-                                        $(event.target).prop("tagName") !==
-                                            "SPAN"
-                                    ) {
+                                    var id = $(event.target).parents("tr").attr("id");
+                                    if ($(event.target).prop("tagName") !== "INPUT" ||
+                                        $(event.target).prop("tagName") !== "SPAN") {
                                         app.globalF.resetCurrentMessage();
                                         app.globalF.resetDraftMessage();
 
-                                        Backbone.history.loadUrl(
-                                            "/mail/" +
-                                                app.transform.from64str(folder),
-                                            {
-                                                trigger: true,
+                                        Backbone.history.loadUrl("/mail/" + app.transform.from64str(folder), {
+                                            trigger: true,
                                             }
                                         );
                                         if (
@@ -696,25 +650,17 @@ define([
                                                 .parents("tr")
                                                 .toggleClass("selected");
 
-                                            $("#appRightSide").css(
-                                                "display",
-                                                "block"
-                                            );
+                                            $("#appRightSide").css("display", "block");
 
                                             thisComp.setState({
                                                 messsageId: id,
                                             });
 
-                                            Backbone.history.navigate(
-                                                "/mail/" +
-                                                app.transform.from64str(folder)+'/'+app.transform.to64str(id),
-                                                {
-                                                    trigger: true,
-                                                }
-                                            );
+                                            Backbone.history.navigate("/mail/" + app.transform.from64str(folder) + '/' + app.transform.to64str(id), {
+                                                trigger: true,
+                                            });
 
                                             app.globalF.renderEmail(id);
-
                                             app.mixins.hidePopHover();
                                         }
                                     }
@@ -725,9 +671,7 @@ define([
                             $("#wrapper").removeClass("email-read-active");
                             var thisComp = this;
                             var table = $("#emailListTable").DataTable();
-                            $(event.target)
-                                .parents("tr")
-                                .toggleClass("selected");
+                            $(event.target).parents("tr").toggleClass("selected");
                             $("#appRightSide").css("display", "none");
                             thisComp.setState({
                                 messsageId: "",
@@ -739,6 +683,7 @@ define([
                     break;
             }
         },
+
         handleRefreshButton: function (event) {
             app.mailMan.startShift();
 
@@ -749,24 +694,22 @@ define([
             $("#selectAll>input").prop("checked", false);
             $("#selectAllAlt > input").prop("checked", false);
         },
+
         handleSearchChange: function (event) {
             if (event.target.value.length > 1) {
                 $(".desktop-search").addClass("has-data");
             } else {
                 $(".desktop-search").removeClass("has-data");
             }
-
-            $("#emailListTable")
-                .DataTable()
-
-                .search(event.target.value, 0, 1)
-                .draw();
+            $("#emailListTable").DataTable().search(event.target.value, 0, 1).draw();
         },
+
         handleSearchReset: function () {
             $("#desktop-search").val("");
             $(".desktop-search").removeClass("has-data");
             $("#emailListTable").DataTable().search("", 0, 1).draw();
         },
+
         removeRefreshClass: function (_element) {
             setTimeout(function () {
                 _element.classList.remove("spin-animation");
@@ -1328,34 +1271,28 @@ define([
             if (selected.length == 0) {
                 // var elem = {};
                 // var item = $("#emailListTable tr.selected").attr("id");
-                $("#emailListTable tr").each(function () {
-                    if ($(this).find(".select-checkbox input").is(":checked")) {
-                        var item = $(this).closest("tr").attr("id");
-                        if (item != undefined) {
-                            selected.push(item);
+                    $("#emailListTable tr").each(function () {
+                        if ($(this).find(".select-checkbox input").is(":checked")) {
+                            var item = $(this).closest("tr").attr("id");
+                            if (item != undefined) {
+                                selected.push(item);
+                            }
                         }
-                    }
-                });
+                    });
             }
             return selected;
         },
         getMainFolderList: function () {
             var mainFolderList = app.globalF.getMainFolderList();
             var thisComp = this;
-
             var options = [];
+
             $.each(mainFolderList, function (index, folderData) {
                 // ["Inbox", "Spam", "Trash"]
                 if (["Inbox"].indexOf(folderData["role"]) > -1) {
                     options.push(
                         <li key={folderData["index"]}>
-                            <a
-                                id={folderData["index"]}
-                                onClick={thisComp.handleChange.bind(
-                                    thisComp,
-                                    "moveToFolder"
-                                )}
-                            >
+                            <a id={folderData["index"]} onClick={thisComp.handleChange.bind(thisComp, "moveToFolder")}>
                                 {folderData["name"]}
                             </a>
                         </li>
@@ -1370,30 +1307,27 @@ define([
         getCustomFolderList: function () {
             var folderList = app.globalF.getCustomFolderList();
             var thisComp = this;
-
             var options = [];
+
             $.each(folderList, function (index, folderData) {
                 options.push(
                     <li key={index}>
-                        <a
-                            id={folderData["index"]}
-                            onClick={thisComp.handleChange.bind(
-                                thisComp,
-                                "moveToFolder"
-                            )}
-                        >
+                        <a id={folderData["index"]} onClick={thisComp.handleChange.bind(thisComp, "moveToFolder")}>
                             {folderData["name"]}
                         </a>
                     </li>
                 );
             });
+
             this.setState({
                 moveFolderCust: options,
             });
         },
+
         handleSelectAll: function (event) {
             var thisComp = this;
             var selectedEmails = app.user.get("selectedEmails");
+
             if (event.target.checked) {
                 thisComp.setState({
                     allChecked: true,
@@ -1481,6 +1415,8 @@ define([
             // Redraw the table with the filter
             $("#emailListTable").DataTable().draw();
         },
+
+
         handleClickMoveToFolder: function (event) {
             const currentPosition = this.state.moveToFolderFlag;
             this.setState({
@@ -1490,13 +1426,7 @@ define([
         render: function () {
             return (
                 <div>
-                    <div
-                        className={
-                            this.state.isWorkingFlag
-                                ? "in-working popup d-block"
-                                : "in-working popup d-none"
-                        }
-                    >
+                    <div className={this.state.isWorkingFlag ? "in-working popup d-block" : "in-working popup d-none"}>
                         <div className="wrapper">
                             <div className="inner">
                                 <div className="content">
@@ -1532,10 +1462,7 @@ define([
                                     </div>
                                     <div className="t-text">
                                         <h2>Processing...</h2>
-                                        <h6>
-                                            Please wait while we set things up
-                                            for you.
-                                        </h6>
+                                        <h6>Please wait while we set things up for you.</h6>
                                     </div>
                                 </div>
                             </div>
@@ -1544,65 +1471,27 @@ define([
                     <div className="middle-section" id="appMiddleSection">
                         <div className="middle-top">
                             <div className="desktop-search">
-                                <input
-                                    type="search1"
-                                    placeholder="Search..."
-                                    id="desktop-search"
-                                    onChange={this.handleSearchChange}
-                                />
-                                <span
-                                    className="icon"
-                                    onClick={this.handleSearchReset}
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 48 48"
-                                    >
+                                <input type="search1" placeholder="Search..." id="desktop-search" onChange={this.handleSearchChange} />
+                                <span className="icon" onClick={this.handleSearchReset}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
                                         <path d="m12.45 37.65-2.1-2.1L21.9 24 10.35 12.45l2.1-2.1L24 21.9l11.55-11.55 2.1 2.1L26.1 24l11.55 11.55-2.1 2.1L24 26.1Z" />
                                     </svg>
                                 </span>
                             </div>
                             <div className="info-row" id="checkAll">
                                 <div className="all-check">
-                                    <label
-                                        className="container-checkbox"
-                                        id="selectAll"
-                                    >
-                                        <input
-                                            type="checkbox"
-                                            onChange={this.handleSelectAll}
-                                            checked={this.state.allChecked}
-                                        />
+                                    <label className="container-checkbox" id="selectAll">
+                                        <input type="checkbox" onChange={this.handleSelectAll} checked={this.state.allChecked} />
                                         <span className="checkmark"></span>{" "}
                                     </label>
                                 </div>
                                 <div className="arrow-btn">
                                     <div className="dropdown">
-                                        <button
-                                            className="btn btn-secondary dropdown-toggle"
-                                            type="button"
-                                            id="mail-sort"
-                                            data-bs-toggle="dropdown"
-                                            aria-expanded="false"
-                                            data-bs-auto-close="outside"
-                                        ></button>
-                                        <ul
-                                            className="dropdown-menu"
-                                            aria-labelledby="mail-sort"
-                                        >
+                                        <button className="btn btn-secondary dropdown-toggle" type="button" id="mail-sort" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside"></button>
+                                        <ul className="dropdown-menu" aria-labelledby="mail-sort">
                                             <li>
-                                                <label
-                                                    id="selectAllAlt"
-                                                    className="container-checkbox"
-                                                >
-                                                    <input
-                                                        type="checkbox"
-                                                        onChange={this.handleSelectAll}
-                                                        checked={
-                                                            this.state
-                                                                .allChecked
-                                                        }
-                                                    />
+                                                <label id="selectAllAlt" className="container-checkbox">
+                                                    <input type="checkbox" onChange={this.handleSelectAll} checked={this.state.allChecked} />
                                                     <span className="checkmark"></span>{" "}
                                                     <div>Select all</div>
                                                 </label>
@@ -1767,55 +1656,23 @@ define([
                                 </div>
                                 <div className="info-row-right">
                                     <div className="referesh-btn">
-                                        <button
-                                            id="referesh-btn"
-                                            className="icon-btn"
-                                            onClick={this.handleRefreshButton}
-                                        >
-                                            <i className={this.state.checkNewMails?"spin-animation":""}></i>
+                                        <button id="referesh-btn" className="icon-btn" onClick={this.handleRefreshButton}>
+                                            <i className={this.state.checkNewMails ? "spin-animation" : ""}></i>
                                         </button>
                                     </div>
                                     <div className="arrow-btn ellipsis-dropdown">
                                         <div className="dropdown dropstart">
-                                            <button
-                                                className="btn btn-secondary dropdown-toggle"
-                                                type="button"
-                                                id="mail-extra-options"
-                                                data-bs-toggle="dropdown"
-                                                aria-expanded="false"
-                                                data-bs-auto-close="outside"
-                                            >
-                                                <svg
-                                                    width="24"
-                                                    height="24"
-                                                    viewBox="0 0 24 24"
-                                                    fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                >
+                                            <button className="btn btn-secondary dropdown-toggle" type="button" id="mail-extra-options" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M13.2727 12.0909C13.2727 11.1872 12.5401 10.4546 11.6364 10.4546C10.7326 10.4546 10 11.1872 10 12.0909C10 12.9947 10.7326 13.7273 11.6364 13.7273C12.5401 13.7273 13.2727 12.9947 13.2727 12.0909Z" />
                                                     <path d="M13.2727 18.3636C13.2727 17.4599 12.5401 16.7273 11.6364 16.7273C10.7326 16.7273 10 17.4599 10 18.3636C10 19.2674 10.7326 20 11.6364 20C12.5401 20 13.2727 19.2674 13.2727 18.3636Z" />
                                                     <path d="M13.2727 5.81823C13.2727 4.91449 12.5401 4.18186 11.6364 4.18186C10.7326 4.18186 10 4.91449 10 5.81823C10 6.72196 10.7326 7.45459 11.6364 7.45459C12.5401 7.45459 13.2727 6.72196 13.2727 5.81823Z" />
                                                 </svg>
                                             </button>
-                                            <ul
-                                                className="dropdown-menu"
-                                                id="mail-ul-extra-options"
-                                            >
+                                            <ul className="dropdown-menu" id="mail-ul-extra-options">
                                                 <li>
-                                                    <button
-                                                        onClick={this.handleClickMoveToFolder}
-                                                    >
-                                                        <span>
-                                                            <svg
-                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                viewBox="0 0 16 16"
-                                                            >
-                                                                <path
-                                                                    fill="#212121"
-                                                                    d="M11,6.99859568 C13.2099146,6.99859568 15.0014043,8.79008541 15.0014043,11 C15.0014043,13.2099146 13.2099146,15.0014043 11,15.0014043 C8.79008541,15.0014043 6.99859568,13.2099146 6.99859568,11 C6.99859568,8.79008541 8.79008541,6.99859568 11,6.99859568 Z M3.00029246,4.08524952 L3,10.5 C3,11.8254834 4.03153594,12.9100387 5.33562431,12.9946823 L5.5,13 L6.41455474,13.0001005 C6.570562,13.3572616 6.76707514,13.692679 6.99828794,14.0005466 L5,14 C3.34314575,14 2,12.6568542 2,11 L2,5.5 C2,4.84678131 2.41754351,4.29108512 3.00029246,4.08524952 Z M10.7982202,8.04519957 L10.7219826,8.08859116 L10.6527347,8.14644661 L10.5948793,8.2156945 C10.4767577,8.38620412 10.4767577,8.61379588 10.5948793,8.7843055 L10.6527347,8.85355339 L12.298,10.499 L8.5,10.5 L8.41012437,10.5080557 C8.20603131,10.5450996 8.04509963,10.7060313 8.00805567,10.9101244 L8,11 L8.00805567,11.0898756 C8.04509963,11.2939687 8.20603131,11.4549004 8.41012437,11.4919443 L8.5,11.5 L12.3,11.499 L10.6527347,13.1464466 L10.5948793,13.2156945 C10.4598832,13.4105626 10.4791684,13.679987 10.6527347,13.8535534 C10.8263011,14.0271197 11.0957255,14.0464049 11.2905936,13.9114088 L11.3598415,13.8535534 L13.8894794,11.3212104 L13.9264615,11.2711351 L13.9684959,11.1910366 L13.9945326,11.1082776 L14.0043382,11.0443521 L14.0043382,10.9557501 L13.9945537,10.8920225 L13.9686776,10.8094049 L13.926777,10.7292723 L13.889498,10.6788087 L11.3598415,8.14644661 L11.2905936,8.08859116 C11.1444425,7.98734412 10.9563535,7.97288026 10.7982202,8.04519957 Z M10.5,2 C11.3284271,2 12,2.67157288 12,3.5 L12.0007536,6.09873786 C11.6774063,6.0330692 11.342729,5.99859568 11,5.99859568 L11,3.5 C11,3.22385763 10.7761424,3 10.5,3 L5.5,3 C5.22385763,3 5,3.22385763 5,3.5 L5,10.5 C5,10.7761424 5.22385763,11 5.5,11 L5.99859568,11 C5.99859568,11.342729 6.0330692,11.6774063 6.09873786,12.0007536 L5.5,12 C4.67157288,12 4,11.3284271 4,10.5 L4,3.5 C4,2.67157288 4.67157288,2 5.5,2 L10.5,2 Z"
-                                                                />
-                                                            </svg>
-                                                        </span>
+                                                    <button onClick={this.handleClickMoveToFolder}>
+                                                        <span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path fill="#212121" d="M11,6.99859568 C13.2099146,6.99859568 15.0014043,8.79008541 15.0014043,11 C15.0014043,13.2099146 13.2099146,15.0014043 11,15.0014043 C8.79008541,15.0014043 6.99859568,13.2099146 6.99859568,11 C6.99859568,8.79008541 8.79008541,6.99859568 11,6.99859568 Z M3.00029246,4.08524952 L3,10.5 C3,11.8254834 4.03153594,12.9100387 5.33562431,12.9946823 L5.5,13 L6.41455474,13.0001005 C6.570562,13.3572616 6.76707514,13.692679 6.99828794,14.0005466 L5,14 C3.34314575,14 2,12.6568542 2,11 L2,5.5 C2,4.84678131 2.41754351,4.29108512 3.00029246,4.08524952 Z M10.7982202,8.04519957 L10.7219826,8.08859116 L10.6527347,8.14644661 L10.5948793,8.2156945 C10.4767577,8.38620412 10.4767577,8.61379588 10.5948793,8.7843055 L10.6527347,8.85355339 L12.298,10.499 L8.5,10.5 L8.41012437,10.5080557 C8.20603131,10.5450996 8.04509963,10.7060313 8.00805567,10.9101244 L8,11 L8.00805567,11.0898756 C8.04509963,11.2939687 8.20603131,11.4549004 8.41012437,11.4919443 L8.5,11.5 L12.3,11.499 L10.6527347,13.1464466 L10.5948793,13.2156945 C10.4598832,13.4105626 10.4791684,13.679987 10.6527347,13.8535534 C10.8263011,14.0271197 11.0957255,14.0464049 11.2905936,13.9114088 L11.3598415,13.8535534 L13.8894794,11.3212104 L13.9264615,11.2711351 L13.9684959,11.1910366 L13.9945326,11.1082776 L14.0043382,11.0443521 L14.0043382,10.9557501 L13.9945537,10.8920225 L13.9686776,10.8094049 L13.926777,10.7292723 L13.889498,10.6788087 L11.3598415,8.14644661 L11.2905936,8.08859116 C11.1444425,7.98734412 10.9563535,7.97288026 10.7982202,8.04519957 Z M10.5,2 C11.3284271,2 12,2.67157288 12,3.5 L12.0007536,6.09873786 C11.6774063,6.0330692 11.342729,5.99859568 11,5.99859568 L11,3.5 C11,3.22385763 10.7761424,3 10.5,3 L5.5,3 C5.22385763,3 5,3.22385763 5,3.5 L5,10.5 C5,10.7761424 5.22385763,11 5.5,11 L5.99859568,11 C5.99859568,11.342729 6.0330692,11.6774063 6.09873786,12.0007536 L5.5,12 C4.67157288,12 4,11.3284271 4,10.5 L4,3.5 C4,2.67157288 4.67157288,2 5.5,2 L10.5,2 Z"/></svg></span>
                                                         <div>Move To</div>
                                                     </button>
                                                     <ul
@@ -1831,10 +1688,7 @@ define([
                                                                 .moveFolderMain
                                                         }
                                                         <li className="divider"></li>
-                                                        {
-                                                            this.state
-                                                                .moveFolderCust
-                                                        }
+                                                        {this.state.moveFolderCust}
                                                     </ul>
                                                 </li>
                                                 <li>
@@ -1957,14 +1811,7 @@ define([
                         </div>
                         <div className="middle-content">
                             <div className="inbox-list">
-                                <table
-                                    className="table table-hover table-inbox row-border clickable"
-                                    id="emailListTable"
-                                    onClick={this.handleClick.bind(
-                                        this,
-                                        "readEmail"
-                                    )}
-                                ></table>
+                                <table className="table table-hover table-inbox row-border clickable" id="emailListTable" onClick={this.handleClick.bind(this, "readEmail")}></table>
                             </div>
                         </div>
                     </div>

@@ -810,10 +810,12 @@ define([
                             {(app.user.get("userPlan")["balance"]==0 && app.user.get("userPlan")["renewAmount"]>0) &&
                                 <span>{accounting.formatMoney(app.user.get("userPlan")["renewAmount"]/100,"$",2)}</span>
                             }
+                            {  (app.user.get("userPlan")["balance"]==0 && app.user.get("userPlan")["renewAmount"]==0) &&
+                                <span>{accounting.formatMoney(app.user.get("userPlan")["renewAmount"]/100,"$",2)}</span>}
                             {app.user.get("userPlan")["balance"]>0 &&
                                 <span> {accounting.formatMoney(price<0?0:price,"$",2)} "Limited time offer: Pay now, and your previous balance is on us!"</span>
                             }
-                        </b> {price<1?"(min. charge $1)":""}
+                        </b> {price<1 && price>0?"(min. charge $1)":""}
                     </div>
                 </div>
             );
@@ -1422,7 +1424,7 @@ define([
                                         Stripe (Credit / Debit Card)
                                     </button>
                                     <button type="submit"
-                                        className={this.state.selectedPaymentOption == "subscription"? "d-none":"btn-blue fixed-width-btn col-sm mx-1"}
+                                        className={this.state.selectedPaymentOption == "subscription"? "d-none":"d-none btn-blue fixed-width-btn col-sm mx-1"}
                                         onClick={this.handleClick.bind(
                                             this,
                                             "payPal"

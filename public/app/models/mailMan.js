@@ -230,12 +230,17 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                 messageObj["meta"]["to"],
                 messageObj["meta"]["toCC"]
               );
+
               var fRcpt = app.transform
                 .from64str(filterRule["text"])
                 .trim()
                 .toLowerCase();
 
+              var t=0;
               $.each(allRcpt, function (index, recipient) {
+                if (index === "length") {
+                  return true;
+                }
                 var mRcpt = app.transform
                   .from64str(recipient)
                   .trim()
@@ -258,6 +263,7 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                     match = true;
                   }
                 }
+                t++;
               });
             }
 

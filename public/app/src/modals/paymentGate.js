@@ -828,8 +828,9 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
 
                                             <div
                                                 className={`radio ${this.state.paymentPlan == "free" || this.state.selectedPaymentOption == "subscription"? "d-none":this.state.typeOfPayment == "bitc"? "selected": ""}`}
+                                                style={{ opacity: 0.5 }}
                                             >
-                                                <label>
+                                                <label style={{ cursor: "not-allowed" }}>
                                                     <div className="te_text">
                                                         <input
                                                             className="margin-right-10"
@@ -837,6 +838,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                                             name="optionsRadios"
                                                             id="optionsRadios1"
                                                             value="option1"
+                                                            disabled={true}
                                                             checked={
                                                                 this.state
                                                                     .typeOfPayment ==
@@ -857,7 +859,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                                         </span>
                                                         <span className="labelled">
                                                             Bitcoin & other
-                                                            Crypto Currency
+                                                            Crypto Currency (temporarily disabled)
                                                         </span>
                                                     </div>
 

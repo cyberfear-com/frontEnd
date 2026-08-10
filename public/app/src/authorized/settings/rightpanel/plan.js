@@ -1450,15 +1450,16 @@ define([
                                     </button>
                                     <button
                                         type="submit"
-                                        //className="btn-blue fixed-width-btn"
                                         className={(this.state.selectedPaymentOption == "subscription" || app.mailMan.get("webview"))? "d-none":"btn-blue fixed-width-btn col-sm mx-1"}
                                         form="crypF"
+                                        disabled={true}
+                                        style={{ opacity: 0.5, cursor: "not-allowed" }}
                                         onClick={this.handleClick.bind(
                                             this,
                                             "showFirstIfMob"
                                         )}
                                     >
-                                        CoinPayments
+                                        CoinPayments (temporarily disabled)
                                     </button>
                                     <button
                                         type="button"

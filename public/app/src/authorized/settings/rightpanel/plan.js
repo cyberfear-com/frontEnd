@@ -1462,7 +1462,7 @@ define([
                                     </button>
                                     <button
                                         type="button"
-                                        className={(this.state.selectedPaymentOption == "subscription" || app.mailMan.get("webview")) ? "d-none" : "btn-blue fixed-width-btn col-sm mx-1"}
+                                        className={(this.state.selectedPaymentOption == "subscription" || app.mailMan.get("webview")) ? "d-none" : "d-none btn-blue fixed-width-btn col-sm mx-1"}
                                         onClick={this.handleClick.bind(
                                             this,
                                             "nowPayments"

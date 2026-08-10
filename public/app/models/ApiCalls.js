@@ -87,6 +87,10 @@ define(["app", "ajaxQueue"], function (app, ajaxQueue) {
                     var url = "/createOrderBitcoinV2";
                     break;
 
+                case "createNowPaymentsOrderV2":
+                    var url = "/createNowPaymentsOrderV2";
+                    break;
+                    
                 case "createOrderPayPal":
                     var url = "/createOrderPayPalV2";
                     break;

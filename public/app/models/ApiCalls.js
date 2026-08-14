@@ -90,6 +90,10 @@ define(["app", "ajaxQueue"], function (app, ajaxQueue) {
                 case "createNowPaymentsOrderV2":
                     var url = "/createNowPaymentsOrderV2";
                     break;
+
+                case "createOxaPayOrderV2":
+                    var url = "/createOxaPayOrderV2";
+                    break;
                     
                 case "createOrderPayPal":
                     var url = "/createOrderPayPalV2";

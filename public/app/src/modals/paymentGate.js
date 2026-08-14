@@ -18,6 +18,10 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                 },
                 selectedPaymentOption: "subscription",
                 choosePlanButtonIsLoading: false,
+
+                oxaPaymentUrl: "",
+                oxaPayError: "",
+                oxaPayLoading: false,
             };
         },
 
@@ -231,6 +235,15 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                     var thisComp = this;
                     this.setState({
                         typeOfPayment: "bitc",
+                    });
+
+                    break;
+                case "oxapay":
+                    this.setState({
+                        typeOfPayment: "oxapay",
+                        oxaPaymentUrl: "",
+                        oxaPayError: "",
+                        oxaPayLoading: false,
                     });
 
                     break;
@@ -449,6 +462,79 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                         // This callback runs after the state has been updated
                         app.stripeCheckOut.generateStripeCheckoutUrl(this);
                     });
+                    break;
+                case "payOxaPay":
+                    var thisComp = this;
+
+                    var oxaAmount = this.state.valueOfPayment / 100;
+                    if (!oxaAmount || oxaAmount <= 0) {
+                        break;
+                    }
+
+                    // open the tab synchronously inside the click handler so popup
+                    // blockers don't stop it, then point it at the invoice url once
+                    // the backend responds
+                    var oxaWin = window.open("", "_blank");
+
+                    var oxaFail = function () {
+                        if (oxaWin) {
+                            oxaWin.close();
+                        }
+                        thisComp.setState({
+                            oxaPayError:
+                                "Could not start the payment, please try again.",
+                            oxaPayLoading: false,
+                        });
+                    };
+
+                    this.setState({
+                        typeOfPayment: "oxapay",
+                        oxaPayLoading: true,
+                        oxaPaymentUrl: "",
+                        oxaPayError: "",
+                    });
+
+                    $.ajax({
+                        method: "POST",
+                        url:
+                            app.defaults.get("apidomain") +
+                            "/createOxaPayOrderV2",
+                        data: {
+                            itemName: this.state.paymentPlan + " plan",
+                            itemDesc:
+                                this.state.periodOfPayment == "yearly-two"
+                                    ? "2 years"
+                                    : this.state.periodOfPayment == "yearly-one"
+                                        ? "1 year"
+                                        : "1 month",
+                            itemAmount: 0,
+                            amountUsd: oxaAmount,
+                            userToken: app.user.get("userLoginToken"),
+                        },
+                        dataType: "json",
+                        xhrFields: {
+                            withCredentials: true,
+                        },
+                    }).then(function (msg) {
+                        if (
+                            msg["response"] === "success" &&
+                            msg["data"] &&
+                            msg["data"]["payment_url"]
+                        ) {
+                            if (oxaWin) {
+                                oxaWin.location = msg["data"]["payment_url"];
+                            } else {
+                                window.open(msg["data"]["payment_url"], "_blank");
+                            }
+                            thisComp.setState({
+                                oxaPaymentUrl: msg["data"]["payment_url"],
+                                oxaPayLoading: false,
+                            });
+                        } else {
+                            oxaFail();
+                        }
+                    }, oxaFail);
+
                     break;
                 case "freemium":
                     var userObj = {};
@@ -827,7 +913,7 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                             </div>
 
                                             <div
-                                                className={`radio ${this.state.paymentPlan == "free" || this.state.selectedPaymentOption == "subscription"? "d-none":this.state.typeOfPayment == "bitc"? "selected": ""}`}
+                                                className={`d-none radio ${this.state.paymentPlan == "free" || this.state.selectedPaymentOption == "subscription"? "d-none":this.state.typeOfPayment == "bitc"? "selected": ""}`}
                                                 style={{ opacity: 0.5 }}
                                             >
                                                 <label style={{ cursor: "not-allowed" }}>
@@ -860,6 +946,122 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                                         <span className="labelled">
                                                             Bitcoin & other
                                                             Crypto Currency (temporarily disabled)
+                                                        </span>
+                                                    </div>
+
+                                                    <span className="icon">
+                                                        <svg
+                                                            width="24"
+                                                            height="24"
+                                                            viewBox="0 0 24 24"
+                                                            fill="none"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                        >
+                                                            <path
+                                                                d="M9 8.38086H13.6846C14.7231 8.38086 15.5654 9.31548 15.5654 10.2616C15.5654 11.3001 14.7231 12.1424 13.6846 12.1424H9V8.38086Z"
+                                                                stroke="#292D32"
+                                                                strokeWidth="1.5"
+                                                                strokeMiterlimit="10"
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                            />
+                                                            <path
+                                                                d="M9 12.1309H14.3539C15.5423 12.1309 16.5 12.9732 16.5 14.0116C16.5 15.0501 15.5423 15.8924 14.3539 15.8924H9V12.1309Z"
+                                                                stroke="#292D32"
+                                                                strokeWidth="1.5"
+                                                                strokeMiterlimit="10"
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                            />
+                                                            <path
+                                                                d="M12.2769 15.8809V17.7616"
+                                                                stroke="#292D32"
+                                                                strokeWidth="1.5"
+                                                                strokeMiterlimit="10"
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                            />
+                                                            <path
+                                                                d="M9.93457 15.8809V17.7616"
+                                                                stroke="#292D32"
+                                                                strokeWidth="1.5"
+                                                                strokeMiterlimit="10"
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                            />
+                                                            <path
+                                                                d="M12.2769 6.5V8.38077"
+                                                                stroke="#292D32"
+                                                                strokeWidth="1.5"
+                                                                strokeMiterlimit="10"
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                            />
+                                                            <path
+                                                                d="M9.93457 6.5V8.38077"
+                                                                stroke="#292D32"
+                                                                strokeWidth="1.5"
+                                                                strokeMiterlimit="10"
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                            />
+                                                            <path
+                                                                d="M10.7769 8.38086H7.5"
+                                                                stroke="#292D32"
+                                                                strokeWidth="1.5"
+                                                                strokeMiterlimit="10"
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                            />
+                                                            <path
+                                                                d="M10.7769 15.8809H7.5"
+                                                                stroke="#292D32"
+                                                                strokeWidth="1.5"
+                                                                strokeMiterlimit="10"
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                            />
+                                                            <path
+                                                                d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                                                                stroke="#292D32"
+                                                                strokeWidth="1.5"
+                                                                strokeMiterlimit="10"
+                                                            />
+                                                        </svg>
+                                                    </span>
+                                                </label>
+                                            </div>
+                                            <div
+                                                className={`radio ${this.state.paymentPlan == "free" || this.state.selectedPaymentOption == "subscription"? "d-none":this.state.typeOfPayment == "oxapay"? "selected": ""}`}
+                                            >
+                                                <label>
+                                                    <div className="te_text">
+                                                        <input
+                                                            className="margin-right-10"
+                                                            type="radio"
+                                                            name="optionsRadios"
+                                                            id="optionsRadiosOxa"
+                                                            value="option4"
+                                                            checked={
+                                                                this.state
+                                                                    .typeOfPayment ==
+                                                                "oxapay"
+                                                            }
+                                                            onChange={this.handleChange.bind(
+                                                                null,
+                                                                "oxapay"
+                                                            )}
+                                                        />
+                                                        <span className="selected-icon">
+                                                            <svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                viewBox="0 0 48 48"
+                                                            >
+                                                                <path d="m19.95 26.75 11.95-12q.65-.65 1.55-.65t1.6.65q.7.75.7 1.65 0 .9-.7 1.6l-13.5 13.55q-.7.7-1.65.7t-1.6-.7L12.7 26q-.7-.7-.675-1.6.025-.9.775-1.65.65-.65 1.6-.65.95 0 1.65.65Z" />
+                                                            </svg>
+                                                        </span>
+                                                        <span className="labelled">
+                                                            Cryptocurrency
                                                         </span>
                                                     </div>
 
@@ -1356,6 +1558,51 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
 
                                         <div
                                             className={
+                                                this.state.typeOfPayment == "oxapay"
+                                                    ? ""
+                                                    : "d-none"
+                                            }
+                                            id="oxapay-container"
+                                        >
+                                            {this.state.oxaPayLoading && (
+                                                <p>Preparing the payment page…</p>
+                                            )}
+
+                                            {this.state.oxaPayError !== "" && (
+                                                <p className="txt-color-red">
+                                                    {this.state.oxaPayError}
+                                                </p>
+                                            )}
+
+                                            {this.state.oxaPaymentUrl !== "" && (
+                                                <div className="info-text">
+                                                    <p>
+                                                        The payment page has been opened in a
+                                                        new tab. Choose any of the supported
+                                                        cryptocurrencies there and complete the
+                                                        payment.
+                                                    </p>
+                                                    <p>
+                                                        If the tab did not open,{" "}
+                                                        <a
+                                                            href={this.state.oxaPaymentUrl}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                        >
+                                                            click here to open it
+                                                        </a>
+                                                        .
+                                                    </p>
+                                                    <p>
+                                                        Your plan activates automatically once the
+                                                        payment is confirmed on the blockchain.
+                                                    </p>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <div
+                                            className={
                                                 this.state.typeOfPayment == "paypal"
                                                     ? ""
                                                     : "d-none"
@@ -1498,6 +1745,35 @@ define(["app", "accounting", "react"], function (app, accounting, React) {
                                         }}
                                     >
                                         {!this.state.paymentPlan ? "Loading..." : "Pay Now Stripe"}
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        onClick={this.handleClick.bind(this, "payOxaPay")}
+                                        className={
+                                            (this.state.typeOfPayment === "oxapay") &&
+                                            this.state.paymentPlan !== "free" &&
+                                            !this.state.butDis
+                                                ? "white-btn"
+                                                : "d-none"
+                                        }
+                                        disabled={
+                                            this.state.typeOfPayment === "" ||
+                                            this.state.paymentPlan === "" ||
+                                            this.state.paymentPlan === null ||
+                                            this.state.butDis ||
+                                            this.state.oxaPayLoading
+                                        }
+                                        style={{
+                                            float: "none",
+                                            display: "initial",
+                                        }}
+                                    >
+                                        {!this.state.paymentPlan
+                                            ? "Loading..."
+                                            : this.state.oxaPayLoading
+                                                ? "Please wait..."
+                                                : "Pay Now"}
                                     </button>
 
                                 </div>

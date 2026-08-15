@@ -12,7 +12,10 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                 mCharge:"",
                 membr:"",
                 butDis:false,
-                stripeId:""
+                stripeId:"",
+                oxaPaymentUrl: "",
+                oxaPayError: "",
+                oxaPayLoading: false
             };
 
         },
@@ -137,6 +140,15 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                     var thisComp=this;
                     this.setState({
                         paym: "bitc"
+                    });
+
+                    break;
+                case 'oxapay':
+                    this.setState({
+                        paym: "oxapay",
+                        oxaPaymentUrl: "",
+                        oxaPayError: "",
+                        oxaPayLoading: false
                     });
 
                     break;
@@ -282,6 +294,70 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                         });
                     };
                     break;
+                case "payOxaPay":
+                    var thisComp = this;
+
+                    var oxaAmount = parseFloat(String(this.state.mCharge).replace(/,/g, ""));
+                    if (!oxaAmount || oxaAmount <= 0) {
+                        break;
+                    }
+
+                    // open the tab synchronously inside the click handler so popup
+                    // blockers don't stop it, then point it at the payment url once
+                    // the backend responds
+                    var oxaWin = window.open("", "_blank");
+
+                    this.setState({
+                        paym: "oxapay",
+                        oxaPayLoading: true,
+                        oxaPaymentUrl: "",
+                        oxaPayError: ""
+                    });
+
+                    $.ajax({
+                        method: "POST",
+                        url: app.defaults.get('apidomain')+"/createOxaPayOrderV2",
+                        data: {
+                            itemName: "Premium Membership",
+                            itemDesc: this.state.membr=='year'?"1 Year Subscription":"1 Month Subscription",
+                            itemAmount: 1,
+                            amountUsd: oxaAmount,
+                            userToken: app.user.get("userLoginToken")
+                        },
+                        dataType: "json",
+                        xhrFields: {
+                            withCredentials: true
+                        }
+                    }).then(function (msg) {
+                        if (msg['response'] === 'success' && msg['data'] && msg['data']['payment_url']) {
+                            if (oxaWin) {
+                                oxaWin.location = msg['data']['payment_url'];
+                            } else {
+                                window.open(msg['data']['payment_url'], "_blank");
+                            }
+                            thisComp.setState({
+                                oxaPaymentUrl: msg['data']['payment_url'],
+                                oxaPayLoading: false
+                            });
+                        } else {
+                            if (oxaWin) {
+                                oxaWin.close();
+                            }
+                            thisComp.setState({
+                                oxaPayError: "Could not start the payment, please try again.",
+                                oxaPayLoading: false
+                            });
+                        }
+                    }, function () {
+                        if (oxaWin) {
+                            oxaWin.close();
+                        }
+                        thisComp.setState({
+                            oxaPayError: "Could not start the payment, please try again.",
+                            oxaPayLoading: false
+                        });
+                    });
+                    break;
                 case "freemium":
 
                     $.ajax({
@@ -396,13 +472,22 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                                 <div className="panel-body">
                                     <div className="form-inline text-center">
                                         <div className="form-group col-lg-offset-0 text-left">
-                                            <div className="radio">
+                                            <div className="radio hidden">
                                                 <label>
                                                     <input className="margin-right-10" type="radio" name="optionsRadios" id="optionsRadios1"
                                                            value="option1"
                                                            checked={this.state.paym=='bitc'}
                                                            onChange={this.handleChange.bind(this, 'bitc')} />
                                                     &nbsp;Bitcoin & other Crypto Currency
+                                                </label>
+                                            </div>
+                                            <div className="radio">
+                                                <label>
+                                                    <input className="margin-right-10" type="radio" name="optionsRadios" id="optionsRadiosOxa"
+                                                           value="option5"
+                                                           checked={this.state.paym=='oxapay'}
+                                                           onChange={this.handleChange.bind(this, 'oxapay')} />
+                                                    &nbsp;Cryptocurrency
                                                 </label>
                                             </div>
                                             <div className="clearfix"></div>
@@ -504,6 +589,37 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
 
                                         <div className={this.state.paym=="paypal"?"":"hidden"} id="paypal-button-container"></div>
 
+                                        <div className={this.state.paym=="oxapay"?"":"hidden"} id="oxapay-container">
+                                            {this.state.oxaPayLoading && (
+                                                <p>Preparing the payment page…</p>
+                                            )}
+
+                                            {this.state.oxaPayError !== "" && (
+                                                <p className="txt-color-red">{this.state.oxaPayError}</p>
+                                            )}
+
+                                            {this.state.oxaPaymentUrl !== "" && (
+                                                <div>
+                                                    <p>
+                                                        The payment page has been opened in a new tab.
+                                                        Choose any of the supported cryptocurrencies there
+                                                        and complete the payment.
+                                                    </p>
+                                                    <p>
+                                                        If the tab did not open,{" "}
+                                                        <a href={this.state.oxaPaymentUrl} target="_blank" rel="noopener noreferrer">
+                                                            click here to open it
+                                                        </a>
+                                                        .
+                                                    </p>
+                                                    <p>
+                                                        Your plan activates automatically once the payment
+                                                        is confirmed on the blockchain.
+                                                    </p>
+                                                </div>
+                                            )}
+                                        </div>
+
 
 
                                     </div>
@@ -512,6 +628,7 @@ define(['app','accounting', 'react'], function (app, accounting, React) {
                             <div>
                                 <div style={{textAlign:"center"}}>
                                 <button type="submit" form={this.state.paym==="perfectm" ?"perfMF":"cryptF"} onClick={this.handleClick.bind(this, 'pay')} className={(this.state.paym=="perfectm" || this.state.paym=="bitc") && this.state.membr!='free' && !this.state.butDis ?"white-btn":"hidden"} disabled={this.state.paym==""|| this.state.butDis} style={{float:"none",display:"initial"}}>Pay Now</button>
+                                <button type="button" onClick={this.handleClick.bind(this, 'payOxaPay')} className={this.state.paym=="oxapay" && this.state.membr!='free' && !this.state.butDis ?"white-btn":"hidden"} disabled={this.state.paym==""|| this.state.butDis || this.state.oxaPayLoading} style={{float:"none",display:"initial"}}>{this.state.oxaPayLoading ? "Please wait..." : "Pay Now"}</button>
                                 </div>
 
                             </div>

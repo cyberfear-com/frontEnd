@@ -94,6 +94,10 @@ define([
 					var url='/createOrderBitcoinV2';
 					break;
 
+                case "createOxaPayOrderV2":
+                    var url = "/createOxaPayOrderV2";
+                    break;
+
 				case 'createOrderPayPal':
 					var url='/createOrderPayPalV2';
 					break;

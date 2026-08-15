@@ -63,7 +63,11 @@ define(['react', 'app','accounting'], function (React, app,accounting) {
                 currentPlan:0,
 				setWarning:false,
 				paym:"",
-				stripeId:""
+				stripeId:"",
+
+				oxaPaymentUrl: "",
+				oxaPayError: "",
+				oxaPayLoading: false
 			};
 
 		},
@@ -358,6 +362,60 @@ define(['react', 'app','accounting'], function (React, app,accounting) {
 
 
 
+					break;
+
+				case "oxaPay":
+					var thisComp = this;
+
+					// this.state.toPay is the dollar amount to charge -> strip commas just in case
+					var amountUsd = parseFloat(String(this.state.toPay).replace(/,/g, ""));
+					if (!amountUsd || amountUsd <= 0) {
+						break;
+					}
+
+					// open the tab synchronously (inside the click handler) so popup
+					// blockers don't block it, then point it at the payment url
+					// once the backend responds
+					var oxaWin = window.open("", "_blank");
+
+					thisComp.setState({
+						paym: "oxapay",
+						oxaPayLoading: true,
+						oxaPaymentUrl: "",
+						oxaPayError: ""
+					});
+
+					var oxaPost = {
+						itemName: this.state.forPlan,
+						itemDesc: this.state.forPlan,
+						itemAmount: this.state.howMuch,
+						amountUsd: amountUsd
+					};
+
+					app.serverCall.ajaxRequest("createOxaPayOrderV2", oxaPost, function (result) {
+						if (result["response"] == "success" && result["data"] && result["data"]["payment_url"]) {
+							if (oxaWin) {
+								oxaWin.location = result["data"]["payment_url"];
+							} else {
+								window.open(result["data"]["payment_url"], "_blank");
+							}
+							thisComp.setState({
+								oxaPaymentUrl: result["data"]["payment_url"],
+								oxaPayLoading: false
+							});
+						} else {
+							if (oxaWin) {
+								oxaWin.close();
+							}
+							thisComp.setState({
+								oxaPayError:
+									typeof result["data"] == "string"
+										? result["data"]
+										: "Failed to create payment, please try again.",
+								oxaPayLoading: false
+							});
+						}
+					});
 					break;
 
 				case 'showDetail':
@@ -1094,7 +1152,8 @@ define(['react', 'app','accounting'], function (React, app,accounting) {
 
 								<div className="pull-right dialog_buttons" style={{lineHeight: "40px"}}>
 									<button type="submit" className="btn btn-primary" onClick={this.handleClick.bind(this, 'payPal')}>Pay With PayPal</button>
-									<button type="submit" className="btn btn-primary" form="crypF" onClick={this.handleClick.bind(this, 'showFirst')}>Pay With CoinPayments</button>
+									<button type="submit" className="hidden" form="crypF" onClick={this.handleClick.bind(this, 'showFirst')}>Pay With CoinPayments</button>
+									<button type="button" className="btn btn-primary" onClick={this.handleClick.bind(this, 'oxaPay')} disabled={this.state.oxaPayLoading}>{this.state.oxaPayLoading ? "Please wait..." : "Cryptocurrency"}</button>
 									<button type="submit" className="btn btn-primary" form="perfF" onClick={this.handleClick.bind(this, 'showFirst')}>Pay With Perfect Money</button>
 									<button type="submit" className="btn btn-primary" onClick={this.handleClick.bind(this, 'stripe')}>Pay With stripe (Credit / Debit Card)</button>
 
@@ -1109,6 +1168,36 @@ define(['react', 'app','accounting'], function (React, app,accounting) {
 
 
 								<div className={this.state.paym=="paypal"?"":"hidden"} id="paypal-button-container"></div>
+
+								<div className={this.state.paym=="oxapay"?"":"hidden"} id="oxapay-container">
+									{this.state.oxaPayLoading && (
+										<p>Preparing the payment page…</p>
+									)}
+
+									{this.state.oxaPayError !== "" && (
+										<p className="txt-color-red">{this.state.oxaPayError}</p>
+									)}
+
+									{this.state.oxaPaymentUrl !== "" && (
+										<div className="bold margin-top-20">
+											<p>
+												The payment page has been opened in a new tab. Choose any of the
+												supported cryptocurrencies there and complete the payment.
+											</p>
+											<p>
+												If the tab did not open,{" "}
+												<a href={this.state.oxaPaymentUrl} target="_blank" rel="noopener noreferrer">
+													click here to open it
+												</a>
+												.
+											</p>
+											<p>
+												Your balance will update automatically once the payment is
+												confirmed on the blockchain.
+											</p>
+										</div>
+									)}
+								</div>
 
 								<div className={this.state.paym=="stripe"?"":"hidden"} id="stripe-container">
 									<form id="payment-form">

@@ -58,6 +58,11 @@ require.config({
 
         //indexeddb:"/js/Plugins/indexedDb/jquery.indexeddb"
     },
+    map: {
+        // DataTables 1.13 no longer registers the "datatables" module id that the
+        // bundled plugins (responsive, bootstrap, absolute) depend on
+        "*": { datatables: "dataTable" },
+    },
     shim: {
         backbone: {
             deps: ["jquery", "underscore"],
@@ -199,7 +204,7 @@ require.config({
             exports: "Poppers",
         },
     },
-    urlArgs: "bust=" + 63,
+    urlArgs: "bust=" + 64,
 });
 
 require([

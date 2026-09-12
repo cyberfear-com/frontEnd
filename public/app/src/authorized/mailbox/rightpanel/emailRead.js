@@ -541,19 +541,21 @@ define(["react", "app"], function (React, app) {
                 }
                 var message = app.user.get("emails")["messages"][email["id"]];
                 if (message["st"] == 0) {
-                    var setOpen = setTimeout(function () {
-                        message["st"] = message["st"] == 0 ? 3 : message["st"];
-
+                    setTimeout(function () {
+                        // look it up again, the emails object may have been rebuilt meanwhile
+                        var current = app.user.get("emails")["messages"][email["id"]];
+                        if (current == undefined || current["st"] != 0) {
+                            return;
+                        }
+                        current["st"] = 3;
+                        // refresh the list row and unread counters now, persist only this block
+                        app.globalF.syncUpdates();
                         app.userObjects.updateObjects(
-                            "folderUpdate",
-                            "",
-                            function (result) {
-                                app.globalF.syncUpdates(true);
-                            }
+                            "folderUpdatePartial",
+                            [email["id"]],
+                            function (result) {}
                         );
-                    }, 1000);
-                } else {
-                    var setOpen = {};
+                    }, 300);
                 }
 
                 this.setState({
@@ -781,7 +783,7 @@ define(["react", "app"], function (React, app) {
 
                     if (
                         this.state.tag ===
-                        app.transform.from64str($(event.target).attr("value"))
+                        app.transform.from64str($(event.currentTarget).attr("value"))
                     ) {
                         // same tag is being clicked, so remove it by leaving out the tag array as blank
                         // update local state
@@ -791,9 +793,9 @@ define(["react", "app"], function (React, app) {
                         thisComp.handleChange("removeTag");
                     } else {
                         message["tg"].push({
-                            name: $(event.target).attr("value"),
+                            name: $(event.currentTarget).attr("value"),
                         });
-                        var name = $(event.target).attr("value");
+                        var name = $(event.currentTarget).attr("value");
                         app.userObjects.updateObjects(
                             "folderUpdate",
                             "",

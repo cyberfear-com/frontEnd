@@ -2528,6 +2528,66 @@ define(["app"], function (app) {
 
                     break;
 
+                case "folderUpdatePartial":
+                    // Like folderUpdate, but only for the blocks holding the message ids in
+                    // payLoad. The caller has already changed the shared message objects
+                    // (emails.messages[id] is the same object as in DecryptedFolderObject),
+                    // so no deep copy and no re-hashing of every block is needed.
+                    var oldEncryptedFolder = app.userObjects.get("EncryptedFolderObject");
+                    var folders = app.user.get("DecryptedFolderObject");
+                    var newFolderObj = {};
+
+                    $.each(folders, function (index, foldData) {
+                        if (index == 0) {
+                            return; // folder list block, untouched here
+                        }
+                        var touched = false;
+                        $.each(payLoad, function (i, id) {
+                            if (foldData["data"][id] !== undefined) {
+                                touched = true;
+                                return false;
+                            }
+                        });
+                        if (!touched) {
+                            return;
+                        }
+                        var hash = app.transform.SHA512(JSON.stringify(foldData["data"]));
+                        if (oldEncryptedFolder[index] != undefined && hash == oldEncryptedFolder[index]["hash"]) {
+                            return;
+                        }
+                        newFolderObj[index] = {
+                            data: app.transform.toAes64(
+                                app.user.get("folderKey"),
+                                JSON.stringify(foldData["data"])
+                            ),
+                            hash: hash,
+                            index: index,
+                            nonce: parseInt(foldData["nonce"]) + 1,
+                        };
+                    });
+
+                    if ($.isEmptyObject(newFolderObj)) {
+                        callback({ response: "success", data: "nothingUpdt" });
+                        break;
+                    }
+
+                    app.serverCall.ajaxRequest(
+                        "folderSettings",
+                        { folderData: JSON.stringify(newFolderObj) },
+                        function (result) {
+                            if (result["response"] == "success" && result["data"] == "saved") {
+                                $.each(newFolderObj, function (index, foldData) {
+                                    oldEncryptedFolder[index] = foldData;
+                                    folders[index]["hash"] = foldData["hash"];
+                                    folders[index]["nonce"] = foldData["nonce"];
+                                });
+                            }
+                            callback(result);
+                        }
+                    );
+
+                    break;
+
                 case "labelSettings":
                     //console.log('labelSettings');
 

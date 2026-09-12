@@ -270,7 +270,7 @@ define(["app", "react"], function (app, React) {
                             if (msg["response"] === "fail") {
                                 if (msg["data"] === "limitIsReached") {
                                     thisComp.setState({
-                                        accountCreationError: "Please wait 5 minutes before creating another account",
+                                        accountCreationError: "Please wait 30 minutes before creating another account",
                                     });
                                 } else {
                                     // app.notifications.systemMessage('tryAgain');

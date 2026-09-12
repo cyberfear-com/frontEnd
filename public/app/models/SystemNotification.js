@@ -50,7 +50,7 @@ define(["app", "SmartNotification"], function (app, SmartNotification) {
 
                 case "once5min":
                     this.noAnswer(
-                        "Please wait 5 minutes before creating another account"
+                        "Please wait 30 minutes before creating another account"
                     );
                     break;
 

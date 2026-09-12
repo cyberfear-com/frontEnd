@@ -78,20 +78,32 @@ define([
 
                     var data = [];
                     var d = new Date();
-                    var trusted = app.user.get("trustedSenders");
                     var encrypted2 = "";
 
-                    var emailListCopy = app.user.get("folderCached");
-                    //console.log(emailListCopy);
-                    //Refresh=true;
-
-                    if(emailListCopy[folderId]===undefined){
-                        emailListCopy[folderId]={};
+                    // Rows are kept between refreshes and only rebuilt when the message
+                    // changed. Switching folder starts from an empty table.
+                    var emTab = $("#emailListTable").DataTable();
+                    if (this._tableFolderId !== folderId) {
+                        this._tableFolderId = folderId;
+                        emTab.clear();
                     }
+                    var existing = {};
+                    emTab.rows().data().each(function (row) {
+                        existing[row.DT_RowId] = row;
+                    });
 
-                       // console.log("HERE");
-                      //  console.log(Object.keys(emails).length);
                         $.each(emails, function (index, folderData) {
+                            // everything the row is rendered from; the date makes "today" rows
+                            // switch from time to date display after midnight
+                            var key = [folderData["st"], folderData["pt"], folderData["tr"], folderData["tc"],
+                                folderData["en"], folderData["at"], folderData["sb"], folderData["fr"],
+                                folderData["tg"].length > 0 ? folderData["tg"][0]["name"] : "",
+                                d.toDateString()].join("|");
+                            if (existing[index] !== undefined && existing[index].key === key) {
+                                delete existing[index];
+                                return;
+                            }
+
                             var time = folderData["tr"] != undefined
                                 ? folderData["tr"]
                                 : folderData["tc"] != undefined
@@ -115,7 +127,6 @@ define([
                             var fromTitle = [];
                             var recipient = [];
                             var recipientTitle = [];
-                            var trust = "";
                         if (folderData["to"].length > 0) {
                                 $.each(folderData["to"], function (indexTo, email) {
                                     if (app.transform.check64str(email)) {
@@ -220,11 +231,6 @@ define([
                                 fromEmail = app.globalF.parseEmail(str, true)["email"];
                                 fromTitle = app.globalF.parseEmail(str, true)["name"]!=""?app.globalF.parseEmail(str, true)["name"]:app.globalF.parseEmail(str, true)["email"];
 
-                                if (trusted.indexOf(app.transform.SHA256(app.globalF.parseEmail(str)["email"])) !== -1) {
-                                    trust = "<img src='/img/logo/logo.png' style='height:25px'/>";
-                                } else {
-                                    trust = "";
-                                }
                                 recipient = recipient.join(", ");
                                 recipientTitle = recipientTitle.join(", ");
                             }
@@ -330,7 +336,7 @@ define([
                                 app.transform.from64str(folderData["sb"])
                             ),
                             bd:" "+ app.transform.escapeTags(
-                                app.transform.from64str(folderData["bd"])
+                                app.transform.from64str(folderData["bd"]).substring(0, 200)
                             ),
                             tagPart: tagPart,
                             timestamp: time,
@@ -339,6 +345,8 @@ define([
                        // var showPreview = thisComp.state.showPreview ? "" : "view-minimized";
                             var row = {
                                 DT_RowId: index,
+                                key: key,
+                                unread: folderData["st"] == 0,
                                 email: {
                                 display:
                                     '<div class="email no-padding ' +
@@ -367,17 +375,19 @@ define([
                             },
                             };
 
-                            data.push(row);
-                emailListCopy[folderId]=data;
+                            if (existing[index] !== undefined) {
+                                emTab.row("#" + index).data(row);
+                                delete existing[index];
+                            } else {
+                                data.push(row);
+                            }
                         });
 
-                    app.user.set({
-                        folderCached: emailListCopy,
-                      //  needRefresh:false
-                    });
-
-                    var emTab = $("#emailListTable").DataTable();
-                    emTab.clear();
+                    // whatever is left in "existing" is no longer in this folder
+                    var removed = Object.keys(existing);
+                    if (removed.length > 0) {
+                        emTab.rows(removed.map(function (id) { return "#" + id; })).remove();
+                    }
                     if (noRefresh == '') {
                         emTab.draw();
                         thisComp.setState({
@@ -391,31 +401,6 @@ define([
                     }
                     emTab.rows.add(data);
                     emTab.draw(false);
-
-
-                    if (thisComp.state.showReadUnread == "read") {
-                        this.handleShowRead();
-                    }
-                    if (thisComp.state.showReadUnread == "unread") {
-                        this.handleShowUnRead();
-                    }
-
-                    // this.attachTooltip();
-                    //emTab.row.add(data).draw(false).node();
-                   // emTab.addClass('myClass');
-
-            $("#emailListTable td").click(function () {
-                        var selectedEmails = app.user.get("selectedEmails");
-                        // ".emailchk"
-                        if ($(this).find('[name="inbox-email"]').prop("checked")) {
-                            selectedEmails[$(this).parents("tr").attr("id")] = true;
-                            $("#mail-extra-options").addClass("active");
-                        } else {
-                            delete selectedEmails[$(this).parents("tr").attr("id")];
-                            $("#mail-extra-options").removeClass("active");
-                        }
-            });
-                   // $("#emailListTable tr").addClass("view-minimized");
                 },
         getTagColor: function (tagName) {
             var colorCode = `#c9d0da`;
@@ -447,6 +432,8 @@ define([
             app.user.off("change:checkNewEmails");
             app.user.off("change:emailListRefresh");
             app.user.off("change:resetSelectedItems");
+            // drops rows, DOM nodes and the delegated click handler
+            $("#emailListTable").DataTable().destroy(true);
         },
 
         componentDidMount: function () {
@@ -468,6 +455,7 @@ define([
 
             $("#emailListTable").dataTable({
                 dom: '<"#checkAll"><"#emailListNavigation"pi>rt<"pull-right"p><"pull-right"i>',
+                deferRender: true,
                 data: dtSet,
                 columns: [
                     {
@@ -522,26 +510,34 @@ define([
                     iDisplayIndex,
                     iDisplayIndexFull
                 ) {
-                    if (
-                        $(nRow).attr("id") ==
-                        app.user.get("currentMessageView")["id"]
-                    ) {
-                        $(nRow).addClass("selected");
-                    }
-
-                    if (
-                        app.user.get("selectedEmails")[$(nRow).attr("id")] !==
-                        undefined
-                    ) {
-                        // ".emailchk"
-                        $(nRow)
-                            .find('[name="inbox-email"]')
-                            .prop("checked", true);
-                    }
-                    //$(nRow).attr('id', aData[0]);
+                    // row nodes survive redraws now, so both states are set explicitly
+                    $(nRow).toggleClass(
+                        "selected",
+                        $(nRow).attr("id") == app.user.get("currentMessageView")["id"]
+                    );
+                    $(nRow)
+                        .find('[name="inbox-email"]')
+                        .prop(
+                            "checked",
+                            app.user.get("selectedEmails")[$(nRow).attr("id")] !== undefined
+                        );
 
                     return nRow;
                 },
+            });
+
+            // one delegated handler for all rows, bound once
+            $("#emailListTable").on("click", "td", function () {
+                var selectedEmails = app.user.get("selectedEmails");
+                if ($(this).find('[name="inbox-email"]').prop("checked")) {
+                    selectedEmails[$(this).parents("tr").attr("id")] = true;
+                    $("#mail-extra-options").addClass("active");
+                } else {
+                    delete selectedEmails[$(this).parents("tr").attr("id")];
+                    if (Object.keys(selectedEmails).length == 0) {
+                        $("#mail-extra-options").removeClass("active");
+                    }
+                }
             });
 
             app.globalF.getInboxFolderId(function (inbox) {
@@ -1184,10 +1180,11 @@ define([
                                 ? (messages[emailId]["st"] = 3)
                                 : messages[emailId]["st"];
                         });
+                        app.globalF.syncUpdates();
 
                         app.userObjects.updateObjects(
-                            "folderUpdate",
-                            "",
+                            "folderUpdatePartial",
+                            selected,
                             function (result) {
                                 $("#selectAll>input").prop("checked", false);
                                 $("#selectAllAlt > input").prop(
@@ -1231,10 +1228,11 @@ define([
                             //folders[messages[emailId]['f']][emailId]['st']=0;
                             messages[emailId]["st"] = 0;
                         });
+                        app.globalF.syncUpdates();
 
                         app.userObjects.updateObjects(
-                            "folderUpdate",
-                            "",
+                            "folderUpdatePartial",
+                            selected,
                             function (result) {
                                 $("#selectAll>input").prop("checked", false);
                                 $("#selectAllAlt > input").prop(
@@ -1367,18 +1365,12 @@ define([
             
             // Add custom filter for read emails
             $.fn.dataTable.ext.search.push(
-                function(settings, data, dataIndex) {
+                function(settings, data, dataIndex, rowData) {
                     // Check if this is the email table
                     if (settings.nTable.id !== 'emailListTable') {
                         return true;
                     }
-                    
-                    // Get the row element and check if it has 'unread' class
-                    var row = $("#emailListTable").DataTable().row(dataIndex).node();
-                    if ($(row).find('.email').hasClass('unread')) {
-                        return false; // Hide unread emails
-                    }
-                    return true; // Show read emails
+                    return !rowData.unread; // Show read emails
                 }
             );
             
@@ -1397,18 +1389,12 @@ define([
             
             // Add custom filter for unread emails
             $.fn.dataTable.ext.search.push(
-                function(settings, data, dataIndex) {
+                function(settings, data, dataIndex, rowData) {
                     // Check if this is the email table
                     if (settings.nTable.id !== 'emailListTable') {
                         return true;
                     }
-                    
-                    // Get the row element and check if it has 'unread' class
-                    var row = $("#emailListTable").DataTable().row(dataIndex).node();
-                    if (!$(row).find('.email').hasClass('unread')) {
-                        return false; // Hide read emails
-                    }
-                    return true; // Show unread emails
+                    return rowData.unread; // Show unread emails
                 }
             );
             

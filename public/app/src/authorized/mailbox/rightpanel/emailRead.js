@@ -418,6 +418,7 @@ define(["react", "app"], function (React, app) {
                                 <b key={index + "b"}>
                                     {app.globalF.parseEmail(folderData)["name"]}
                                 </b>
+                                {" <" + app.globalF.parseEmail(folderData)["email"] + ">"}
                             </span>
                         );
                     } else {
@@ -459,6 +460,7 @@ define(["react", "app"], function (React, app) {
                                             ]
                                         }
                                     </b>
+                                    {" <" + app.globalF.parseEmail(folderData)["email"] + ">"}
                                 </span>
                             );
                         } else {
@@ -510,6 +512,7 @@ define(["react", "app"], function (React, app) {
                                             ]
                                         }
                                     </b>
+                                    {" <" + app.globalF.parseEmail(folderData)["email"] + ">"}
                                 </span>
                             );
                         } else {

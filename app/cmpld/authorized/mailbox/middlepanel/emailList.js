@@ -240,7 +240,7 @@ define(['react', 'app', 'dataTable', 'dataTableBoot'], function (React, app, Dat
                     }
 
                     //console.log(tag);
-                    tag = app.globalF.stripHTML(app.transform.from64str(tag));
+                    tag = app.transform.escapeTags(app.globalF.stripHTML(app.transform.from64str(tag)));
                     //console.log(app.transform.from64str(tag));
                     var unread = folderData['st'] == 0 ? "unread" : folderData['st'] == 1 ? "fa fa-mail-reply" : folderData['st'] == 2 ? "fa fa-mail-forward" : "";
 
@@ -252,7 +252,7 @@ define(['react', 'app', 'dataTable', 'dataTableBoot'], function (React, app, Dat
 
                     var checkBpart = '<label><input class="emailchk hidden-xs" type="checkbox" /></label>';
 
-                    var fromPart = '<span class="from no-padding col-xs-8 col-md-3 ellipsisText margin-right-10" data-placement="bottom" data-toggle="popover-hover" title="" data-content="' + fromTitle + '">' + trust + ' ' + fromEmail + '</span>';
+                    var fromPart = '<span class="from no-padding col-xs-8 col-md-3 ellipsisText margin-right-10" data-placement="bottom" data-toggle="popover-hover" title="" data-content="' + app.transform.escapeTags(fromTitle) + '">' + trust + ' ' + app.transform.escapeTags(fromEmail) + '</span>';
 
                     var dateAtPart = '<span class="no-padding date col-xs-3 col-sm-2">' + attch + '&nbsp;' + encrypted2 + ' ' + dispTime + '<span class="label label-primary f-s-10"></span><span class="label label-primary f-s-10"></span></span>';
 

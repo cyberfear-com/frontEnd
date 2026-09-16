@@ -2315,6 +2315,17 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                 //console.log(result);
             });
         },
+        // "Name" <email>, quoting the name when it holds characters an address-list
+        // parser would treat as structure (a comma otherwise splits it into two).
+        formatRecipient: function (name, email) {
+            if (name === undefined || name === "") {
+                return email;
+            }
+            if (/[,<>@;:"\\]/.test(name)) {
+                name = '"' + name.replace(/(["\\])/g, "\\$1") + '"';
+            }
+            return name + " <" + email + ">";
+        },
         rcptObjToArr: function (obj) {
             var rcpArr = [];
             var contact = app.user.get("contacts");
@@ -2322,27 +2333,17 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
             if (Object.keys(obj).length > 0) {
                 //console.log(obj);
                 $.each(obj, function (email64, emailData) {
-                    if (emailData["name"] != "") {
-                        var data =
-                            app.transform.from64str(emailData["name"]) +
-                            " <" +
-                            app.transform.from64str(email64) +
-                            ">";
-                    } else {
-                        var data = app.transform.from64str(email64);
+                    var name = app.transform.from64str(emailData["name"]);
+
+                    if (contact[email64] != undefined && contact[email64]["n"] == "") {
+                        name = "";
                     }
 
-                    if (contact[email64] != undefined) {
-                        if (contact[email64]["n"] != "") {
-                            var data =
-                                app.transform.from64str(emailData["name"]) +
-                                " <" +
-                                app.transform.from64str(email64) +
-                                ">";
-                        } else {
-                            var data = app.transform.from64str(email64);
-                        }
-                    }
+                    var data = app.globalF.formatRecipient(
+                        name,
+                        app.transform.from64str(email64)
+                    );
+
                     rcpArr.push(app.transform.to64str(data));
                 });
             }

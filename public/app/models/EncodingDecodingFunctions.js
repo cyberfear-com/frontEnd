@@ -3,6 +3,10 @@
 
 define(["app", "forge", "CryptoJS", "twofish", 'openpgp'], function(app, forge, CryptoJS, TwoFish, openpgp){
 
+	var utf8Decoder = typeof TextDecoder === "function" ? new TextDecoder("utf-8", { fatal: true, ignoreBOM: true }) : null;
+	var byteOf = function (c) { return c.charCodeAt(0); };
+	var entityDecoder = document.createElement("textarea");
+
 	var EncodingDecodingFunctions = Backbone.Model.extend({
 		//app.transform
 		SHA512: function (data) {
@@ -25,6 +29,13 @@ define(["app", "forge", "CryptoJS", "twofish", 'openpgp'], function(app, forge, 
 		escape.innerHTML = html;
 		return escape.innerHTML;
 	},
+		decodeEntities:function(text) {
+			if (typeof text !== "string" || text.indexOf("&") === -1) {
+				return text;
+			}
+			entityDecoder.innerHTML = text;
+			return entityDecoder.textContent;
+		},
 
 		hex2bin:function (hex) {
 			return forge.util.hexToBytes(hex)
@@ -61,6 +72,11 @@ define(["app", "forge", "CryptoJS", "twofish", 'openpgp'], function(app, forge, 
 					return forge.util.text.utf8.decode(forge.util.binary.base64.decode(data['text']));
 
 				}else{
+					if (utf8Decoder !== null && typeof data === "string") {
+						try {
+							return utf8Decoder.decode(Uint8Array.from(atob(data), byteOf));
+						} catch (e) {}
+					}
 					return forge.util.text.utf8.decode(forge.util.binary.base64.decode(data));
 				}
 

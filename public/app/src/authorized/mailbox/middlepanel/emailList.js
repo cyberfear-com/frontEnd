@@ -5,6 +5,21 @@ define([
     "dataTableAbsolute",
     "dataTableBoot",
 ], function (React, app) {
+    var PIN_SVG = '<span class="pinned"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.0516 6.34999L9.65156 1.94999C9.45156 1.74999 9.15156 1.74999 8.95156 1.94999L7.35156 3.54999C7.10156 3.79999 7.20156 4.09999 7.35156 4.24999L7.70156 4.59999L6.20156 6.09999C5.45156 5.94999 3.40156 5.59999 2.30156 6.69999C2.10156 6.89999 2.10156 7.19999 2.30156 7.39999L5.15156 10.25L2.00156 13.4C1.80156 13.6 1.80156 13.9 2.00156 14.1C2.20156 14.3 2.55156 14.25 2.70156 14.1L5.85156 10.95L8.70156 13.8C9.00156 14.05 9.30156 13.95 9.40156 13.8C10.5016 12.7 10.1516 10.65 10.0016 9.89999L11.5016 8.39999L11.8516 8.74999C12.0516 8.94999 12.3516 8.94999 12.5516 8.74999L14.1516 7.14999C14.2516 6.84999 14.2516 6.54999 14.0516 6.34999Z" fill="#4D535C"/></svg></span>';
+    var TAG_SVG = '<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" > <path d="M13.5119 9.2475L12.5969 8.3325C12.3794 8.145 12.2519 7.8675 12.2444 7.56C12.2294 7.2225 12.3644 6.885 12.6119 6.6375L13.5119 5.7375C14.2919 4.9575 14.5844 4.2075 14.3369 3.615C14.0969 3.03 13.3544 2.7075 12.2594 2.7075H4.42187V2.0625C4.42187 1.755 4.16687 1.5 3.85937 1.5C3.55187 1.5 3.29688 1.755 3.29688 2.0625V15.9375C3.29688 16.245 3.55187 16.5 3.85937 16.5C4.16687 16.5 4.42187 16.245 4.42187 15.9375V12.2775H12.2594C13.3394 12.2775 14.0669 11.9475 14.3144 11.355C14.5619 10.7625 14.2769 10.02 13.5119 9.2475Z" fill="#c9d0da"/></svg>';
+    var ATTACH_HTML = '<span class=""><img src="../images/icon-attachment.svg"/></span>';
+    var LOCK_HTML = "<i class='fa fa-lock fa-lg'></i>";
+    var UNLOCK_HTML = "<i class='fa fa-unlock fa-lg'></i>";
+    var rowTemplate = document.createElement("div");
+    rowTemplate.innerHTML =
+        '<div class="email no-padding"><div class="select-checkbox"><label class="container-checkbox"><input type="checkbox" name="inbox-email"> <span class="checkmark"></span></label></div>' +
+        '<div class="date-time"></div><span class="unread-bullet"></span>' +
+        '<div class="mail-toggle "><div class="mail-title"></div> <p><label class="from"><span style="display:none;"></span>: </label></p></div>' +
+        '<div class="mailListLabel pull-right text-right col-xs-2"><div class="ellipsisText visible-xs"><span class="label label-success"></span></div><div class="ellipsisText hidden-xs col-xs-12 pull-right"><span class="label label-success"></span></div></div></div>';
+    rowTemplate = rowTemplate.firstChild;
+    // decoded rows per message id, kept across folder switches and remounts
+    var rowCache = { userId: null, rows: {} };
+
     return React.createClass({
         mixins: [app.mixins.touchMixins()],
 
@@ -44,364 +59,281 @@ define([
                 this.updateEmails(nextProps.folderId, "noRefresh");
             }
         },
-                updateEmails: function (folderId, noRefresh) {
+        updateEmails: function (folderId, noRefresh) {
+            var thisComp = this;
+            var emails = app.user.get("emails")["folders"][folderId];
 
-                    //console.log('folderId');
-                   // console.log(folderId);
+            thisComp.setState({
+                displayedFolder: app.transform.from64str(app.user.get("folders")[folderId]["name"]),
+                emailInFolder: Object.keys(emails).length,
+            });
 
-                    //Refresh=app.user.get("needRefresh");
-                    var thisComp = this;
-                    //console.log('Refresh');
-                    //console.log(Refresh);
-                    var emails = app.user.get("emails")["folders"][folderId];
+            app.user.set({
+                currentFolder: app.transform.from64str(
+                    app.user.get("folders")[folderId]["name"]
+                ),
+            });
 
-                    thisComp.setState({
-                        displayedFolder: app.transform.from64str(app.user.get("folders")[folderId]["name"]),
-                        emailInFolder: Object.keys(emails).length,
-                    });
+            if (app.user.get("folders")[folderId]["role"] != undefined) {
+                var t = app.transform.from64str(
+                    app.user.get("folders")[folderId]["role"]
+                );
+            } else {
+                var t = "";
+            }
 
-                    app.user.set({
-                        currentFolder: app.transform.from64str(
-                            app.user.get("folders")[folderId]["name"]
-                        ),
-                    });
+            var data = [];
+            var today = new Date().toDateString();
 
-                    if (app.user.get("folders")[folderId]["role"] != undefined) {
-                        var t = app.transform.from64str(
-                            app.user.get("folders")[folderId]["role"]
-                        );
+            // Rows are kept between refreshes and only rebuilt when the message
+            // changed. Switching folder starts from an empty table.
+            var emTab = $("#emailListTable").DataTable();
+            if (this._tableFolderId !== folderId) {
+                this._tableFolderId = folderId;
+                emTab.clear();
+            }
+            var existing = {};
+            emTab.rows().data().each(function (row) {
+                existing[row.DT_RowId] = row;
+            });
+            var cache = rowCache.rows;
+
+            $.each(emails, function (index, folderData) {
+                // everything the row is rendered from; the date makes "today" rows
+                // switch from time to date display after midnight
+                var key = [folderData["st"], folderData["pt"], folderData["tr"], folderData["tc"],
+                    folderData["en"], folderData["at"], folderData["sb"], folderData["fr"], folderData["f"],
+                    folderData["tg"].length > 0 ? folderData["tg"][0]["name"] : "",
+                    today].join("|");
+                if (existing[index] !== undefined && existing[index].key === key) {
+                    delete existing[index];
+                    return;
+                }
+                var row = cache[index];
+                if (row === undefined || row.key !== key) {
+                    row = thisComp.buildRow(index, folderData, key, t);
+                    cache[index] = row;
+                }
+                if (existing[index] !== undefined) {
+                    emTab.row("#" + index).data(row);
+                    delete existing[index];
+                } else {
+                    data.push(row);
+                }
+            });
+
+            // whatever is left in "existing" is no longer in this folder
+            var removed = Object.keys(existing);
+            if (removed.length > 0) {
+                emTab.rows(removed.map(function (id) { return "#" + id; })).remove();
+            }
+            if (noRefresh == '') {
+                emTab.draw();
+                thisComp.setState({
+                    messsageId: "",
+                    allChecked: false,
+                }, function () {
+                    $("#selectAll>input").prop("checked", false);
+                    $("#selectAllAlt > input").prop("checked", false);
+                });
+            }
+            emTab.rows.add(data);
+            emTab.draw(false);
+        },
+
+        // plain-text fields of one message; the markup is made by renderRow for the
+        // rows on screen only
+        buildRow: function (id, folderData, key, t) {
+            var time = folderData["tr"] != undefined
+                ? folderData["tr"]
+                : folderData["tc"] != undefined
+                    ? folderData["tc"]
+                    : "";
+
+            var fromEmail = [];
+            var fromTitle = [];
+            var recipient = [];
+            var recipientTitle = [];
+            if (folderData["to"].length > 0) {
+                $.each(folderData["to"], function (indexTo, email) {
+                    if (app.transform.check64str(email)) {
+                        var str = app.transform.from64str(email);
                     } else {
-                        var t = "";
+                        var str = email;
                     }
-
-                    //console.log(t);
-
-                    var data = [];
-                    var d = new Date();
-                    var encrypted2 = "";
-
-                    // Rows are kept between refreshes and only rebuilt when the message
-                    // changed. Switching folder starts from an empty table.
-                    var emTab = $("#emailListTable").DataTable();
-                    if (this._tableFolderId !== folderId) {
-                        this._tableFolderId = folderId;
-                        emTab.clear();
-                    }
-                    var existing = {};
-                    emTab.rows().data().each(function (row) {
-                        existing[row.DT_RowId] = row;
-                    });
-
-                        $.each(emails, function (index, folderData) {
-                            // everything the row is rendered from; the date makes "today" rows
-                            // switch from time to date display after midnight
-                            var key = [folderData["st"], folderData["pt"], folderData["tr"], folderData["tc"],
-                                folderData["en"], folderData["at"], folderData["sb"], folderData["fr"],
-                                folderData["tg"].length > 0 ? folderData["tg"][0]["name"] : "",
-                                d.toDateString()].join("|");
-                            if (existing[index] !== undefined && existing[index].key === key) {
-                                delete existing[index];
-                                return;
-                            }
-
-                            var time = folderData["tr"] != undefined
-                                ? folderData["tr"]
-                                : folderData["tc"] != undefined
-                                    ? folderData["tc"]
-                                    : "";
-
-                        if (
-                            d.toDateString() ==
-                            new Date(parseInt(time + "000")).toDateString()
-                        ) {
-                            var dispTime = new Date(
-                                parseInt(time + "000")
-                            ).toLocaleTimeString();
+                    var parsed = app.globalF.parseEmail(str);
+                    recipient.push(parsed["name"]);
+                    recipientTitle.push(parsed["email"]);
+                });
+            } else if (Object.keys(folderData["to"]).length > 0) {
+                $.each(folderData["to"], function (indexTo, email) {
+                    try {
+                        var str = app.transform.from64str(indexTo);
+                        var name = "";
+                        if (email === undefined) {
+                            name = str;
+                        } else {
+                            if (email["name"] === undefined) {
+                                name = str;
                             } else {
-                            var dispTime = new Date(
-                                parseInt(time + "000")
-                            ).toLocaleDateString();
+                                if (email["name"] === "") {
+                                    name = str;
+                                } else {
+                                    name = app.transform.from64str(email["name"]);
+                                }
                             }
+                        }
+                        recipient.push(name);
+                        recipientTitle.push(str);
+                    } catch (err) {
+                        recipient.push("error");
+                        recipientTitle.push("error");
+                    }
+                });
+            }
 
-                            var fromEmail = [];
-                            var fromTitle = [];
-                            var recipient = [];
-                            var recipientTitle = [];
-                        if (folderData["to"].length > 0) {
-                                $.each(folderData["to"], function (indexTo, email) {
-                                    if (app.transform.check64str(email)) {
-                                        var str = app.transform.from64str(email);
+            if (t == "Sent" || t == "Draft") {
+                fromEmail = "";
+                fromTitle = "";
+
+                if (folderData["cc"] != undefined && Object.keys(folderData["cc"]).length > 0) {
+                    $.each(folderData["cc"], function (indexCC, email) {
+                        try {
+                            var str = app.transform.from64str(indexCC);
+                            var name = "";
+                            if (email === undefined) {
+                                name = str;
+                            } else {
+                                if (email["name"] === undefined) {
+                                    name = str;
+                                } else {
+                                    if (email["name"] === "") {
+                                        name = str;
                                     } else {
-                                        var str = email;
+                                        name = app.transform.from64str(email["name"]);
                                     }
-                                    recipient.push(app.globalF.parseEmail(str)["name"]);
-                                    recipientTitle.push(app.globalF.parseEmail(str)["email"]);
-                                });
-                        } else if (Object.keys(folderData["to"]).length > 0) {
-                                $.each(folderData["to"], function (indexTo, email) {
-                                    try {
-                                        var str = app.transform.from64str(indexTo);
-                                        var name = "";
-                                        if (email === undefined) {
-                                            name = str;
-                                        } else {
-                                            if (email["name"] === undefined) {
-                                                name = str;
-                                            } else {
-                                                if (email["name"] === "") {
-                                                    name = str;
-                                                } else {
-                                                    name = app.transform.from64str(email["name"]);
-                                                }
-                                            }
-                                        }
-                                        recipient.push(name);
-                                        recipientTitle.push(str);
-                                    } catch (err) {
-                                        recipient.push("error");
-                                        recipientTitle.push("error");
+                                }
+                            }
+                            recipient.push(name);
+                            recipientTitle.push(str);
+                        } catch (err) {
+                            recipient.push("error");
+                            recipientTitle.push("error");
+                        }
+                    });
+                }
+
+                if (folderData["bcc"] != undefined && Object.keys(folderData["bcc"]).length > 0) {
+                    $.each(folderData["bcc"], function (indexBCC, email) {
+                        try {
+                            var str = app.transform.from64str(indexBCC);
+                            var name = "";
+                            if (email === undefined) {
+                                name = str;
+                            } else {
+                                if (email["name"] === undefined) {
+                                    name = str;
+                                } else {
+                                    if (email["name"] === "") {
+                                        name = str;
+                                    } else {
+                                        name = app.transform.from64str(email["name"]);
                                     }
-                                });
-                            }
-
-                            if (t == "Sent" || t == "Draft") {
-                                fromEmail = "";
-                                fromTitle = "";
-
-                                if (folderData["cc"] != undefined && Object.keys(folderData["cc"]).length > 0) {
-                                    $.each(folderData["cc"], function (indexCC, email) {
-                                        try {
-                                            var str = app.transform.from64str(indexCC);
-                                            var name = "";
-                                            if (email === undefined) {
-                                                name = str;
-                                            } else {
-                                                if (email["name"] === undefined) {
-                                                    name = str;
-                                                } else {
-                                                    if (email["name"] === "") {
-                                                        name = str;
-                                                    } else {
-                                                        name = app.transform.from64str(email["name"]);
-                                                    }
-                                                }
-                                            }
-                                            recipient.push(name);
-                                            recipientTitle.push(str);
-                                        } catch (err) {
-                                            recipient.push("error");
-                                            recipientTitle.push("error");
-                                        }
-                                    });
                                 }
-
-                                if (folderData["bcc"] != undefined && Object.keys(folderData["bcc"]).length > 0) {
-                                    $.each(folderData["bcc"], function (indexBCC, email) {
-                                        try {
-                                            var str = app.transform.from64str(indexBCC);
-                                            var name = "";
-                                            if (email === undefined) {
-                                                name = str;
-                                            } else {
-                                                if (email["name"] === undefined) {
-                                                    name = str;
-                                                } else {
-                                                    if (email["name"] === "") {
-                                                        name = str;
-                                                    } else {
-                                                        name = app.transform.from64str(email["name"]);
-                                                    }
-                                                }
-                                            }
-                                            recipient.push(name);
-                                            recipientTitle.push(str);
-                                        } catch (err) {
-                                            recipient.push("error");
-                                            recipientTitle.push("error");
-                                        }
-                                    });
-                                }
-
-                                recipient = recipient.join(", ");
-                                recipientTitle = recipientTitle.join(", ");
-                                fromEmail = recipient;
-                                fromTitle = recipientTitle;
-                            } else {
-                                var str = app.transform.from64str(folderData["fr"]);
-                                fromEmail = app.globalF.parseEmail(str, true)["email"];
-                                fromTitle = app.globalF.parseEmail(str, true)["name"]!=""?app.globalF.parseEmail(str, true)["name"]:app.globalF.parseEmail(str, true)["email"];
-
-                                recipient = recipient.join(", ");
-                                recipientTitle = recipientTitle.join(", ");
                             }
+                            recipient.push(name);
+                            recipientTitle.push(str);
+                        } catch (err) {
+                            recipient.push("error");
+                            recipientTitle.push("error");
+                        }
+                    });
+                }
 
-                            var titleTag = "";
+                recipient = recipient.join(", ");
+                recipientTitle = recipientTitle.join(", ");
+                fromEmail = recipient;
+                fromTitle = recipientTitle;
+            } else {
+                var parsed = app.globalF.parseEmail(app.transform.from64str(folderData["fr"]), true);
+                fromEmail = parsed["email"];
+                fromTitle = parsed["name"] != "" ? parsed["name"] : parsed["email"];
+            }
+            if (fromEmail == "") {
+                fromEmail = fromTitle;
+            }
 
-                        if (folderData["tg"].length > 0) {
-                                var tag = folderData["tg"][0]["name"];
-                                var tagColor = thisComp.getTagColor(tag);
-                            titleTag =
-                                '<span class="taggs" title="' +
-                                tag +
-                                '"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" > <path d="M13.5119 9.2475L12.5969 8.3325C12.3794 8.145 12.2519 7.8675 12.2444 7.56C12.2294 7.2225 12.3644 6.885 12.6119 6.6375L13.5119 5.7375C14.2919 4.9575 14.5844 4.2075 14.3369 3.615C14.0969 3.03 13.3544 2.7075 12.2594 2.7075H4.42187V2.0625C4.42187 1.755 4.16687 1.5 3.85937 1.5C3.55187 1.5 3.29688 1.755 3.29688 2.0625V15.9375C3.29688 16.245 3.55187 16.5 3.85937 16.5C4.16687 16.5 4.42187 16.245 4.42187 15.9375V12.2775H12.2594C13.3394 12.2775 14.0669 11.9475 14.3144 11.355C14.5619 10.7625 14.2769 10.02 13.5119 9.2475Z" fill="' +
-                                tagColor +
-                                '"/></svg></span>';
-                            } else {
-                                var tag = "";
-                            }
+            var tagKey = folderData["tg"].length > 0 ? folderData["tg"][0]["name"] : "";
+            var tag = tagKey === "" ? "" : app.globalF.stripHTML(app.transform.from64str(tagKey));
+            var subject = app.transform.decodeEntities(app.transform.from64str(folderData["sb"]));
+            var preview = app.transform.decodeEntities(
+                app.transform.from64str(folderData["bd"]).substring(0, 200)
+            );
 
-                            if (parseInt(folderData["en"]) == 1) {
-                                encrypted2 = "<i class='fa fa-lock fa-lg'></i>";
-                            } else if (parseInt(folderData["en"]) == 0) {
-                                encrypted2 = "<i class='fa fa-unlock fa-lg'></i>";
-                            } else if (parseInt(folderData["en"]) == 3) {
-                                encrypted2 = "";
-                            }
+            return {
+                DT_RowId: id,
+                key: key,
+                unread: folderData["st"] == 0,
+                sortOrder: folderData["pt"] === undefined ? time : folderData["pt"],
+                time: time,
+                st: folderData["st"],
+                en: folderData["en"],
+                at: folderData["at"],
+                pt: folderData["pt"],
+                subject: subject,
+                preview: preview,
+                fromTitle: fromTitle,
+                fromEmail: fromEmail,
+                tag: tag,
+                tagKey: tagKey,
+                search: subject + " " + fromTitle + " " + fromEmail + " " + preview + " " + tag,
+            };
+        },
 
-                        tag = app.globalF.stripHTML(app.transform.from64str(tag));
-                            var unread = folderData["st"] == 0
-                                ? "unread"
-                                : folderData["st"] == 1
-                                    ? "fa fa-mail-reply"
-                                    : folderData["st"] == 2
-                                        ? "fa fa-mail-forward"
-                                        : "";
+        // row markup is built with DOM methods, so message text is never parsed as HTML
+        renderRow: function (row) {
+            var el = rowTemplate.cloneNode(true);
+            el.className = "email no-padding " + (row.st == 0
+                ? "unread"
+                : row.st == 1
+                    ? "fa fa-mail-reply"
+                    : row.st == 2
+                        ? "fa fa-mail-forward"
+                        : "");
 
-                            var attch = folderData["at"] == "1"
-                                ? '<span class=""><img src="../images/icon-attachment.svg"/></span>'
-                                : "";
+            var when = new Date(parseInt(row.time + "000"));
+            var dispTime = new Date().toDateString() == when.toDateString()
+                ? when.toLocaleTimeString()
+                : when.toLocaleDateString();
+            var date = el.querySelector(".date-time");
+            date.setAttribute("data-time", row.time);
+            date.innerHTML = (row.pt === -1 ? PIN_SVG : "") +
+                (row.at == "1" ? ATTACH_HTML : "") + "&nbsp;" +
+                (parseInt(row.en) == 1 ? LOCK_HTML : parseInt(row.en) == 0 ? UNLOCK_HTML : "") + " ";
+            date.appendChild(document.createTextNode(dispTime));
 
-                            var sonn = folderData["pt"] === -1
-                                ? '<span class="pinned"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.0516 6.34999L9.65156 1.94999C9.45156 1.74999 9.15156 1.74999 8.95156 1.94999L7.35156 3.54999C7.10156 3.79999 7.20156 4.09999 7.35156 4.24999L7.70156 4.59999L6.20156 6.09999C5.45156 5.94999 3.40156 5.59999 2.30156 6.69999C2.10156 6.89999 2.10156 7.19999 2.30156 7.39999L5.15156 10.25L2.00156 13.4C1.80156 13.6 1.80156 13.9 2.00156 14.1C2.20156 14.3 2.55156 14.25 2.70156 14.1L5.85156 10.95L8.70156 13.8C9.00156 14.05 9.30156 13.95 9.40156 13.8C10.5016 12.7 10.1516 10.65 10.0016 9.89999L11.5016 8.39999L11.8516 8.74999C12.0516 8.94999 12.3516 8.94999 12.5516 8.74999L14.1516 7.14999C14.2516 6.84999 14.2516 6.54999 14.0516 6.34999Z" fill="#4D535C"/></svg></span>'
-                                : "";
+            var title = el.querySelector(".mail-title");
+            if (row.tagKey !== "") {
+                var tagIcon = document.createElement("span");
+                tagIcon.className = "taggs";
+                tagIcon.setAttribute("title", row.tag);
+                tagIcon.innerHTML = TAG_SVG;
+                tagIcon.querySelector("path").setAttribute("fill", this.getTagColor(row.tagKey));
+                title.appendChild(tagIcon);
+            }
+            title.appendChild(document.createTextNode(row.subject));
 
-                        // console.log(folderData["pt"]);
+            var from = el.querySelector("label.from");
+            from.insertBefore(document.createTextNode(row.fromTitle), from.firstChild);
+            from.querySelector("span").textContent = row.fromEmail;
+            from.parentNode.appendChild(document.createTextNode(" " + row.preview));
 
-                            if (fromEmail == "") {
-                                fromEmail = fromTitle;
-                            }
+            var labels = el.querySelectorAll(".mailListLabel .label");
+            labels[0].textContent = row.tag;
+            labels[1].textContent = row.tag;
 
-                        // var checkBpart = '<label><input class="emailchk hidden-xs" type="checkbox" /></label>';
-                        var checkBpart =
-                            '<div class="select-checkbox"><label class="container-checkbox"><input type="checkbox" name="inbox-email"> <span class="checkmark"></span></label></div>';
-
-                        // var fromPart =
-                        //     '<span class="from no-padding col-xs-8 col-md-3 ellipsisText margin-right-10" data-placement="bottom" data-toggle="popover-hover" title="" data-content="' +
-                        //     fromTitle +
-                        //     '">' +
-                        //     trust +
-                        //     " " +
-                        //     fromEmail +
-                        //     "</span>";
-
-                            var fromPart = '<span class="unread-bullet"></span>';
-
-                        // var dateAtPart =
-                        //     '<span class="no-padding date col-xs-3 col-sm-2">' +
-                        //     attch +
-                        //     "&nbsp;" +
-                        //     encrypted2 +
-                        //     " " +
-                        //     dispTime +
-                        //     '<span class="label label-primary f-s-10"></span><span class="label label-primary f-s-10"></span></span>';
-
-                        var dateAtPart =
-                            '<div class="date-time" data-time="' +
-                            time +
-                            '">' +
-                            sonn +
-                            attch +
-                            "&nbsp;" +
-                            encrypted2 +
-                            " " +
-                            dispTime +
-                            "</div>";
-
-                        var tagPart =
-                            '<div class="mailListLabel pull-right text-right col-xs-2"><div class="ellipsisText visible-xs"><span class="label label-success">' +
-                            tag +
-                            '</span></div><div class="ellipsisText hidden-xs col-xs-12 pull-right"><span class="label label-success">' +
-                            tag +
-                            "</span></div></div>";
-
-                        // var tagPart = "";
-
-                        let emailListCopyT = {
-                            DT_RowId: index,
-                            unread: unread,
-                            checkBpart: checkBpart,
-                            dateAtPart: dateAtPart,
-                            fromPart: fromPart,
-                            sb: app.transform.escapeTags(
-                                app.transform.from64str(folderData["sb"])
-                            ),
-                            bd:" "+ app.transform.escapeTags(
-                                app.transform.from64str(folderData["bd"]).substring(0, 200)
-                            ),
-                            tagPart: tagPart,
-                            timestamp: time,
-                            son: folderData["pt"],
-                        };
-                       // var showPreview = thisComp.state.showPreview ? "" : "view-minimized";
-                            var row = {
-                                DT_RowId: index,
-                                key: key,
-                                unread: folderData["st"] == 0,
-                                email: {
-                                display:
-                                    '<div class="email no-padding ' +
-                                    emailListCopyT["unread"] +
-                                    '">' +
-                                    emailListCopyT["checkBpart"] +
-                                    emailListCopyT["dateAtPart"] +
-                                    emailListCopyT["fromPart"] +
-                                    '<div class="mail-toggle ' +
-                                    '"><div class="mail-title">' +
-                                    titleTag +
-                                    emailListCopyT["sb"] +
-                                    "</div> <p><label class='from'>" +
-                                    fromTitle + "<span style='display:none;'>" + fromEmail + "</span>" +
-                                    ": </label>" +
-                                    emailListCopyT["bd"] +
-                                    "</p></div>" +
-                                    emailListCopyT["tagPart"] +
-                                    "</div>",
-
-                                timestamp: emailListCopyT["timestamp"],
-                                sortOrder:
-                                    folderData["pt"] === undefined
-                                        ? emailListCopyT["timestamp"]
-                                        : folderData["pt"],
-                            },
-                            };
-
-                            if (existing[index] !== undefined) {
-                                emTab.row("#" + index).data(row);
-                                delete existing[index];
-                            } else {
-                                data.push(row);
-                            }
-                        });
-
-                    // whatever is left in "existing" is no longer in this folder
-                    var removed = Object.keys(existing);
-                    if (removed.length > 0) {
-                        emTab.rows(removed.map(function (id) { return "#" + id; })).remove();
-                    }
-                    if (noRefresh == '') {
-                        emTab.draw();
-                        thisComp.setState({
-                            messsageId: "",
-                            allChecked: false,
-                        }, function () {
-                            $("#selectAll>input").prop("checked", false);
-                            $("#selectAllAlt > input").prop("checked", false);
-                    }
-                        );
-                    }
-                    emTab.rows.add(data);
-                    emTab.draw(false);
-                },
+            return el.outerHTML;
+        },
         getTagColor: function (tagName) {
             var colorCode = `#c9d0da`;
             $.each(app.user.get("tags"), function (index, labelData) {
@@ -449,6 +381,11 @@ define([
                 });
             });
 
+            if (rowCache.userId !== app.user.get("userId")) {
+                rowCache.userId = app.user.get("userId");
+                rowCache.rows = {};
+            }
+
             var hidden = $.fn.dataTable.absoluteOrder([
                 { value: "-1", position: "top" },
             ]);
@@ -459,17 +396,12 @@ define([
                 data: dtSet,
                 columns: [
                     {
-                        data: {
-                            _: "email.display",
-                            sort: "email.timestamp",
-                            filter: "email.display",
+                        data: null,
+                        render: function (row, type) {
+                            return type === "display" ? thisComp.renderRow(row) : row.search;
                         },
                     },
-                    {
-                        data: {
-                            _: "email.sortOrder",
-                        },
-                    },
+                    { data: "sortOrder" },
                 ],
 
                 columnDefs: [

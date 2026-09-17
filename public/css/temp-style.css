@@ -5370,16 +5370,29 @@ position: relative;
 }
 /* Selected custom folder: a tinted rounded square behind its icon, so the selection is
    visible in the collapsed column too (system folders switch to a blue icon instead). */
-#folderulcustom li.active a .menu-icon {
+#folderulcustom li a {
+    display: flex;
+    align-items: center;
+}
+#folderulcustom li a .number-badge {
+    margin-left: auto;
+}
+#folderulcustom li a .menu-icon {
     display: inline-flex;
     padding: 4px;
     margin: -4px 3px -4px -4px;
     border-radius: 8px;
+}
+#folderulcustom li.active a .menu-icon {
     background: rgba(34, 119, 246, 0.12);
     box-shadow: inset 0 0 0 1px rgba(34, 119, 246, 0.25);
 }
-body.shrinked #folderMenu #folderulcustom li.active a .menu-icon {
+body.shrinked #folderMenu #folderulcustom li a .menu-icon {
     margin: -4px;
+}
+/* the tint reaches 4px left of the icon; the open accordion must not clip it */
+#folderMenu .accordion-collapse.show {
+    overflow: visible;
 }
 #folderulcustom li a .number-badge{
     float:right;
@@ -11856,15 +11869,16 @@ body.shrinked #folderMenu .storage {
     padding-left: 16px;
     padding-right: 16px;
 }
-/* collapsed column: one decimal ("0.6 GB / 1 GB") so the figure fits the narrow strip */
-.storage-count .used-short {
-    display: none;
+/* collapsed column: one decimal ("0.6 / 1 GB") so the figure fits the narrow strip
+   (!important because .storage-count .used_one span forces display: inline) */
+.storage-count .used_one .used-short {
+    display: none !important;
 }
-body.shrinked #folderMenu .storage-count .used-full {
-    display: none;
+body.shrinked #folderMenu .storage-count .used_one .used-full {
+    display: none !important;
 }
-body.shrinked #folderMenu .storage-count .used-short {
-    display: inline;
+body.shrinked #folderMenu .storage-count .used_one .used-short {
+    display: inline !important;
 }
 body.shrinked #folderMenu .storage-count .used-unit {
     display: none;

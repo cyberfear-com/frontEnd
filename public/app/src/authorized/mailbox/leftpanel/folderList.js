@@ -174,7 +174,11 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                             }
                         });
                     } else {
+                        // Same folder clicked again: reset the view but keep the folder highlighted.
                         thisComp.removeClassesActive();
+                        $("#" + $(event.target).attr("id"))
+                            .parents("li")
+                            .addClass("active");
                         app.user.set({ resetSelectedItems: true });
                         app.user.set({ isDecryptingEmail: false });
                         app.globalF.resetCurrentMessage();

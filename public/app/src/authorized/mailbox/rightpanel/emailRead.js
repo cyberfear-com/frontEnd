@@ -634,17 +634,24 @@ define(["react", "app"], function (React, app) {
             var attachments = [];
             var files = [];
             var thisComp = this;
+            var fmtSize = function (bytes) {
+                return bytes > 1000000
+                    ? Math.round(bytes / 10000) / 100 + " Mb"
+                    : Math.round(bytes / 10) / 100 + " Kb";
+            };
 
             if (Object.keys(this.state.attachment).length > 0) {
                 if (this.state.decryptedEmail) {
                     var size = 0;
                     $.each(this.state.attachment, function (index, attData) {
-                        size += attData["contents"].length;
+                        var fileSize = attData["contents"].length;
+                        size += fileSize;
 
                         files.push(
                             <div className="attachment-row" key={"a" + index}>
                                 <span className="attchments" key={"as" + index}>
                                     {attData["fileName"]}
+                                    <small>{fmtSize(fileSize)}</small>
                                 </span>
                                 <button
                                     key={"ab" + index}
@@ -663,9 +670,10 @@ define(["react", "app"], function (React, app) {
                 } else {
                     var size = 0;
                     $.each(this.state.attachment, function (index, attData) {
-                        size += parseInt(
+                        var fileSize = parseInt(
                             app.transform.from64str(attData["size"])
                         );
+                        size += fileSize;
 
                         if (attData["isPgp"]) {
                             files.push(
@@ -677,6 +685,7 @@ define(["react", "app"], function (React, app) {
                                         {app.transform.from64str(
                                             attData["name"]
                                         )}
+                                        <small>{fmtSize(fileSize)}</small>
                                     </span>
 
                                     <div
@@ -708,6 +717,7 @@ define(["react", "app"], function (React, app) {
                                         {app.transform.from64str(
                                             attData["name"]
                                         )}
+                                        <small>{fmtSize(fileSize)}</small>
                                     </span>
                                     <button
                                         key={"ab" + index}
@@ -726,10 +736,7 @@ define(["react", "app"], function (React, app) {
                     });
                 }
 
-                size =
-                    size > 1000000
-                        ? Math.round(size / 10000) / 100 + " Mb"
-                        : Math.round(size / 10) / 100 + " Kb";
+                size = fmtSize(size);
 
                 attachments.push(
                     <div className="panel-footer" key="1">
@@ -745,7 +752,7 @@ define(["react", "app"], function (React, app) {
                         </div>
                         <div className="inbox-download"></div>
 
-                        {files}
+                        <div className="attachment-list">{files}</div>
                     </div>
                 );
             }

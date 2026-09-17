@@ -11300,16 +11300,37 @@ footer .footer-social-media a {
     padding-top: 12px;
     border-top: 1px solid #ddd;
 }
+.attachment-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 8px;
+}
 .attachment-row {
+    flex: 1 1 300px;
+    max-width: 420px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
-    padding: 6px 0;
+    gap: 12px;
+    padding: 8px 8px 8px 14px;
+    background-color: #f5f6f7;
+    border-radius: 12px;
+    color: #415067;
 }
 .attachment-row .attchments {
     min-width: 0;
     overflow-wrap: anywhere;
+    line-height: 1.3;
+}
+.attachment-row .attchments small {
+    display: block;
+    font-size: 11px;
+    opacity: 0.7;
+}
+.attachment-row .btn {
+    flex-shrink: 0;
+    white-space: nowrap;
 }
 
 /* Settings Left Navigation - Mobile */

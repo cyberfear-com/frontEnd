@@ -192,6 +192,15 @@
  /*   max-height:60px;
     overflow: auto;*/
 }
+/* Cc / Bcc are initialised while hidden, so the plugin sizes their search box to 100px and the
+   placeholder is cut off. With no recipient chip yet, let the box take the full width. */
+.compose-window .select2-selection--multiple .select2-search--inline:first-child {
+    display: block;
+    width: 100%;
+}
+.compose-window .select2-selection--multiple .select2-search--inline:first-child .select2-search__field {
+    width: 100% !important;
+}
 .compose-window .select2-container .select2-selection--multiple .select2-selection__rendered {
     padding-left: 10px;
     /*display: flex;*/

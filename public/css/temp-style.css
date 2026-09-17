@@ -5366,6 +5366,20 @@ position: relative;
 
 #folderulcustom li.active a {
     font-weight: 900;
+    color: #2277f6;
+}
+/* Selected custom folder: a tinted rounded square behind its icon, so the selection is
+   visible in the collapsed column too (system folders switch to a blue icon instead). */
+#folderulcustom li.active a .menu-icon {
+    display: inline-flex;
+    padding: 4px;
+    margin: -4px 3px -4px -4px;
+    border-radius: 8px;
+    background: rgba(34, 119, 246, 0.12);
+    box-shadow: inset 0 0 0 1px rgba(34, 119, 246, 0.25);
+}
+body.shrinked #folderMenu #folderulcustom li.active a .menu-icon {
+    margin: -4px;
 }
 #folderulcustom li a .number-badge{
     float:right;

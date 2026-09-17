@@ -406,7 +406,7 @@ define(["react", "app", "cmpld/modals/paymentGate","ajaxQueue"], function (
                             </div>
                         </div>
                     </div>
-                    <div>
+                    <div className="login-card">
                         <h1>Login</h1>
                         <div className="welcome-text">
                             Welcome back to <span>Mailum.</span>

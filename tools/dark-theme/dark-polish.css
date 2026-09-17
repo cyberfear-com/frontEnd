@@ -164,7 +164,7 @@ html.dark-theme #userObjSync .modal-content { background: #1a1c1f; }
 html.dark-theme .full-height-container .left-data { max-width: 585px; }
 html.dark-theme #createAccount-modal .modal-dialog { max-width: none; margin: 0; }
 html.dark-theme #createAccount-modal .modal-content { background: #1a1c1f; border: 1px solid #292b2e; border-radius: 12px; padding: 32px 40px 32px; }
-html.dark-theme #loginUserForm, html.dark-theme #forgPass { background: #1a1c1f; border: 1px solid #292b2e; border-radius: 12px; padding: 36px 40px 32px; box-sizing: border-box; }
+html.dark-theme .login-card, html.dark-theme #forgPass { background: #1a1c1f; border: 1px solid #292b2e; border-radius: 12px; padding: 32px 40px 32px; box-sizing: border-box; display: flow-root; }
 
 /* --- footer on the login / signup pages --- */
 html.dark-theme .footer-minimal.theme_light { background: #111315; border-top: 1px solid #292b2e; padding: 28px 0; }

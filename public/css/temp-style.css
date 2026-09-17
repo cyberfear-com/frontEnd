@@ -11294,6 +11294,24 @@ footer .footer-social-media a {
     width: 100%;
 }
 
+/* Attachments under the message body */
+.panel-footer {
+    margin-top: 20px;
+    padding-top: 12px;
+    border-top: 1px solid #ddd;
+}
+.attachment-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 6px 0;
+}
+.attachment-row .attchments {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
 /* Settings Left Navigation - Mobile */
 .left-settings-mobile {
     position: fixed;

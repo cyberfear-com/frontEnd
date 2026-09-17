@@ -287,11 +287,10 @@ define(['react','app'], function (React,app) {
                         size+=parseInt(app.transform.from64str(attData['size']));
 
                             files.push(
-                                <span className="clearfix" key={"a"+index}>
-							<br/>
+                                <div className="attachment-row" key={"a"+index}>
 							<span className="attchments" key={"as"+index}>{app.transform.from64str(attData['name'])}</span>
-							<button  key={"ab"+index} id={index} className="btn btn-sm btn-primary pull-right" onClick={thisComp.handleClick.bind(thisComp, 'downloadFile')}>Download</button>
-						</span>
+							<button  key={"ab"+index} id={index} className="btn btn-sm btn-primary" onClick={thisComp.handleClick.bind(thisComp, 'downloadFile')}>Download</button>
+						</div>
                             );
                     });
 
@@ -300,7 +299,7 @@ define(['react','app'], function (React,app) {
 
             attachments.push(
                 <div className="panel-footer" key='1'>
-                    <h5>Attchments ({Object.keys(this.state.attachment).length} file(s), {size})</h5>
+                    <h5>Attachments ({Object.keys(this.state.attachment).length} file(s), {size})</h5>
                     <div className="alert alert-warning text-left"  key='2'>Please use <b>EXTREME</b> caution when downloading files. We strongly recommend scanning them for viruses/malware after downloading.</div><div className="inbox-download"></div>
 
 

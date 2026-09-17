@@ -642,15 +642,14 @@ define(["react", "app"], function (React, app) {
                         size += attData["contents"].length;
 
                         files.push(
-                            <span className="clearfix" key={"a" + index}>
-                                <br />
+                            <div className="attachment-row" key={"a" + index}>
                                 <span className="attchments" key={"as" + index}>
                                     {attData["fileName"]}
                                 </span>
                                 <button
                                     key={"ab" + index}
                                     id={index}
-                                    className="btn btn-sm btn-primary pull-right"
+                                    className="btn btn-sm btn-primary"
                                     onClick={thisComp.handleClick.bind(
                                         thisComp,
                                         "downloadFileDecrypted"
@@ -658,7 +657,7 @@ define(["react", "app"], function (React, app) {
                                 >
                                     Download
                                 </button>
-                            </span>
+                            </div>
                         );
                     });
                 } else {
@@ -670,8 +669,7 @@ define(["react", "app"], function (React, app) {
 
                         if (attData["isPgp"]) {
                             files.push(
-                                <span className="clearfix" key={"a" + index}>
-                                    <br />
+                                <div className="attachment-row" key={"a" + index}>
                                     <span
                                         className="attchments"
                                         key={"as" + index}
@@ -682,7 +680,7 @@ define(["react", "app"], function (React, app) {
                                     </span>
 
                                     <div
-                                        className="btn-group pull-right"
+                                        className="btn-group"
                                         key={"abc" + index}
                                     >
                                         <button
@@ -698,12 +696,11 @@ define(["react", "app"], function (React, app) {
                                             Show PGP message
                                         </button>
                                     </div>
-                                </span>
+                                </div>
                             );
                         } else {
                             files.push(
-                                <span className="clearfix" key={"a" + index}>
-                                    <br />
+                                <div className="attachment-row" key={"a" + index}>
                                     <span
                                         className="attchments"
                                         key={"as" + index}
@@ -715,7 +712,7 @@ define(["react", "app"], function (React, app) {
                                     <button
                                         key={"ab" + index}
                                         id={index}
-                                        className="btn btn-sm btn-primary pull-right"
+                                        className="btn btn-sm btn-primary"
                                         onClick={thisComp.handleClick.bind(
                                             thisComp,
                                             "downloadFile"
@@ -723,7 +720,7 @@ define(["react", "app"], function (React, app) {
                                     >
                                         Download
                                     </button>
-                                </span>
+                                </div>
                             );
                         }
                     });
@@ -737,7 +734,7 @@ define(["react", "app"], function (React, app) {
                 attachments.push(
                     <div className="panel-footer" key="1">
                         <h5>
-                            Attchments (
+                            Attachments (
                             {Object.keys(this.state.attachment).length} file(s),{" "}
                             {size})
                         </h5>

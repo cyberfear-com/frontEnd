@@ -138,7 +138,7 @@ html.dark-theme .ql-editor .ql-color-yellow { color: #ff0; }
 html.dark-theme .ql-editor .ql-color-green { color: rgba(255, 255, 255, 0.6); }
 html.dark-theme .ql-editor .ql-color-blue, html.dark-theme .ql-snow .ql-toolbar .ql-picker-item.ql-selected, html.dark-theme .ql-snow .ql-toolbar .ql-picker-item:hover, html.dark-theme .ql-snow .ql-toolbar .ql-picker-label.ql-active, html.dark-theme .ql-snow .ql-toolbar .ql-picker-label:hover, html.dark-theme .ql-snow .ql-toolbar button.ql-active, html.dark-theme .ql-snow .ql-toolbar button:focus, html.dark-theme .ql-snow .ql-toolbar button:hover, html.dark-theme .ql-snow a, html.dark-theme .ql-snow.ql-toolbar .ql-picker-item.ql-selected, html.dark-theme .ql-snow.ql-toolbar .ql-picker-item:hover, html.dark-theme .ql-snow.ql-toolbar .ql-picker-label.ql-active, html.dark-theme .ql-snow.ql-toolbar .ql-picker-label:hover, html.dark-theme .ql-snow.ql-toolbar button.ql-active, html.dark-theme .ql-snow.ql-toolbar button:focus, html.dark-theme .ql-snow.ql-toolbar button:hover { color: #3485ff; }
 html.dark-theme .ql-editor .ql-color-purple { color: rgba(255, 255, 255, 0.6); }
-html.dark-theme .ql-editor.ql-blank::before { color: rgba(0, 0, 0, 0.6); }
+html.dark-theme .ql-editor.ql-blank::before { color: rgba(255, 255, 255, 0.6); }
 html.dark-theme .ql-snow .ql-toolbar button, html.dark-theme .ql-snow.ql-toolbar button { border: none; }
 html.dark-theme .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-fill, html.dark-theme .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill, html.dark-theme .ql-snow .ql-toolbar .ql-picker-item:hover .ql-fill, html.dark-theme .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill, html.dark-theme .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-fill, html.dark-theme .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke.ql-fill, html.dark-theme .ql-snow .ql-toolbar .ql-picker-label:hover .ql-fill, html.dark-theme .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke.ql-fill, html.dark-theme .ql-snow .ql-toolbar button.ql-active .ql-fill, html.dark-theme .ql-snow .ql-toolbar button.ql-active .ql-stroke.ql-fill, html.dark-theme .ql-snow .ql-toolbar button:focus .ql-fill, html.dark-theme .ql-snow .ql-toolbar button:focus .ql-stroke.ql-fill, html.dark-theme .ql-snow .ql-toolbar button:hover .ql-fill, html.dark-theme .ql-snow .ql-toolbar button:hover .ql-stroke.ql-fill, html.dark-theme .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-fill, html.dark-theme .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill, html.dark-theme .ql-snow.ql-toolbar .ql-picker-item:hover .ql-fill, html.dark-theme .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill, html.dark-theme .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-fill, html.dark-theme .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke.ql-fill, html.dark-theme .ql-snow.ql-toolbar .ql-picker-label:hover .ql-fill, html.dark-theme .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke.ql-fill, html.dark-theme .ql-snow.ql-toolbar button.ql-active .ql-fill, html.dark-theme .ql-snow.ql-toolbar button.ql-active .ql-stroke.ql-fill, html.dark-theme .ql-snow.ql-toolbar button:focus .ql-fill, html.dark-theme .ql-snow.ql-toolbar button:focus .ql-stroke.ql-fill, html.dark-theme .ql-snow.ql-toolbar button:hover .ql-fill, html.dark-theme .ql-snow.ql-toolbar button:hover .ql-stroke.ql-fill { fill: #3485ff; }
 html.dark-theme .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke, html.dark-theme .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter, html.dark-theme .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke, html.dark-theme .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke-miter, html.dark-theme .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke, html.dark-theme .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter, html.dark-theme .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke, html.dark-theme .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke-miter, html.dark-theme .ql-snow .ql-toolbar button.ql-active .ql-stroke, html.dark-theme .ql-snow .ql-toolbar button.ql-active .ql-stroke-miter, html.dark-theme .ql-snow .ql-toolbar button:focus .ql-stroke, html.dark-theme .ql-snow .ql-toolbar button:focus .ql-stroke-miter, html.dark-theme .ql-snow .ql-toolbar button:hover .ql-stroke, html.dark-theme .ql-snow .ql-toolbar button:hover .ql-stroke-miter, html.dark-theme .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke, html.dark-theme .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter, html.dark-theme .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke, html.dark-theme .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke-miter, html.dark-theme .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke, html.dark-theme .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter, html.dark-theme .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke, html.dark-theme .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke-miter, html.dark-theme .ql-snow.ql-toolbar button.ql-active .ql-stroke, html.dark-theme .ql-snow.ql-toolbar button.ql-active .ql-stroke-miter, html.dark-theme .ql-snow.ql-toolbar button:focus .ql-stroke, html.dark-theme .ql-snow.ql-toolbar button:focus .ql-stroke-miter, html.dark-theme .ql-snow.ql-toolbar button:hover .ql-stroke, html.dark-theme .ql-snow.ql-toolbar button:hover .ql-stroke-miter { stroke: #3485ff; }
@@ -593,7 +593,7 @@ html.dark-theme .arrow-btn.ellipsis-dropdown .dropdown > button { background: no
 html.dark-theme .arrow-btn.ellipsis-dropdown .dropdown > button svg, html.dark-theme .arrow-btn.ellipsis-dropdown .dropdown > button svg path { fill: #ffffff; }
 html.dark-theme .arrow-btn.ellipsis-dropdown .dropdown > button.active svg, html.dark-theme .arrow-btn.ellipsis-dropdown .dropdown > button.active svg path { fill: #3485ff; }
 html.dark-theme .dataTables_empty { color: #f46053; }
-html.dark-theme .dropdown-menu .dd-inner li.divider { border-top: 1px solid rgba(0, 0, 0, 0.35); }
+html.dark-theme .dropdown-menu .dd-inner li.divider { border-top: 1px solid rgba(255, 255, 255, 0.35); }
 html.dark-theme .arrow-btn .dropdown-menu li button span.icon-moveto { background: url(../images/icon-move-to-folder-white.svg) left top/18px no-repeat; }
 html.dark-theme .arrow-btn .dropdown-menu li button span.icon-trash { background: url(../images/icon-delete-white.svg) left top/18px no-repeat; }
 html.dark-theme .arrow-btn .dropdown-menu li button span.icon-spam { background: url(../images/icon-spam-white.svg) left top/18px no-repeat; }
@@ -719,8 +719,8 @@ html.dark-theme .app-notification ._item ._icon ._starred { background-color: #1
 html.dark-theme .app-notification ._item ._icon._w_initial { background-color: rgba(140, 34, 246, 0.2); }
 html.dark-theme .app-notification ._item ._icon ._initials { color: #ffffff; }
 html.dark-theme .app-notification ._item ._title, html.dark-theme .app-notification ._item ._desc { color: #ffffff; }
-html.dark-theme .app-notification ._item ._title span._ins { color: rgba(0, 0, 0, 0.7); }
-html.dark-theme .app-notification ._item ._desc { color: rgba(0, 0, 0, 0.5); }
+html.dark-theme .app-notification ._item ._title span._ins { color: rgba(255, 255, 255, 0.7); }
+html.dark-theme .app-notification ._item ._desc { color: rgba(255, 255, 255, 0.5); }
 html.dark-theme .app-notification ._item a { color: #3485ff; }
 html.dark-theme .app-notification ._item ._meta { color: rgba(255, 255, 255, 0.6); }
 html.dark-theme .app-notification ._item ._meta li:not(:first-child)::before { background-color: #8d96a4; }
@@ -743,7 +743,7 @@ html.dark-theme .app-smodal .modal-footer { border-color: #111315; }
 html.dark-theme .app-smodal .icon-background { background: rgba(244, 67, 54, 0.05); }
 html.dark-theme #askforPass .icon-background { background: rgba(76, 175, 80, 0.05); }
 html.dark-theme #infoModal .icon-background { background-color: rgba(52, 133, 255, 0.05); }
-html.dark-theme .app-smodal #dialogModBody, html.dark-theme .app-smodal #infoPass, html.dark-theme .app-smodal #infoModBody { color: rgba(0, 0, 0, 0.5); }
+html.dark-theme .app-smodal #dialogModBody, html.dark-theme .app-smodal #infoPass, html.dark-theme .app-smodal #infoModBody { color: rgba(255, 255, 255, 0.5); }
 html.dark-theme .app-smodal .modal-footer button { color: #ffffff; background-color: #242729; }
 html.dark-theme .app-smodal .modal-footer button#askPasSub, html.dark-theme #infoModal .modal-footer button { background-color: #3485ff; color: #fff; }
 html.dark-theme .app-smodal #dialogOk { background-color: #f35858; color: #ffffff; }
@@ -815,7 +815,7 @@ html.dark-theme #desktop-search::placeholder, html.dark-theme #mobile-search::pl
 
 /* --- inline SVG icons hard-coded in the JSX --- */
 html.dark-theme svg [fill="#080D13"], html.dark-theme svg [fill="#080d13"], html.dark-theme svg [fill="#22282F"], html.dark-theme svg [fill="#22282f"], html.dark-theme svg [fill="#415067"], html.dark-theme svg [fill="#000"], html.dark-theme svg [fill="black"] { fill: #fff; }
-html.dark-theme svg [stroke="#080D13"], html.dark-theme svg [stroke="#080d13"], html.dark-theme svg [stroke="#22282F"], html.dark-theme svg [stroke="#415067"], html.dark-theme svg [stroke="#000"] { stroke: #fff; }
+html.dark-theme svg [stroke="#080D13"], html.dark-theme svg [stroke="#080d13"], html.dark-theme svg [stroke="#22282F"], html.dark-theme svg [stroke="#415067"], html.dark-theme svg [stroke="#000"], html.dark-theme svg [stroke="black"] { stroke: #fff; }
 html.dark-theme header .menu-icon button svg path { fill: #fff; }
 html.dark-theme header .menu-icon button:hover svg path { fill: #3485ff; }
 
@@ -983,3 +983,8 @@ html.dark-theme .compose-footer .btn.dropdown-toggle-labels { height: 40px; min-
 html.dark-theme .compose-footer .btn.dropdown-toggle-labels:hover { background: rgba(255, 255, 255, 0.1) !important; border-color: #44474c !important; }
 html.dark-theme .compose-footer .btn.dropdown-toggle-labels .icon { display: flex; }
 html.dark-theme .compose-footer .btn.dropdown-toggle-labels .icon svg { width: 20px; height: 20px; }
+
+/* --- confirmation / info modals (#dialogPop, #askPass, #infoMod) --- */
+html.dark-theme .app-smodal #dialogModBody, html.dark-theme .app-smodal #infoPass, html.dark-theme .app-smodal #infoModBody { color: rgba(255, 255, 255, 0.6); }
+html.dark-theme .app-smodal .modal-footer { border-color: #292b2e; }
+html.dark-theme .app-smodal .icon-background { background: rgba(255, 255, 255, 0.06); }

@@ -64,7 +64,9 @@ def map_colour(tok, table):
         r, g, b, a = int(m.group(1)), int(m.group(2)), int(m.group(3)), m.group(4)
         if a is not None and a.endswith("%"): a = str(float(a[:-1]) / 100)
         # a black veil (overlay / backdrop) stays black; only faint black tints become white tints
-        if (r, g, b) == (0, 0, 0) and a is not None: return ("rgba(255, 255, 255, %s)" % a) if float(a) < 0.3 else tok
+        if (r, g, b) == (0, 0, 0) and a is not None:
+            # a black veil (overlay / backdrop) stays black; black text, borders and faint tints become white
+            return tok if (table is BG and float(a) >= 0.3) else ("rgba(255, 255, 255, %s)" % a)
         if a is None:  # opaque rgb(): same fallback as an opaque hex
             return map_colour("#%02x%02x%02x" % (r, g, b), table)
         if (r, g, b) == (255, 255, 255) and a is not None: return "rgba(17, 19, 21, %s)" % a

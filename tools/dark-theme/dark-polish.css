@@ -21,7 +21,7 @@ html.dark-theme #desktop-search::placeholder, html.dark-theme #mobile-search::pl
 
 /* --- inline SVG icons hard-coded in the JSX --- */
 html.dark-theme svg [fill="#080D13"], html.dark-theme svg [fill="#080d13"], html.dark-theme svg [fill="#22282F"], html.dark-theme svg [fill="#22282f"], html.dark-theme svg [fill="#415067"], html.dark-theme svg [fill="#000"], html.dark-theme svg [fill="black"] { fill: #fff; }
-html.dark-theme svg [stroke="#080D13"], html.dark-theme svg [stroke="#080d13"], html.dark-theme svg [stroke="#22282F"], html.dark-theme svg [stroke="#415067"], html.dark-theme svg [stroke="#000"] { stroke: #fff; }
+html.dark-theme svg [stroke="#080D13"], html.dark-theme svg [stroke="#080d13"], html.dark-theme svg [stroke="#22282F"], html.dark-theme svg [stroke="#415067"], html.dark-theme svg [stroke="#000"], html.dark-theme svg [stroke="black"] { stroke: #fff; }
 html.dark-theme header .menu-icon button svg path { fill: #fff; }
 html.dark-theme header .menu-icon button:hover svg path { fill: #3485ff; }
 
@@ -189,3 +189,8 @@ html.dark-theme .compose-footer .btn.dropdown-toggle-labels { height: 40px; min-
 html.dark-theme .compose-footer .btn.dropdown-toggle-labels:hover { background: rgba(255, 255, 255, 0.1) !important; border-color: #44474c !important; }
 html.dark-theme .compose-footer .btn.dropdown-toggle-labels .icon { display: flex; }
 html.dark-theme .compose-footer .btn.dropdown-toggle-labels .icon svg { width: 20px; height: 20px; }
+
+/* --- confirmation / info modals (#dialogPop, #askPass, #infoMod) --- */
+html.dark-theme .app-smodal #dialogModBody, html.dark-theme .app-smodal #infoPass, html.dark-theme .app-smodal #infoModBody { color: rgba(255, 255, 255, 0.6); }
+html.dark-theme .app-smodal .modal-footer { border-color: #292b2e; }
+html.dark-theme .app-smodal .icon-background { background: rgba(255, 255, 255, 0.06); }

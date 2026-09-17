@@ -6056,8 +6056,19 @@ textarea::-webkit-scrollbar {
     }
 }
 @media screen and (min-width: 1366px) {
+    /* Column widths: the folder list is --sidebar-w wide, the email list --list-w, the reading
+       pane takes the rest. Collapsing the folder list (body.shrinked) hands half of the freed
+       space to the email list and half to the reading pane. */
+    body {
+        --sidebar-w: 275px;
+        --list-w: 541px;
+    }
+    body.shrinked {
+        --sidebar-w: 128px;
+        --list-w: 614px;
+    }
     header {
-        width: calc(100% - 816px);
+        width: calc(100% - var(--sidebar-w) - var(--list-w));
         border-left: none;
     }
     header .logo-2 {
@@ -6517,12 +6528,8 @@ body.shrinked #folderMenu {
         height: 100%;
         position: fixed;
         padding: 0;
-        width: 541px;
-        left: 275px;
-    }
-    body.shrinked .middle-section {
-        width: 688px;
-        left: 128px;
+        width: var(--list-w);
+        left: var(--sidebar-w);
     }
     .middle-section .middle-content {
         height: calc(100vh - 165px);
@@ -6770,7 +6777,7 @@ body.shrinked #folderMenu {
 }
 @media screen and (min-width: 1366px) {
     .right-side {
-        width: calc(100% - 816px);
+        width: calc(100% - var(--sidebar-w) - var(--list-w));
         display: inherit;
         position: relative;
         padding: 10px 0 0;
@@ -6835,7 +6842,7 @@ body.shrinked #folderMenu {
     }
     .right-side,
     header {
-        width: calc(100% - 50%);
+        width: calc(100% - var(--sidebar-w) - var(--list-w));
     }
     .arrow-btn .dropdown-menu li .container-checkbox,
     .arrow-btn .dropdown-menu li button,
@@ -6874,9 +6881,13 @@ body.shrinked #folderMenu {
     .left-side {
         width: 15%;
     }
-    .middle-section {
-        width: 35%;
-        left: 15%;
+    body {
+        --sidebar-w: 15%;
+        --list-w: 35%;
+    }
+    body.shrinked {
+        --sidebar-w: 128px;
+        --list-w: calc(42.5% - 64px);
     }
     .middle-section .middle-pagination .pagibox .mail-count {
         font-size: 17px;

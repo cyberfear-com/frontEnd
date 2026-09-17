@@ -222,3 +222,7 @@ html.dark-theme svg:not([fill]) path:not([fill]):not([stroke]), html.dark-theme 
 /* --- selected custom folder (icon tint) --- */
 html.dark-theme #folderulcustom li.active a { color: #3485ff; }
 html.dark-theme #folderulcustom li.active a .menu-icon { background: rgba(52, 133, 255, 0.2); box-shadow: inset 0 0 0 1px rgba(52, 133, 255, 0.45); }
+
+/* --- copy-address button next to the sender --- */
+html.dark-theme .sender-name .copy-sender { color: rgba(255, 255, 255, 0.5); }
+html.dark-theme .sender-name .copy-sender:hover { color: #3485ff; background: rgba(255, 255, 255, 0.08); }

@@ -344,13 +344,33 @@ define(["react", "app"], function (React, app) {
                             <b key="bc">
                                 {app.globalF.parseEmail(from)["name"]}
                             </b>
-                            {"<" + app.globalF.parseEmail(from)["email"] + ">"}
+                            <span key="ad" className="sender-address">
+                                {"<" + app.globalF.parseEmail(from)["email"] + ">"}
+                                <button
+                                type="button"
+                                className="copy-sender"
+                                title="Copy email address"
+                                aria-label="Copy email address"
+                                onClick={this.handleCopySender}
+                            >
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="11" height="11" rx="2" /><path d="M5 15V5a2 2 0 0 1 2-2h10" /></svg>
+                            </button>
+                            </span>
                         </span>
                     );
                 } else {
                     from2.push(
                         <span key="ab">
                             {app.globalF.parseEmail(from)["email"]}
+                            <button
+                                type="button"
+                                className="copy-sender"
+                                title="Copy email address"
+                                aria-label="Copy email address"
+                                onClick={this.handleCopySender}
+                            >
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="11" height="11" rx="2" /><path d="M5 15V5a2 2 0 0 1 2-2h10" /></svg>
+                            </button>
                         </span>
                     );
                 }
@@ -1556,6 +1576,16 @@ define(["react", "app"], function (React, app) {
             app.globalF.renderBodyNoImages(html, text || "", false, function (out) { strict = out; });
             app.globalF.renderBodyFull(html, text || "", false, function (out) { full = out; });
             return strict.replace(/\s+/g, " ") !== full.replace(/\s+/g, " ");
+        },
+        // Copy the sender's bare address (fromExtra carries it in angle brackets).
+        handleCopySender: function () {
+            var meta = (app.user.get("currentMessageView") || {})["meta"] || {};
+            var addr = meta["from"] ? app.globalF.parseEmail(app.transform.from64str(meta["from"]))["email"] : "";
+            if (!addr || !navigator.clipboard) return;
+            navigator.clipboard.writeText(addr).then(function () {
+                $("#email-copy").removeClass("hide").addClass("show");
+                setTimeout(function () { $("#email-copy").removeClass("show").addClass("hide"); }, 1500);
+            });
         },
         readPGP: function (PGPtext) {
             var thisComp = this;

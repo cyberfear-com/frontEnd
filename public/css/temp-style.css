@@ -6678,6 +6678,34 @@ body.shrinked #folderMenu .logo .theme-switch {
     font-weight: 700;
     line-height: 1;
 }
+/* Nested spans (the address, and the text wrappers React adds) flow inline after the name;
+   only the outer span keeps the full-width float. */
+.right-side .email-conetent-wrp .email-content-top-left .sender-name span span {
+    width: auto;
+    float: none;
+}
+.sender-name .sender-address {
+    margin-left: 6px;
+}
+.sender-name .copy-sender {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    margin-left: 4px;
+    padding: 0;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: #8a94a3;
+    vertical-align: middle;
+    cursor: pointer;
+}
+.sender-name .copy-sender:hover {
+    color: #2277f6;
+    background: rgba(34, 119, 246, 0.08);
+}
 .right-side .email-conetent-wrp .email-content-top-left .sender-name span {
     /* opacity: 0.6; */
     font-weight: 500;
@@ -7814,7 +7842,6 @@ body.shrinked #folderMenu .logo .theme-switch {
     .right-side .email-conetent-wrp .email-content-top-left .sender-name span {
         width: auto;
         float: none;
-        /* margin: 0 0 0 5px; */
     }
     .right-side .email-conetent-wrp {
         padding: 104px 0 0 0;

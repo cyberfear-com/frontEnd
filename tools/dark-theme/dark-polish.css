@@ -215,3 +215,6 @@ html.dark-theme .middle-section .inbox-list table .email.unread .date-time { opa
 
 /* --- label chips on a message (Figma: #242729 chip, white text) --- */
 html.dark-theme .email-labels .label-wrapper { background: #242729; color: #fff; }
+
+/* --- inline SVG shapes with no fill or stroke of their own render black by default: use the text colour --- */
+html.dark-theme svg:not([fill]) path:not([fill]):not([stroke]), html.dark-theme svg:not([fill]) rect:not([fill]):not([stroke]), html.dark-theme svg:not([fill]) circle:not([fill]):not([stroke]), html.dark-theme svg:not([fill]) polygon:not([fill]):not([stroke]) { fill: currentColor; }

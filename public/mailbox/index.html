@@ -4,6 +4,39 @@
         <!-- <link href="/css/app-minified.min.css" rel="stylesheet" as="style" /> -->
         <link href="/css/bootstrap.min.css" rel="stylesheet" as="style" />
         <link href="/css/temp-style.css" rel="stylesheet" as="style" />
+        <link href="/css/dark-theme.css" rel="stylesheet" as="style" />
+        <script type="text/javascript">
+            // Theme switch (Figma "Dark Theme"). Applied before the app renders so there is no light flash.
+            (function () {
+                var KEY = "mailumTheme";
+                var t = {
+                    isDark: function () { return document.documentElement.classList.contains("dark-theme"); },
+                    set: function (dark) {
+                        document.documentElement.classList.toggle("dark-theme", !!dark);
+                        try { localStorage.setItem(KEY, dark ? "dark" : "light"); } catch (e) {}
+                        t.styleFrame();
+                    },
+                    toggle: function () { t.set(!t.isDark()); return t.isDark(); },
+                    // Message body iframe: plain mails follow the theme; mails that bring their own
+                    // background colours keep a white sheet so their text stays readable.
+                    styleFrame: function () {
+                        var f = document.getElementById("virtualization"), d;
+                        if (!f) return;
+                        try { d = f.contentDocument; } catch (e) { return; }
+                        if (!d || !d.documentElement) return;
+                        var s = d.getElementById("mailum-theme");
+                        if (!t.isDark()) { if (s) s.parentNode.removeChild(s); return; }
+                        if (!s) { s = d.createElement("style"); s.id = "mailum-theme"; d.documentElement.insertBefore(s, d.documentElement.firstChild); }
+                        var own = /bgcolor\s*=|background(?:-color)?\s*:/i.test(d.body ? d.body.innerHTML : "");
+                        s.textContent = own
+                            ? "html{color-scheme:light}body{background:#fff;color:#000}"
+                            : "html{color-scheme:dark}body{background:transparent;color:#fff}a{color:#4992ff}";
+                    }
+                };
+                window.mailumTheme = t;
+                try { if (localStorage.getItem(KEY) === "dark") document.documentElement.classList.add("dark-theme"); } catch (e) {}
+            })();
+        </script>
         <link
           rel="preload"
           href="/css/compose.css"

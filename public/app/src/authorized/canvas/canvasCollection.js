@@ -44,6 +44,13 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                     break;
             }
         },
+        getInitialState: function () {
+            return { darkTheme: !!(window.mailumTheme && window.mailumTheme.isDark()) };
+        },
+        handleThemeToggle: function () {
+            if (!window.mailumTheme) return;
+            this.setState({ darkTheme: window.mailumTheme.toggle() });
+        },
         componentDidMount: function () {
             // console.log(app.user.get("showDisplayName"));
             // console.log(app.user.get("displayName"));
@@ -135,6 +142,32 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                     </button>
                                 </li>
 
+                                <li>
+                                    <button
+                                        type="button"
+                                        id="theme-toggle"
+                                        onClick={this.handleThemeToggle}
+                                    >
+                                        <span className="__icon">
+                                            <svg
+                                                width="20"
+                                                height="20"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <path
+                                                    d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7z"
+                                                    stroke="#080D13"
+                                                    strokeWidth="1.5"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                />
+                                            </svg>
+                                        </span>
+                                        {this.state.darkTheme ? "Light theme" : "Dark theme"}
+                                    </button>
+                                </li>
                                 <li>
                                     <a
                                         onClick={this.handleClick.bind(

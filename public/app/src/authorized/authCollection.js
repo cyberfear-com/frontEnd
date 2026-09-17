@@ -176,7 +176,7 @@ define([
                                         className="light-theme"
                                     />{" "}
                                     <img
-                                        src="images/logo-white.svg"
+                                        src="images/logo-dark-theme.svg"
                                         alt=""
                                         className="dark-theme"
                                     />
@@ -207,7 +207,7 @@ define([
                                             className="light-theme-logo"
                                         />{" "}
                                         <img
-                                            src="images/logo-white.svg"
+                                            src="images/logo-dark-theme.svg"
                                             alt=""
                                             className="dark-theme-logo"
                                         />

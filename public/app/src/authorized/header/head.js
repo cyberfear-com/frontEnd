@@ -174,7 +174,7 @@ define([
                                         : "Inbox"}
                                 </span>
                                 <img
-                                    src="images/logo-white.svg"
+                                    src="images/logo-dark-theme.svg"
                                     alt=""
                                     className="dark-theme"
                                 />

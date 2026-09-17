@@ -1222,6 +1222,7 @@ define(["react", "app"], function (React, app) {
                                         .contents()
                                         .find("html")
                                         .html(prerenderedBody);
+                                    if (window.mailumTheme) { window.mailumTheme.styleFrame(); }
                                     $("#virtualization")
                                         .contents()
                                         .find("html")
@@ -1255,6 +1256,7 @@ define(["react", "app"], function (React, app) {
                                         .contents()
                                         .find("html")
                                         .html(prerenderedBody);
+                                    if (window.mailumTheme) { window.mailumTheme.styleFrame(); }
                                     $("#virtualization")
                                         .contents()
                                         .find("html")
@@ -1589,6 +1591,7 @@ define(["react", "app"], function (React, app) {
                             .contents()
                             .find("html")
                             .html(prerenderedBody);
+                                    if (window.mailumTheme) { window.mailumTheme.styleFrame(); }
                         $("#virtualization")
                             .contents()
                             .find("html")
@@ -1681,6 +1684,7 @@ define(["react", "app"], function (React, app) {
                             .contents()
                             .find("html")
                             .html(prerenderedBody);
+                                    if (window.mailumTheme) { window.mailumTheme.styleFrame(); }
                         $("#virtualization")
                             .contents()
                             .find("html")

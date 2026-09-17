@@ -1,0 +1,111 @@
+html.dark-theme { color-scheme: dark; }
+html.dark-theme body { background: #111315; color: #fff; }
+
+/* --- sidebar (Figma: base #111315, dividers #292b2e, nav grey #77797c, badges #afafaf on 10%) --- */
+html.dark-theme .left-side { background: #111315; border-right: 1px solid #292b2e; }
+html.dark-theme .left-side .new-message-btn button { background-color: #3485ff; }
+html.dark-theme .left-side .new-message-btn button:hover { background-color: #2a6fd9; }
+html.dark-theme .number-badge { background: rgba(175, 175, 175, 0.1); color: #afafaf; }
+html.dark-theme .folder-menu { border-top-color: #292b2e; }
+html.dark-theme .folder-menu .accordion-body ul li a { color: #77797c; }
+html.dark-theme .storage .storage-count, html.dark-theme .storage-count .used_one, html.dark-theme .storage-count .used_one span { color: #77797c !important; }
+
+/* --- email list (rows 69px, separators #222426, selected = white 5% + white bar, unread dot #cc5935) --- */
+html.dark-theme #emailListTable tr { border-color: #222426; }
+html.dark-theme #emailListTable tr.selected { background: rgba(255, 255, 255, 0.05); }
+html.dark-theme #emailListTable tr.selected::after { background: #fff; }
+html.dark-theme .unread-bullet { background: #cc5935; }
+html.dark-theme .checkmark { border-color: rgba(255, 255, 255, 0.1); background: transparent; }
+html.dark-theme #checkAll.info-row { border-bottom-color: #292b2e; }
+html.dark-theme #desktop-search::placeholder, html.dark-theme #mobile-search::placeholder { color: rgba(255, 255, 255, 0.5); }
+
+/* --- inline SVG icons hard-coded in the JSX --- */
+html.dark-theme svg [fill="#080D13"], html.dark-theme svg [fill="#080d13"], html.dark-theme svg [fill="#22282F"], html.dark-theme svg [fill="#22282f"], html.dark-theme svg [fill="#415067"], html.dark-theme svg [fill="#000"], html.dark-theme svg [fill="black"] { fill: #fff; }
+html.dark-theme svg [stroke="#080D13"], html.dark-theme svg [stroke="#080d13"], html.dark-theme svg [stroke="#22282F"], html.dark-theme svg [stroke="#415067"], html.dark-theme svg [stroke="#000"] { stroke: #fff; }
+html.dark-theme header .menu-icon button svg path { fill: #fff; }
+html.dark-theme header .menu-icon button:hover svg path { fill: #3485ff; }
+
+/* --- header / user --- */
+html.dark-theme .user-avatar { background: #6f6cf6; border-color: transparent; }
+html.dark-theme .user-avatar .user-letter { color: #fff; }
+html.dark-theme header .user-dropdown .btn-secondary, html.dark-theme header .user-dropdown .btn-secondary:hover, html.dark-theme header .user-dropdown .btn-secondary:focus { background: transparent; color: #fff; }
+html.dark-theme header .user-dropdown .user-email { color: rgba(255, 255, 255, 0.5); }
+
+/* --- reading pane --- */
+html.dark-theme #virtualization { background: transparent; color-scheme: dark; }
+html.dark-theme .right-side .email-conetent-wrp .email-content-top-left .sender-email { background: rgba(52, 122, 226, 0.12); color: #4992ff; }
+html.dark-theme .right-side .email-conetent-wrp .email-content-top-right .button-group button.btn-pin-to-top { background: rgba(255, 255, 255, 0.08); color: #fff; }
+html.dark-theme .alert.alert-warning { background: #2a2412; border-color: #4d4220; color: #f1d98a; }
+html.dark-theme .attachment-row { background: #1f2124; color: rgba(255, 255, 255, 0.7); }
+html.dark-theme .btn-primary, html.dark-theme .btn-primary:hover, html.dark-theme .btn-primary:focus { background: #3485ff; border-color: #3485ff; color: #fff; }
+
+html.dark-theme .btn.dropdown-toggle-labels, html.dark-theme .btn.dropdown-toggle-labels:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
+
+/* --- Bootstrap components used by the mailbox --- */
+html.dark-theme .modal-content { background: #1a1c1f; color: #fff; border: 1px solid #292b2e; }
+html.dark-theme .modal-header, html.dark-theme .modal-footer { border-color: #292b2e; }
+html.dark-theme .form-control, html.dark-theme .form-select, html.dark-theme textarea, html.dark-theme input[type="text"], html.dark-theme input[type="password"], html.dark-theme input[type="email"], html.dark-theme input[type="search"] { background-color: #1f2225; border-color: #222426; color: #fff; }
+html.dark-theme .form-control::placeholder, html.dark-theme textarea::placeholder, html.dark-theme input::placeholder { color: rgba(255, 255, 255, 0.4); }
+html.dark-theme .form-control:focus, html.dark-theme .form-select:focus { background-color: #1f2225; color: #fff; border-color: #3485ff; box-shadow: none; }
+html.dark-theme .form-select { background-image: url("../images/icon-arrow-down-white.svg"); }
+html.dark-theme .form-check-input { background-color: #1f2225; border-color: rgba(255, 255, 255, 0.3); }
+html.dark-theme .form-check-input:checked { background-color: #3485ff; border-color: #3485ff; }
+html.dark-theme .btn-close { background: transparent url("../images/icon-close-white.svg") center/1em auto no-repeat; }
+html.dark-theme .btn-secondary, html.dark-theme .btn-light, html.dark-theme .btn-outline-secondary { background: #1f2124; border-color: #292b2e; color: #fff; }
+html.dark-theme .text-muted { color: rgba(255, 255, 255, 0.5) !important; }
+html.dark-theme .text-dark, html.dark-theme .text-black { color: #fff !important; }
+html.dark-theme .bg-light, html.dark-theme .bg-white { background-color: #1f2124 !important; }
+html.dark-theme .border, html.dark-theme .border-bottom, html.dark-theme .border-top, html.dark-theme .border-start, html.dark-theme .border-end { border-color: #292b2e !important; }
+html.dark-theme .dropdown-item { color: #fff; }
+html.dark-theme .dropdown-item:hover, html.dark-theme .dropdown-item:focus { background: rgba(255, 255, 255, 0.06); color: #fff; }
+html.dark-theme .dropdown-divider { border-color: #292b2e; }
+html.dark-theme .table { color: #fff; border-color: #222426; --bs-table-bg: transparent; --bs-table-color: #fff; --bs-table-striped-bg: rgba(255, 255, 255, 0.03); --bs-table-hover-bg: rgba(255, 255, 255, 0.04); --bs-table-hover-color: #fff; }
+html.dark-theme .table > :not(caption) > * > * { border-bottom-color: #222426; }
+html.dark-theme .pagination .page-link { background: #1f2124; border-color: #292b2e; color: #fff; }
+html.dark-theme .pagination .page-item.active .page-link { background: #3485ff; border-color: #3485ff; }
+html.dark-theme .card, html.dark-theme .list-group-item, html.dark-theme .toast { background: #1a1c1f; color: #fff; border-color: #292b2e; }
+html.dark-theme .accordion-item, html.dark-theme .accordion-button, html.dark-theme .accordion-button:not(.collapsed) { background: transparent; color: #fff; border-color: #292b2e; box-shadow: none; }
+html.dark-theme .nav-tabs { border-color: #222426; }
+html.dark-theme .nav-tabs .nav-link { color: #77797c; }
+html.dark-theme .nav-tabs .nav-link.active { color: #3485ff; background: transparent; border-color: transparent transparent #3485ff; }
+html.dark-theme hr { border-color: #292b2e; opacity: 1; }
+html.dark-theme .tooltip-inner { background: #2c2f33; color: #fff; }
+html.dark-theme .popover { background: #1a1c1f; border-color: #292b2e; color: #fff; }
+html.dark-theme .offcanvas, html.dark-theme .offcanvas-header, html.dark-theme .offcanvas-body { background: #111315; color: #fff; }
+html.dark-theme .logout-btn { background: #1f2124; color: #fff; }
+html.dark-theme .user-side-menu ul li { border-color: #222426; }
+html.dark-theme .user-side-menu ul li button, html.dark-theme .user-side-menu ul li a { color: #fff; }
+
+/* --- select2 --- */
+html.dark-theme .select2-container--classic .select2-selection--single, html.dark-theme .select2-container--classic .select2-selection--multiple, html.dark-theme .select2-dropdown, html.dark-theme .select2-container--classic .select2-dropdown { background: #1f2225; border-color: #292b2e; color: #fff; }
+html.dark-theme .select2-container--classic .select2-selection--single .select2-selection__rendered, html.dark-theme .select2-results__option { color: #fff; }
+html.dark-theme .select2-container--classic .select2-results__option--highlighted[aria-selected] { background: #3485ff; color: #fff; }
+html.dark-theme .select2-container--classic .select2-selection--multiple .select2-selection__choice { background: #292b2e; border-color: #33363a; color: #fff; }
+
+/* --- CKEditor 5 (compose) --- */
+html.dark-theme .ck.ck-editor__main > .ck-editor__editable, html.dark-theme .ck.ck-editor__editable_inline { background: #1f2225; color: #fff; border-color: #292b2e; }
+html.dark-theme .ck.ck-toolbar { background: #1a1c1f; border-color: #292b2e; }
+html.dark-theme .ck.ck-toolbar .ck-toolbar__separator { background: #292b2e; }
+html.dark-theme .ck.ck-button, html.dark-theme .ck.ck-icon, html.dark-theme a.ck.ck-button { color: #fff; }
+html.dark-theme .ck.ck-button:not(.ck-disabled):hover, html.dark-theme .ck.ck-button.ck-on { background: rgba(255, 255, 255, 0.08); color: #fff; }
+html.dark-theme .ck.ck-dropdown__panel, html.dark-theme .ck.ck-list, html.dark-theme .ck.ck-balloon-panel { background: #1f2124; border-color: #292b2e; }
+html.dark-theme .ck.ck-list__item .ck-button:hover:not(.ck-disabled) { background: rgba(255, 255, 255, 0.08); }
+html.dark-theme .ck.ck-input { background: #111315; color: #fff; border-color: #292b2e; }
+html.dark-theme .ck.ck-editor__editable.ck-focused:not(.ck-editor__nested-editable) { border-color: #3485ff; box-shadow: none; }
+
+/* --- scrollbars --- */
+html.dark-theme ::-webkit-scrollbar { width: 6px; height: 6px; }
+html.dark-theme ::-webkit-scrollbar-thumb { background: #77797c; border-radius: 24px; }
+html.dark-theme ::-webkit-scrollbar-track { background: transparent; }
+
+/* --- logo: the markup already carries a hidden dark-theme <img> next to the light one --- */
+html.dark-theme header .logo-2 .light-theme, html.dark-theme .left-side .logo .light-theme-logo, html.dark-theme .logo .light-theme-logo { display: none; }
+html.dark-theme header .logo-2 .dark-theme, html.dark-theme .left-side .logo .dark-theme-logo, html.dark-theme .logo .dark-theme-logo { display: inline-block; }
+
+/* --- labels dropdown button (reading pane + compose) --- */
+html.dark-theme .btn.dropdown-toggle-labels, html.dark-theme .btn.dropdown-toggle-labels:hover, html.dark-theme .btn.dropdown-toggle-labels:focus { background: rgba(255, 255, 255, 0.08) !important; color: #fff; }
+html.dark-theme .dropdown-toggle.dropdown-toggle-labels::after { border-top-color: rgba(255, 255, 255, 0.4); }
+
+/* --- login / signup page header (website-style header with a black wordmark) --- */
+html.dark-theme header .navbar-brand { display: inline-block; background: url("../images/logo-dark-theme.svg") left center / contain no-repeat; }
+html.dark-theme header .navbar-brand img { visibility: hidden; }

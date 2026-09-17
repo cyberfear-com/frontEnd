@@ -17,11 +17,14 @@
                         t.styleFrame();
                     },
                     toggle: function () { t.set(!t.isDark()); return t.isDark(); },
-                    // Message body iframe: plain mails follow the theme; designed HTML mails (own colours,
-                    // tables, styles) keep a white sheet so they look the way their sender built them.
-                    // The full render may put the mail straight under <html> with no <body>, so the
-                    // check and the colours go on the root element too.
-                    styleFrame: function () {
+                    // Message body iframe. Strict render (images off): the sanitiser strips the mail's own
+                    // styling, so the text follows the theme. Full render (Render Images): designed mails
+                    // (own colours, tables, styles) keep a white sheet so they look the way their sender
+                    // built them; plain ones follow the theme. The full render may put the mail straight
+                    // under <html> with no <body>, so the check and the colours go on the root too.
+                    frameMode: "strict",
+                    styleFrame: function (mode) {
+                        if (mode) t.frameMode = mode;
                         var f = document.getElementById("virtualization"), d;
                         if (!f) return;
                         try { d = f.contentDocument; } catch (e) { return; }
@@ -29,11 +32,14 @@
                         var s = d.getElementById("mailum-theme");
                         if (!t.isDark()) { if (s) s.parentNode.removeChild(s); return; }
                         if (!s) { s = d.createElement("style"); s.id = "mailum-theme"; d.documentElement.insertBefore(s, d.documentElement.firstChild); }
+                        var dark = "html{color-scheme:dark;background:transparent;color:#fff}body{background:transparent;color:#fff}a{color:#4992ff}";
+                        if (t.frameMode === "strict") {
+                            s.textContent = dark + "*{color:#fff!important;background-color:transparent!important;background-image:none!important}a{color:#4992ff!important}";
+                            return;
+                        }
                         var html = d.documentElement.innerHTML.replace(/<style id="mailum-theme">[\s\S]*?<\/style>/, "");
                         var own = /bgcolor\s*=|background(?:-color)?\s*:|(?:^|[^-])color\s*:|<table\b|<font\b|<style\b/i.test(html);
-                        s.textContent = own
-                            ? "html{color-scheme:light;background:#fff;color:#000}body{background:#fff;color:#000}"
-                            : "html{color-scheme:dark;background:transparent;color:#fff}body{background:transparent;color:#fff}a{color:#4992ff}";
+                        s.textContent = own ? "html{color-scheme:light;background:#fff;color:#000}body{background:#fff;color:#000}" : dark;
                     }
                 };
                 window.mailumTheme = t;

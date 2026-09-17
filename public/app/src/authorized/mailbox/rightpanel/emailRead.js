@@ -1222,7 +1222,7 @@ define(["react", "app"], function (React, app) {
                                         .contents()
                                         .find("html")
                                         .html(prerenderedBody);
-                                    if (window.mailumTheme) { window.mailumTheme.styleFrame(); }
+                                    if (window.mailumTheme) { window.mailumTheme.styleFrame("strict"); }
                                     $("#virtualization")
                                         .contents()
                                         .find("html")
@@ -1256,7 +1256,7 @@ define(["react", "app"], function (React, app) {
                                         .contents()
                                         .find("html")
                                         .html(prerenderedBody);
-                                    if (window.mailumTheme) { window.mailumTheme.styleFrame(); }
+                                    if (window.mailumTheme) { window.mailumTheme.styleFrame("strict"); }
                                     $("#virtualization")
                                         .contents()
                                         .find("html")
@@ -1591,7 +1591,7 @@ define(["react", "app"], function (React, app) {
                             .contents()
                             .find("html")
                             .html(prerenderedBody);
-                                    if (window.mailumTheme) { window.mailumTheme.styleFrame(); }
+                                    if (window.mailumTheme) { window.mailumTheme.styleFrame("full"); }
                         $("#virtualization")
                             .contents()
                             .find("html")
@@ -1684,7 +1684,7 @@ define(["react", "app"], function (React, app) {
                             .contents()
                             .find("html")
                             .html(prerenderedBody);
-                                    if (window.mailumTheme) { window.mailumTheme.styleFrame(); }
+                                    if (window.mailumTheme) { window.mailumTheme.styleFrame("strict"); }
                         $("#virtualization")
                             .contents()
                             .find("html")

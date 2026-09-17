@@ -20,8 +20,8 @@ html.dark-theme #checkAll.info-row { border-bottom-color: #292b2e; }
 html.dark-theme #desktop-search::placeholder, html.dark-theme #mobile-search::placeholder { color: rgba(255, 255, 255, 0.5); }
 
 /* --- inline SVG icons hard-coded in the JSX --- */
-html.dark-theme svg [fill="#080D13"], html.dark-theme svg [fill="#080d13"], html.dark-theme svg [fill="#22282F"], html.dark-theme svg [fill="#22282f"], html.dark-theme svg [fill="#415067"], html.dark-theme svg [fill="#000"], html.dark-theme svg [fill="black"] { fill: #fff; }
-html.dark-theme svg [stroke="#080D13"], html.dark-theme svg [stroke="#080d13"], html.dark-theme svg [stroke="#22282F"], html.dark-theme svg [stroke="#415067"], html.dark-theme svg [stroke="#000"], html.dark-theme svg [stroke="black"] { stroke: #fff; }
+html.dark-theme svg [fill="#080D13"], html.dark-theme svg [fill="#080d13"], html.dark-theme svg [fill="#22282F"], html.dark-theme svg [fill="#22282f"], html.dark-theme svg [fill="#415067"], html.dark-theme svg [fill="#212121"], html.dark-theme svg [fill="#212529"], html.dark-theme svg [fill="#292D32"], html.dark-theme svg [fill="#292d32"], html.dark-theme svg [fill="#4D535C"], html.dark-theme svg [fill="#4d535c"], html.dark-theme svg [fill="#000"], html.dark-theme svg [fill="#000000"], html.dark-theme svg [fill="black"] { fill: #fff; }
+html.dark-theme svg [stroke="#080D13"], html.dark-theme svg [stroke="#080d13"], html.dark-theme svg [stroke="#22282F"], html.dark-theme svg [stroke="#22282f"], html.dark-theme svg [stroke="#415067"], html.dark-theme svg [stroke="#292D32"], html.dark-theme svg [stroke="#292d32"], html.dark-theme svg [stroke="#677385"], html.dark-theme svg [stroke="#212121"], html.dark-theme svg [stroke="#000"], html.dark-theme svg [stroke="#000000"], html.dark-theme svg [stroke="black"] { stroke: #fff; }
 html.dark-theme header .menu-icon button svg path { fill: #fff; }
 html.dark-theme header .menu-icon button:hover svg path { fill: #3485ff; }
 

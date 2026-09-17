@@ -972,3 +972,14 @@ html.dark-theme .theme-switch { color: #77797c; }
 html.dark-theme .theme-switch:hover { background: rgba(255, 255, 255, 0.08); color: #3485ff; }
 html.dark-theme .offcanvas-header .logo .light-theme-logo { display: none; }
 html.dark-theme .offcanvas-header .logo .dark-theme-logo { display: inline-block; }
+
+/* --- CKEditor 5 palette (compose editor): one border colour around toolbar and editable --- */
+html.dark-theme { --ck-color-base-background: #1f2225; --ck-color-base-border: #33363a; --ck-color-base-foreground: #1a1c1f; --ck-color-base-text: #fff; --ck-color-text: #fff; --ck-color-toolbar-background: #1a1c1f; --ck-color-toolbar-border: #33363a; --ck-color-focus-border: #3485ff; --ck-color-button-default-background: transparent; --ck-color-button-default-hover-background: rgba(255, 255, 255, 0.08); --ck-color-button-on-background: rgba(255, 255, 255, 0.12); --ck-color-split-button-hover-background: rgba(255, 255, 255, 0.08); --ck-color-panel-background: #1f2124; --ck-color-panel-border: #33363a; --ck-color-dropdown-panel-border: #33363a; --ck-color-list-background: #1f2124; --ck-color-list-button-hover-background: rgba(255, 255, 255, 0.08); --ck-color-input-background: #111315; --ck-color-input-border: #33363a; --ck-color-tooltip-background: #2c2f33; --ck-color-tooltip-text: #fff; --ck-color-widget-hover-border: #3485ff; }
+html.dark-theme .ck.ck-editor__main > .ck-editor__editable:not(.ck-focused) { border-color: #33363a; }
+
+/* --- compose footer: attach button with a proper box around the clip --- */
+html.dark-theme .compose-footer.bg-white { background-color: #1a1c1f !important; }
+html.dark-theme .compose-footer .btn.dropdown-toggle-labels { height: 40px; min-width: 60px; padding: 0 10px !important; border: 1px solid #33363a !important; border-radius: 8px; background: rgba(255, 255, 255, 0.06) !important; display: flex; align-items: center; justify-content: center; gap: 6px; }
+html.dark-theme .compose-footer .btn.dropdown-toggle-labels:hover { background: rgba(255, 255, 255, 0.1) !important; border-color: #44474c !important; }
+html.dark-theme .compose-footer .btn.dropdown-toggle-labels .icon { display: flex; }
+html.dark-theme .compose-footer .btn.dropdown-toggle-labels .icon svg { width: 20px; height: 20px; }

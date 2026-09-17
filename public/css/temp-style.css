@@ -6324,6 +6324,24 @@ body.shrinked #folderMenu .logo .theme-switch {
     .left-side {
         display: block;
     }
+    /* Folder list column: the storage block (and the promo card when shown) sits at the bottom of the
+       column; with many folders the whole column scrolls and the block follows the list. */
+    #folderMenu.left-side {
+        display: flex;
+        flex-direction: column;
+    }
+    #folderMenu.left-side .left-container {
+        flex: 1 0 auto;
+        min-height: 0;
+        margin: 0;
+        display: flow-root;
+    }
+    #folderMenu.left-side .left-bottom {
+        flex: 0 0 auto;
+        height: auto;
+        margin-top: auto;
+        display: flow-root;
+    }
     .left-side .logo {
         padding: 35px 0 0 20px;
     }

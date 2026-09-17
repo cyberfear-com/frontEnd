@@ -1591,14 +1591,15 @@ define(["react", "app"], function (React, app) {
                             // .append(
                             //     "<style>table,table tbody,table tr,table td{display:block;width:100%;}</style>"
                             // );
+                        $("#virtualization").width(
+                            $("#virtualization").contents().prop("documentElement").scrollWidth
+                        );
+                        // Measure the height only once the width is final.
                         $("#virtualization").height(
                             $("#virtualization")
                                 .contents()
                                 .find("html")
                                 .height() + 50
-                        );
-                        $("#virtualization").width(
-                            $("#virtualization").contents().prop("documentElement").scrollWidth
                         );
                     }, 300);
                 }
@@ -1682,13 +1683,6 @@ define(["react", "app"], function (React, app) {
                             // .append(
                             //     "<style>table,table tbody,table tr,table td{display:block;width:100%;}</style>"
                             // );
-                        $("#virtualization").height(
-                            $("#virtualization")
-                                .contents()
-                                .find("html")
-                                .height() + 50
-                        );
-
                         thisComp.setState({
                             "minVirtWidth":$("#virtualization").contents().prop("documentElement").scrollWidth
                         });
@@ -1703,6 +1697,15 @@ define(["react", "app"], function (React, app) {
                             );
                             $('#appRightSide').css('overflow-x','hidden');
                         }
+                        // Measure the height only once the width is final: the iframe is
+                        // 0 px wide here, so before this the text wrapped one word per line
+                        // and the height came out far too large.
+                        $("#virtualization").height(
+                            $("#virtualization")
+                                .contents()
+                                .find("html")
+                                .height() + 50
+                        );
 
 
                         var tt = app.mixins.touchMixins();

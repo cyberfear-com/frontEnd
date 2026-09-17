@@ -3222,6 +3222,17 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                             return name + "=" + value + ' target="_blank"';
                         if (name == "style" && value.indexOf("http") != -1)
                             return tag;
+                    },
+                    onTag: function (tag, html, options) {
+                        // Inline (cid:) and data: images can never be rendered, so drop
+                        // them instead of leaving an empty box of their declared size.
+                        if (
+                            tag == "img" &&
+                            html.indexOf("http:") == -1 &&
+                            html.indexOf("https:") == -1
+                        ) {
+                            return " ";
+                        }
                     }, // empty, means filter out all tags
                     stripIgnoreTag: true, // filter out all HTML not in the whilelist
                     stripIgnoreTagBody: ["script"], // the script tag is a special case, we need

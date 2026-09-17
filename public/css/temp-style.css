@@ -6125,6 +6125,47 @@ body.shrinked #folderMenu {
 .left-side .logo img {
     width: 134px;
 }
+.theme-switch {
+    width: 32px;
+    height: 32px;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: #415067;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    flex: 0 0 32px;
+}
+.theme-switch:hover {
+    background: rgba(34, 119, 246, 0.08);
+    color: #2277f6;
+}
+.theme-switch .icon-sun {
+    display: none;
+}
+html.dark-theme .theme-switch .icon-sun {
+    display: block;
+}
+html.dark-theme .theme-switch .icon-moon {
+    display: none;
+}
+.left-side .logo .theme-switch {
+    margin-left: auto;
+    margin-right: 24px;
+}
+body.shrinked #folderMenu .logo .theme-switch {
+    display: none;
+}
+.offcanvas-header .theme-switch {
+    position: absolute;
+    right: 74px;
+    top: 14px;
+}
+.offcanvas-header .logo .dark-theme-logo {
+    display: none;
+}
 .left-side .new-message-btn,
 .offcanvas-body .new-message-btn {
     width: 100%;

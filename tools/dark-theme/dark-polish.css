@@ -172,3 +172,9 @@ html.dark-theme .footer-minimal.theme_light p, html.dark-theme .footer-minimal.t
 html.dark-theme .footer-minimal.theme_light a:hover { color: #3485ff; }
 html.dark-theme footer .footer-logo, html.dark-theme footer .footer-bottom .logo { background: url("../images/logo-dark-theme.svg") left center / auto 22px no-repeat; }
 html.dark-theme footer .footer-logo img, html.dark-theme footer .footer-bottom .logo img { visibility: hidden; }
+
+/* --- theme switch next to the logo --- */
+html.dark-theme .theme-switch { color: #77797c; }
+html.dark-theme .theme-switch:hover { background: rgba(255, 255, 255, 0.08); color: #3485ff; }
+html.dark-theme .offcanvas-header .logo .light-theme-logo { display: none; }
+html.dark-theme .offcanvas-header .logo .dark-theme-logo { display: inline-block; }

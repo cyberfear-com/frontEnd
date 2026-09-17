@@ -220,6 +220,11 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
             }
         },
 
+        handleThemeToggle: function () {
+            if (window.mailumTheme) {
+                window.mailumTheme.toggle();
+            }
+        },
         handleClick: function (i) {
             switch (i) {
                 case "composeEmail":
@@ -496,6 +501,10 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                         className="dark-theme-logo"
                                     />
                                 </a>
+                                <button type="button" className="theme-switch" title="Switch light / dark theme" aria-label="Switch light / dark theme" onClick={this.handleThemeToggle}>
+                                    <svg className="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></svg>
+                                    <svg className="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7z" /></svg>
+                                </button>
                             </div>
                             <div className="new-message-btn">
                                 <button
@@ -869,12 +878,21 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                     aria-label="Close"
                                 >
                                     <img
-                                        src="images/logo.svg"
+                                        src="/images/logo.svg"
                                         alt=""
                                         className="light-theme-logo"
                                     />
+                                    <img
+                                        src="/images/logo-dark-theme.svg"
+                                        alt=""
+                                        className="dark-theme-logo"
+                                    />
                                 </a>
                             </div>
+                            <button type="button" className="theme-switch" title="Switch light / dark theme" aria-label="Switch light / dark theme" onClick={this.handleThemeToggle}>
+                                <svg className="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></svg>
+                                <svg className="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7z" /></svg>
+                            </button>
                             <button
                                 type="button"
                                 className="btn-close text-reset"

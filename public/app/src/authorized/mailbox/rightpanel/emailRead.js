@@ -607,6 +607,13 @@ define(["react", "app"], function (React, app) {
                     });
                 } else {
                     this.renderStrictBody();
+                    this.setState({
+                        renderButtonClass: this.hasRenderableContent(
+                            app.transform.from64str(email["body"]["html"])
+                        )
+                            ? ""
+                            : "d-none",
+                    });
                 }
                 this.setState({
                     hideEmailRead: false,
@@ -1539,6 +1546,11 @@ define(["react", "app"], function (React, app) {
             }
         },
 
+        // Anything in the HTML part that the strict render withholds (images, remote or
+        // background content)? If not, there is nothing for "Render Images" to show.
+        hasRenderableContent: function (html) {
+            return /<img\b|<picture\b|<video\b|<audio\b|<iframe\b|url\s*\(|\bbackground\s*=/i.test(html || "");
+        },
         readPGP: function (PGPtext) {
             var thisComp = this;
 
@@ -1551,6 +1563,11 @@ define(["react", "app"], function (React, app) {
                         attachment: decryptedText["attachments"],
                         decryptedEmail: app.transform.from64str(email64),
                         pgpEncrypted: false,
+                        renderButtonClass: thisComp.hasRenderableContent(
+                            decryptedText["html"]
+                        )
+                            ? ""
+                            : "d-none",
                     });
 
                     thisComp.renderStrictBody();

@@ -7,8 +7,8 @@ html.dark-theme .owl-dots .owl-dot span { background: #939393; border: 2px solid
 html.dark-theme .owl-dots .owl-dot:hover span { background: #971d40; }
 html.dark-theme .owl-dots .owl-dot.active span { background: #971d40; border: 2px solid #111315; }
 html.dark-theme .slider-btn button { border: none; }
-html.dark-theme .slider-btn .next-btn { background: url("../images/right-arrow.svg") no-repeat left top; }
-html.dark-theme .slider-btn .prev-btn { background: url("../images/left-arrow.svg") no-repeat left top; }
+html.dark-theme .slider-btn .next-btn { background: url("../images/right-arrow.svg") no-repeat left top; background-size: 24px; }
+html.dark-theme .slider-btn .prev-btn { background: url("../images/left-arrow.svg") no-repeat left top; background-size: 24px; }
 html.dark-theme body { color: #ffffff; }
 html.dark-theme .h2, html.dark-theme h2 { color: #ffffff; }
 html.dark-theme .h3, html.dark-theme h3 { color: #ffffff; }
@@ -21,7 +21,7 @@ html.dark-theme .btn-blue:hover { color: #fff; background-color: #2a6fd9; }
 html.dark-theme .btn-blue:disabled, html.dark-theme .btn-blue[disabled] { background-color: #242729; color: #b0b0b0; }
 html.dark-theme .btn-gray-border { background-color: #111315; color: #ffffff; border: none; border: 1px solid rgba(255, 255, 255, 0.07); }
 html.dark-theme .btn-gray-border:hover { color: #ffffff; background-color: rgba(255, 255, 255, 0.07); }
-html.dark-theme .btn-gray-border span { background: url("../images/right-arrow-2.svg") no-repeat left top; }
+html.dark-theme .btn-gray-border span { background: url("../images/right-arrow-2.svg") no-repeat left top; background-size: 10px 12px; }
 html.dark-theme .call-to-action { background-color: #3485ff; color: #fff; }
 html.dark-theme .tooltip-inner { background-color: #3485ff !important; }
 html.dark-theme .tooltip.bs-tooltip-right .tooltip-arrow:before { border-right-color: #3485ff !important; }
@@ -35,9 +35,9 @@ html.dark-theme textarea.form-control:focus { border: 1px solid #ffffff; }
 html.dark-theme .form-select { border: 1px solid rgba(255, 255, 255, 0.1); color: #ffffff; }
 html.dark-theme .form-select:focus { border: 1px solid #ffffff; }
 html.dark-theme .form-icon { border: none; }
-html.dark-theme .form-icon.eye { background: url("../images/icon-eye-white.svg") no-repeat left top; }
+html.dark-theme .form-icon.eye { background: url("../images/icon-eye-white.svg") no-repeat left top; background-size: 24px; }
 html.dark-theme .full-height-container .welcome-text span:last-child { color: #3485ff; }
-html.dark-theme .full-height-container .right-side { background: url("../images/blue-bg.jpg") no-repeat center; color: #fff; }
+html.dark-theme .full-height-container .right-side { background: url("../images/blue-bg.jpg") no-repeat center; color: #fff; background-size: cover; }
 html.dark-theme .full-height-container .right-data .right-title { color: #fff; }
 html.dark-theme .data-container .h1, html.dark-theme .data-container .h2, html.dark-theme .data-container h1, html.dark-theme .data-container h2 { color: #ffffff; }
 html.dark-theme .call-to-action-2 { background-color: #3485ff; color: #fff; }
@@ -48,9 +48,9 @@ html.dark-theme header .navbar-toggler { border: none; outline: none; border: no
 html.dark-theme header .navbar-toggler .icon-bar { background-color: #2c2f33; }
 html.dark-theme header .bg-light { background: none !important; }
 html.dark-theme header .navbar-light .navbar-nav .nav-link { color: #ffffff; }
-html.dark-theme header .navbar-light .navbar-nav .nav-link.dropdown-toggle:after { background: url("../images/down-arrow-dark.svg") no-repeat left top; border: none; }
+html.dark-theme header .navbar-light .navbar-nav .nav-link.dropdown-toggle:after { background: url("../images/down-arrow-dark.svg") no-repeat left top; border: none; background-size: 12px 7px; }
 html.dark-theme header .navbar-light .navbar-nav .nav-link.show, html.dark-theme header .navbar-light .navbar-nav .nav-link:hover { color: #ffffff; }
-html.dark-theme header .navbar-light .navbar-nav .nav-link.show.dropdown-toggle:after, html.dark-theme header .navbar-light .navbar-nav .nav-link:hover.dropdown-toggle:after { background: url("../images/down-arrow-dark.svg") no-repeat left top; }
+html.dark-theme header .navbar-light .navbar-nav .nav-link.show.dropdown-toggle:after, html.dark-theme header .navbar-light .navbar-nav .nav-link:hover.dropdown-toggle:after { background: url("../images/down-arrow-dark.svg") no-repeat left top; background-size: 12px 7px; }
 html.dark-theme header .navbar-light .navbar-nav .nav-item { border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
 html.dark-theme header .navbar-light .navbar-nav .nav-item.active .nav-link { color: #3485ff; }
 html.dark-theme header .navbar-light .dropdown-menu { border: none; }
@@ -63,25 +63,25 @@ html.dark-theme header .navbar-light .header-cta-btn a.btn-2 { background-color:
 html.dark-theme header .navbar-light .header-cta-btn a:hover { color: #fff; background-color: #2a6fd9; }
 html.dark-theme header.home { background-color: #3485ff; }
 html.dark-theme header.home .navbar-light .navbar-nav .nav-link { color: #fff; }
-html.dark-theme header.home .navbar-light .navbar-nav .nav-link.dropdown-toggle:after { background: url("../images/down-arrow.svg") no-repeat left top; }
+html.dark-theme header.home .navbar-light .navbar-nav .nav-link.dropdown-toggle:after { background: url("../images/down-arrow.svg") no-repeat left top; background-size: 12px 7px; }
 html.dark-theme header.home .navbar-light .header-cta-btn a { color: #fff; }
 html.dark-theme header.home .navbar-light .header-cta-btn a.btn-1 { background-color: rgba(17, 19, 21, 0.16); }
 html.dark-theme header.home .navbar-light .header-cta-btn a.btn-2 { background-color: #111315; color: #3485ff; }
 html.dark-theme header.home .navbar-toggler .icon-bar { background-color: #111315; }
 @media screen and (min-width: 992px) {
   html.dark-theme header .navbar-light .navbar-nav .nav-item { border: none; }
-  html.dark-theme header .navbar-light .navbar-nav .nav-link.dropdown-toggle:after { background: url("../images/down-arrow-dark.svg") no-repeat left top; border: none; }
+  html.dark-theme header .navbar-light .navbar-nav .nav-link.dropdown-toggle:after { background: url("../images/down-arrow-dark.svg") no-repeat left top; border: none; background-size: 12px 7px; }
   html.dark-theme header .navbar-light .navbar-nav .nav-link.show, html.dark-theme header .navbar-light .navbar-nav .nav-link:hover { color: #3485ff; }
-  html.dark-theme header .navbar-light .navbar-nav .nav-link.show.dropdown-toggle:after, html.dark-theme header .navbar-light .navbar-nav .nav-link:hover.dropdown-toggle:after { background: url("../images/down-arrow-blue.svg") no-repeat left top; }
-  html.dark-theme header .navbar-light .dropdown-menu:after { border: solid transparent; border-color: rgba(136, 183, 213, 0); border-bottom-color: #111315; }
-  html.dark-theme header.home .navbar-light .navbar-nav .nav-link.dropdown-toggle:after { background: url("../images/down-arrow.svg") no-repeat left top; }
+  html.dark-theme header .navbar-light .navbar-nav .nav-link.show.dropdown-toggle:after, html.dark-theme header .navbar-light .navbar-nav .nav-link:hover.dropdown-toggle:after { background: url("../images/down-arrow-blue.svg") no-repeat left top; background-size: 12px 7px; }
+  html.dark-theme header .navbar-light .dropdown-menu:after { border: solid transparent; border-color: rgba(136, 183, 213, 0); border-bottom-color: #111315; border-width: 5px; }
+  html.dark-theme header.home .navbar-light .navbar-nav .nav-link.dropdown-toggle:after { background: url("../images/down-arrow.svg") no-repeat left top; background-size: 12px 7px; }
   html.dark-theme header.home .navbar-light .navbar-nav .nav-link.show, html.dark-theme header.home .navbar-light .navbar-nav .nav-link:hover { color: #ffffff; }
-  html.dark-theme header.home .navbar-light .navbar-nav .nav-link.show.dropdown-toggle:after, html.dark-theme header.home .navbar-light .navbar-nav .nav-link:hover.dropdown-toggle:after { background: url("../images/down-arrow-dark.svg") no-repeat left top; }
+  html.dark-theme header.home .navbar-light .navbar-nav .nav-link.show.dropdown-toggle:after, html.dark-theme header.home .navbar-light .navbar-nav .nav-link:hover.dropdown-toggle:after { background: url("../images/down-arrow-dark.svg") no-repeat left top; background-size: 12px 7px; }
 }
 html.dark-theme footer { background-color: #2a6fd9; color: #fff; }
 html.dark-theme footer a { color: #fff; }
 html.dark-theme footer a:hover { color: #fff; }
-html.dark-theme #banner { background: url("../images/banner-bg.jpg") no-repeat left top; color: #fff; }
+html.dark-theme #banner { background: url("../images/banner-bg.jpg") no-repeat left top; color: #fff; background-size: cover; }
 html.dark-theme #banner .h1, html.dark-theme #banner h1 { color: #fff; }
 html.dark-theme #banner .banner-btn a.btn-white { background-color: #111315; color: #ffffff; }
 html.dark-theme #banner .banner-btn a.btn-white:hover { color: #fff; background-color: rgba(17, 19, 21, 0.2); }
@@ -115,7 +115,7 @@ html.dark-theme .blackbanner { color: #fff; background: #0F1620; }
 html.dark-theme .tab-content .pricing-box { border: 1px solid rgba(7, 7, 7, 0.1); }
 html.dark-theme .tab-content .pricing-box-top { border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
 html.dark-theme .tab-content .per-month { color: #ffffff; }
-html.dark-theme .tab-content .pricing-bullets ul.other li { background: url("../images/icon-circle-check-white.svg") no-repeat left 2px; }
+html.dark-theme .tab-content .pricing-bullets ul.other li { background: url("../images/icon-circle-check-white.svg") no-repeat left 2px; background-size: 24px; }
 html.dark-theme .blackbanner ul.featured > li:before { background-color: #111315; }
 @media screen and (min-width: 768px) {
   html.dark-theme .pricing-top .nav-tabs:not(.recurring-tabs) li { border-right: 1px solid #292b2e; border-bottom: none; }
@@ -377,7 +377,7 @@ html.dark-theme .call-to-action { background: url("../images/cta-bg.jpg") left t
 html.dark-theme .storage .storage-count { color: rgba(255, 255, 255, 0.6); background: url("../images/icon-storage-white.svg") left 2px/16px no-repeat; }
 html.dark-theme .middle-section .inbox-list ul li.selected:after, html.dark-theme .storage .storage-bar span, html.dark-theme .tab-section .tab-content-left .btn .dot:after { background-color: #3485ff; }
 html.dark-theme .container-checkbox .checkmark { border: 2px solid rgba(255, 255, 255, 0.1); }
-html.dark-theme .container-checkbox .checkmark:after { border: solid #111315; }
+html.dark-theme .container-checkbox .checkmark:after { border: solid #111315; border-width: 0 2px 2px 0; }
 html.dark-theme .inner-header, html.dark-theme .mobile-search, html.dark-theme .offcanvas-header, html.dark-theme .setting-right .setting-right-top { border-bottom: 1px solid #292b2e; border-top: 1px solid #292b2e; }
 html.dark-theme .container-checkbox input:checked ~ .checkmark, html.dark-theme .left-side .new-message-btn button { background-color: #3485ff; }
 html.dark-theme .new-message-btn-mobile button { background-color: #3485ff; }
@@ -514,8 +514,8 @@ html.dark-theme .setting-middle .middle-search .sorting-btn:hover { background: 
 html.dark-theme .setting-middle .arrow-back a { background: url("../images/arrow-left.svg") right top/24px no-repeat; }
 html.dark-theme .setting-middle .secound-password-btn a, html.dark-theme .setting-middle .secound-password-btn button { background: url("../images/icon-shield-white.svg") left top/24px no-repeat; color: #3485ff; }
 html.dark-theme .setting-middle .secound-password-btn a:hover, html.dark-theme .setting-middle .secound-password-btn button:hover { background: url("../images/icon-shield-gray.svg") left top/24px no-repeat; color: rgba(255, 255, 255, 0.6); }
-html.dark-theme .setting-middle .info-text { background: url("../images/icon-info-white.svg") no-repeat center left; color: rgba(255, 255, 255, 0.6); }
-html.dark-theme .setting-middle .info-warning-text { background: url("../images/icon-info-red-white.svg") no-repeat center left; color: rgba(255, 255, 255, 0.6); }
+html.dark-theme .setting-middle .info-text { background: url("../images/icon-info-white.svg") no-repeat center left; color: rgba(255, 255, 255, 0.6); background-size: 18px; }
+html.dark-theme .setting-middle .info-warning-text { background: url("../images/icon-info-red-white.svg") no-repeat center left; color: rgba(255, 255, 255, 0.6); background-size: 18px; }
 html.dark-theme .setting-middle .token-download a, html.dark-theme .setting-middle .token-download button { color: #68a353; background: url("../images/icon-download-white.svg") left center/24px no-repeat; }
 html.dark-theme .setting-middle .delete-item a, html.dark-theme .setting-middle .delete-item button { color: #ffffff; background: url("../images/icon-delete-white.svg") left center/24px no-repeat; }
 html.dark-theme .setting-middle .delete-item a:hover, html.dark-theme .setting-middle .delete-item button:hover { color: rgba(255, 255, 255, 0.6); background: url("../images/icon-delete-white.svg") left center/24px no-repeat; }
@@ -1029,3 +1029,6 @@ html.dark-theme #folderulcustom li.active a .menu-icon { background: rgba(52, 13
 /* --- copy-address button next to the sender --- */
 html.dark-theme .sender-name .copy-sender { color: rgba(255, 255, 255, 0.5); }
 html.dark-theme .sender-name .copy-sender:hover { color: #3485ff; background: rgba(255, 255, 255, 0.08); }
+
+/* --- checkbox tick: white on the accent box (the twin had turned the white border dark) --- */
+html.dark-theme .container-checkbox .checkmark:after { border: solid #fff; border-width: 0 2px 2px 0; }

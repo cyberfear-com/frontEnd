@@ -228,3 +228,6 @@ html.dark-theme #folderulcustom li.active a .menu-icon { background: rgba(52, 13
 /* --- copy-address button next to the sender --- */
 html.dark-theme .sender-name .copy-sender { color: rgba(255, 255, 255, 0.5); }
 html.dark-theme .sender-name .copy-sender:hover { color: #3485ff; background: rgba(255, 255, 255, 0.08); }
+
+/* --- checkbox tick: white on the accent box (the twin had turned the white border dark) --- */
+html.dark-theme .container-checkbox .checkmark:after { border: solid #fff; border-width: 0 2px 2px 0; }

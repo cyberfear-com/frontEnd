@@ -151,6 +151,21 @@ def walk(block, media, out):
             if isinstance(new, tuple): prop, new = new
             if new is not None: decls.append("%s: %s%s" % (prop, new, " !important" if imp else "")); mapped = True
             elif is_colour_prop(prop, val): decls.append("%s: %s%s" % (prop, val, " !important" if imp else ""))
+        # a border / background shorthand in the twin would reset the widths / size / position that the
+        # light rule sets in separate longhands: carry those longhands along
+        if decls:
+            props = [d.split(":", 1)[0].strip().lower() for d in decls]
+            extra = []
+            for d in body.split(";"):
+                d = d.strip()
+                if ":" not in d: continue
+                pr, vl = d.split(":", 1); pr = pr.strip().lower(); vl = vl.strip()
+                if pr in props: continue
+                if any(x == "border" or (x.startswith("border-") and x.count("-") == 1 and not x.endswith(("color", "width", "style", "radius"))) for x in props) and (pr.startswith("border") and (pr.endswith("width") or pr.endswith("style"))):
+                    extra.append("%s: %s" % (pr, vl))
+                if "background" in props and pr in ("background-size", "background-position", "background-repeat", "background-origin"):
+                    extra.append("%s: %s" % (pr, vl))
+            decls += extra
         # every colour-bearing rule gets a twin (unchanged declarations included) so the cascade among the
         # twins mirrors the light cascade exactly and no twin can override a more specific light rule
         if decls:

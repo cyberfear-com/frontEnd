@@ -203,3 +203,15 @@ html.dark-theme .setting-middle .add-contact-btn a:hover, html.dark-theme .setti
 html.dark-theme .dropdown-menu { --bs-dropdown-color: #fff; --bs-dropdown-link-color: #fff; --bs-dropdown-link-hover-color: #fff; --bs-dropdown-link-hover-bg: rgba(255, 255, 255, 0.06); --bs-dropdown-bg: #1a1c1f; --bs-dropdown-border-color: #292b2e; color: #fff; }
 html.dark-theme .dropdown-menu .dd-inner li a { color: #fff; }
 html.dark-theme .dropdown-menu .dd-inner li.divider { border-top-color: rgba(255, 255, 255, 0.2); }
+
+/* --- email list: read rows recede, unread rows stay bright (Figma: 100/80/60 % vs 70/40 %) --- */
+html.dark-theme .middle-section .inbox-list table .email .mail-title { color: rgba(255, 255, 255, 0.6); }
+html.dark-theme .middle-section .inbox-list table .email .inbox-list-top, html.dark-theme .middle-section .inbox-list table .email p, html.dark-theme .middle-section .inbox-list table tr:hover .inbox-list-top { color: rgba(255, 255, 255, 0.4); }
+html.dark-theme .middle-section .inbox-list table .email .date-time { opacity: 0.4; }
+html.dark-theme .middle-section .inbox-list table .email.unread .mail-title { color: #fff; }
+html.dark-theme .middle-section .inbox-list table .email.unread .inbox-list-top, html.dark-theme .middle-section .inbox-list table tr:hover .email.unread .inbox-list-top { color: rgba(255, 255, 255, 0.85); }
+html.dark-theme .middle-section .inbox-list table .email.unread p { color: rgba(255, 255, 255, 0.65); }
+html.dark-theme .middle-section .inbox-list table .email.unread .date-time { opacity: 1; }
+
+/* --- label chips on a message (Figma: #242729 chip, white text) --- */
+html.dark-theme .email-labels .label-wrapper { background: #242729; color: #fff; }

@@ -2500,7 +2500,7 @@ define(["react", "app"], function (React, app) {
                                     </span>
                                     {this.state.domainWarning &&
 
-                                        <div className="" style={{marginTop:"5px",color:"#c71c36",lineHeight: "20px"}}>
+                                        <div className="spoof-warning" style={{marginTop:"5px",color:"#c71c36",lineHeight: "20px"}}>
                                             Please be careful; the email was sent from a domain that does not match the domain in the "FROM" field of the same email, which could be an indication of a spoofed email.
                                     </div>
                                         }

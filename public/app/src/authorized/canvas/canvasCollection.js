@@ -248,7 +248,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                         >
                                             <path
                                                 d="M14.5312 12.1833L16.6646 10.05L14.5312 7.91663"
-                                                stroke="black"
+                                                stroke="#080D13"
                                                 strokeWidth="1.25"
                                                 strokeMiterlimit="10"
                                                 strokeLinecap="round"
@@ -256,7 +256,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                             />
                                             <path
                                                 d="M8.13281 10.05H16.6078"
-                                                stroke="black"
+                                                stroke="#080D13"
                                                 strokeWidth="1.25"
                                                 strokeMiterlimit="10"
                                                 strokeLinecap="round"
@@ -264,7 +264,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                             />
                                             <path
                                                 d="M9.79948 16.6667C6.11615 16.6667 3.13281 14.1667 3.13281 10C3.13281 5.83337 6.11615 3.33337 9.79948 3.33337"
-                                                stroke="black"
+                                                stroke="#080D13"
                                                 strokeWidth="1.25"
                                                 stroke-miterlimit="10"
                                                 strokeLinecap="round"

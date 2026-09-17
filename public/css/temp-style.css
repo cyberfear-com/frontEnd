@@ -5157,6 +5157,10 @@ header .user-dropdown .btn-secondary .user-email {
     font-weight: 500;
     opacity: 0.6;
 }
+header .user-dropdown .btn-secondary .user-email {
+    display: inline-block;
+    margin-top: 3px;
+}
 header .user-dropdown .btn-secondary .arrow {
     width: 14px;
     height: 14px;

@@ -109,3 +109,40 @@ html.dark-theme .dropdown-toggle.dropdown-toggle-labels::after { border-top-colo
 /* --- login / signup page header (website-style header with a black wordmark) --- */
 html.dark-theme header .navbar-brand { display: inline-block; background: url("../images/logo-dark-theme.svg") left center / contain no-repeat; }
 html.dark-theme header .navbar-brand img { visibility: hidden; }
+
+/* --- spoofed-sender warning: muted instead of hard red --- */
+html.dark-theme .spoof-warning { color: #e08a7a !important; }
+
+/* --- SmartNotification toasts (the plugin sets a white background inline) --- */
+html.dark-theme .SmallBox { background-color: #1f2124 !important; color: #fff; border-color: #33363a; box-shadow: 0 20px 32px -8px rgba(0, 0, 0, 0.8); }
+html.dark-theme .SmallBox[style*="#ffd4a8"], html.dark-theme .SmallBox[style*="255, 212, 168"] { background-color: #3a2c1a !important; color: #ffd4a8; }
+html.dark-theme .SmallBox span, html.dark-theme .SmallBox p { color: inherit; }
+
+/* --- compose window: graphite sheet with a border and a real shadow so it stands off the page --- */
+html.dark-theme .compose-window { background: #1a1c1f; border: 1px solid #33363a; box-shadow: 0 24px 64px rgba(0, 0, 0, 0.7); }
+html.dark-theme .compose-body, html.dark-theme .compose-window .the-content, html.dark-theme .compose-window .the-content-wrapper { background-color: #1a1c1f; }
+html.dark-theme .compose-email-wrapper .compose-ec { box-shadow: 0 24px 64px rgba(0, 0, 0, 0.7); }
+html.dark-theme .compose-email-wrapper.compose-maximize .compose-ec { background-color: rgba(0, 0, 0, 0.6); }
+
+/* --- recipient chips: mailum = green, external = red, PIN = yellow, PGP = blue --- */
+html.dark-theme .select2-container--default .select2-selection--multiple .select2-selection__choice.email-protected { background-color: rgba(104, 200, 104, 0.3); color: #fff; }
+html.dark-theme .select2-container--default .select2-selection--multiple .select2-selection__choice.email-unprotected { background-color: rgba(255, 110, 130, 0.32); color: #fff; }
+html.dark-theme .select2-container--default .select2-selection--multiple .select2-selection__choice.email-pinprotected { background-color: rgba(255, 235, 120, 0.3); color: #fff; }
+html.dark-theme .select2-container--default .select2-selection--multiple .select2-selection__choice.email-pgpprotected { background-color: rgba(120, 190, 255, 0.3); color: #fff; }
+
+/* --- "Choose an Email" illustration: dark disc, muted mailbox --- */
+html.dark-theme .inbox-icon svg [fill="#FAFBFF"] { fill: #1a1c1f; }
+html.dark-theme .inbox-icon svg [fill="#F3F6FB"] { fill: #222528; }
+html.dark-theme .inbox-icon svg [fill="white"] { fill: #3a4660; }
+html.dark-theme .inbox-icon svg [fill="#E8F1FF"] { fill: #3e4d6b; }
+html.dark-theme .inbox-icon svg [fill="#DEEAFC"] { fill: #445576; }
+html.dark-theme .inbox-icon svg [fill="#D9E8FF"] { fill: #4a5c80; }
+html.dark-theme .inbox-icon svg [fill="#D0E3FF"] { fill: #4f6388; }
+html.dark-theme .inbox-icon svg [fill="#CADBF4"] { fill: #536789; }
+html.dark-theme .inbox-icon svg [fill="#C2D9FC"] { fill: #5a7096; }
+html.dark-theme .inbox-icon svg [fill="#C1DAFF"] { fill: #607aa6; }
+html.dark-theme .inbox-icon svg [fill="#AECBF7"] { fill: #6b88b8; }
+html.dark-theme .inbox-icon svg [fill="#A7C3EC"] { fill: #7290c2; }
+
+/* --- login / signup right panel: same artwork, darkened, so the 3D renders sit on a dark sheet --- */
+html.dark-theme .full-height-container .right-side { background: linear-gradient(rgba(13, 17, 26, 0.74), rgba(13, 17, 26, 0.74)), url("../images/blue-bg.jpg") no-repeat center / cover; }

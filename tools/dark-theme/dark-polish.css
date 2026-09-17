@@ -194,3 +194,7 @@ html.dark-theme .compose-footer .btn.dropdown-toggle-labels .icon svg { width: 2
 html.dark-theme .app-smodal #dialogModBody, html.dark-theme .app-smodal #infoPass, html.dark-theme .app-smodal #infoModBody { color: rgba(255, 255, 255, 0.6); }
 html.dark-theme .app-smodal .modal-footer { border-color: #292b2e; }
 html.dark-theme .app-smodal .icon-background { background: rgba(255, 255, 255, 0.06); }
+
+/* --- settings "+ Add ..." link buttons: text link, not a filled button --- */
+html.dark-theme .setting-middle .add-contact-btn a, html.dark-theme .setting-middle .add-contact-btn button { background: transparent; color: #3485ff; }
+html.dark-theme .setting-middle .add-contact-btn a:hover, html.dark-theme .setting-middle .add-contact-btn button:hover { background-color: rgba(52, 133, 255, 0.1); color: #3485ff; }

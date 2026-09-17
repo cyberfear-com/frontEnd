@@ -7148,7 +7148,7 @@ body.shrinked #folderMenu .logo .theme-switch {
 .setting-middle .info-text {
     width: 100%;
     float: left;
-    padding: 2px 0 2px 24px;
+    padding: 2px 0 2px 30px;
     margin: 16px 0 0;
     font-size: 12px;
 }
@@ -8559,6 +8559,7 @@ textarea {
     color: #415067;
 }
 .setting-middle .info-warning-text {
+    padding-left: 30px;
     background: url("../images/icon-info-red.svg") no-repeat center left;
     background-size: 18px;
     color: #415067;

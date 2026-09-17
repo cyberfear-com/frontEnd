@@ -91,7 +91,7 @@ def with_urls_masked(val, fn):
 
 def is_colour_prop(prop, val):
     p = prop.lower()
-    return (p in ("background", "background-color", "background-image", "color", "caret-color", "fill", "stroke") or p.startswith("border") or p.startswith("outline")) and bool(HEX.search(val) or "url(" in val or re.search(r"\b(transparent|none|inherit|currentColor)\b", val))
+    return (p in ("background", "background-color", "background-image", "color", "caret-color", "fill", "stroke") or p.startswith("border") or p.startswith("outline")) and bool(HEX.search(val) or "url(" in val or re.search(r"\b(transparent|none|inherit|currentColor)\b", val) or (p == "background" and val.strip() in ("0 0", "0")))
 
 def map_decl(prop, val):
     p = prop.lower()

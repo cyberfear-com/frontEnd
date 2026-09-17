@@ -193,6 +193,7 @@
     overflow: auto;*/
 }
 .compose-window .select2-container .select2-selection--multiple .select2-selection__rendered {
+    padding-left: 10px;
     /*display: flex;*/
     max-height:60px;
     overflow-y: auto;

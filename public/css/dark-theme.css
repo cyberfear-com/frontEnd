@@ -829,8 +829,10 @@ html.dark-theme header .menu-icon button:hover svg path { fill: #3485ff; }
 /* --- header / user --- */
 html.dark-theme .user-avatar { background: #6f6cf6; border-color: transparent; }
 html.dark-theme .user-avatar .user-letter { color: #fff; }
-html.dark-theme header .user-dropdown .btn-secondary, html.dark-theme header .user-dropdown .btn-secondary:hover, html.dark-theme header .user-dropdown .btn-secondary:focus { background: transparent; color: #fff; }
-html.dark-theme header .user-dropdown .user-email { color: rgba(255, 255, 255, 0.5); }
+html.dark-theme header .user-dropdown .btn-secondary, html.dark-theme header .user-dropdown .btn-secondary:hover, html.dark-theme header .user-dropdown .btn-secondary:focus { background: transparent; color: rgba(255, 255, 255, 0.85); }
+/* name and address in the header / right menu: closer in tone (the address had colour 50 % on top of opacity 60 %) */
+html.dark-theme header .user-dropdown .user-email, html.dark-theme .user-name-side-menu .user-email { color: rgba(255, 255, 255, 0.7); opacity: 1; }
+html.dark-theme .user-name-side-menu { color: rgba(255, 255, 255, 0.85); }
 
 /* --- reading pane --- */
 html.dark-theme #virtualization { background: transparent; color-scheme: dark; }

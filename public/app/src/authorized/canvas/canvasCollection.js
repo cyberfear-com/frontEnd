@@ -138,7 +138,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                                 />
                                             </svg>
                                         </span>
-                                        Copy my email address
+                                        Copy email
                                     </button>
                                 </li>
 

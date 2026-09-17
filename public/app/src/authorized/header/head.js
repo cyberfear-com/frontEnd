@@ -291,7 +291,7 @@ define([
                                                         />
                                                     </svg>
                                                 </span>
-                                                Copy my email address
+                                                Copy email
                                             </button>
                                         </li>
                                         <li>

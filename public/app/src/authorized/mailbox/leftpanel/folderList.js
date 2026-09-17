@@ -293,8 +293,8 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                 app.user.get("mailboxSize") / 1024 / 1024/1024,
                                 1
                             )}
-                        </span>{" "}
-                        GB{" "}
+                        </span>
+                        <span className="used-unit">{" "}GB</span>
                     </span>
                     <span>
                         &nbsp;/&nbsp;

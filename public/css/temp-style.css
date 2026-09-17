@@ -11825,6 +11825,9 @@ body.shrinked #folderMenu .storage-count .used-full {
 body.shrinked #folderMenu .storage-count .used-short {
     display: inline;
 }
+body.shrinked #folderMenu .storage-count .used-unit {
+    display: none;
+}
 body.shrinked #folderMenu .storage .storage-count {
     padding-left: 0px;
     background: none;

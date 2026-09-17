@@ -5364,6 +5364,9 @@ header .user-dropdown .dropdown-menu li button {
 position: relative;
 }
 
+#folderulcustom li.has-unread a {
+    font-weight: 900;
+}
 #folderulcustom li.active a {
     font-weight: 900;
     color: #2277f6;

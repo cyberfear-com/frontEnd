@@ -908,7 +908,7 @@ html.dark-theme .btn.dropdown-toggle-labels, html.dark-theme .btn.dropdown-toggl
 html.dark-theme .dropdown-toggle.dropdown-toggle-labels::after { border-top-color: rgba(255, 255, 255, 0.4); }
 
 /* --- login / signup page header (website-style header with a black wordmark) --- */
-html.dark-theme header .navbar-brand { display: inline-block; background: url("../images/logo-dark-theme.svg") left center / contain no-repeat; }
+html.dark-theme header .navbar-brand { display: inline-block; background: url("../images/logo-dark-theme.svg") left center / contain no-repeat; background-origin: content-box; }
 html.dark-theme header .navbar-brand img { visibility: hidden; }
 
 /* --- spoofed-sender warning: muted instead of hard red --- */

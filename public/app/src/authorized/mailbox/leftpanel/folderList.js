@@ -36,6 +36,14 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
             });
         },
 
+        // "active" marks the folder being viewed (activeFolderId; the Inbox before it is set).
+        // Custom folders with unread mail used to get "active" too, which only meant a bold
+        // name; that is "has-unread" now, so the selection highlight stays on one folder.
+        folderClass: function (index, role, hasUnread) {
+            var current = app.user.get("activeFolderId");
+            var isActive = current !== undefined && current !== null && current !== "" ? String(current) === String(index) : role == "Inbox";
+            return (isActive ? "active" : "") + (hasUnread ? " has-unread" : "");
+        },
         removeClassesActive: function () {
             $("#folderul > li").removeClass("active");
             $("#folderulcustom > li").removeClass("active");
@@ -164,7 +172,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                 thisComp.props.changeFodlerId(
                                     $(event.target).attr("id")
                                 );
-                                $("#" + $(event.target).attr("id"))
+                                $('[id="' + $(event.target).attr("id") + '"]')
                                     .parents("li")
                                     .addClass("active");
 
@@ -176,7 +184,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                     } else {
                         // Same folder clicked again: reset the view but keep the folder highlighted.
                         thisComp.removeClassesActive();
-                        $("#" + $(event.target).attr("id"))
+                        $('[id="' + $(event.target).attr("id") + '"]')
                             .parents("li")
                             .addClass("active");
                         app.user.set({ resetSelectedItems: true });
@@ -540,13 +548,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                                             folderData
                                                         ]["index"]
                                                     }
-                                                    className={`${
-                                                        this.state.mainFolders[
-                                                            folderData
-                                                        ]["role"] == "Inbox"
-                                                            ? "active"
-                                                            : ""
-                                                    }`}
+                                                    className={this.folderClass(this.state.mainFolders[folderData]["index"], this.state.mainFolders[folderData]["role"], false)}
                                                 >
                                                     <a
                                                         key={"aM_" + i}
@@ -656,24 +658,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                                                             "index"
                                                                         ]
                                                                     }
-                                                                    className={
-                                                                        " " +
-                                                                        (folderData[
-                                                                            "role"
-                                                                        ] ==
-                                                                        "Inbox"
-                                                                            ? "active"
-                                                                            : this
-                                                                                  .state
-                                                                                  .unopened[
-                                                                                  folderData[
-                                                                                      "index"
-                                                                                  ]
-                                                                              ] ==
-                                                                              0
-                                                                            ? ""
-                                                                            : "active")
-                                                                    }
+                                                                    className={this.folderClass(folderData["index"], folderData["role"], this.state.unopened[folderData["index"]] > 0)}
                                                                 >
 
                                                                     <a
@@ -966,13 +951,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                                             folderData
                                                         ]["index"]
                                                     }
-                                                    className={`${
-                                                        this.state.mainFolders[
-                                                            folderData
-                                                        ]["role"] == "Inbox"
-                                                            ? "active"
-                                                            : ""
-                                                    }`}
+                                                    className={this.folderClass(this.state.mainFolders[folderData]["index"], this.state.mainFolders[folderData]["role"], false)}
                                                 >
                                                     <a
                                                         key={"aM_" + i}
@@ -1084,24 +1063,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                                                             "index"
                                                                         ]
                                                                     }
-                                                                    className={
-                                                                        " " +
-                                                                        (folderData[
-                                                                            "role"
-                                                                        ] ==
-                                                                        "Inbox"
-                                                                            ? "active"
-                                                                            : this
-                                                                                  .state
-                                                                                  .unopened[
-                                                                                  folderData[
-                                                                                      "index"
-                                                                                  ]
-                                                                              ] ==
-                                                                              0
-                                                                            ? ""
-                                                                            : "active")
-                                                                    }
+                                                                    className={this.folderClass(folderData["index"], folderData["role"], this.state.unopened[folderData["index"]] > 0)}
                                                                 >
                                                                     <a
                                                                         key={

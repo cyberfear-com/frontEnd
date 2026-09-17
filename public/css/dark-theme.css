@@ -138,7 +138,7 @@ html.dark-theme .ql-editor .ql-color-yellow { color: #ff0; }
 html.dark-theme .ql-editor .ql-color-green { color: rgba(255, 255, 255, 0.6); }
 html.dark-theme .ql-editor .ql-color-blue, html.dark-theme .ql-snow .ql-toolbar .ql-picker-item.ql-selected, html.dark-theme .ql-snow .ql-toolbar .ql-picker-item:hover, html.dark-theme .ql-snow .ql-toolbar .ql-picker-label.ql-active, html.dark-theme .ql-snow .ql-toolbar .ql-picker-label:hover, html.dark-theme .ql-snow .ql-toolbar button.ql-active, html.dark-theme .ql-snow .ql-toolbar button:focus, html.dark-theme .ql-snow .ql-toolbar button:hover, html.dark-theme .ql-snow a, html.dark-theme .ql-snow.ql-toolbar .ql-picker-item.ql-selected, html.dark-theme .ql-snow.ql-toolbar .ql-picker-item:hover, html.dark-theme .ql-snow.ql-toolbar .ql-picker-label.ql-active, html.dark-theme .ql-snow.ql-toolbar .ql-picker-label:hover, html.dark-theme .ql-snow.ql-toolbar button.ql-active, html.dark-theme .ql-snow.ql-toolbar button:focus, html.dark-theme .ql-snow.ql-toolbar button:hover { color: #3485ff; }
 html.dark-theme .ql-editor .ql-color-purple { color: rgba(255, 255, 255, 0.6); }
-html.dark-theme .ql-editor.ql-blank::before { color: rgba(255, 255, 255, 0.6); }
+html.dark-theme .ql-editor.ql-blank::before { color: rgba(0, 0, 0, 0.6); }
 html.dark-theme .ql-snow .ql-toolbar button, html.dark-theme .ql-snow.ql-toolbar button { border: none; }
 html.dark-theme .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-fill, html.dark-theme .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill, html.dark-theme .ql-snow .ql-toolbar .ql-picker-item:hover .ql-fill, html.dark-theme .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill, html.dark-theme .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-fill, html.dark-theme .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke.ql-fill, html.dark-theme .ql-snow .ql-toolbar .ql-picker-label:hover .ql-fill, html.dark-theme .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke.ql-fill, html.dark-theme .ql-snow .ql-toolbar button.ql-active .ql-fill, html.dark-theme .ql-snow .ql-toolbar button.ql-active .ql-stroke.ql-fill, html.dark-theme .ql-snow .ql-toolbar button:focus .ql-fill, html.dark-theme .ql-snow .ql-toolbar button:focus .ql-stroke.ql-fill, html.dark-theme .ql-snow .ql-toolbar button:hover .ql-fill, html.dark-theme .ql-snow .ql-toolbar button:hover .ql-stroke.ql-fill, html.dark-theme .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-fill, html.dark-theme .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke.ql-fill, html.dark-theme .ql-snow.ql-toolbar .ql-picker-item:hover .ql-fill, html.dark-theme .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke.ql-fill, html.dark-theme .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-fill, html.dark-theme .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke.ql-fill, html.dark-theme .ql-snow.ql-toolbar .ql-picker-label:hover .ql-fill, html.dark-theme .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke.ql-fill, html.dark-theme .ql-snow.ql-toolbar button.ql-active .ql-fill, html.dark-theme .ql-snow.ql-toolbar button.ql-active .ql-stroke.ql-fill, html.dark-theme .ql-snow.ql-toolbar button:focus .ql-fill, html.dark-theme .ql-snow.ql-toolbar button:focus .ql-stroke.ql-fill, html.dark-theme .ql-snow.ql-toolbar button:hover .ql-fill, html.dark-theme .ql-snow.ql-toolbar button:hover .ql-stroke.ql-fill { fill: #3485ff; }
 html.dark-theme .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke, html.dark-theme .ql-snow .ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter, html.dark-theme .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke, html.dark-theme .ql-snow .ql-toolbar .ql-picker-item:hover .ql-stroke-miter, html.dark-theme .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke, html.dark-theme .ql-snow .ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter, html.dark-theme .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke, html.dark-theme .ql-snow .ql-toolbar .ql-picker-label:hover .ql-stroke-miter, html.dark-theme .ql-snow .ql-toolbar button.ql-active .ql-stroke, html.dark-theme .ql-snow .ql-toolbar button.ql-active .ql-stroke-miter, html.dark-theme .ql-snow .ql-toolbar button:focus .ql-stroke, html.dark-theme .ql-snow .ql-toolbar button:focus .ql-stroke-miter, html.dark-theme .ql-snow .ql-toolbar button:hover .ql-stroke, html.dark-theme .ql-snow .ql-toolbar button:hover .ql-stroke-miter, html.dark-theme .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke, html.dark-theme .ql-snow.ql-toolbar .ql-picker-item.ql-selected .ql-stroke-miter, html.dark-theme .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke, html.dark-theme .ql-snow.ql-toolbar .ql-picker-item:hover .ql-stroke-miter, html.dark-theme .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke, html.dark-theme .ql-snow.ql-toolbar .ql-picker-label.ql-active .ql-stroke-miter, html.dark-theme .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke, html.dark-theme .ql-snow.ql-toolbar .ql-picker-label:hover .ql-stroke-miter, html.dark-theme .ql-snow.ql-toolbar button.ql-active .ql-stroke, html.dark-theme .ql-snow.ql-toolbar button.ql-active .ql-stroke-miter, html.dark-theme .ql-snow.ql-toolbar button:focus .ql-stroke, html.dark-theme .ql-snow.ql-toolbar button:focus .ql-stroke-miter, html.dark-theme .ql-snow.ql-toolbar button:hover .ql-stroke, html.dark-theme .ql-snow.ql-toolbar button:hover .ql-stroke-miter { stroke: #3485ff; }
@@ -166,7 +166,7 @@ html.dark-theme .ql-toolbar.ql-snow .ql-picker-label { border: 1px solid transpa
 html.dark-theme .ql-toolbar.ql-snow .ql-picker-options { border: 1px solid transparent; }
 html.dark-theme .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-label, html.dark-theme .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-options { border-color: #33363a; }
 html.dark-theme .ql-toolbar.ql-snow .ql-color-picker .ql-picker-item.ql-selected, html.dark-theme .ql-toolbar.ql-snow .ql-color-picker .ql-picker-item:hover { border-color: #ffffff; }
-html.dark-theme .ql-snow .ql-tooltip { color: rgba(255, 255, 255, 0.8); }
+html.dark-theme .ql-snow .ql-tooltip { box-shadow: 0 0 5px rgba(0, 0, 0, 0.45); color: rgba(255, 255, 255, 0.8); }
 html.dark-theme .ql-snow .ql-tooltip input[type="text"] { border: 1px solid #33363a; }
 html.dark-theme .ql-snow .ql-tooltip a.ql-action::after { border-right: 1px solid #33363a; }
 html.dark-theme .offline-ui { background-color: #2c2f33; color: rgba(255, 255, 255, 0.3); }
@@ -347,8 +347,8 @@ html.dark-theme .upgrade-details-bottom .accordion-button { border: none; color:
 html.dark-theme .upgrade-details-bottom .accordion-collapse { border: none; }
 html.dark-theme .tab-section .nav-tabs { border: none; }
 html.dark-theme .tab-section .nav-tabs li .nav-link { border: none; }
-html.dark-theme .tab-section .nav-tabs li button.nav-link:not(.active):hover { background: rgb(233, 241, 254); }
-html.dark-theme .tab-section .nav-tabs li button.nav-link:not(.active):hover span.low-opacity, html.dark-theme .tab-section .nav-tabs li button.nav-link:not(.active):hover span { background: rgb(213, 229, 253); color: rgb(34, 119, 246); }
+html.dark-theme .tab-section .nav-tabs li button.nav-link:not(.active):hover { background-color: #1f2124; }
+html.dark-theme .tab-section .nav-tabs li button.nav-link:not(.active):hover span.low-opacity, html.dark-theme .tab-section .nav-tabs li button.nav-link:not(.active):hover span { background-color: #1f2124; color: #3485ff; }
 html.dark-theme .tab-section .plan-features { color: rgba(255, 255, 255, 0.6); }
 @media screen and (min-width: 768px) {
   html.dark-theme .upgrade-details-top .upgrade-details-right { background-color: #1f2124; }
@@ -454,7 +454,7 @@ html.dark-theme .table-responsive tbody tr:hover .disposed-button { background: 
 html.dark-theme .table-responsive tbody tr:hover .check-button { background: url("../images/icon-check-2-blue.svg") right top/24px no-repeat; }
 html.dark-theme .table-responsive tbody tr:hover .check-button { background: url("../images/icon-check-2-blue.svg") right top/24px no-repeat; }
 html.dark-theme .table-responsive tbody tr:hover td { background-color: rgba(52, 133, 255, 0.1); color: #3485ff; }
-html.dark-theme .table-responsive tbody tr.selected { background-color: rgb(247, 248, 249); }
+html.dark-theme .table-responsive tbody tr.selected { background-color: #111315; }
 html.dark-theme .table-responsive .btn-sorting { background: url("../images/icon-sort-white.svg") left top/24px no-repeat; }
 html.dark-theme .mid-pagination-row .pagi-right ul li a { color: rgba(255, 255, 255, 0.6); border: 1px solid rgba(65, 80, 103, 0.1); }
 html.dark-theme .mid-pagination-row .pagi-right ul li a:hover { background-color: rgba(65, 80, 103, 0.1); }
@@ -530,10 +530,10 @@ html.dark-theme .upgrade-details-top .upgrade-details-left .plan-details span.ic
 html.dark-theme .upgrade-details-top .upgrade-details-left .bottom-row .storage .storage-bar { background: url("../images/storage-bar-dark.svg") left top/cover no-repeat; }
 html.dark-theme .upgrade-details-top .upgrade-details-left .upgrade-details-right { background-color: #111315; color: rgba(255, 255, 255, 0.6); }
 html.dark-theme .tab-section .nav-tabs li .nav-link.active { background-color: rgba(52, 133, 255, 1); color: #fff; }
-html.dark-theme .tab-section .nav-tabs li .nav-link.active span.low-opacity { background: rgb(213, 229, 253); color: rgb(34, 119, 246); }
+html.dark-theme .tab-section .nav-tabs li .nav-link.active span.low-opacity { background-color: #1f2124; color: #3485ff; }
 html.dark-theme .tab-section .nav-tabs li .nav-link span { background-color: #e2825c; color: #fff; }
 html.dark-theme .tab-section .nav-tabs li .nav-link span.low-opacity { background-color: #1f2124; color: #f37d58; }
-html.dark-theme .tab-section .tab-content-left .btn { border: 2px solid #111315; color: rgba(255, 255, 255, 0.6); background: rgb(251, 252, 252); }
+html.dark-theme .tab-section .tab-content-left .btn { border: 2px solid #111315; color: rgba(255, 255, 255, 0.6); background-color: #111315; }
 html.dark-theme .tab-section .tab-content-left .btn .dot { background-color: #111315; border: 2px solid #292b2e; }
 html.dark-theme .tab-section .tab-content-left .btn-check:active + .btn-outline-primary, html.dark-theme .tab-section .tab-content-left .btn-check:checked + .btn-outline-primary, html.dark-theme .tab-section .tab-content-left .btn-outline-primary.active, html.dark-theme .tab-section .tab-content-left .btn-outline-primary.dropdown-toggle.show, html.dark-theme .tab-section .tab-content-left .btn-outline-primary:active { border: 2px solid #3485ff; color: #3485ff; background-color: rgba(52, 133, 255, 0.1); }
 html.dark-theme .tab-section .plan-features ul li { border-bottom: 1px solid #292b2e; background: url("../images/icon-check-green.svg") left center/24px no-repeat; }
@@ -559,13 +559,13 @@ html.dark-theme .progress-bar-striped { background-image: linear-gradient(
 html.dark-theme .main-menu ul li:not(.active) a:hover { color: #3485ff !important; }
 html.dark-theme .main-menu ul li:not(.active) a:hover svg, html.dark-theme .main-menu ul li:not(.active) a:hover svg path { fill: #3485ff !important; }
 html.dark-theme .storage-count .used_one, html.dark-theme .storage-count .used_one span { color: rgba(255, 255, 255, 0.6) !important; }
-html.dark-theme .image-disabled > div { background-color: #1f2124; color: rgba(106, 103, 110); }
+html.dark-theme .image-disabled > div { background-color: #1f2124; color: rgba(255, 255, 255, 0.6); }
 html.dark-theme .image-disabled a { color: #fff; background-color: #3485ff; border: solid 1px #3485ff; }
 html.dark-theme .image-disabled a:hover, html.dark-theme .image-disabled a:focus { border: solid 1px #3485ff; }
 html.dark-theme .real-sender > div { border: solid 1px #292b2e; background-color: #111315; }
 html.dark-theme .real-sender .text-from { color: rgba(255, 255, 255, 0.6); }
 html.dark-theme .real-sender .sender-email { background-color: #1f2124; color: #4992ff; }
-html.dark-theme #overlay { background-color: rgba(255, 255, 255, 0.5); }
+html.dark-theme #overlay { background-color: rgba(0, 0, 0, 0.5); }
 html.dark-theme #emailListNavigation { border-bottom: 1px solid #111315; }
 html.dark-theme .dataTables_paginate.paging_simple .pagination { border: 2px solid #111315; }
 html.dark-theme .paging_simple .pagination a { border: none; }
@@ -591,17 +591,17 @@ html.dark-theme .arrow-btn.ellipsis-dropdown .dropdown > button { background: no
 html.dark-theme .arrow-btn.ellipsis-dropdown .dropdown > button svg, html.dark-theme .arrow-btn.ellipsis-dropdown .dropdown > button svg path { fill: #ffffff; }
 html.dark-theme .arrow-btn.ellipsis-dropdown .dropdown > button.active svg, html.dark-theme .arrow-btn.ellipsis-dropdown .dropdown > button.active svg path { fill: #3485ff; }
 html.dark-theme .dataTables_empty { color: #f46053; }
-html.dark-theme .dropdown-menu .dd-inner li.divider { border-top: 1px solid rgba(255, 255, 255, 0.35); }
+html.dark-theme .dropdown-menu .dd-inner li.divider { border-top: 1px solid rgba(0, 0, 0, 0.35); }
 html.dark-theme .arrow-btn .dropdown-menu li button span.icon-moveto { background: url(../images/icon-move-to-folder-white.svg) left top/18px no-repeat; }
 html.dark-theme .arrow-btn .dropdown-menu li button span.icon-trash { background: url(../images/icon-delete-white.svg) left top/18px no-repeat; }
 html.dark-theme .arrow-btn .dropdown-menu li button span.icon-spam { background: url(../images/icon-spam-white.svg) left top/18px no-repeat; }
 html.dark-theme .arrow-btn .dropdown-menu li button span.icon-read { background: url(../images/icon-read.svg) left top/15px no-repeat; }
 html.dark-theme .arrow-btn .dropdown-menu li button span.icon-unread { background: url(../images/icon-unread.svg) left top/15px no-repeat; }
 html.dark-theme .arrow-btn .dropdown-menu li button span.icon-block { background: url(../images/icon-block.svg) left top/15px no-repeat; }
-html.dark-theme .user-avatar { background-color: #6f6cf6; border: 1px solid rgba(255, 255, 255, 0.1); }
-html.dark-theme .popup { background-color: rgba(255, 255, 255, 0.35); }
+html.dark-theme .user-avatar { background-color: #6f6cf6; box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.45); border: 1px solid rgba(255, 255, 255, 0.1); }
+html.dark-theme .popup { background-color: rgba(0, 0, 0, 0.35); }
 html.dark-theme .popup .wrapper .inner { background-color: #111315; }
-html.dark-theme .popup .wrapper .inner .content h6 { color: rgb(153, 153, 153); }
+html.dark-theme .popup .wrapper .inner .content h6 { color: rgba(255, 255, 255, 0.4); }
 html.dark-theme .popup .wrapper .inner .circle-content { background-color: transparent; }
 html.dark-theme .mobile-logo { color: #ffffff; }
 html.dark-theme .container-checkbox .checkmark::before, html.dark-theme .dropdown-menu a::before, html.dark-theme .dropdown-menu button::before { background-color: rgba(52, 133, 255, 0.3); }
@@ -610,28 +610,28 @@ html.dark-theme .offcanvas-body .new-message-btn button { background: url(../ima
 html.dark-theme .left-side .new-message-btn button:hover { background-color: #2a6fd9; }
 html.dark-theme .right-side .email-conetent-wrp .d-active .d-decrypting-message { background-color: #111315; }
 html.dark-theme .loading-skeleton header { border-bottom: solid 1px #292b2e; }
-html.dark-theme .loading-skeleton .user-icon { background-color: #6f6cf6; border: 1px solid rgba(255, 255, 255, 0.1); }
+html.dark-theme .loading-skeleton .user-icon { background-color: #6f6cf6; box-shadow: 0 5px 5px -5px rgba(0, 0, 0, 0.45); border: 1px solid rgba(255, 255, 255, 0.1); }
 html.dark-theme .loading-skeleton .user-icon svg { stroke: #4b8ce7; }
 html.dark-theme .loading-skeleton .loading-content { color: transparent; }
-html.dark-theme .loading-skeleton .the-folders .main-menu::before { background-color: rgb(216, 232, 254); }
+html.dark-theme .loading-skeleton .the-folders .main-menu::before { background-color: #1f2124; }
 html.dark-theme .loading-skeleton .the-folders .folders-heading .__first { color: rgba(255, 255, 255, 0.6); }
 html.dark-theme .loading-skeleton .the-folders .folders-heading .icon { fill: #3485ff; }
 html.dark-theme .loading-skeleton .the-folders .folders-heading .__first .icon { fill: #ffffff; }
 html.dark-theme .loading-skeleton .right-top-data-content .skeleton { background-color: #1f2124; }
 html.dark-theme .loading-skeleton .right-side .loading-select-email .the-action button { background-color: #3485ff; border: none; }
-html.dark-theme .loading-skeleton .inbox-list .the-email-item .the-iicon { border: solid 2px rgb(224, 226, 231); }
+html.dark-theme .loading-skeleton .inbox-list .the-email-item .the-iicon { border: solid 2px #292b2e; }
 html.dark-theme .loading-skeleton .inbox-list ul li:not(:last-child) { border-bottom: solid 1px #292b2e; }
 html.dark-theme .loading-skeleton .middle-section .middle-top .info-row { border-color: transparent; }
 html.dark-theme .loading-skeleton .inbox-list .skeleton { background-color: #1f2124; }
 html.dark-theme .loading-skeleton .right-side .skeleton { background-color: #1f2124; }
 html.dark-theme .loading-skeleton .left-side { background-color: #1f2124; }
-html.dark-theme .loading-skeleton .left-side .skeleton { background-color: rgb(216, 232, 254); }
+html.dark-theme .loading-skeleton .left-side .skeleton { background-color: #1f2124; }
 html.dark-theme .right-side .email-content-top .email-title-wrapper { border-bottom: solid 1px #292b2e; }
 html.dark-theme .right-side .email-content-top .email-title-wrapper .email-subject::before { background-color: #1f2124; }
-html.dark-theme .right-side .email-content-top .email-title-wrapper .email-sent-date { color: rgb(131, 134, 137); }
+html.dark-theme .right-side .email-content-top .email-title-wrapper .email-sent-date { color: #838689; }
 html.dark-theme .main-menu ul li.active a:hover { color: #3485ff !important; }
 html.dark-theme #userObjSync .modal-header { border-bottom-color: transparent; }
-html.dark-theme #userObjSync .modal-content { color: rgba(153, 153, 153); }
+html.dark-theme #userObjSync .modal-content { color: rgba(255, 255, 255, 0.4); }
 html.dark-theme #userObjSync .modal-title { color: #ffffff; }
 html.dark-theme .SmallBox { color: #ffffff; border: solid 2px #292b2e; }
 @media screen and (max-width: 450px) and (max-width: 767px) {
@@ -646,7 +646,7 @@ html.dark-theme .SmallBox { color: #ffffff; border: solid 2px #292b2e; }
 @media screen and (min-width: 992px) and (max-width: 1365px) {
   html.dark-theme .icon-notification button span { border-color: #292b2e; }
 }
-html.dark-theme .ql-syntax { border-left: solid 1px rgb(203 213 225); }
+html.dark-theme .ql-syntax { border-left: solid 1px #292b2e; }
 html.dark-theme .btn-check:checked + .btn, html.dark-theme .btn.active, html.dark-theme .btn.show, html.dark-theme .btn:first-child:active, html.dark-theme :not(.btn-check) + .btn:active { color: inherit; background-color: inherit; border-color: inherit; }
 html.dark-theme #loginUserForm .form-control, html.dark-theme #createAccount-modal .form-control, html.dark-theme #forgPass .form-control { border: 1px solid rgba(255, 255, 255, 0.1); color: #ffffff; background-color: transparent; }
 html.dark-theme #loginUserForm .form-select, html.dark-theme #createAccount-modal .form-select, html.dark-theme #forgPass .form-select { border: 1px solid rgba(255, 255, 255, 0.1); color: #ffffff; }
@@ -654,9 +654,9 @@ html.dark-theme #loginUserForm .form-select, html.dark-theme #createAccount-moda
   html.dark-theme body .mailBody header { border-bottom: none; }
 }
 html.dark-theme .circle-bg #the-spinner { border: 2px solid rgba(52, 133, 255, 0.1); border-bottom: 2px solid #3485ff; }
-html.dark-theme .circle-content { background-color: #3485ff; }
+html.dark-theme .circle-content { background-color: #3485ff; box-shadow: rgba(0, 0, 0, 0.45) 0px 10px 12px 0px; }
 html.dark-theme .progress-circle.medium .circle-content { background: transparent; }
-html.dark-theme .page-login .progress-content p { color: rgb(115, 115, 115); }
+html.dark-theme .page-login .progress-content p { color: #737373; }
 html.dark-theme .loading-screen.welcome { background-color: #111315; }
 html.dark-theme .loading-screen.welcome .the-circle ._circle { background-color: #161819; }
 html.dark-theme .loading-screen.welcome ._circle .icon { background-color: #111315; }
@@ -683,7 +683,7 @@ html.dark-theme #paymentMethodsModalContent .panel-body .radio.selected svg, htm
 html.dark-theme #paymentMethodsModalContent .back-button, html.dark-theme #paymentMethodsModalContent button[type="submit"] { border: none; background: transparent; background-color: #1f2124; color: #ffffff; }
 html.dark-theme #paymentMethodsModalContent button[type="submit"] { background-color: #3485ff; color: #fff; }
 html.dark-theme #paymentMethodsModalContent .paymentmethod-heading { border-bottom: solid 1px #292b2e; }
-html.dark-theme .right-side .mail-data.emailNo .the-link { background-color: rgba(72, 146, 255, 1); color: rgba(217, 232, 254); }
+html.dark-theme .right-side .mail-data.emailNo .the-link { background-color: rgba(72, 146, 255, 1); color: #d9e8fe; }
 html.dark-theme .right-side .mail-data.emailNo .the-link strong { color: #fff; }
 html.dark-theme .right-side .mail-data.emailNo .the-link .the-icon { background-color: #111315; }
 html.dark-theme .footer-minimal.theme_light { background-color: #111315; }
@@ -698,13 +698,13 @@ html.dark-theme .blue-bg-text .icon path { stroke: #3485ff; }
 html.dark-theme .editor { border: solid 1px #292b2e; background-color: #111315; }
 html.dark-theme .editor .c-editor-actions { background-color: #1f2124; border-bottom: solid 1px #292b2e; }
 html.dark-theme .com-the-con-editor__settings { border: none; }
-html.dark-theme .app-notification ._inside { border: solid 2px rgb(242, 242, 242); background-color: #111315; }
+html.dark-theme .app-notification ._inside { border: solid 2px #292b2e; background-color: #111315; }
 html.dark-theme .app-notification button { background: transparent; border: none; }
 html.dark-theme .app-notification button._highlight { color: #3485ff; }
 html.dark-theme .app-notification ._header ._title { color: #ffffff; }
-html.dark-theme .app-notification ._filter_wrap { border-bottom: solid 1px rgb(242, 242, 242); }
-html.dark-theme .app-notification ._filter button { color: rgb(103, 115, 133); }
-html.dark-theme .app-notification ._filter button ._count { background-color: rgb(240, 241, 243); color: rgb(103, 115, 133); }
+html.dark-theme .app-notification ._filter_wrap { border-bottom: solid 1px #292b2e; }
+html.dark-theme .app-notification ._filter button { color: rgba(255, 255, 255, 0.6); }
+html.dark-theme .app-notification ._filter button ._count { background-color: #1f2124; color: rgba(255, 255, 255, 0.6); }
 html.dark-theme .app-notification ._filter ._active button { color: #3485ff; }
 html.dark-theme .app-notification ._filter ._active button::before { background-color: #3485ff; }
 html.dark-theme .app-notification ._filter ._active button ._count { background-color: rgba(52, 133, 255, 0.1); color: #3485ff; }
@@ -717,11 +717,11 @@ html.dark-theme .app-notification ._item ._icon ._starred { background-color: #1
 html.dark-theme .app-notification ._item ._icon._w_initial { background-color: rgba(140, 34, 246, 0.2); }
 html.dark-theme .app-notification ._item ._icon ._initials { color: #ffffff; }
 html.dark-theme .app-notification ._item ._title, html.dark-theme .app-notification ._item ._desc { color: #ffffff; }
-html.dark-theme .app-notification ._item ._title span._ins { color: rgba(255, 255, 255, 0.7); }
-html.dark-theme .app-notification ._item ._desc { color: rgba(255, 255, 255, 0.5); }
+html.dark-theme .app-notification ._item ._title span._ins { color: rgba(0, 0, 0, 0.7); }
+html.dark-theme .app-notification ._item ._desc { color: rgba(0, 0, 0, 0.5); }
 html.dark-theme .app-notification ._item a { color: #3485ff; }
 html.dark-theme .app-notification ._item ._meta { color: rgba(255, 255, 255, 0.6); }
-html.dark-theme .app-notification ._item ._meta li:not(:first-child)::before { background-color: rgb(141, 150, 164); }
+html.dark-theme .app-notification ._item ._meta li:not(:first-child)::before { background-color: #8d96a4; }
 html.dark-theme .app-notification ._item ._attachments._type_files li { background-color: #1f2124; color: rgba(255, 255, 255, 0.6); }
 html.dark-theme .app-notification ._item ._attachments li._action button { background-color: #1f2124; color: rgba(255, 255, 255, 0.6); }
 html.dark-theme .panel-footer { border-top: 1px solid #292b2e; }
@@ -741,12 +741,12 @@ html.dark-theme .app-smodal .modal-footer { border-color: #111315; }
 html.dark-theme .app-smodal .icon-background { background: rgba(244, 67, 54, 0.05); }
 html.dark-theme #askforPass .icon-background { background: rgba(76, 175, 80, 0.05); }
 html.dark-theme #infoModal .icon-background { background-color: rgba(52, 133, 255, 0.05); }
-html.dark-theme .app-smodal #dialogModBody, html.dark-theme .app-smodal #infoPass, html.dark-theme .app-smodal #infoModBody { color: rgba(255, 255, 255, 0.5); }
+html.dark-theme .app-smodal #dialogModBody, html.dark-theme .app-smodal #infoPass, html.dark-theme .app-smodal #infoModBody { color: rgba(0, 0, 0, 0.5); }
 html.dark-theme .app-smodal .modal-footer button { color: #ffffff; background-color: #242729; }
 html.dark-theme .app-smodal .modal-footer button#askPasSub, html.dark-theme #infoModal .modal-footer button { background-color: #3485ff; color: #fff; }
 html.dark-theme .app-smodal #dialogOk { background-color: #f35858; color: #ffffff; }
 html.dark-theme #askforPass .form-group input { background: transparent; border-color: rgba(255, 255, 255, 0.1); }
-html.dark-theme .screen-darken { background-color: rgba(255, 255, 255, 0.4); }
+html.dark-theme .screen-darken { background-color: rgba(0, 0, 0, 0.4); }
 html.dark-theme body.shrinked #folderMenu .storage .storage-count { background: none; }
 html.dark-theme body.shrinked #folderMenu #folderul a > span.number-badge { background-color: #3485ff; }
 html.dark-theme .logout-btn { background-color: #242729; color: #ffffff; }
@@ -778,15 +778,15 @@ html.dark-theme .compose-ec .c-editor-actions .delete-draft { border: none; }
 html.dark-theme .compose-ec .c-editor-actions .delete-draft svg { stroke: rgba(255, 255, 255, 0.6); }
 html.dark-theme .com-content-header .he-item { border-bottom: 1px solid #292b2e; }
 html.dark-theme .com-content-header .he-item .he-label { color: #a0a7b3; }
-html.dark-theme .com-content-header .he-item .he-label .the-icon { background: rgb(226 232 240); border: 1px solid rgb(203 213 225); }
-html.dark-theme .com-content-header .he-item .he-label .the-icon svg { stroke: rgb(51 65 85); }
+html.dark-theme .com-content-header .he-item .he-label .the-icon { background-color: #1f2124; border: 1px solid #292b2e; }
+html.dark-theme .com-content-header .he-item .he-label .the-icon svg { stroke: rgba(255, 255, 255, 0.6); }
 html.dark-theme .com-content-header .he-item input, html.dark-theme .com-content-header .he-item select { color: rgba(255, 255, 255, 0.6); }
 html.dark-theme .com-content-header .com-cc-bcc-buttons { background-color: #111315; }
 html.dark-theme .com-content-header .com-cc-bcc-buttons button { color: #3485ff; }
 html.dark-theme .com-content-header .com-cc-bcc-buttons button:not(:last-child) { border-right: 2px solid #292b2e; }
 html.dark-theme .select2-container--default .select2-selection--multiple, html.dark-theme .select2-container--default.select2-container--focus .select2-selection--multiple { border: none; }
 html.dark-theme .select2-container--default .select2-selection--multiple .select2-selection__choice { background-color: #1f2124; color: rgba(255, 255, 255, 0.6); }
-html.dark-theme .compose-email-wrapper.compose-maximize .compose-ec { background-color: rgba(255, 255, 255, 0.5); }
+html.dark-theme .compose-email-wrapper.compose-maximize .compose-ec { background-color: rgba(0, 0, 0, 0.5); }
 html.dark-theme .compose-body { background-color: #111315; }
 
 /* ==== hand-written overrides (tools/dark-theme/dark-polish.css) ==== */
@@ -938,3 +938,16 @@ html.dark-theme .inbox-icon svg [fill="#A7C3EC"] { fill: #7290c2; }
 
 /* --- login / signup right panel: same artwork, darkened, so the 3D renders sit on a dark sheet --- */
 html.dark-theme .full-height-container .right-side { background: linear-gradient(rgba(13, 17, 26, 0.74), rgba(13, 17, 26, 0.74)), url("../images/blue-bg.jpg") no-repeat center / cover; }
+
+/* --- post-login loading: skeleton preview and the progress ring --- */
+html.dark-theme #overlay { background-color: rgba(0, 0, 0, 0.6); }
+html.dark-theme .loading-skeleton .left-side { background: #16181b; }
+html.dark-theme .loading-skeleton .skeleton, html.dark-theme .loading-skeleton .left-side .skeleton, html.dark-theme .loading-skeleton .inbox-list .skeleton, html.dark-theme .loading-skeleton .right-side .skeleton, html.dark-theme .loading-skeleton .right-top-data-content .skeleton, html.dark-theme .loading-skeleton .the-folders .main-menu::before { background-color: #25282c; }
+html.dark-theme .loading-skeleton .left-side .new-message-btn .skeleton, html.dark-theme .loading-skeleton .right-side .loading-select-email .the-action button { background-color: #2a5ca8; }
+html.dark-theme .loading-skeleton .inbox-list .the-email-item .the-iicon { border-color: #2e3135; }
+html.dark-theme .loading-skeleton .inbox-list ul li:not(:last-child) { border-bottom-color: #222426; }
+html.dark-theme .loading-skeleton header { border-bottom-color: #292b2e; }
+html.dark-theme .loading-skeleton .user-icon { background: #25282c; box-shadow: none; border-color: transparent; }
+html.dark-theme .circle-content { box-shadow: 0 10px 24px rgba(52, 133, 255, 0.35); }
+html.dark-theme svg [stroke="#E1E4EC"], html.dark-theme svg [stroke="#e1e4ec"] { stroke: #2e3135; }
+html.dark-theme #userObjSync .modal-content { background: #1a1c1f; }

@@ -59,10 +59,14 @@ def map_colour(tok, table):
         if table is BG: return BASE if L >= 0.97 else (SURF if L >= 0.82 else tok)
         if table is TX: return "#ffffff" if L <= 0.22 else (W(0.6) if L <= 0.45 else tok)
         if table is BD: return LINE2 if L >= 0.8 else tok
-    m = re.match(r"rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(?:,\s*([\d.]+))?\s*\)", t)
+    m = re.match(r"rgba?\(\s*(\d+)\s*[, ]\s*(\d+)\s*[, ]\s*(\d+)\s*(?:[,/]\s*([\d.]+%?))?\s*\)", t)
     if m:
         r, g, b, a = int(m.group(1)), int(m.group(2)), int(m.group(3)), m.group(4)
-        if (r, g, b) == (0, 0, 0) and a is not None: return "rgba(255, 255, 255, %s)" % a
+        if a is not None and a.endswith("%"): a = str(float(a[:-1]) / 100)
+        # a black veil (overlay / backdrop) stays black; only faint black tints become white tints
+        if (r, g, b) == (0, 0, 0) and a is not None: return ("rgba(255, 255, 255, %s)" % a) if float(a) < 0.3 else tok
+        if a is None:  # opaque rgb(): same fallback as an opaque hex
+            return map_colour("#%02x%02x%02x" % (r, g, b), table)
         if (r, g, b) == (255, 255, 255) and a is not None: return "rgba(17, 19, 21, %s)" % a
         if (r, g, b) == (34, 119, 246) and a is not None: return "rgba(52, 133, 255, %s)" % a
         if (r, g, b) == (147, 186, 240): return "rgba(255, 255, 255, 0.1)"
@@ -90,7 +94,14 @@ def is_colour_prop(prop, val):
 def map_decl(prop, val):
     p = prop.lower()
     if p.startswith("box-shadow") or p == "text-shadow":
-        new = re.sub(r"#fff\b|#ffffff\b", BASE, val, flags=re.I); return new if new != val else None
+        # light shadow colours make a glow on a dark page: turn them into a soft black shadow
+        def shade(m):
+            tok = m.group(0); t = tok.lower()
+            if t in ("#fff", "#ffffff", "white"): return BASE
+            mm = re.match(r"rgba?\(\s*(\d+)\s*[, ]\s*(\d+)\s*[, ]\s*(\d+)", t)
+            L = lum("#%02x%02x%02x" % tuple(int(x) for x in mm.groups())) if mm else lum(t) if t.startswith("#") else None
+            return "rgba(0, 0, 0, 0.45)" if L is not None and L > 0.6 else tok
+        new = HEX.sub(shade, val); return new if new != val else None
     if p in ("background", "background-color", "background-image"):
         new = re.sub(r'(url\(["\']?\.\./images/)([^"\')]+)(["\']?\))', map_icon, val)
         new = with_urls_masked(new, lambda v: HEX.sub(lambda m: map_colour(m.group(0), BG), v))

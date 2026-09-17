@@ -146,3 +146,16 @@ html.dark-theme .inbox-icon svg [fill="#A7C3EC"] { fill: #7290c2; }
 
 /* --- login / signup right panel: same artwork, darkened, so the 3D renders sit on a dark sheet --- */
 html.dark-theme .full-height-container .right-side { background: linear-gradient(rgba(13, 17, 26, 0.74), rgba(13, 17, 26, 0.74)), url("../images/blue-bg.jpg") no-repeat center / cover; }
+
+/* --- post-login loading: skeleton preview and the progress ring --- */
+html.dark-theme #overlay { background-color: rgba(0, 0, 0, 0.6); }
+html.dark-theme .loading-skeleton .left-side { background: #16181b; }
+html.dark-theme .loading-skeleton .skeleton, html.dark-theme .loading-skeleton .left-side .skeleton, html.dark-theme .loading-skeleton .inbox-list .skeleton, html.dark-theme .loading-skeleton .right-side .skeleton, html.dark-theme .loading-skeleton .right-top-data-content .skeleton, html.dark-theme .loading-skeleton .the-folders .main-menu::before { background-color: #25282c; }
+html.dark-theme .loading-skeleton .left-side .new-message-btn .skeleton, html.dark-theme .loading-skeleton .right-side .loading-select-email .the-action button { background-color: #2a5ca8; }
+html.dark-theme .loading-skeleton .inbox-list .the-email-item .the-iicon { border-color: #2e3135; }
+html.dark-theme .loading-skeleton .inbox-list ul li:not(:last-child) { border-bottom-color: #222426; }
+html.dark-theme .loading-skeleton header { border-bottom-color: #292b2e; }
+html.dark-theme .loading-skeleton .user-icon { background: #25282c; box-shadow: none; border-color: transparent; }
+html.dark-theme .circle-content { box-shadow: 0 10px 24px rgba(52, 133, 255, 0.35); }
+html.dark-theme svg [stroke="#E1E4EC"], html.dark-theme svg [stroke="#e1e4ec"] { stroke: #2e3135; }
+html.dark-theme #userObjSync .modal-content { background: #1a1c1f; }

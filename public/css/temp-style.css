@@ -9091,7 +9091,7 @@ progress {
 }
 .com-content-header .he-item:first-child,
 .mail-data.emailNo {
-    padding-top: 0;
+    padding-top: 32px;
 }
 .storage-count .used_one,
 .storage-count .used_one span {
@@ -11811,8 +11811,18 @@ body.shrinked #folderMenu .call-to-action {
     margin-top: 0px;
 }
 body.shrinked #folderMenu .storage {
-    padding-left: 33px;
-    padding-right: 33px;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+/* collapsed column: one decimal ("0.6 GB / 1 GB") so the figure fits the narrow strip */
+.storage-count .used-short {
+    display: none;
+}
+body.shrinked #folderMenu .storage-count .used-full {
+    display: none;
+}
+body.shrinked #folderMenu .storage-count .used-short {
+    display: inline;
 }
 body.shrinked #folderMenu .storage .storage-count {
     padding-left: 0px;

@@ -282,10 +282,18 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
             return (
                 <div>
                     <span className="used_one">
-                        {accounting.toFixed(
-                            app.user.get("mailboxSize") / 1024 / 1024/1024,
-                            3
-                        )}{" "}
+                        <span className="used-full">
+                            {accounting.toFixed(
+                                app.user.get("mailboxSize") / 1024 / 1024/1024,
+                                3
+                            )}
+                        </span>
+                        <span className="used-short">
+                            {accounting.toFixed(
+                                app.user.get("mailboxSize") / 1024 / 1024/1024,
+                                1
+                            )}
+                        </span>{" "}
                         GB{" "}
                     </span>
                     <span>

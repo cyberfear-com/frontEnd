@@ -1,4 +1,15 @@
 define(["react", "app"], function (React, app) {
+    // Height of the rendered mail inside the reading-pane iframe. jQuery's html.height() is the
+    // computed height, which for mails that set "height: 100%" on html/body is the height of the
+    // iframe viewport, i.e. 0 while the frame is collapsed for measuring (PayPal mails came out
+    // 50px tall). The scroll height of the document is the real content height.
+    function frameContentHeight() {
+        var f = document.getElementById("virtualization");
+        var d = f ? f.contentDocument : null;
+        if (!d || !d.documentElement) return 0;
+        var h = $(d).find("html").height() || 0;
+        return Math.max(h, d.documentElement.scrollHeight || 0, d.body ? d.body.scrollHeight || 0 : 0);
+    }
     return React.createClass({
         mixins: [app.mixins.touchMixins()],
         getInitialState: function () {
@@ -1259,10 +1270,7 @@ define(["react", "app"], function (React, app) {
                                         // );
 
                                     $("#virtualization").height(
-                                        $("#virtualization")
-                                            .contents()
-                                            .find("html")
-                                            .height()
+                                        frameContentHeight()
                                     );
                                 }, 100);
                             }
@@ -1292,10 +1300,7 @@ define(["react", "app"], function (React, app) {
                                         //     "<style>table,table tbody,table tr,table td{display:block;width:100%;}</style>"
                                         // );
                                     $("#virtualization").height(
-                                        $("#virtualization")
-                                            .contents()
-                                            .find("html")
-                                            .height()
+                                        frameContentHeight()
                                     );
                                 }, 100);
                             }
@@ -1657,10 +1662,7 @@ define(["react", "app"], function (React, app) {
                         );
                         // Measure the height only once the width is final.
                         $("#virtualization").height(
-                            $("#virtualization")
-                                .contents()
-                                .find("html")
-                                .height() + 50
+                            frameContentHeight() + 50
                         );
                     }, 300);
                 }
@@ -1763,10 +1765,7 @@ define(["react", "app"], function (React, app) {
                         // 0 px wide here, so before this the text wrapped one word per line
                         // and the height came out far too large.
                         $("#virtualization").height(
-                            $("#virtualization")
-                                .contents()
-                                .find("html")
-                                .height() + 50
+                            frameContentHeight() + 50
                         );
 
 

@@ -5205,6 +5205,9 @@ header .user-dropdown .dropdown-menu li button {
     box-shadow: none;
     outline: 0;
 }
+.mobile-search input::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+}
 .user-name-side-menu {
     width: 100%;
     float: left;

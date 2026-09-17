@@ -104,7 +104,7 @@ define([
         handleSearchReset: function () {
             $("#mobile-search").val("");
             $(".mobile-search").removeClass("has-data");
-            $("#emailListTable").DataTable().column(0).search("", 0, 1);
+            $("#emailListTable").DataTable().column(0).search("", 0, 1).draw();
         },
         render: function () {
             return (

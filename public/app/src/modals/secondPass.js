@@ -85,7 +85,7 @@ define(['react','app'], function (React,app) {
 								<div className="form-group">
 
 									<div className="form-group">
-										<input type="password" id="second_passField" className="form-control" defaultValue={app.defaults.get('secondPassfield')} placeholder="password"/>
+										<form className="pw-field" autoComplete="off" onSubmit={function (e) { e.preventDefault(); }}><input type="password" id="second_passField" className="form-control" defaultValue={app.defaults.get('secondPassfield')} placeholder="password"/></form>
 									</div>
 								</div>
 

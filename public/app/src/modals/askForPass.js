@@ -96,13 +96,13 @@ define(["react", "app"], function (React, app) {
 
                             <div className="modal-footer">
                                 <div className="form-group">
-                                    <input
+                                    <form className="pw-field" autoComplete="off" onSubmit={function (e) { e.preventDefault(); }}><input
                                         type="password"
                                         id="askPasInput"
                                         name="password"
                                         className="form-control"
                                         placeholder="Enter Password.."
-                                    />
+                                    /></form>
                                     <label
                                         id="passLabel"
                                         className="control-label pull-left d-none"

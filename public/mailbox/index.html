@@ -17,8 +17,10 @@
                         t.styleFrame();
                     },
                     toggle: function () { t.set(!t.isDark()); return t.isDark(); },
-                    // Message body iframe: plain mails follow the theme; mails that bring their own
-                    // background colours keep a white sheet so their text stays readable.
+                    // Message body iframe: plain mails follow the theme; designed HTML mails (own colours,
+                    // tables, styles) keep a white sheet so they look the way their sender built them.
+                    // The full render may put the mail straight under <html> with no <body>, so the
+                    // check and the colours go on the root element too.
                     styleFrame: function () {
                         var f = document.getElementById("virtualization"), d;
                         if (!f) return;
@@ -27,10 +29,11 @@
                         var s = d.getElementById("mailum-theme");
                         if (!t.isDark()) { if (s) s.parentNode.removeChild(s); return; }
                         if (!s) { s = d.createElement("style"); s.id = "mailum-theme"; d.documentElement.insertBefore(s, d.documentElement.firstChild); }
-                        var own = /bgcolor\s*=|background(?:-color)?\s*:/i.test(d.body ? d.body.innerHTML : "");
+                        var html = d.documentElement.innerHTML.replace(/<style id="mailum-theme">[\s\S]*?<\/style>/, "");
+                        var own = /bgcolor\s*=|background(?:-color)?\s*:|(?:^|[^-])color\s*:|<table\b|<font\b|<style\b/i.test(html);
                         s.textContent = own
-                            ? "html{color-scheme:light}body{background:#fff;color:#000}"
-                            : "html{color-scheme:dark}body{background:transparent;color:#fff}a{color:#4992ff}";
+                            ? "html{color-scheme:light;background:#fff;color:#000}body{background:#fff;color:#000}"
+                            : "html{color-scheme:dark;background:transparent;color:#fff}body{background:transparent;color:#fff}a{color:#4992ff}";
                     }
                 };
                 window.mailumTheme = t;

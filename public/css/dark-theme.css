@@ -995,3 +995,8 @@ html.dark-theme .app-smodal .icon-background { background: rgba(255, 255, 255, 0
 /* --- settings "+ Add ..." link buttons: text link, not a filled button --- */
 html.dark-theme .setting-middle .add-contact-btn a, html.dark-theme .setting-middle .add-contact-btn button { background: transparent; color: #3485ff; }
 html.dark-theme .setting-middle .add-contact-btn a:hover, html.dark-theme .setting-middle .add-contact-btn button:hover { background-color: rgba(52, 133, 255, 0.1); color: #3485ff; }
+
+/* --- Bootstrap dropdown menus: items without their own colour rule (e.g. the Move To folder list) --- */
+html.dark-theme .dropdown-menu { --bs-dropdown-color: #fff; --bs-dropdown-link-color: #fff; --bs-dropdown-link-hover-color: #fff; --bs-dropdown-link-hover-bg: rgba(255, 255, 255, 0.06); --bs-dropdown-bg: #1a1c1f; --bs-dropdown-border-color: #292b2e; color: #fff; }
+html.dark-theme .dropdown-menu .dd-inner li a { color: #fff; }
+html.dark-theme .dropdown-menu .dd-inner li.divider { border-top-color: rgba(255, 255, 255, 0.2); }

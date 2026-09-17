@@ -159,3 +159,16 @@ html.dark-theme .loading-skeleton .user-icon { background: #25282c; box-shadow: 
 html.dark-theme .circle-content { box-shadow: 0 10px 24px rgba(52, 133, 255, 0.35); }
 html.dark-theme svg [stroke="#E1E4EC"], html.dark-theme svg [stroke="#e1e4ec"] { stroke: #2e3135; }
 html.dark-theme #userObjSync .modal-content { background: #1a1c1f; }
+
+/* --- login / signup: graphite form card with room around the fields --- */
+html.dark-theme .full-height-container .left-data { max-width: 585px; }
+html.dark-theme #createAccount-modal .modal-dialog { max-width: none; margin: 0; }
+html.dark-theme #createAccount-modal .modal-content { background: #1a1c1f; border: 1px solid #292b2e; border-radius: 12px; padding: 32px 40px 32px; }
+html.dark-theme #loginUserForm, html.dark-theme #forgPass { background: #1a1c1f; border: 1px solid #292b2e; border-radius: 12px; padding: 36px 40px 32px; box-sizing: border-box; }
+
+/* --- footer on the login / signup pages --- */
+html.dark-theme .footer-minimal.theme_light { background: #111315; border-top: 1px solid #292b2e; padding: 28px 0; }
+html.dark-theme .footer-minimal.theme_light p, html.dark-theme .footer-minimal.theme_light a, html.dark-theme .footer-minimal.theme_light .copyright { color: rgba(255, 255, 255, 0.55); }
+html.dark-theme .footer-minimal.theme_light a:hover { color: #3485ff; }
+html.dark-theme footer .footer-logo, html.dark-theme footer .footer-bottom .logo { background: url("../images/logo-dark-theme.svg") left center / auto 22px no-repeat; }
+html.dark-theme footer .footer-logo img, html.dark-theme footer .footer-bottom .logo img { visibility: hidden; }

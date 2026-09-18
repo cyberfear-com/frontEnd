@@ -198,6 +198,13 @@
                     /* height: calc(100vh); */
                     padding-top: 54px;
                 }
+                .mailBody header {
+                    padding: 10px 15px;
+                }
+            }
+            /* phone footer: grey block with a white copyright band (was keyed on the viewport
+               height, which also hit short desktop windows and missed tall phones) */
+            @media (max-width: 767px) {
                 .footer-minimal.theme_light {
                     background: #f5f6f7 !important;
                     padding-bottom: 0px;
@@ -208,10 +215,6 @@
                     padding-bottom: 20px;
                     width: calc(100% + 1.5rem);
                     color: rgba(65, 80, 103, 0.5);
-                }
-
-                .mailBody header {
-                    padding: 10px 15px;
                 }
             }
         </style>

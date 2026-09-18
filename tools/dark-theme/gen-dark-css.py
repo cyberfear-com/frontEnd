@@ -73,6 +73,7 @@ def map_colour(tok, table):
         if (r, g, b) == (34, 119, 246) and a is not None: return "rgba(52, 133, 255, %s)" % a
         if (r, g, b) == (147, 186, 240): return "rgba(255, 255, 255, 0.1)"
         if (r, g, b) == (8, 13, 19) and a is not None: return "rgba(255, 255, 255, %s)" % a
+        if (r, g, b) == (65, 80, 103) and a is not None: return "rgba(255, 255, 255, %s)" % a   # #415067 text tints
         if (r, g, b) in ((212, 156, 255),): return tok
     return tok
 

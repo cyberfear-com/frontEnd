@@ -231,3 +231,12 @@ html.dark-theme .sender-name .copy-sender:hover { color: #3485ff; background: rg
 
 /* --- checkbox tick: white on the accent box (the twin had turned the white border dark) --- */
 html.dark-theme .container-checkbox .checkmark:after { border: solid #fff; border-width: 0 2px 2px 0; }
+
+/* --- mobile settings bottom bar: inactive items readable --- */
+html.dark-theme .left-settings-mobile .__container { background-color: #111315; border-top: 1px solid #292b2e; }
+html.dark-theme .left-settings-mobile .__items .btn-group button { color: rgba(255, 255, 255, 0.6); }
+html.dark-theme .left-settings-mobile .__items .icon svg path { fill: rgba(255, 255, 255, 0.6); }
+html.dark-theme .left-settings-mobile .__items .icon.settings svg path, html.dark-theme .left-settings-mobile .__items .icon.settings svg circle { fill: none; stroke: rgba(255, 255, 255, 0.6); }
+html.dark-theme .left-settings-mobile .__items .btn-group button.show, html.dark-theme .left-settings-mobile .__items .btn-group button.active { background-color: rgba(52, 133, 255, 0.12); border-color: transparent; color: #3485ff; }
+html.dark-theme .left-settings-mobile .__items .btn-group button.show svg path, html.dark-theme .left-settings-mobile .__items .btn-group button.active svg path { fill: #3485ff; }
+html.dark-theme .left-settings-mobile .__items .btn-group button.show .icon.settings svg path, html.dark-theme .left-settings-mobile .__items .btn-group button.active .icon.settings svg path, html.dark-theme .left-settings-mobile .__items .btn-group button.show .icon.settings svg circle, html.dark-theme .left-settings-mobile .__items .btn-group button.active .icon.settings svg circle { fill: none; stroke: #3485ff; }

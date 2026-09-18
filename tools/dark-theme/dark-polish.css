@@ -175,7 +175,7 @@ html.dark-theme .footer-minimal.theme_light { background: #111315 !important; bo
 html.dark-theme .footer-minimal.theme_light p, html.dark-theme .footer-minimal.theme_light a, html.dark-theme .footer-minimal.theme_light .copyright { color: rgba(255, 255, 255, 0.55); }
 html.dark-theme .footer-minimal.theme_light a:hover { color: #3485ff; }
 html.dark-theme .footer-minimal.theme_light .footer-bottom-row .copyright { background: transparent; color: rgba(255, 255, 255, 0.4); }
-html.dark-theme footer .footer-logo, html.dark-theme footer .footer-bottom .logo { background: url("../images/logo-dark-theme.svg") left center / auto 22px no-repeat; }
+html.dark-theme footer .footer-logo, html.dark-theme footer .footer-bottom .logo { background: url("../images/logo-footer-dark.svg") left center / auto 22px no-repeat; }
 html.dark-theme footer .footer-logo img, html.dark-theme footer .footer-bottom .logo img { visibility: hidden; }
 @media screen and (max-width: 767px) {
     html.dark-theme .footer-minimal.theme_light { padding-bottom: 0; }

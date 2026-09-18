@@ -9234,12 +9234,19 @@ progress {
 .real-sender .text-from {
     color: rgba(8, 13, 19, 0.6);
 }
+/* A long address wraps inside the chip: give the lines room (the box has line-height 1) and
+   let each wrapped line carry its own rounded background. */
+.real-sender > div {
+    line-height: 2;
+}
 .real-sender .sender-email {
     background-color: #f1f6ff;
     border-radius: 10px;
     color: #347ae2;
     padding: 4px 6px;
     margin-left: 10px;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
 }
 #overlay {
     overflow: hidden;

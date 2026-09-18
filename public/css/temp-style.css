@@ -5393,6 +5393,21 @@ position: relative;
 body.shrinked #folderMenu #folderulcustom li a .menu-icon {
     margin: -4px;
 }
+/* Mobile folder menu: the storage block sits at the bottom of the panel; with a long folder
+   list the panel scrolls and the block follows the list (same behaviour as the desktop column). */
+@media screen and (max-width: 991.98px) {
+    #offcanvasLeft .offcanvas-body {
+        display: flex;
+        flex-direction: column;
+    }
+    #offcanvasLeft .offcanvas-body > * {
+        flex: 0 0 auto;
+    }
+    #offcanvasLeft .offcanvas-body > .storage {
+        margin-top: auto;
+        padding-bottom: 24px;
+    }
+}
 /* the tint reaches 4px left of the icon; the open accordion must not clip it */
 #folderMenu .accordion-collapse.show {
     overflow: visible;

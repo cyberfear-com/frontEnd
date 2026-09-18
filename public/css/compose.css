@@ -358,3 +358,17 @@
 .scaleDown{
     width:80vw!important;
 }
+
+/* The editor is the flexible part of the compose window; on a short viewport (phone with the
+   keyboard up) extra header rows (Cc, Bcc, PIN) squeezed it to nothing. Keep a usable minimum
+   and let the compose body scroll instead. */
+@media screen and (max-width: 991.98px) {
+    .compose-window .com-content-editor,
+    .compose-window .ck.ck-editor,
+    .compose-window .ck.ck-editor__main {
+        flex-shrink: 0;
+    }
+    .compose-window .ck.ck-editor__main > .ck-editor__editable {
+        min-height: 160px;
+    }
+}

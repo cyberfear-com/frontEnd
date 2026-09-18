@@ -363,12 +363,27 @@
    keyboard up) extra header rows (Cc, Bcc, PIN) squeezed it to nothing. Keep a usable minimum
    and let the compose body scroll instead. */
 @media screen and (max-width: 991.98px) {
+    /* The window hugs its content instead of filling the screen, so the editor is only as tall
+       as it needs to be (160px minimum, growing with the text). With more header rows the window
+       grows up to the screen and the compose body scrolls, the editor keeping its minimum. */
+    .compose-window.compose-maximize {
+        min-height: 0;
+        height: auto;
+    }
+    .compose-email-wrapper.compose-maximize .compose-ec .the-content,
+    .compose-email-wrapper.compose-maximize .the-content .the-content-wrapper,
+    .compose-email-wrapper.compose-maximize .the-content .com-content-editor {
+        height: auto;
+        flex-grow: 0;
+    }
     .compose-window .com-content-editor,
     .compose-window .ck.ck-editor,
     .compose-window .ck.ck-editor__main {
         flex-shrink: 0;
     }
-    .compose-window .ck.ck-editor__main > .ck-editor__editable {
+    .compose-window .ck.ck-editor__main > .ck-editor__editable,
+    .compose-window .ck.ck-editor__main > .ck-source-editing-area {
+        position: static;
         min-height: 160px;
     }
 }

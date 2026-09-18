@@ -9162,7 +9162,9 @@ progress {
 .main-menu ul li:not(.active) a:hover svg path {
     fill: #2277f6 !important;
 }
-.com-content-header .he-item:first-child,
+.com-content-header .he-item:first-child {
+    padding-top: 12px;
+}
 .mail-data.emailNo {
     padding-top: 32px;
 }

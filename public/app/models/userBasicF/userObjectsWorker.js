@@ -2230,32 +2230,24 @@ define(["app"], function (app) {
 
                     //folders[0]['data']=app.u
 
+                    // Only the block holding the draft can have changed here;
+                    // hashing every block made each autosave cost O(mailbox size).
                     var changedFolders = {};
+                    var block =
+                        app.user.get("emails")["messages"][draft["messageId"]]["b"];
+                    var hash = app.transform.SHA512(
+                        JSON.stringify(folders[block]["data"])
+                    );
 
-                    $.each(folders, function (index, foldData) {
-                        foldData["hash"] = app.transform.SHA512(
-                            JSON.stringify(foldData["data"])
-                        );
-
-                        if (oldEncryptedFolder[index] == undefined) {
-                            folders[index]["hash"] = app.transform.SHA512(
-                                JSON.stringify(folders[index]["data"])
-                            );
-                            folders[index]["nonce"] =
-                                parseInt(folders[index]["nonce"]) + 1;
-                            changedFolders[index] = folders[index];
-                        } else if (
-                            foldData["hash"] !=
-                            oldEncryptedFolder[index]["hash"]
-                        ) {
-                            folders[index]["hash"] = app.transform.SHA512(
-                                JSON.stringify(folders[index]["data"])
-                            );
-                            folders[index]["nonce"] =
-                                parseInt(folders[index]["nonce"]) + 1;
-                            changedFolders[index] = folders[index];
-                        }
-                    });
+                    if (
+                        oldEncryptedFolder[block] == undefined ||
+                        hash != oldEncryptedFolder[block]["hash"]
+                    ) {
+                        folders[block]["hash"] = hash;
+                        folders[block]["nonce"] =
+                            parseInt(folders[block]["nonce"]) + 1;
+                        changedFolders[block] = folders[block];
+                    }
 
                     var newFolderObj = {};
                     //console.log(changedFolders);

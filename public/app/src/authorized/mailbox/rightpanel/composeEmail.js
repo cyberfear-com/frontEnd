@@ -1510,7 +1510,14 @@ define(["react", "app", "select2"], function (
                   modKey: result["modKey"],
                 },
                 function () {
-                  app.globalF.syncUpdates();
+                  // The refresh walks the whole displayed folder; the draft
+                  // is only visible in the list when Drafts is open.
+                  if (
+                    app.user.get("activeFolderId") ==
+                    app.user.get("systemFolders")["draftFolderId"]
+                  ) {
+                    app.globalF.syncUpdates();
+                  }
 
                   callback();
                 }

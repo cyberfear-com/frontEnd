@@ -369,6 +369,7 @@
     .compose-window.compose-maximize {
         min-height: 0;
         height: auto;
+        margin: 1vh auto auto;  /* anchored to the top: toggling Cc/Bcc/PIN only moves the bottom edge */
     }
     .compose-email-wrapper.compose-maximize .compose-ec .the-content,
     .compose-email-wrapper.compose-maximize .the-content .the-content-wrapper,

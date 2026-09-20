@@ -36,6 +36,14 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
             });
         },
 
+        // "active" marks the folder being viewed (activeFolderId; the Inbox before it is set).
+        // Custom folders with unread mail used to get "active" too, which only meant a bold
+        // name; that is "has-unread" now, so the selection highlight stays on one folder.
+        folderClass: function (index, role, hasUnread) {
+            var current = app.user.get("activeFolderId");
+            var isActive = current !== undefined && current !== null && current !== "" ? String(current) === String(index) : role == "Inbox";
+            return (isActive ? "active" : "") + (hasUnread ? " has-unread" : "");
+        },
         removeClassesActive: function () {
             $("#folderul > li").removeClass("active");
             $("#folderulcustom > li").removeClass("active");
@@ -164,7 +172,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                 thisComp.props.changeFodlerId(
                                     $(event.target).attr("id")
                                 );
-                                $("#" + $(event.target).attr("id"))
+                                $('[id="' + $(event.target).attr("id") + '"]')
                                     .parents("li")
                                     .addClass("active");
 
@@ -174,7 +182,11 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                             }
                         });
                     } else {
+                        // Same folder clicked again: reset the view but keep the folder highlighted.
                         thisComp.removeClassesActive();
+                        $('[id="' + $(event.target).attr("id") + '"]')
+                            .parents("li")
+                            .addClass("active");
                         app.user.set({ resetSelectedItems: true });
                         app.user.set({ isDecryptingEmail: false });
                         app.globalF.resetCurrentMessage();
@@ -220,6 +232,11 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
             }
         },
 
+        handleThemeToggle: function () {
+            if (window.mailumTheme) {
+                window.mailumTheme.toggle();
+            }
+        },
         handleClick: function (i) {
             switch (i) {
                 case "composeEmail":
@@ -277,11 +294,19 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
             return (
                 <div>
                     <span className="used_one">
-                        {accounting.toFixed(
-                            app.user.get("mailboxSize") / 1024 / 1024/1024,
-                            3
-                        )}{" "}
-                        GB{" "}
+                        <span className="used-full">
+                            {accounting.toFixed(
+                                app.user.get("mailboxSize") / 1024 / 1024/1024,
+                                3
+                            )}
+                        </span>
+                        <span className="used-short">
+                            {accounting.toFixed(
+                                app.user.get("mailboxSize") / 1024 / 1024/1024,
+                                1
+                            )}
+                        </span>
+                        <span className="used-unit">{" "}GB</span>
                     </span>
                     <span>
                         &nbsp;/&nbsp;
@@ -491,11 +516,15 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                         className="light-theme-logo"
                                     />{" "}
                                     <img
-                                        src="/images/logo-white.svg"
+                                        src="/images/logo-dark-theme.svg"
                                         alt=""
                                         className="dark-theme-logo"
                                     />
                                 </a>
+                                <button type="button" className="theme-switch" title="Switch light / dark theme" aria-label="Switch light / dark theme" onClick={this.handleThemeToggle}>
+                                    <svg className="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></svg>
+                                    <svg className="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7z" /></svg>
+                                </button>
                             </div>
                             <div className="new-message-btn">
                                 <button
@@ -519,13 +548,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                                             folderData
                                                         ]["index"]
                                                     }
-                                                    className={`${
-                                                        this.state.mainFolders[
-                                                            folderData
-                                                        ]["role"] == "Inbox"
-                                                            ? "active"
-                                                            : ""
-                                                    }`}
+                                                    className={this.folderClass(this.state.mainFolders[folderData]["index"], this.state.mainFolders[folderData]["role"], false)}
                                                 >
                                                     <a
                                                         key={"aM_" + i}
@@ -635,24 +658,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                                                             "index"
                                                                         ]
                                                                     }
-                                                                    className={
-                                                                        " " +
-                                                                        (folderData[
-                                                                            "role"
-                                                                        ] ==
-                                                                        "Inbox"
-                                                                            ? "active"
-                                                                            : this
-                                                                                  .state
-                                                                                  .unopened[
-                                                                                  folderData[
-                                                                                      "index"
-                                                                                  ]
-                                                                              ] ==
-                                                                              0
-                                                                            ? ""
-                                                                            : "active")
-                                                                    }
+                                                                    className={this.folderClass(folderData["index"], folderData["role"], this.state.unopened[folderData["index"]] > 0)}
                                                                 >
 
                                                                     <a
@@ -869,12 +875,21 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                     aria-label="Close"
                                 >
                                     <img
-                                        src="images/logo.svg"
+                                        src="/images/logo.svg"
                                         alt=""
                                         className="light-theme-logo"
                                     />
+                                    <img
+                                        src="/images/logo-dark-theme.svg"
+                                        alt=""
+                                        className="dark-theme-logo"
+                                    />
                                 </a>
                             </div>
+                            <button type="button" className="theme-switch" title="Switch light / dark theme" aria-label="Switch light / dark theme" onClick={this.handleThemeToggle}>
+                                <svg className="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></svg>
+                                <svg className="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7z" /></svg>
+                            </button>
                             <button
                                 type="button"
                                 className="btn-close text-reset"
@@ -936,13 +951,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                                             folderData
                                                         ]["index"]
                                                     }
-                                                    className={`${
-                                                        this.state.mainFolders[
-                                                            folderData
-                                                        ]["role"] == "Inbox"
-                                                            ? "active"
-                                                            : ""
-                                                    }`}
+                                                    className={this.folderClass(this.state.mainFolders[folderData]["index"], this.state.mainFolders[folderData]["role"], false)}
                                                 >
                                                     <a
                                                         key={"aM_" + i}
@@ -1054,24 +1063,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                                                             "index"
                                                                         ]
                                                                     }
-                                                                    className={
-                                                                        " " +
-                                                                        (folderData[
-                                                                            "role"
-                                                                        ] ==
-                                                                        "Inbox"
-                                                                            ? "active"
-                                                                            : this
-                                                                                  .state
-                                                                                  .unopened[
-                                                                                  folderData[
-                                                                                      "index"
-                                                                                  ]
-                                                                              ] ==
-                                                                              0
-                                                                            ? ""
-                                                                            : "active")
-                                                                    }
+                                                                    className={this.folderClass(folderData["index"], folderData["role"], this.state.unopened[folderData["index"]] > 0)}
                                                                 >
                                                                     <a
                                                                         key={

@@ -5157,6 +5157,10 @@ header .user-dropdown .btn-secondary .user-email {
     font-weight: 500;
     opacity: 0.6;
 }
+header .user-dropdown .btn-secondary .user-email {
+    display: inline-block;
+    margin-top: 3px;
+}
 header .user-dropdown .btn-secondary .arrow {
     width: 14px;
     height: 14px;
@@ -5204,6 +5208,9 @@ header .user-dropdown .dropdown-menu li button {
     -webkit-box-shadow: none;
     box-shadow: none;
     outline: 0;
+}
+.mobile-search input::-webkit-search-cancel-button {
+    -webkit-appearance: none;
 }
 .user-name-side-menu {
     width: 100%;
@@ -5357,8 +5364,53 @@ header .user-dropdown .dropdown-menu li button {
 position: relative;
 }
 
+#folderulcustom li.has-unread a {
+    font-weight: 900;
+}
 #folderulcustom li.active a {
     font-weight: 900;
+    color: #2277f6;
+}
+/* Selected custom folder: a tinted rounded square behind its icon, so the selection is
+   visible in the collapsed column too (system folders switch to a blue icon instead). */
+#folderulcustom li a {
+    display: flex;
+    align-items: center;
+}
+#folderulcustom li a .number-badge {
+    margin-left: auto;
+}
+#folderulcustom li a .menu-icon {
+    display: inline-flex;
+    padding: 4px;
+    margin: -4px 3px -4px -4px;
+    border-radius: 8px;
+}
+#folderulcustom li.active a .menu-icon {
+    background: rgba(34, 119, 246, 0.12);
+    box-shadow: inset 0 0 0 1px rgba(34, 119, 246, 0.25);
+}
+body.shrinked #folderMenu #folderulcustom li a .menu-icon {
+    margin: -4px;
+}
+/* Mobile folder menu: the storage block sits at the bottom of the panel; with a long folder
+   list the panel scrolls and the block follows the list (same behaviour as the desktop column). */
+@media screen and (max-width: 991.98px) {
+    #offcanvasLeft .offcanvas-body {
+        display: flex;
+        flex-direction: column;
+    }
+    #offcanvasLeft .offcanvas-body > * {
+        flex: 0 0 auto;
+    }
+    #offcanvasLeft .offcanvas-body > .storage {
+        margin-top: auto;
+        padding-bottom: 24px;
+    }
+}
+/* the tint reaches 4px left of the icon; the open accordion must not clip it */
+#folderMenu .accordion-collapse.show {
+    overflow: visible;
 }
 #folderulcustom li a .number-badge{
     float:right;
@@ -6049,8 +6101,19 @@ textarea::-webkit-scrollbar {
     }
 }
 @media screen and (min-width: 1366px) {
+    /* Column widths: the folder list is --sidebar-w wide, the email list --list-w, the reading
+       pane takes the rest. Collapsing the folder list (body.shrinked) hands half of the freed
+       space to the email list and half to the reading pane. */
+    body {
+        --sidebar-w: 275px;
+        --list-w: 541px;
+    }
+    body.shrinked {
+        --sidebar-w: 128px;
+        --list-w: 614px;
+    }
     header {
-        width: calc(100% - 816px);
+        width: calc(100% - var(--sidebar-w) - var(--list-w));
         border-left: none;
     }
     header .logo-2 {
@@ -6106,6 +6169,47 @@ body.shrinked #folderMenu {
 }
 .left-side .logo img {
     width: 134px;
+}
+.theme-switch {
+    width: 32px;
+    height: 32px;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: #415067;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    flex: 0 0 32px;
+}
+.theme-switch:hover {
+    background: rgba(34, 119, 246, 0.08);
+    color: #2277f6;
+}
+.theme-switch .icon-sun {
+    display: none;
+}
+html.dark-theme .theme-switch .icon-sun {
+    display: block;
+}
+html.dark-theme .theme-switch .icon-moon {
+    display: none;
+}
+.left-side .logo .theme-switch {
+    margin-left: auto;
+    margin-right: 24px;
+}
+body.shrinked #folderMenu .logo .theme-switch {
+    display: none;
+}
+.offcanvas-header .theme-switch {
+    position: absolute;
+    right: 74px;
+    top: 14px;
+}
+.offcanvas-header .logo .dark-theme-logo {
+    display: none;
 }
 .left-side .new-message-btn,
 .offcanvas-body .new-message-btn {
@@ -6264,6 +6368,24 @@ body.shrinked #folderMenu {
 @media screen and (min-width: 992px) {
     .left-side {
         display: block;
+    }
+    /* Folder list column: the storage block (and the promo card when shown) sits at the bottom of the
+       column; with many folders the whole column scrolls and the block follows the list. */
+    #folderMenu.left-side {
+        display: flex;
+        flex-direction: column;
+    }
+    #folderMenu.left-side .left-container {
+        flex: 1 0 auto;
+        min-height: 0;
+        margin: 0;
+        display: flow-root;
+    }
+    #folderMenu.left-side .left-bottom {
+        flex: 0 0 auto;
+        height: auto;
+        margin-top: auto;
+        display: flow-root;
     }
     .left-side .logo {
         padding: 35px 0 0 20px;
@@ -6510,12 +6632,8 @@ body.shrinked #folderMenu {
         height: 100%;
         position: fixed;
         padding: 0;
-        width: 541px;
-        left: 275px;
-    }
-    body.shrinked .middle-section {
-        width: 688px;
-        left: 128px;
+        width: var(--list-w);
+        left: var(--sidebar-w);
     }
     .middle-section .middle-content {
         height: calc(100vh - 165px);
@@ -6590,6 +6708,34 @@ body.shrinked #folderMenu {
     font-size: 16px;
     font-weight: 700;
     line-height: 1;
+}
+/* Nested spans (the address, and the text wrappers React adds) flow inline after the name;
+   only the outer span keeps the full-width float. */
+.right-side .email-conetent-wrp .email-content-top-left .sender-name span span {
+    width: auto;
+    float: none;
+}
+.sender-name .sender-address {
+    margin-left: 6px;
+}
+.sender-name .copy-sender {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    margin-left: 4px;
+    padding: 0;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: #8a94a3;
+    vertical-align: middle;
+    cursor: pointer;
+}
+.sender-name .copy-sender:hover {
+    color: #2277f6;
+    background: rgba(34, 119, 246, 0.08);
 }
 .right-side .email-conetent-wrp .email-content-top-left .sender-name span {
     /* opacity: 0.6; */
@@ -6763,7 +6909,7 @@ body.shrinked #folderMenu {
 }
 @media screen and (min-width: 1366px) {
     .right-side {
-        width: calc(100% - 816px);
+        width: calc(100% - var(--sidebar-w) - var(--list-w));
         display: inherit;
         position: relative;
         padding: 10px 0 0;
@@ -6828,7 +6974,7 @@ body.shrinked #folderMenu {
     }
     .right-side,
     header {
-        width: calc(100% - 50%);
+        width: calc(100% - var(--sidebar-w) - var(--list-w));
     }
     .arrow-btn .dropdown-menu li .container-checkbox,
     .arrow-btn .dropdown-menu li button,
@@ -6867,9 +7013,13 @@ body.shrinked #folderMenu {
     .left-side {
         width: 15%;
     }
-    .middle-section {
-        width: 35%;
-        left: 15%;
+    body {
+        --sidebar-w: 15%;
+        --list-w: 35%;
+    }
+    body.shrinked {
+        --sidebar-w: 128px;
+        --list-w: calc(42.5% - 64px);
     }
     .middle-section .middle-pagination .pagibox .mail-count {
         font-size: 17px;
@@ -7071,7 +7221,7 @@ body.shrinked #folderMenu {
 .setting-middle .info-text {
     width: 100%;
     float: left;
-    padding: 2px 0 2px 24px;
+    padding: 2px 0 2px 30px;
     margin: 16px 0 0;
     font-size: 12px;
 }
@@ -7723,7 +7873,6 @@ body.shrinked #folderMenu {
     .right-side .email-conetent-wrp .email-content-top-left .sender-name span {
         width: auto;
         float: none;
-        /* margin: 0 0 0 5px; */
     }
     .right-side .email-conetent-wrp {
         padding: 104px 0 0 0;
@@ -8482,6 +8631,7 @@ textarea {
     color: #415067;
 }
 .setting-middle .info-warning-text {
+    padding-left: 30px;
     background: url("../images/icon-info-red.svg") no-repeat center left;
     background-size: 18px;
     color: #415067;
@@ -9012,9 +9162,11 @@ progress {
 .main-menu ul li:not(.active) a:hover svg path {
     fill: #2277f6 !important;
 }
-.com-content-header .he-item:first-child,
+.com-content-header .he-item:first-child {
+    padding-top: 12px;
+}
 .mail-data.emailNo {
-    padding-top: 0;
+    padding-top: 32px;
 }
 .storage-count .used_one,
 .storage-count .used_one span {
@@ -9084,12 +9236,19 @@ progress {
 .real-sender .text-from {
     color: rgba(8, 13, 19, 0.6);
 }
+/* A long address wraps inside the chip: give the lines room (the box has line-height 1) and
+   let each wrapped line carry its own rounded background. */
+.real-sender > div {
+    line-height: 2;
+}
 .real-sender .sender-email {
     background-color: #f1f6ff;
     border-radius: 10px;
     color: #347ae2;
     padding: 4px 6px;
     margin-left: 10px;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
 }
 #overlay {
     overflow: hidden;
@@ -10831,6 +10990,11 @@ footer .footer-social-media a {
 .footer-minimal {
     padding: 40px 0;
 }
+footer .footer-logo img,
+footer .footer-bottom .logo img {
+    height: 22px;
+    width: auto;
+}
 .footer-minimal.theme_light {
     background: #ffffff;
 }
@@ -11294,6 +11458,45 @@ footer .footer-social-media a {
     width: 100%;
 }
 
+/* Attachments under the message body */
+.panel-footer {
+    margin-top: 20px;
+    padding-top: 12px;
+    border-top: 1px solid #ddd;
+}
+.attachment-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 8px;
+}
+.attachment-row {
+    flex: 1 1 300px;
+    max-width: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 8px 8px 14px;
+    background-color: #f5f6f7;
+    border-radius: 12px;
+    color: #415067;
+}
+.attachment-row .attchments {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    line-height: 1.3;
+}
+.attachment-row .attchments small {
+    display: block;
+    font-size: 11px;
+    opacity: 0.7;
+}
+.attachment-row .btn {
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
 /* Settings Left Navigation - Mobile */
 .left-settings-mobile {
     position: fixed;
@@ -11690,8 +11893,22 @@ body.shrinked #folderMenu .call-to-action {
     margin-top: 0px;
 }
 body.shrinked #folderMenu .storage {
-    padding-left: 33px;
-    padding-right: 33px;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+/* collapsed column: one decimal ("0.6 / 1 GB") so the figure fits the narrow strip
+   (!important because .storage-count .used_one span forces display: inline) */
+.storage-count .used_one .used-short {
+    display: none !important;
+}
+body.shrinked #folderMenu .storage-count .used_one .used-full {
+    display: none !important;
+}
+body.shrinked #folderMenu .storage-count .used_one .used-short {
+    display: inline !important;
+}
+body.shrinked #folderMenu .storage-count .used-unit {
+    display: none;
 }
 body.shrinked #folderMenu .storage .storage-count {
     padding-left: 0px;

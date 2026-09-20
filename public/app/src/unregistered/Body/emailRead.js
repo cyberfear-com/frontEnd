@@ -279,32 +279,35 @@ define(['react','app'], function (React,app) {
 			var attachments=[];
 			var files=[];
 			var thisComp=this;
+			var fmtSize=function(bytes){
+				return (bytes > 1000000) ? Math.round(bytes / 10000) / 100 + ' Mb' : Math.round(bytes / 10) / 100 + ' Kb';
+			};
 
             if(Object.keys(this.state.attachment).length>0){
 
                     var size=0;
                     $.each(this.state.attachment, function( index, attData ) {
-                        size+=parseInt(app.transform.from64str(attData['size']));
+                        var fileSize=parseInt(app.transform.from64str(attData['size']));
+                        size+=fileSize;
 
                             files.push(
-                                <span className="clearfix" key={"a"+index}>
-							<br/>
-							<span className="attchments" key={"as"+index}>{app.transform.from64str(attData['name'])}</span>
-							<button  key={"ab"+index} id={index} className="btn btn-sm btn-primary pull-right" onClick={thisComp.handleClick.bind(thisComp, 'downloadFile')}>Download</button>
-						</span>
+                                <div className="attachment-row" key={"a"+index}>
+							<span className="attchments" key={"as"+index}>{app.transform.from64str(attData['name'])}<small>{fmtSize(fileSize)}</small></span>
+							<button  key={"ab"+index} id={index} className="btn btn-sm btn-primary" onClick={thisComp.handleClick.bind(thisComp, 'downloadFile')}>Download</button>
+						</div>
                             );
                     });
 
-            size=(size > 1000000) ? Math.round(size / 10000) / 100 + ' Mb' : Math.round(size / 10) / 100 + ' Kb';
+            size=fmtSize(size);
 
 
             attachments.push(
                 <div className="panel-footer" key='1'>
-                    <h5>Attchments ({Object.keys(this.state.attachment).length} file(s), {size})</h5>
+                    <h5>Attachments ({Object.keys(this.state.attachment).length} file(s), {size})</h5>
                     <div className="alert alert-warning text-left"  key='2'>Please use <b>EXTREME</b> caution when downloading files. We strongly recommend scanning them for viruses/malware after downloading.</div><div className="inbox-download"></div>
 
 
-                    {files}
+                    <div className="attachment-list">{files}</div>
                 </div>
 
             );

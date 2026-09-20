@@ -2315,6 +2315,17 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                 //console.log(result);
             });
         },
+        // "Name" <email>, quoting the name when it holds characters an address-list
+        // parser would treat as structure (a comma otherwise splits it into two).
+        formatRecipient: function (name, email) {
+            if (name === undefined || name === "") {
+                return email;
+            }
+            if (/[,<>@;:"\\]/.test(name)) {
+                name = '"' + name.replace(/(["\\])/g, "\\$1") + '"';
+            }
+            return name + " <" + email + ">";
+        },
         rcptObjToArr: function (obj) {
             var rcpArr = [];
             var contact = app.user.get("contacts");
@@ -2322,27 +2333,17 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
             if (Object.keys(obj).length > 0) {
                 //console.log(obj);
                 $.each(obj, function (email64, emailData) {
-                    if (emailData["name"] != "") {
-                        var data =
-                            app.transform.from64str(emailData["name"]) +
-                            " <" +
-                            app.transform.from64str(email64) +
-                            ">";
-                    } else {
-                        var data = app.transform.from64str(email64);
+                    var name = app.transform.from64str(emailData["name"]);
+
+                    if (contact[email64] != undefined && contact[email64]["n"] == "") {
+                        name = "";
                     }
 
-                    if (contact[email64] != undefined) {
-                        if (contact[email64]["n"] != "") {
-                            var data =
-                                app.transform.from64str(emailData["name"]) +
-                                " <" +
-                                app.transform.from64str(email64) +
-                                ">";
-                        } else {
-                            var data = app.transform.from64str(email64);
-                        }
-                    }
+                    var data = app.globalF.formatRecipient(
+                        name,
+                        app.transform.from64str(email64)
+                    );
+
                     rcpArr.push(app.transform.to64str(data));
                 });
             }
@@ -3057,7 +3058,7 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                         big: [],
                         blockquote: ["cite"],
                         br: [],
-                        body: ["class", "style"],
+                        body: ["class", "style", "bgcolor"],
                         caption: [],
                         center: [],
                         cite: [],
@@ -3106,13 +3107,13 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                         sup: [],
                         strong: [],
                         style: [],
-                        table: ["width", "border", "align", "valign", "style"],
-                        tbody: ["align", "valign"],
-                        td: ["width", "colspan", "align", "valign", "style"],
+                        table: ["width", "border", "align", "valign", "style", "bgcolor"],
+                        tbody: ["align", "valign", "bgcolor"],
+                        td: ["width", "colspan", "align", "valign", "style", "bgcolor"],
                         tfoot: ["align", "valign"],
-                        th: ["width", "colspan", "align", "valign"],
+                        th: ["width", "colspan", "align", "valign", "bgcolor"],
                         thead: ["align", "valign"],
-                        tr: ["rowspan", "align", "valign", "style"],
+                        tr: ["rowspan", "align", "valign", "style", "bgcolor"],
                         tt: [],
                         u: [],
                         ul: ["style"],
@@ -3221,6 +3222,17 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                             return name + "=" + value + ' target="_blank"';
                         if (name == "style" && value.indexOf("http") != -1)
                             return tag;
+                    },
+                    onTag: function (tag, html, options) {
+                        // Inline (cid:) and data: images can never be rendered, so drop
+                        // them instead of leaving an empty box of their declared size.
+                        if (
+                            tag == "img" &&
+                            html.indexOf("http:") == -1 &&
+                            html.indexOf("https:") == -1
+                        ) {
+                            return " ";
+                        }
                     }, // empty, means filter out all tags
                     stripIgnoreTag: true, // filter out all HTML not in the whilelist
                     stripIgnoreTagBody: ["script"], // the script tag is a special case, we need

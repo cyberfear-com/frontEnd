@@ -4,6 +4,48 @@
         <!-- <link href="/css/app-minified.min.css" rel="stylesheet" as="style" /> -->
         <link href="/css/bootstrap.min.css" rel="stylesheet" as="style" />
         <link href="/css/temp-style.css" rel="stylesheet" as="style" />
+        <link href="/css/dark-theme.css" rel="stylesheet" as="style" />
+        <script type="text/javascript">
+            // Theme switch (Figma "Dark Theme"). Applied before the app renders so there is no light flash.
+            (function () {
+                var KEY = "mailumTheme";
+                var t = {
+                    isDark: function () { return document.documentElement.classList.contains("dark-theme"); },
+                    set: function (dark) {
+                        document.documentElement.classList.toggle("dark-theme", !!dark);
+                        try { localStorage.setItem(KEY, dark ? "dark" : "light"); } catch (e) {}
+                        t.styleFrame();
+                    },
+                    toggle: function () { t.set(!t.isDark()); return t.isDark(); },
+                    // Message body iframe. Strict render (images off): the sanitiser strips the mail's own
+                    // styling, so the text follows the theme. Full render (Render Images): designed mails
+                    // (own colours, tables, styles) keep a white sheet so they look the way their sender
+                    // built them; plain ones follow the theme. The full render may put the mail straight
+                    // under <html> with no <body>, so the check and the colours go on the root too.
+                    frameMode: "strict",
+                    styleFrame: function (mode) {
+                        if (mode) t.frameMode = mode;
+                        var f = document.getElementById("virtualization"), d;
+                        if (!f) return;
+                        try { d = f.contentDocument; } catch (e) { return; }
+                        if (!d || !d.documentElement) return;
+                        var s = d.getElementById("mailum-theme");
+                        if (!t.isDark()) { if (s) s.parentNode.removeChild(s); return; }
+                        if (!s) { s = d.createElement("style"); s.id = "mailum-theme"; d.documentElement.insertBefore(s, d.documentElement.firstChild); }
+                        var dark = "html{color-scheme:dark;background:transparent;color:#fff}body{background:transparent;color:#fff}a{color:#4992ff}";
+                        if (t.frameMode === "strict") {
+                            s.textContent = dark + "*{color:#fff!important;background-color:transparent!important;background-image:none!important}a{color:#4992ff!important}";
+                            return;
+                        }
+                        var html = d.documentElement.innerHTML.replace(/<style id="mailum-theme">[\s\S]*?<\/style>/, "");
+                        var own = /bgcolor\s*=|background(?:-color)?\s*:|(?:^|[^-])color\s*:|<table\b|<font\b|<style\b/i.test(html);
+                        s.textContent = own ? "html{color-scheme:light;background:#fff;color:#000}body{background:#fff;color:#000}" : dark;
+                    }
+                };
+                window.mailumTheme = t;
+                try { if (localStorage.getItem(KEY) === "dark") document.documentElement.classList.add("dark-theme"); } catch (e) {}
+            })();
+        </script>
         <link
           rel="preload"
           href="/css/compose.css"
@@ -156,6 +198,13 @@
                     /* height: calc(100vh); */
                     padding-top: 54px;
                 }
+                .mailBody header {
+                    padding: 10px 15px;
+                }
+            }
+            /* phone footer: grey block with a white copyright band (was keyed on the viewport
+               height, which also hit short desktop windows and missed tall phones) */
+            @media (max-width: 767px) {
                 .footer-minimal.theme_light {
                     background: #f5f6f7 !important;
                     padding-bottom: 0px;
@@ -166,10 +215,6 @@
                     padding-bottom: 20px;
                     width: calc(100% + 1.5rem);
                     color: rgba(65, 80, 103, 0.5);
-                }
-
-                .mailBody header {
-                    padding: 10px 15px;
                 }
             }
         </style>
@@ -404,7 +449,7 @@
                                 >
                                     <div class="footer-logo">
                                         <img
-                                            src="/images/logo-gray-footer.png"
+                                            src="/images/logo.svg" alt="Mailum"
                                         />
                                         <div class="footer-social-media d-none">
                                             <a href="#"
@@ -493,10 +538,10 @@
                                 "
                             >
                                 <div class="logo me-2">
-                                    <img src="/images/logo-gray-footer.png" />
+                                    <img src="/images/logo.svg" alt="Mailum" />
                                 </div>
                                 <div class="copyright">
-                                    &copy; 2024, Mailum. All Rights
+                                    &copy; 2026, Mailum. All Rights
                                     Reserved.
                                 </div>
                             </div>
@@ -566,7 +611,7 @@
                                 <a href="/terms">Terms &amp; Conditions</a>
                             </div>
                             <div class="copyright hide-desktop">
-                                &copy; 2024, Mailum. All Rights
+                                &copy; 2026, Mailum. All Rights
                                 Reserved.
                             </div>
                         </div>

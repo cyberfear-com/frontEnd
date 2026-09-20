@@ -104,7 +104,7 @@ define([
         handleSearchReset: function () {
             $("#mobile-search").val("");
             $(".mobile-search").removeClass("has-data");
-            $("#emailListTable").DataTable().column(0).search("", 0, 1);
+            $("#emailListTable").DataTable().column(0).search("", 0, 1).draw();
         },
         render: function () {
             return (
@@ -174,7 +174,7 @@ define([
                                         : "Inbox"}
                                 </span>
                                 <img
-                                    src="images/logo-white.svg"
+                                    src="images/logo-dark-theme.svg"
                                     alt=""
                                     className="dark-theme"
                                 />
@@ -291,7 +291,7 @@ define([
                                                         />
                                                     </svg>
                                                 </span>
-                                                Copy my email address
+                                                Copy email
                                             </button>
                                         </li>
                                         <li>

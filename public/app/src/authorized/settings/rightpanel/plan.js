@@ -77,6 +77,14 @@ define([
                 //selectedPaymentOption: "subscription",
                 selectedPaymentOption:app.user.get("userPlan")['subStripeStatus']=="active"||app.user.get("userPlan")['subStripeStatus']=="cancelled"||app.user.get("userPlan")['planSelected']=="free"?"subscription":"one-time",
 
+                nowInvoiceUrl: "",
+                nowPayError: "",
+                nowPayLoading: false,
+
+                oxaPaymentUrl: "",
+                oxaPayError: "",
+                oxaPayLoading: false,
+
             };
         },
 
@@ -515,6 +523,114 @@ define([
 
                     break;
 
+                case "nowPayments":
+                    var thisComp = this;
+
+                    // this.state.price is formatted by accounting.formatMoney -> strip commas
+                    var amountUsd = parseFloat(String(this.state.price).replace(/,/g, ""));
+                    if (!amountUsd || amountUsd <= 0) {
+                        break;
+                    }
+
+                    // open the tab synchronously (inside the click handler)
+                    // so popup blockers don't block it, then point it at the
+                    // invoice url once the backend responds
+                    var nowWin = window.open("", "_blank");
+
+                    thisComp.setState({
+                        paym: "nowpayments",
+                        nowPayLoading: true,
+                        nowInvoiceUrl: "",
+                        nowPayError: "",
+                    });
+
+                    var post = {
+                        itemName: this.state.planSelector + " plan", // e.g. "basic plan", "Old Yearly plan" - matches backend whitelist
+                        itemDesc: this.state.PaymentDescr,           // e.g. "1 year" / "refill"
+                        itemAmount: this.state.howMuch,
+                        amountUsd: amountUsd,
+                    };
+
+                    app.serverCall.ajaxRequest("createNowPaymentsOrderV2", post, function (result) {
+                        if (result["response"] == "success" && result["data"] && result["data"]["invoice_url"]) {
+                            if (nowWin) {
+                                nowWin.location = result["data"]["invoice_url"];
+                            } else {
+                                window.open(result["data"]["invoice_url"], "_blank");
+                            }
+                            thisComp.setState({
+                                nowInvoiceUrl: result["data"]["invoice_url"],
+                                nowPayLoading: false,
+                            });
+                        } else {
+                            if (nowWin) {
+                                nowWin.close();
+                            }
+                            thisComp.setState({
+                                nowPayError:
+                                    typeof result["data"] == "string"
+                                        ? result["data"]
+                                        : "Failed to create payment, please try again.",
+                                nowPayLoading: false,
+                            });
+                        }
+                    });
+                    break;
+
+                case "oxaPay":
+                    var thisComp = this;
+
+                    // this.state.price is formatted by accounting.formatMoney -> strip commas
+                    var amountUsd = parseFloat(String(this.state.price).replace(/,/g, ""));
+                    if (!amountUsd || amountUsd <= 0) {
+                        break;
+                    }
+
+                    // open the tab synchronously (inside the click handler) so popup
+                    // blockers don't block it, then point it at the payment url
+                    // once the backend responds
+                    var oxaWin = window.open("", "_blank");
+
+                    thisComp.setState({
+                        paym: "oxapay",
+                        oxaPayLoading: true,
+                        oxaPaymentUrl: "",
+                        oxaPayError: "",
+                    });
+
+                    var post = {
+                        itemName: this.state.planSelector + " plan", // matches backend whitelist
+                        itemDesc: this.state.PaymentDescr,           // e.g. "1 year" / "refill"
+                        itemAmount: this.state.howMuch,
+                        amountUsd: amountUsd,
+                    };
+
+                    app.serverCall.ajaxRequest("createOxaPayOrderV2", post, function (result) {
+                        if (result["response"] == "success" && result["data"] && result["data"]["payment_url"]) {
+                            if (oxaWin) {
+                                oxaWin.location = result["data"]["payment_url"];
+                            } else {
+                                window.open(result["data"]["payment_url"], "_blank");
+                            }
+                            thisComp.setState({
+                                oxaPaymentUrl: result["data"]["payment_url"],
+                                oxaPayLoading: false,
+                            });
+                        } else {
+                            if (oxaWin) {
+                                oxaWin.close();
+                            }
+                            thisComp.setState({
+                                oxaPayError:
+                                    typeof result["data"] == "string"
+                                        ? result["data"]
+                                        : "Failed to create payment, please try again.",
+                                oxaPayLoading: false,
+                            });
+                        }
+                    });
+                    break;
+
                 case "showDetail":
                     this.setState({
                         detailVisible: "",
@@ -652,7 +768,7 @@ define([
             });
 
             def.done(function () {
-                //	console.log(app.user.get("userPlan"));
+                //  console.log(app.user.get("userPlan"));
                 var currentPlan = app.user.get("userPlan");
                 var decodedPlan = currentPlan["planData"];
 
@@ -1392,15 +1508,36 @@ define([
                                     </button>
                                     <button
                                         type="submit"
-                                        //className="btn-blue fixed-width-btn"
                                         className={(this.state.selectedPaymentOption == "subscription" || app.mailMan.get("webview"))? "d-none":"btn-blue fixed-width-btn col-sm mx-1"}
                                         form="crypF"
+                                        disabled={true}
+                                        style={{ opacity: 0.5, cursor: "not-allowed" }}
                                         onClick={this.handleClick.bind(
                                             this,
                                             "showFirstIfMob"
                                         )}
                                     >
-                                        CoinPayments
+                                        CoinPayments (temporarily disabled)
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className={(this.state.selectedPaymentOption == "subscription" || app.mailMan.get("webview")) ? "d-none" : "d-none btn-blue fixed-width-btn col-sm mx-1"}
+                                        onClick={this.handleClick.bind(
+                                            this,
+                                            "nowPayments"
+                                        )}
+                                    >
+                                        Crypto (NOWPayments)
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className={(this.state.selectedPaymentOption == "subscription" || app.mailMan.get("webview")) ? "d-none" : "btn-blue fixed-width-btn col-sm mx-1"}
+                                        onClick={this.handleClick.bind(
+                                            this,
+                                            "oxaPay"
+                                        )}
+                                    >
+                                        Cryptocurrency
                                     </button>
                                     <button
                                         type="submit"
@@ -1456,6 +1593,93 @@ define([
                                     }
                                     id="paypal-button-container"
                                 ></div>
+                                <div
+                                    className={
+                                        this.state.paym == "nowpayments"
+                                            ? ""
+                                            : "d-none"
+                                    }
+                                    id="nowpayments-container"
+                                >
+                                    {this.state.nowPayLoading && (
+                                        <p>Preparing NOWPayments payment page…</p>
+                                    )}
+
+                                    {this.state.nowPayError !== "" && (
+                                        <p className="txt-color-red">{this.state.nowPayError}</p>
+                                    )}
+
+                                    {this.state.nowInvoiceUrl !== "" && (
+                                        <div className="info-text">
+                                            <p>
+                                                The NOWPayments payment page has been
+                                                opened in a new tab. Choose any of the
+                                                supported cryptocurrencies there and
+                                                complete the payment.
+                                            </p>
+                                            <p>
+                                                If the tab did not open,{" "}
+                                                <a
+                                                    href={this.state.nowInvoiceUrl}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                >
+                                                    click here to open it
+                                                </a>
+                                                .
+                                            </p>
+                                            <p>
+                                                Your balance will update automatically
+                                                once the payment is confirmed on the
+                                                blockchain.
+                                            </p>
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div
+                                    className={
+                                        this.state.paym == "oxapay"
+                                            ? ""
+                                            : "d-none"
+                                    }
+                                    id="oxapay-container"
+                                >
+                                    {this.state.oxaPayLoading && (
+                                        <p>Preparing OxaPay payment page…</p>
+                                    )}
+
+                                    {this.state.oxaPayError !== "" && (
+                                        <p className="txt-color-red">{this.state.oxaPayError}</p>
+                                    )}
+
+                                    {this.state.oxaPaymentUrl !== "" && (
+                                        <div className="info-text">
+                                            <p>
+                                                The OxaPay payment page has been opened
+                                                in a new tab. Choose any of the supported
+                                                cryptocurrencies there and complete the
+                                                payment.
+                                            </p>
+                                            <p>
+                                                If the tab did not open,{" "}
+                                                <a
+                                                    href={this.state.oxaPaymentUrl}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                >
+                                                    click here to open it
+                                                </a>
+                                                .
+                                            </p>
+                                            <p>
+                                                Your balance will update automatically once
+                                                the payment is confirmed on the blockchain.
+                                            </p>
+                                        </div>
+                                    )}
+                                </div>
+
                                 <div
                                     className={
                                         this.state.paym == "stripe"

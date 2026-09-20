@@ -44,6 +44,13 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                     break;
             }
         },
+        getInitialState: function () {
+            return { darkTheme: !!(window.mailumTheme && window.mailumTheme.isDark()) };
+        },
+        handleThemeToggle: function () {
+            if (!window.mailumTheme) return;
+            this.setState({ darkTheme: window.mailumTheme.toggle() });
+        },
         componentDidMount: function () {
             // console.log(app.user.get("showDisplayName"));
             // console.log(app.user.get("displayName"));
@@ -131,10 +138,36 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                                 />
                                             </svg>
                                         </span>
-                                        Copy my email address
+                                        Copy email
                                     </button>
                                 </li>
 
+                                <li>
+                                    <button
+                                        type="button"
+                                        id="theme-toggle"
+                                        onClick={this.handleThemeToggle}
+                                    >
+                                        <span className="__icon">
+                                            <svg
+                                                width="20"
+                                                height="20"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                            >
+                                                <path
+                                                    d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7z"
+                                                    stroke="#080D13"
+                                                    strokeWidth="1.5"
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                />
+                                            </svg>
+                                        </span>
+                                        {this.state.darkTheme ? "Light theme" : "Dark theme"}
+                                    </button>
+                                </li>
                                 <li>
                                     <a
                                         onClick={this.handleClick.bind(
@@ -215,7 +248,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                         >
                                             <path
                                                 d="M14.5312 12.1833L16.6646 10.05L14.5312 7.91663"
-                                                stroke="black"
+                                                stroke="#080D13"
                                                 strokeWidth="1.25"
                                                 strokeMiterlimit="10"
                                                 strokeLinecap="round"
@@ -223,7 +256,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                             />
                                             <path
                                                 d="M8.13281 10.05H16.6078"
-                                                stroke="black"
+                                                stroke="#080D13"
                                                 strokeWidth="1.25"
                                                 strokeMiterlimit="10"
                                                 strokeLinecap="round"
@@ -231,7 +264,7 @@ define(["react", "app", "accounting"], function (React, app, accounting) {
                                             />
                                             <path
                                                 d="M9.79948 16.6667C6.11615 16.6667 3.13281 14.1667 3.13281 10C3.13281 5.83337 6.11615 3.33337 9.79948 3.33337"
-                                                stroke="black"
+                                                stroke="#080D13"
                                                 strokeWidth="1.25"
                                                 stroke-miterlimit="10"
                                                 strokeLinecap="round"

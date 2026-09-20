@@ -1,4 +1,15 @@
 define(["react", "app"], function (React, app) {
+    // Height of the rendered mail inside the reading-pane iframe. jQuery's html.height() is the
+    // computed height, which for mails that set "height: 100%" on html/body is the height of the
+    // iframe viewport, i.e. 0 while the frame is collapsed for measuring (PayPal mails came out
+    // 50px tall). The scroll height of the document is the real content height.
+    function frameContentHeight() {
+        var f = document.getElementById("virtualization");
+        var d = f ? f.contentDocument : null;
+        if (!d || !d.documentElement) return 0;
+        var h = $(d).find("html").height() || 0;
+        return Math.max(h, d.documentElement.scrollHeight || 0, d.body ? d.body.scrollHeight || 0 : 0);
+    }
     return React.createClass({
         mixins: [app.mixins.touchMixins()],
         getInitialState: function () {
@@ -344,13 +355,33 @@ define(["react", "app"], function (React, app) {
                             <b key="bc">
                                 {app.globalF.parseEmail(from)["name"]}
                             </b>
-                            {"<" + app.globalF.parseEmail(from)["email"] + ">"}
+                            <span key="ad" className="sender-address">
+                                {"<" + app.globalF.parseEmail(from)["email"] + ">"}
+                                <button
+                                type="button"
+                                className="copy-sender"
+                                title="Copy email address"
+                                aria-label="Copy email address"
+                                onClick={this.handleCopySender}
+                            >
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="11" height="11" rx="2" /><path d="M5 15V5a2 2 0 0 1 2-2h10" /></svg>
+                            </button>
+                            </span>
                         </span>
                     );
                 } else {
                     from2.push(
                         <span key="ab">
                             {app.globalF.parseEmail(from)["email"]}
+                            <button
+                                type="button"
+                                className="copy-sender"
+                                title="Copy email address"
+                                aria-label="Copy email address"
+                                onClick={this.handleCopySender}
+                            >
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="11" height="11" rx="2" /><path d="M5 15V5a2 2 0 0 1 2-2h10" /></svg>
+                            </button>
                         </span>
                     );
                 }
@@ -418,6 +449,7 @@ define(["react", "app"], function (React, app) {
                                 <b key={index + "b"}>
                                     {app.globalF.parseEmail(folderData)["name"]}
                                 </b>
+                                {" <" + app.globalF.parseEmail(folderData)["email"] + ">"}
                             </span>
                         );
                     } else {
@@ -459,6 +491,7 @@ define(["react", "app"], function (React, app) {
                                             ]
                                         }
                                     </b>
+                                    {" <" + app.globalF.parseEmail(folderData)["email"] + ">"}
                                 </span>
                             );
                         } else {
@@ -510,6 +543,7 @@ define(["react", "app"], function (React, app) {
                                             ]
                                         }
                                     </b>
+                                    {" <" + app.globalF.parseEmail(folderData)["email"] + ">"}
                                 </span>
                             );
                         } else {
@@ -541,19 +575,21 @@ define(["react", "app"], function (React, app) {
                 }
                 var message = app.user.get("emails")["messages"][email["id"]];
                 if (message["st"] == 0) {
-                    var setOpen = setTimeout(function () {
-                        message["st"] = message["st"] == 0 ? 3 : message["st"];
-
+                    setTimeout(function () {
+                        // look it up again, the emails object may have been rebuilt meanwhile
+                        var current = app.user.get("emails")["messages"][email["id"]];
+                        if (current == undefined || current["st"] != 0) {
+                            return;
+                        }
+                        current["st"] = 3;
+                        // refresh the list row and unread counters now, persist only this block
+                        app.globalF.syncUpdates();
                         app.userObjects.updateObjects(
-                            "folderUpdate",
-                            "",
-                            function (result) {
-                                app.globalF.syncUpdates(true);
-                            }
+                            "folderUpdatePartial",
+                            [email["id"]],
+                            function (result) {}
                         );
-                    }, 1000);
-                } else {
-                    var setOpen = {};
+                    }, 300);
                 }
 
                 this.setState({
@@ -602,6 +638,14 @@ define(["react", "app"], function (React, app) {
                     });
                 } else {
                     this.renderStrictBody();
+                    this.setState({
+                        renderButtonClass: this.hasRenderableContent(
+                            app.transform.from64str(email["body"]["html"]),
+                            app.transform.from64str(email["body"]["text"])
+                        )
+                            ? ""
+                            : "d-none",
+                    });
                 }
                 this.setState({
                     hideEmailRead: false,
@@ -629,23 +673,29 @@ define(["react", "app"], function (React, app) {
             var attachments = [];
             var files = [];
             var thisComp = this;
+            var fmtSize = function (bytes) {
+                return bytes > 1000000
+                    ? Math.round(bytes / 10000) / 100 + " Mb"
+                    : Math.round(bytes / 10) / 100 + " Kb";
+            };
 
             if (Object.keys(this.state.attachment).length > 0) {
                 if (this.state.decryptedEmail) {
                     var size = 0;
                     $.each(this.state.attachment, function (index, attData) {
-                        size += attData["contents"].length;
+                        var fileSize = attData["contents"].length;
+                        size += fileSize;
 
                         files.push(
-                            <span className="clearfix" key={"a" + index}>
-                                <br />
+                            <div className="attachment-row" key={"a" + index}>
                                 <span className="attchments" key={"as" + index}>
                                     {attData["fileName"]}
+                                    <small>{fmtSize(fileSize)}</small>
                                 </span>
                                 <button
                                     key={"ab" + index}
                                     id={index}
-                                    className="btn btn-sm btn-primary pull-right"
+                                    className="btn btn-sm btn-primary"
                                     onClick={thisComp.handleClick.bind(
                                         thisComp,
                                         "downloadFileDecrypted"
@@ -653,20 +703,20 @@ define(["react", "app"], function (React, app) {
                                 >
                                     Download
                                 </button>
-                            </span>
+                            </div>
                         );
                     });
                 } else {
                     var size = 0;
                     $.each(this.state.attachment, function (index, attData) {
-                        size += parseInt(
+                        var fileSize = parseInt(
                             app.transform.from64str(attData["size"])
                         );
+                        size += fileSize;
 
                         if (attData["isPgp"]) {
                             files.push(
-                                <span className="clearfix" key={"a" + index}>
-                                    <br />
+                                <div className="attachment-row" key={"a" + index}>
                                     <span
                                         className="attchments"
                                         key={"as" + index}
@@ -674,10 +724,11 @@ define(["react", "app"], function (React, app) {
                                         {app.transform.from64str(
                                             attData["name"]
                                         )}
+                                        <small>{fmtSize(fileSize)}</small>
                                     </span>
 
                                     <div
-                                        className="btn-group pull-right"
+                                        className="btn-group"
                                         key={"abc" + index}
                                     >
                                         <button
@@ -693,12 +744,11 @@ define(["react", "app"], function (React, app) {
                                             Show PGP message
                                         </button>
                                     </div>
-                                </span>
+                                </div>
                             );
                         } else {
                             files.push(
-                                <span className="clearfix" key={"a" + index}>
-                                    <br />
+                                <div className="attachment-row" key={"a" + index}>
                                     <span
                                         className="attchments"
                                         key={"as" + index}
@@ -706,11 +756,12 @@ define(["react", "app"], function (React, app) {
                                         {app.transform.from64str(
                                             attData["name"]
                                         )}
+                                        <small>{fmtSize(fileSize)}</small>
                                     </span>
                                     <button
                                         key={"ab" + index}
                                         id={index}
-                                        className="btn btn-sm btn-primary pull-right"
+                                        className="btn btn-sm btn-primary"
                                         onClick={thisComp.handleClick.bind(
                                             thisComp,
                                             "downloadFile"
@@ -718,21 +769,18 @@ define(["react", "app"], function (React, app) {
                                     >
                                         Download
                                     </button>
-                                </span>
+                                </div>
                             );
                         }
                     });
                 }
 
-                size =
-                    size > 1000000
-                        ? Math.round(size / 10000) / 100 + " Mb"
-                        : Math.round(size / 10) / 100 + " Kb";
+                size = fmtSize(size);
 
                 attachments.push(
                     <div className="panel-footer" key="1">
                         <h5>
-                            Attchments (
+                            Attachments (
                             {Object.keys(this.state.attachment).length} file(s),{" "}
                             {size})
                         </h5>
@@ -743,7 +791,7 @@ define(["react", "app"], function (React, app) {
                         </div>
                         <div className="inbox-download"></div>
 
-                        {files}
+                        <div className="attachment-list">{files}</div>
                     </div>
                 );
             }
@@ -781,7 +829,7 @@ define(["react", "app"], function (React, app) {
 
                     if (
                         this.state.tag ===
-                        app.transform.from64str($(event.target).attr("value"))
+                        app.transform.from64str($(event.currentTarget).attr("value"))
                     ) {
                         // same tag is being clicked, so remove it by leaving out the tag array as blank
                         // update local state
@@ -791,9 +839,9 @@ define(["react", "app"], function (React, app) {
                         thisComp.handleChange("removeTag");
                     } else {
                         message["tg"].push({
-                            name: $(event.target).attr("value"),
+                            name: $(event.currentTarget).attr("value"),
                         });
-                        var name = $(event.target).attr("value");
+                        var name = $(event.currentTarget).attr("value");
                         app.userObjects.updateObjects(
                             "folderUpdate",
                             "",
@@ -1213,6 +1261,7 @@ define(["react", "app"], function (React, app) {
                                         .contents()
                                         .find("html")
                                         .html(prerenderedBody);
+                                    if (window.mailumTheme) { window.mailumTheme.styleFrame("strict"); }
                                     $("#virtualization")
                                         .contents()
                                         .find("html")
@@ -1221,10 +1270,7 @@ define(["react", "app"], function (React, app) {
                                         // );
 
                                     $("#virtualization").height(
-                                        $("#virtualization")
-                                            .contents()
-                                            .find("html")
-                                            .height()
+                                        frameContentHeight()
                                     );
                                 }, 100);
                             }
@@ -1246,6 +1292,7 @@ define(["react", "app"], function (React, app) {
                                         .contents()
                                         .find("html")
                                         .html(prerenderedBody);
+                                    if (window.mailumTheme) { window.mailumTheme.styleFrame("strict"); }
                                     $("#virtualization")
                                         .contents()
                                         .find("html")
@@ -1253,10 +1300,7 @@ define(["react", "app"], function (React, app) {
                                         //     "<style>table,table tbody,table tr,table td{display:block;width:100%;}</style>"
                                         // );
                                     $("#virtualization").height(
-                                        $("#virtualization")
-                                            .contents()
-                                            .find("html")
-                                            .height()
+                                        frameContentHeight()
                                     );
                                 }, 100);
                             }
@@ -1528,6 +1572,26 @@ define(["react", "app"], function (React, app) {
             }
         },
 
+        // Does the strict render (what is shown first) withhold anything the full render
+        // would show: images, styling, colours? Plain text has nothing to gain from
+        // "Render Images"; a designed HTML mail does.
+        hasRenderableContent: function (html, text) {
+            if (!html || html.trim() === "") return false;
+            var strict = "", full = "";
+            app.globalF.renderBodyNoImages(html, text || "", false, function (out) { strict = out; });
+            app.globalF.renderBodyFull(html, text || "", false, function (out) { full = out; });
+            return strict.replace(/\s+/g, " ") !== full.replace(/\s+/g, " ");
+        },
+        // Copy the sender's bare address (fromExtra carries it in angle brackets).
+        handleCopySender: function () {
+            var meta = (app.user.get("currentMessageView") || {})["meta"] || {};
+            var addr = meta["from"] ? app.globalF.parseEmail(app.transform.from64str(meta["from"]))["email"] : "";
+            if (!addr || !navigator.clipboard) return;
+            navigator.clipboard.writeText(addr).then(function () {
+                $("#email-copy").removeClass("hide").addClass("show");
+                setTimeout(function () { $("#email-copy").removeClass("show").addClass("hide"); }, 1500);
+            });
+        },
         readPGP: function (PGPtext) {
             var thisComp = this;
 
@@ -1540,6 +1604,12 @@ define(["react", "app"], function (React, app) {
                         attachment: decryptedText["attachments"],
                         decryptedEmail: app.transform.from64str(email64),
                         pgpEncrypted: false,
+                        renderButtonClass: thisComp.hasRenderableContent(
+                            decryptedText["html"],
+                            decryptedText["text"]
+                        )
+                            ? ""
+                            : "d-none",
                     });
 
                     thisComp.renderStrictBody();
@@ -1580,20 +1650,19 @@ define(["react", "app"], function (React, app) {
                             .contents()
                             .find("html")
                             .html(prerenderedBody);
+                                    if (window.mailumTheme) { window.mailumTheme.styleFrame("full"); }
                         $("#virtualization")
                             .contents()
                             .find("html")
                             // .append(
                             //     "<style>table,table tbody,table tr,table td{display:block;width:100%;}</style>"
                             // );
-                        $("#virtualization").height(
-                            $("#virtualization")
-                                .contents()
-                                .find("html")
-                                .height() + 50
-                        );
                         $("#virtualization").width(
                             $("#virtualization").contents().prop("documentElement").scrollWidth
+                        );
+                        // Measure the height only once the width is final.
+                        $("#virtualization").height(
+                            frameContentHeight() + 50
                         );
                     }, 300);
                 }
@@ -1671,19 +1740,13 @@ define(["react", "app"], function (React, app) {
                             .contents()
                             .find("html")
                             .html(prerenderedBody);
+                                    if (window.mailumTheme) { window.mailumTheme.styleFrame("strict"); }
                         $("#virtualization")
                             .contents()
                             .find("html")
                             // .append(
                             //     "<style>table,table tbody,table tr,table td{display:block;width:100%;}</style>"
                             // );
-                        $("#virtualization").height(
-                            $("#virtualization")
-                                .contents()
-                                .find("html")
-                                .height() + 50
-                        );
-
                         thisComp.setState({
                             "minVirtWidth":$("#virtualization").contents().prop("documentElement").scrollWidth
                         });
@@ -1698,6 +1761,12 @@ define(["react", "app"], function (React, app) {
                             );
                             $('#appRightSide').css('overflow-x','hidden');
                         }
+                        // Measure the height only once the width is final: the iframe is
+                        // 0 px wide here, so before this the text wrapped one word per line
+                        // and the height came out far too large.
+                        $("#virtualization").height(
+                            frameContentHeight() + 50
+                        );
 
 
                         var tt = app.mixins.touchMixins();
@@ -2484,7 +2553,7 @@ define(["react", "app"], function (React, app) {
                                     </span>
                                     {this.state.domainWarning &&
 
-                                        <div className="" style={{marginTop:"5px",color:"#c71c36",lineHeight: "20px"}}>
+                                        <div className="spoof-warning" style={{marginTop:"5px",color:"#c71c36",lineHeight: "20px"}}>
                                             Please be careful; the email was sent from a domain that does not match the domain in the "FROM" field of the same email, which could be an indication of a spoofed email.
                                     </div>
                                         }

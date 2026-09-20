@@ -2572,6 +2572,14 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
             //
         },
 
+        // Body of the message shown in the reading frame, without the dark-theme <style> that
+        // mailumTheme.styleFrame() injects (it would end up as CSS text in a reply/forward).
+        frameHtml: function () {
+            var html = $("#virtualization").contents().find("html").clone();
+            html.find("#mailum-theme").remove();
+            return html.html();
+        },
+
         reply: function (action) {
             //console.log(action);
             //console.log(app.user.get('currentMessageView'));
@@ -2843,11 +2851,11 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                 draft["body"]["html"] =
                     preReplyText +
                     '<blockquote class="reply-indentation" style="border-left:2px solid #ccc; margin-left:10px; padding-left:10px;">' +
-                    $("#virtualization").contents().find("html").html() +
+                    app.globalF.frameHtml() +
                     "</blockquote>";
             } else if (action === "forwardStrict" || action === "forwardFull") {
                 app.user.set({ emailReplyState: "forward" });
-                draft["body"]["html"] = $("#virtualization").contents().find("html").html();
+                draft["body"]["html"] = app.globalF.frameHtml();
             }
 
 

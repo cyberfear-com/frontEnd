@@ -725,6 +725,7 @@ define(["react", "app", "select2"], function (
         total += rcpt.length;
 
         $.each(rcpt, function (index, value) {
+
           if (app.transform.check64str(value)) {
             var parsed = app.globalF.parseEmail(app.transform.from64str(value));
             var ind = app.transform.to64str(parsed["email"]);
@@ -871,7 +872,7 @@ define(["react", "app", "select2"], function (
 
             requestHashes.push(ind);
           } else {
-            var newCont = app.transform.from64str(app.transform.from64str(email64));
+            var newCont = app.transform.from64str(email64);
             AllRecipients[app.transform.SHA512(newCont)] = {
               email: email64,
               name: email64 != data["name"] ? data["name"] : "",
@@ -1516,7 +1517,7 @@ define(["react", "app", "select2"], function (
                     app.user.get("activeFolderId") ==
                     app.user.get("systemFolders")["draftFolderId"]
                   ) {
-                    app.globalF.syncUpdates();
+                  app.globalF.syncUpdates();
                   }
 
                   callback();

@@ -9330,10 +9330,10 @@ header .menu-icon.on-left-side {
     width: 14px;
     height: 14px;
     flex: none;
-    margin: 0 0 0 6px;
+    margin: 0 0 0 4px;
     border: 0;
     padding: 0;
-    background: url("../images/icon-close.svg") center/14px no-repeat;
+    background: url("../images/icon-close.svg") center/10px no-repeat;
     opacity: 0.6;
 }
 .pager-reset:hover {

@@ -580,7 +580,7 @@ html.dark-theme .paging_simple .pagination a { border: none; }
 html.dark-theme .paging_simple .pagination .previous a { background: url(../images/icon-arrow-left-white.svg) left top/24px no-repeat; }
 html.dark-theme .paging_simple .pagination .next a { background: url(../images/icon-arrow-right-white.svg) left top/24px no-repeat; }
 html.dark-theme #emailListNavigation.off-first-page .dataTables_info, html.dark-theme #emailListTable_wrapper.off-first-page .dataTables_info { background-color: rgba(255, 255, 255, 0.1); color: #4992ff; }
-html.dark-theme .pager-reset { background: url("../images/icon-close-white.svg") center/14px no-repeat; }
+html.dark-theme .pager-reset { background: url("../images/icon-close-white.svg") center/10px no-repeat; }
 html.dark-theme .middle-section .inbox-list table tr:hover { background-color: #1f2124; }
 html.dark-theme .middle-section .inbox-list table td { border-bottom: 1px solid #292b2e; }
 html.dark-theme .middle-section .inbox-list table .inbox-list-top { color: rgba(255, 255, 255, 0.6); }

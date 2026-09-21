@@ -9310,6 +9310,8 @@ header .menu-icon.on-left-side {
 }
 #emailListNavigation .dataTables_info,
 #emailListTable_wrapper .dataTables_info {
+    display: inline-flex;
+    align-items: center;
     letter-spacing: 0.1rem;
     padding: 3px 10px;
     border-radius: 12px;
@@ -9321,16 +9323,16 @@ header .menu-icon.on-left-side {
     font-weight: 700;
 }
 #emailListNavigation:not(.off-first-page) .dataTables_info,
-#emailListTable_wrapper .pager-reset {
+#emailListTable_wrapper:not(.off-first-page) .dataTables_info {
     display: none;
 }
 .pager-reset {
     width: 14px;
     height: 14px;
+    flex: none;
     margin: 0 0 0 6px;
     border: 0;
     padding: 0;
-    vertical-align: -2px;
     background: url("../images/icon-close.svg") center/14px no-repeat;
     opacity: 0.6;
 }

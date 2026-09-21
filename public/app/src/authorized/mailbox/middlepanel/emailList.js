@@ -464,13 +464,12 @@ define([
                 },
             });
 
-            // show the pager next to the refresh button instead of only under the list;
-            // the x in its page count returns to the newest page
-            $("#emailListNavigation")
-                .appendTo("#emailListPager")
-                .on("click", ".pager-reset", function () {
-                    $("#emailListTable").DataTable().page("first").draw("page");
-                });
+            // show the pager next to the refresh button instead of only under the list
+            $("#emailListNavigation").appendTo("#emailListPager");
+            // the x in either page count returns to the newest page
+            $("#emailListNavigation, #emailListTable_wrapper").on("click", ".pager-reset", function () {
+                $("#emailListTable").DataTable().page("first").draw("page");
+            });
 
             // one delegated handler for all rows, bound once
             $("#emailListTable").on("click", "td", function () {

@@ -9310,6 +9310,13 @@ header .menu-icon.on-left-side {
 }
 #emailListNavigation .dataTables_info {
     letter-spacing: 0.1rem;
+    padding: 3px 10px;
+    border-radius: 12px;
+}
+#emailListNavigation.off-first-page .dataTables_info {
+    background-color: #f1f6fd;
+    color: #2277f6;
+    font-weight: 700;
 }
 .dataTables_paginate.paging_simple .pagination {
     border: 2px solid #fff;
@@ -9336,6 +9343,10 @@ header .menu-icon.on-left-side {
 }
 .paging_simple .pagination .next a {
     background: url(../images/icon-arrow-right.svg) left top/24px no-repeat;
+}
+.paging_simple .pagination .disabled a {
+    opacity: 0.2;
+    cursor: default;
 }
 .middle-section .inbox-list table tr:hover {
     background-color: #f1f6fd;

@@ -458,6 +458,9 @@ define([
                 },
             });
 
+            // show the pager next to the refresh button instead of only under the list
+            $("#emailListNavigation").appendTo("#emailListPager");
+
             // one delegated handler for all rows, bound once
             $("#emailListTable").on("click", "td", function () {
                 var selectedEmails = app.user.get("selectedEmails");
@@ -1573,6 +1576,7 @@ define([
                                     </div>
                                 </div>
                                 <div className="info-row-right">
+                                    <div id="emailListPager"></div>
                                     <div className="referesh-btn">
                                         <button id="referesh-btn" className="icon-btn" onClick={this.handleRefreshButton}>
                                             <i className={this.state.checkNewMails ? "spin-animation" : ""}></i>

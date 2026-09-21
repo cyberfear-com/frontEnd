@@ -9301,9 +9301,15 @@ header .menu-icon.on-left-side {
     display: flex;
     flex-direction: row-reverse;
     align-items: center;
-    justify-content: space-between;
-    padding: 5px 10px;
-    border-bottom: 1px solid #fff;
+    gap: 12px;
+    padding: 0 16px 0 0;
+}
+#emailListNavigation .pagination {
+    border: 0;
+    padding: 0;
+}
+#emailListNavigation .dataTables_info {
+    letter-spacing: 0.1rem;
 }
 .dataTables_paginate.paging_simple .pagination {
     border: 2px solid #fff;
@@ -9492,7 +9498,6 @@ header .menu-icon.on-left-side {
     border-right-width: 0;
     border-bottom-width: 0;
 }
-#emailListTable_wrapper > #emailListNavigation,
 .mobile-logo img {
     display: none !important;
 }

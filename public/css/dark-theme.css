@@ -575,7 +575,6 @@ html.dark-theme .real-sender > div { border: solid 1px #292b2e; background-color
 html.dark-theme .real-sender .text-from { color: rgba(255, 255, 255, 0.6); }
 html.dark-theme .real-sender .sender-email { background-color: #1f2124; color: #4992ff; }
 html.dark-theme #overlay { background-color: rgba(0, 0, 0, 0.5); }
-html.dark-theme #emailListNavigation { border-bottom: 1px solid #111315; }
 html.dark-theme .dataTables_paginate.paging_simple .pagination { border: 2px solid #111315; }
 html.dark-theme .paging_simple .pagination a { border: none; }
 html.dark-theme .paging_simple .pagination .previous a { background: url(../images/icon-arrow-left-white.svg) left top/24px no-repeat; }

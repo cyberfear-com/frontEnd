@@ -428,6 +428,10 @@ define([
                         sNext: "<i class='fa fa-chevron-right'></i>",
                     },
                 },
+                // the page count carries an x that returns to the newest page
+                infoCallback: function (settings, start, end, max, total, pre) {
+                    return pre + '<button type="button" class="pager-reset" title="Back to newest"></button>';
+                },
                 fnDrawCallback: function (
                     nRow,
                     aData,
@@ -460,8 +464,13 @@ define([
                 },
             });
 
-            // show the pager next to the refresh button instead of only under the list
-            $("#emailListNavigation").appendTo("#emailListPager");
+            // show the pager next to the refresh button instead of only under the list;
+            // the x in its page count returns to the newest page
+            $("#emailListNavigation")
+                .appendTo("#emailListPager")
+                .on("click", ".pager-reset", function () {
+                    $("#emailListTable").DataTable().page("first").draw("page");
+                });
 
             // one delegated handler for all rows, bound once
             $("#emailListTable").on("click", "td", function () {

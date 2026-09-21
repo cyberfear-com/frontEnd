@@ -9320,6 +9320,23 @@ header .menu-icon.on-left-side {
     color: #2277f6;
     font-weight: 700;
 }
+#emailListNavigation:not(.off-first-page) .dataTables_info,
+#emailListTable_wrapper .pager-reset {
+    display: none;
+}
+.pager-reset {
+    width: 14px;
+    height: 14px;
+    margin: 0 0 0 6px;
+    border: 0;
+    padding: 0;
+    vertical-align: -2px;
+    background: url("../images/icon-close.svg") center/14px no-repeat;
+    opacity: 0.6;
+}
+.pager-reset:hover {
+    opacity: 1;
+}
 .dataTables_paginate.paging_simple .pagination {
     border: 2px solid #fff;
     border-radius: 10px;

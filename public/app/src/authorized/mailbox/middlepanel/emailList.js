@@ -466,9 +466,11 @@ define([
 
             // show the pager next to the refresh button instead of only under the list
             $("#emailListNavigation").appendTo("#emailListPager");
-            // the x in either page count returns to the newest page
+            // the x in either page count returns to the newest page, scrolled to the top
             $("#emailListNavigation, #emailListTable_wrapper").on("click", ".pager-reset", function () {
                 $("#emailListTable").DataTable().page("first").draw("page");
+                $("#appMiddleSection .middle-content").scrollTop(0); // desktop: the list scrolls
+                window.scrollTo(0, 0); // phones: the page scrolls
             });
 
             // one delegated handler for all rows, bound once

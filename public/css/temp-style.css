@@ -9538,7 +9538,7 @@ header .menu-icon.on-left-side {
     margin: 0 10px 1rem;
 }
 #emailListTable + .pull-right + .pull-right {
-    float: left;
+    float: right;
     margin: 5px 0;
     font-size: 12px;
 }

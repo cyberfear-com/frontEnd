@@ -435,8 +435,8 @@ define([
                     iDisplayIndexFull
                 ) {
                     $("#emailListTable thead").remove();
-                    // mark the toolbar pager when the list is not on the newest page
-                    $("#emailListNavigation").toggleClass("off-first-page", this.api().page() > 0);
+                    // mark both pagers when the list is not on the newest page
+                    $("#emailListNavigation, #emailListTable_wrapper").toggleClass("off-first-page", this.api().page() > 0);
                 },
                 fnRowCallback: function (
                     nRow,

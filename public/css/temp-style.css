@@ -9308,12 +9308,14 @@ header .menu-icon.on-left-side {
     border: 0;
     padding: 0;
 }
-#emailListNavigation .dataTables_info {
+#emailListNavigation .dataTables_info,
+#emailListTable_wrapper .dataTables_info {
     letter-spacing: 0.1rem;
     padding: 3px 10px;
     border-radius: 12px;
 }
-#emailListNavigation.off-first-page .dataTables_info {
+#emailListNavigation.off-first-page .dataTables_info,
+#emailListTable_wrapper.off-first-page .dataTables_info {
     background-color: #f1f6fd;
     color: #2277f6;
     font-weight: 700;
@@ -9518,7 +9520,7 @@ header .menu-icon.on-left-side {
 }
 #emailListTable + .pull-right + .pull-right {
     float: left;
-    margin: 5px 10px;
+    margin: 5px 0;
     font-size: 12px;
 }
 .pull-right .dataTables_info {

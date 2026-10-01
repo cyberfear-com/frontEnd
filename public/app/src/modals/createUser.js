@@ -26,6 +26,10 @@ define(["app", "react"], function (app, React) {
                 accountCreationStatus: null,
                 accountCreationError: "",
                 maintenanceMode: false,
+
+                captcha: null, // {token, pow, image} from signupCaptchaV3; pow or image is null when switched off
+                captchaText: "",
+                captchaError: "",
             };
         },
 
@@ -41,6 +45,8 @@ define(["app", "react"], function (app, React) {
             }
 
             $("#createAccount-modal").on("shown.bs.modal", function () {});
+            this.loadCaptcha();
+
          if(this.props.coupon.length>0){
              this.setState({
                  coupon:this.props.coupon
@@ -76,8 +82,55 @@ define(["app", "react"], function (app, React) {
         }
 
         },
+        componentWillUnmount: function () {
+            if (this.powWorker) {
+                this.powWorker.terminate();
+            }
+        },
+        // Fetches a new captcha and starts solving its puzzle in the background;
+        // this.captchaNonce resolves with the solution ("" without a puzzle).
+        loadCaptcha: function () {
+            var thisComp = this;
+            var nonce = (this.captchaNonce = $.Deferred());
+
+            if (this.powWorker) {
+                this.powWorker.terminate();
+            }
+            this.setState({ captcha: null, captchaText: "", captchaError: "" });
+
+            $.ajax({
+                method: "POST",
+                url: app.defaults.get("apidomain") + "/signupCaptchaV3",
+                dataType: "json",
+            }).then(function (msg) {
+                thisComp.setState({ captcha: msg["data"] });
+
+                if (!msg["data"].pow) {
+                    return nonce.resolve("");
+                }
+                thisComp.powWorker = new Worker("/js/signupPow.js");
+                thisComp.powWorker.onmessage = function (e) {
+                    nonce.resolve(e.data);
+                };
+                thisComp.powWorker.onerror = function () {
+                    nonce.resolve("");
+                };
+                thisComp.powWorker.postMessage(msg["data"].pow);
+            }).fail(function () {
+                nonce.resolve("");
+            });
+        },
         handleChange: function (action, event) {
             switch (action) {
+                case "captchaText":
+                    this.setState({
+                        captchaText: event.target.value,
+                        captchaError:
+                            this.state.captcha && this.state.captcha.image && event.target.value == ""
+                                ? "please enter the characters from the image"
+                                : "",
+                    });
+                    break;
                 case "coupon":
                     var thisComp = this;
                     this.setState(
@@ -204,12 +257,16 @@ define(["app", "react"], function (app, React) {
             var newPassRep = { target: { value: this.state.newPassRep } };
             this.handleChange("newPassRep", newPassRep);
 
+            var captchaText = { target: { value: this.state.captchaText } };
+            this.handleChange("captchaText", captchaText);
+
             setTimeout(function () {
                 if (
                     thisComp.state.emailError == "" &&
                     thisComp.state.newPassError == "" &&
                     thisComp.state.repPassError == "" &&
-                    thisComp.state.couponError == ""
+                    thisComp.state.couponError == "" &&
+                    thisComp.state.captchaError == ""
                 ) {
                     def.resolve(true);
                 } else {
@@ -254,23 +311,33 @@ define(["app", "react"], function (app, React) {
                         userObj["newPass"] = pass;
                         userObj["salt"] = app.transform.bin2hex(salt);
                         userObj["coupon"] = thisComp.state.coupon;
+                        userObj["captchaToken"] = thisComp.state.captcha ? thisComp.state.captcha.token : "";
+                        userObj["captchaText"] = thisComp.state.captchaText;
 
                         //console.log(userObj);
-                        $.ajax({
-                            method: "POST",
-                            url:
-                                app.defaults.get("apidomain") +
-                                "/createNewUserV3",
-                            data: userObj,
-                            dataType: "json",
-                            xhrFields: {
-                                withCredentials: true,
-                            },
+                        thisComp.captchaNonce.then(function (nonce) {
+                            userObj["captchaNonce"] = nonce;
+
+                            return $.ajax({
+                                method: "POST",
+                                url:
+                                    app.defaults.get("apidomain") +
+                                    "/createNewUserV3",
+                                data: userObj,
+                                dataType: "json",
+                                xhrFields: {
+                                    withCredentials: true,
+                                },
+                            });
                         }).then(function (msg) {
                             if (msg["response"] === "fail") {
                                 if (msg["data"] === "limitIsReached") {
                                     thisComp.setState({
                                         accountCreationError: "Please wait 30 minutes before creating another account",
+                                    });
+                                } else if (msg["data"] === "captchaWrong") {
+                                    thisComp.setState({
+                                        accountCreationError: "The characters did not match the image, please try again.",
                                     });
                                 } else {
                                     // app.notifications.systemMessage('tryAgain');
@@ -278,6 +345,7 @@ define(["app", "react"], function (app, React) {
                                         accountCreationError: "Please try again.",
                                     });
                                 }
+                                thisComp.loadCaptcha(); // a captcha works once
                             } else if (msg["response"] === "success") {
                                 thisComp.setState({
                                     accountCreationStatus: true,
@@ -722,6 +790,57 @@ define(["app", "react"], function (app, React) {
                                                 </label>
                                             </div>
                                         </div>
+                                        {this.state.captcha && this.state.captcha.image ? (
+                                            <div className="col-sm-12">
+                                                <div className="form-group">
+                                                    <div className="d-flex align-items-center mb-2">
+                                                        <img
+                                                            className="rounded"
+                                                            src={this.state.captcha.image}
+                                                            alt="captcha"
+                                                            width="220"
+                                                            height="80"
+                                                        />
+                                                        <a
+                                                            className="ms-3 text-decoration-underline"
+                                                            role="button"
+                                                            onClick={this.loadCaptcha}
+                                                        >
+                                                            another image
+                                                        </a>
+                                                    </div>
+                                                    <input
+                                                        className={"form-control input-lg "+(this.state.captchaError == "" ? "" : "is-invalid")}
+                                                        name="captcha"
+                                                        id="captcha"
+                                                        type="text"
+                                                        autoComplete="off"
+                                                        autoCorrect="off"
+                                                        autoCapitalize="off"
+                                                        spellCheck="false"
+                                                        placeholder="enter the characters from the image"
+                                                        maxLength="10"
+                                                        onChange={this.handleChange.bind(
+                                                            null,
+                                                            "captchaText"
+                                                        )}
+                                                        value={this.state.captchaText}
+                                                    />
+                                                    <label
+                                                        className={
+                                                            "control-label pull-left " +
+                                                            (this.state
+                                                                .captchaError == ""
+                                                                ? "hidden"
+                                                                : "invalid-feedback")
+                                                        }
+                                                        htmlFor="captcha"
+                                                    >
+                                                        {this.state.captchaError}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        ) : null}
                                         {this.state.accountCreationError !==
                                         "" ? (
                                             <div className="col-sm-12">

@@ -6,6 +6,7 @@ define(["app", "react"], function (app, React) {
                 newPass: "",
                 newPassRep: "",
                 coupon: "",
+                showCoupon: false, // the coupon field is optional and opens from a link
                 domainList: ["@mailum.com","@cyberfear.com"],
                 domain:"@mailum.com",
 
@@ -50,7 +51,8 @@ define(["app", "react"], function (app, React) {
 
          if(this.props.coupon.length>0){
              this.setState({
-                 coupon:this.props.coupon
+                 coupon:this.props.coupon,
+                 showCoupon:true
              },function(){
                  this.checkCouponTyping();
              })
@@ -504,6 +506,11 @@ define(["app", "react"], function (app, React) {
                     break;
             }
         },
+        handleShowCoupon: function () {
+            this.setState({ showCoupon: true }, function () {
+                $("#coupon").focus();
+            });
+        },
         handleModalClose: function () {
             this.setState({
                 accountCreationStatus: null,
@@ -764,7 +771,19 @@ define(["app", "react"], function (app, React) {
                                                 </label>
                                             </div>
                                         </div>
-                                        <div className="col-sm-12">
+                                        {this.state.showCoupon ? null : (
+                                            <div className="col-sm-12 mb-3">
+                                                <a
+                                                    className="text-muted text-decoration-none"
+                                                    role="button"
+                                                    style={{ fontSize: "14px" }}
+                                                    onClick={this.handleShowCoupon}
+                                                >
+                                                    + Add a coupon code
+                                                </a>
+                                            </div>
+                                        )}
+                                        <div className={"col-sm-12" + (this.state.showCoupon ? "" : " d-none")}>
                                             <div
                                                 className="form-group ">
                                                 <input
@@ -772,7 +791,7 @@ define(["app", "react"], function (app, React) {
                                                     name="coupon"
                                                     id="coupon"
                                                     type="text"
-                                                    placeholder="if you have please enter coupon code here"
+                                                    placeholder="coupon code"
                                                     onChange={this.handleChange.bind(
                                                         null,
                                                         "coupon"

@@ -30,6 +30,7 @@ define(["app", "react"], function (app, React) {
                 captcha: null, // {token, pow, image} from signupCaptchaV3; pow or image is null when switched off
                 captchaText: "",
                 captchaError: "",
+                captchaLoading: false,
             };
         },
 
@@ -96,14 +97,15 @@ define(["app", "react"], function (app, React) {
             if (this.powWorker) {
                 this.powWorker.terminate();
             }
-            this.setState({ captcha: null, captchaText: "", captchaError: "" });
+            // the old image stays until the new one arrives, the icon spins meanwhile
+            this.setState({ captchaLoading: true, captchaText: "", captchaError: "" });
 
             $.ajax({
                 method: "POST",
                 url: app.defaults.get("apidomain") + "/signupCaptchaV3",
                 dataType: "json",
             }).then(function (msg) {
-                thisComp.setState({ captcha: msg["data"] });
+                thisComp.setState({ captcha: msg["data"], captchaLoading: false });
 
                 if (!msg["data"].pow) {
                     return nonce.resolve("");
@@ -117,6 +119,7 @@ define(["app", "react"], function (app, React) {
                 };
                 thisComp.powWorker.postMessage(msg["data"].pow);
             }).fail(function () {
+                thisComp.setState({ captchaLoading: false });
                 nonce.resolve("");
             });
         },
@@ -801,13 +804,17 @@ define(["app", "react"], function (app, React) {
                                                             width="220"
                                                             height="80"
                                                         />
-                                                        <a
-                                                            className="ms-3 text-decoration-underline"
-                                                            role="button"
-                                                            onClick={this.loadCaptcha}
-                                                        >
-                                                            another image
-                                                        </a>
+                                                        <div className="referesh-btn ms-3">
+                                                            <button
+                                                                type="button"
+                                                                className="icon-btn"
+                                                                title="another image"
+                                                                aria-label="another image"
+                                                                onClick={this.loadCaptcha}
+                                                            >
+                                                                <i className={this.state.captchaLoading ? "spin-animation" : ""}></i>
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                     <input
                                                         className={"form-control input-lg "+(this.state.captchaError == "" ? "" : "is-invalid")}

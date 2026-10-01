@@ -892,7 +892,14 @@ define(["app", "react"], function (app, React) {
                                                     "createUser"
                                                 )}
                                             >
-                                                {this.state.buttonText}
+                                                {this.state.working || this.state.captchaReady ? (
+                                                    this.state.buttonText
+                                                ) : (
+                                                    <span>
+                                                        <span className="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+                                                        PREPARING...
+                                                    </span>
+                                                )}
                                             </button>
                                         </div>
                                         <div className="col-sm-12">

@@ -32,6 +32,7 @@ define(["app", "react"], function (app, React) {
                 captchaText: "",
                 captchaError: "",
                 captchaLoading: false,
+                captchaReady: false, // puzzle solved, the sign up button is disabled until then
             };
         },
 
@@ -100,7 +101,13 @@ define(["app", "react"], function (app, React) {
                 this.powWorker.terminate();
             }
             // the old image stays until the new one arrives, the icon spins meanwhile
-            this.setState({ captchaLoading: true, captchaText: "", captchaError: "" });
+            this.setState({ captchaLoading: true, captchaReady: false, captchaText: "", captchaError: "" });
+            nonce.then(function () {
+                // a captcha that was replaced meanwhile must not enable the button
+                if (thisComp.captchaNonce === nonce) {
+                    thisComp.setState({ captchaReady: true });
+                }
+            });
 
             $.ajax({
                 method: "POST",
@@ -879,7 +886,7 @@ define(["app", "react"], function (app, React) {
                                             <button
                                                 className="btn-blue full-width mt44"
                                                 type="button"
-                                                disabled={this.state.working}
+                                                disabled={this.state.working || !this.state.captchaReady}
                                                 onClick={this.handleClick.bind(
                                                     null,
                                                     "createUser"

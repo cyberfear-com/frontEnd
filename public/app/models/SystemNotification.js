@@ -167,10 +167,16 @@ define(["app", "SmartNotification"], function (app, SmartNotification) {
                 case "fld2save":
                     this.noAnswer("Failed To Save. Please try again.");
                     break;
-
+                case "uploadFailed":
+                    this.noAnswer("Upload Failed. Please try again.");
+                    break;
                 case "tryAgain":
                     this.noAnswer("Connection Error. Please try again.");
                     break;
+                case "draftFailed":
+                    this.noAnswer("Connection Error. Draft Message was not saved.");
+                    break;
+
                 case "saved":
                     this.Answer("Saved.");
                     break;

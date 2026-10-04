@@ -1158,17 +1158,47 @@ define(["react", "app", "select2"], function (
               app.user.set({
                 uploadInProgress: false,
               });
-            } else {
-              app.user.set({
-                uploadInProgress: false,
+              delete newList[failedName];
+
+              thisComp.setState({
+                fileObject: newList,
+                prevFileObject: Object.keys(newList),
+                fileSize: thisComp.getFilesize(newList),
+                uploadProgress: 0,
+                showUploadBar: "d-none",
+                sizeBarText: "Upload Failed",
               });
 
-              $(
-                "#file_" + app.transform.SHA1(fileList["index"]) + " >i"
-              ).removeClass();
-              $("#file_" + app.transform.SHA1(fileList["index"]))
-                .parent()
-                .addClass("file-upload-failed");
+              $('#atachFiles option[value="' + failedName + '"]').remove();
+              $("#atachFiles").trigger("change");
+
+              // persist the draft without it, or the reload shows it as uploaded
+              thisComp.prepareToSafeDraft("force", function () {});
+
+            } else {
+              var failedName = fileList["index"];
+
+              app.user.set({ uploadInProgress: false });
+
+              // the draft was saved with this entry before the upload started
+              delete newList[failedName];
+
+              thisComp.setState({
+                fileObject: newList,
+                prevFileObject: Object.keys(newList),
+                fileSize: thisComp.getFilesize(newList),
+                uploadProgress: 0,
+                showUploadBar: "d-none",
+                sizeBarText: "Upload Failed",
+              });
+
+              $('#atachFiles option[value="' + failedName + '"]').remove();
+              $("#atachFiles").trigger("change");
+
+              // persist the draft without it, or the reload shows it as uploaded
+              thisComp.prepareToSafeDraft("force", function () {});
+
+              app.notifications.systemMessage("uploadFailed");
             }
           }
         );

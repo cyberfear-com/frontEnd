@@ -1303,6 +1303,13 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                             } else {
                                 app.notifications.systemMessage("mesgNotFound");
                             }
+                        }else if(result["response"] == "fail"){
+                            if(result["data"] == "retry"){
+                                app.notifications.systemMessage("tryAgain");
+                            }else{
+                                app.notifications.systemMessage("mesgNotFound");
+                            }
+
                         }
                     }
                 );
@@ -2306,8 +2313,15 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                 if (result["response"] == "success") {
                     callback(result["data"]);
                 } else if (result["response"] == "fail") {
-                    app.notifications.systemMessage("fileNotFound");
-                    callback(false);
+                    if(result["data"] == "retry"){
+                        app.notifications.systemMessage("tryAgain");
+                        callback(false);
+                    }else{
+                        app.notifications.systemMessage("fileNotFound");
+                        callback(false);
+                    }
+
+
                 } else {
                     app.notifications.systemMessage("tryAgain");
                     callback(false);

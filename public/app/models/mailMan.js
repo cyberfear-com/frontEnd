@@ -46,9 +46,12 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                 result["data"]["v2"] != undefined &&
                 Object.keys(result["data"]["v2"]).length > 0
               ) {
-                app.user.set({
+                // do NOT advance the cursor here: fetching is not saving
+                var pendingLastId = result["data"]["lastId"];
+
+              /*  app.user.set({
                   lastIdKey: result["data"]["lastId"],
-                });
+                });*/
                 // console.log(result['data']['lastId']);
                 app.mailMan.decodeV2(
                   result["data"]["v2"],
@@ -391,18 +394,20 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
         app.globalF.addNewMessageToFolder(messageObj, folder, function () {
           var message2Delete = [];
           $.each(decryptedMeta, function (oldMessageId, data) {
+           // console.log(data);
             var messageData = {
               mailQId: oldMessageId,
               mailModKey: data["mailModKey"],
               persFid: data["persFid"],
               persFmodKey: data["persFmodKey"],
+              b: parseInt(messageObj[data["persFid"]]["b"]),
             };
 
             message2Delete.push(messageData);
           });
 
           app.userObjects.updateObjects(
-            "saveNewEmailV2",
+            "saveNewEmailV3",
             message2Delete,
             function (result) {
               callback();

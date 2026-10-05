@@ -1154,10 +1154,12 @@ define(["react", "app", "select2"], function (
                 attachAs: thisComp.state.attachAsTemp
               });
             } else if (result["fileSize"] == "overLimit") {
+              var failedName = fileList["index"];
+
               app.notifications.systemMessage("MaxFiles");
-              app.user.set({
-                uploadInProgress: false,
-              });
+
+              app.user.set({ uploadInProgress: false });
+
               delete newList[failedName];
 
               thisComp.setState({

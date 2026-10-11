@@ -61,7 +61,16 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                       app.mailMan.applyFilter(decryptedSeedObject, function () {
                         app.mailMan.saveEmailIntoInboxV2(
                           decryptedSeedObject,
-                          function () {
+                          function (saveResult) {
+
+                            if (
+                                saveResult &&
+                                saveResult["response"] === "success" &&
+                                saveResult["data"] === "saved"
+                            ) {
+                             // app.user.set({ lastIdKey: pendingLastId });
+                            }
+
                             mailV2.resolve();
                             app.mailMan.set({
                               makeItFaster: true,
@@ -123,6 +132,7 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                         );
                       });
                     } else {
+                      app.user.set({ lastIdKey: pendingLastId });
                       mailV2.resolve();
                       app.mailMan.set({
                         makeItFaster: true,

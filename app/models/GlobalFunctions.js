@@ -1078,6 +1078,12 @@ define([
 							app.notifications.systemMessage('mesgNotFound');
 						}
 
+					} else if (result['response'] == "fail") {
+						if (result['data'] == "retry") {
+							app.notifications.systemMessage('tryAgain'); //message exists, storage did not answer
+						} else {
+							app.notifications.systemMessage('mesgNotFound');
+						}
 					}
 				});
 			}
@@ -1891,7 +1897,11 @@ define([
 					callback(result['data'])
 
 				} else if (result['response'] == "fail") {
-					app.notifications.systemMessage('fileNotFound');
+					if (result['data'] == "retry") {
+						app.notifications.systemMessage('tryAgain'); //file exists, storage did not answer
+					} else {
+						app.notifications.systemMessage('fileNotFound');
+					}
                     callback(false);
 				} else {
 					app.notifications.systemMessage('tryAgain');

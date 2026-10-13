@@ -297,7 +297,7 @@ define(['react','app'], function (React,app) {
 
                     $.ajax({
                         method: "POST",
-                        url: app.defaults.get('apidomain')+"/resetUserV2",
+                        url: app.defaults.get('apidomain')+"/resetUserV3",
                         data: userObj,
                         dataType: "json"
                     })

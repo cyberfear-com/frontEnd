@@ -149,6 +149,12 @@ define([
 				case 'tryAgain':
 					this.noAnswer('Error. Please try again.');
 					break;
+				case 'draftFailed':
+					this.noAnswer('Connection Error. Draft Message was not saved.');
+					break;
+				case 'uploadFailed':
+					this.noAnswer('Upload Failed. Please try again.');
+					break;
 				case 'saved':
 					this.Answer('Saved.');
 					break;

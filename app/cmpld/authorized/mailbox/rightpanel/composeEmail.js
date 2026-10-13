@@ -940,18 +940,31 @@ define(['react', 'app', 'summernote', 'select2'], function (React, app, summerno
 						thisComp.setState({
 							fileSize: thisComp.getFilesize(newList)
 						});
-					} else if (result['fileSize'] == "overLimit") {
-						app.notifications.systemMessage('MaxFiles');
-						app.user.set({
-							'uploadInProgress': false
-						});
 					} else {
+						//the server stored nothing (over the limit, or the upload to storage failed): take the file out of
+						//the draft again, or the reload would show it as uploaded
+						var failedName = fileList['index'];
+
+						app.notifications.systemMessage(result['fileSize'] == "overLimit" ? 'MaxFiles' : 'uploadFailed');
 						app.user.set({
 							'uploadInProgress': false
 						});
 
-						$('#file_' + app.transform.SHA1(fileList['index']) + ' >i').removeClass();
-						$('#file_' + app.transform.SHA1(fileList['index'])).parent().addClass('file-upload-failed');
+						delete newList[failedName];
+
+						thisComp.setState({
+							fileObject: newList,
+							prevFileObject: Object.keys(newList),
+							fileSize: thisComp.getFilesize(newList),
+							uploadProgress: 0,
+							showUploadBar: "hidden",
+							sizeBarText: "Upload Failed"
+						});
+
+						$('#atachFiles option[value="' + failedName + '"]').remove();
+						$('#atachFiles').trigger('change');
+
+						thisComp.prepareToSafeDraft("force", function () {});
 					}
 				});
 			});

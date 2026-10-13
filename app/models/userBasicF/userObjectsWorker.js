@@ -1676,27 +1676,27 @@ define([
 					break;
 
 
-                case 'saveNewEmailV2':
-                    console.log('New Mail V2 save');
-                    // console.log(data);
+                case 'saveNewEmailV3':
+                    console.log('New Mail V3 save');
 
                     var oldEncryptedFolder=app.userObjects.get("EncryptedFolderObject");
+                    //live reference on purpose: addNewMessageToFolder has already written the new messages into it
                     var folders=app.user.get("DecryptedFolderObject");
 
 
                     var changedFolders={};
+                    var newIndexes={}; //blocks created by this attempt
 
                     $.each(folders, function( index, foldData ) {
 
                         foldData['hash']=app.transform.SHA512(JSON.stringify(foldData['data']));
 
                         if(oldEncryptedFolder[index]==undefined){
-                            folders[index]['hash']=app.transform.SHA512(JSON.stringify(folders[index]['data']));
                             folders[index]['nonce']=parseInt(folders[index]['nonce'])+1;
                             changedFolders[index]=folders[index];
+                            newIndexes[index]=true;
 
                         }else if(foldData['hash']!=oldEncryptedFolder[index]['hash']){
-                            folders[index]['hash']=app.transform.SHA512(JSON.stringify(folders[index]['data']));
                             folders[index]['nonce']=parseInt(folders[index]['nonce'])+1;
                             changedFolders[index]=folders[index];
 
@@ -1724,34 +1724,45 @@ define([
 
                     post['seedEmails']=JSON.stringify(payLoad);
 
-                    //console.log(post);
+                    app.serverCall.ajaxRequest('saveNewEmailV3',post,function(result){
 
-                    app.serverCall.ajaxRequest('saveNewEmailV2',post,function(result){
-                         if(result['response']=='success'){
-                             if(result['data']=='saved'){
+                        if(result['response']=='success' && result['data']=='saved'){
+                            //everything landed
+                            $.each(newFolderObj, function( index, foldData ) {
+                                oldEncryptedFolder[index]=foldData;
+                            });
+                            app.user.assignVariablesFromFolderObject();
 
-                             $.each(newFolderObj, function( index, foldData ) {
-                             oldEncryptedFolder[index]=foldData;
-                             });
-                             //app.user.set({"EncryptedFolderObject":newFolderObj});
+                        }else if(result['response']=='success' && result['data']=='partial'){
+                            //only the blocks the server names were stored
+                            var kept={};
+                            $.each(result['blocks'], function( i, index ) {
+                                kept[index]=true;
+                            });
 
+                            var toRevert={};
 
-                             //todo filter as object index is rule hash
-                             //app.user.set({"DecryptedFolderObject":folders});
-                             app.user.assignVariablesFromFolderObject();
+                            $.each(changedFolders, function( index ) {
+                                if(kept[index]===true){
+                                    oldEncryptedFolder[index]=newFolderObj[index];
+                                    delete newIndexes[index];
+                                }else{
+                                    toRevert[index]=true;
+                                }
+                            });
 
-                             //console.log(app.user.get("DecryptedFolderObject"));
+                            app.userObjects.revertFolders(toRevert,oldEncryptedFolder,newIndexes);
 
-                             }else if(result['data']==='newerFound'){
-                             //app.notifications.systemMessage('newerFnd');
+                        }else{
+                            //nothing was stored: the server rolled the batch back and keeps the seeds for the next poll
+                            app.userObjects.revertFolders(changedFolders,oldEncryptedFolder,newIndexes);
 
-                             }else if(result['data']==='nothingUpdt'){
-                             //app.notifications.systemMessage('nthTochng');
-                             }
-                         }//else{
-                            // app.notifications.systemMessage('tryAgain');
-                         //}
-                         callback(result);
+                            if(result['data']==='newerFound'){
+                                app.globalF.syncUpdates();
+                            }
+                        }
+
+                        callback(result);
 
                     });
 
@@ -1931,6 +1942,8 @@ define([
 							}else if(result['data']==='nothingUpdt'){
 								//app.notifications.systemMessage('nthTochng');
 							}
+						}else if(result['response']=='fail'){
+							app.notifications.systemMessage('draftFailed');
 						}
 						callback(result);
 					});
@@ -2666,6 +2679,30 @@ define([
 
 			//$.ajaxQueue.startNextRequest('tryAgain');
 			//console.log(app.user);
+		},
+
+		/**
+		 * Restores only the folder blocks named, decrypting each from its last server-confirmed copy.
+		 * Blocks this attempt created have no confirmed copy, so they are removed.
+		 */
+		revertFolders:function(toRevert,oldEncryptedFolder,newIndexes){
+			var folders=app.user.get("DecryptedFolderObject");
+
+			$.each(toRevert, function( index ) {
+
+				if(newIndexes[index]===true || oldEncryptedFolder[index]==undefined){
+					//created by this attempt and never stored: drop it, so the next attempt regenerates the same index
+					delete folders[index];
+					delete oldEncryptedFolder[index];
+					return true;
+				}
+
+				folders[index]['data']=JSON.parse(app.transform.fromAes64(app.user.get("folderKey"),oldEncryptedFolder[index]['data']));
+				folders[index]['hash']=oldEncryptedFolder[index]['hash'];
+				folders[index]['nonce']=oldEncryptedFolder[index]['nonce'];
+			});
+
+			app.user.assignVariablesFromFolderObject();
 		},
 
 		savingObjects:function(objectName,objectData,callback){

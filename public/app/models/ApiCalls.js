@@ -94,7 +94,7 @@ define(["app", "ajaxQueue"], function (app, ajaxQueue) {
                 case "createOxaPayOrderV2":
                     var url = "/createOxaPayOrderV2";
                     break;
-                    
+
                 case "createOrderPayPal":
                     var url = "/createOrderPayPalV2";
                     break;
@@ -260,7 +260,7 @@ define(["app", "ajaxQueue"], function (app, ajaxQueue) {
                     break;
 
                 case "saveDraftEmail":
-                    var url = "/saveDraftEmailV2";
+                    var url = "/saveDraftEmailV3";
                     //	console.log('savings5');
                     postData["modKey"] = app.user.get("modKey");
 
@@ -342,8 +342,8 @@ define(["app", "ajaxQueue"], function (app, ajaxQueue) {
                     postData["modKey"] = app.user.get("modKey");
                     break;
 
-                case "saveNewEmailV2":
-                    var url = "/saveNewEmailV2";
+                case "saveNewEmailV3":
+                    var url = "/saveNewEmailV3";
                     //	console.log('savings5');
                     postData["modKey"] = app.user.get("modKey");
                     break;

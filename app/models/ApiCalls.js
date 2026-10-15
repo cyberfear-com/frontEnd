@@ -396,9 +396,9 @@ define([
                     postData['modKey']=app.user.get('modKey');
                     break;
 
-                case 'saveNewEmailV2':
+                case 'saveNewEmailV3':
 
-                    var url='/saveNewEmailV2';
+                    var url='/saveNewEmailV3';
                     //	console.log('savings5');
                     postData['modKey']=app.user.get('modKey');
                     break;

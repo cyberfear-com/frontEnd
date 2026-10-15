@@ -46,7 +46,9 @@ define([
                                         //todo add last time email checked, prevent from fetching improper data(if hash match with other user)
 
                                         if (result['data']['v2'] != undefined && Object.keys(result['data']['v2']).length > 0) {
-                                            app.user.set({"lastIdKey":result['data']['lastId']});
+                                            //do not advance the cursor here: fetching is not saving. The server keeps the seeds
+                                            //until saveNewEmailV3 stores them, so a failed save is fetched again on the next poll
+                                            var pendingLastId=result['data']['lastId'];
                                            // console.log(result['data']['lastId']);
                                             app.mailMan.decodeV2(result['data']['v2'], function (decryptedSeedObject) {
                                                 //next step is to get metadata from email, but we already have that and its ready to be saved in our objects
@@ -86,7 +88,8 @@ define([
                                                         });
                                                     });
                                                 }else{
-
+                                                    //nothing in this batch is ours: skip past it
+                                                    app.user.set({"lastIdKey":pendingLastId});
                                                     mailV2.resolve();
                                                     app.mailMan.set({'makeItFaster':true});
                                                 }
@@ -404,14 +407,15 @@ define([
                                    'mailQId':oldMessageId,
                                    'mailModKey':data['mailModKey'],
                                    'persFid':data['persFid'],
-                                   'persFmodKey':data['persFmodKey']
+                                   'persFmodKey':data['persFmodKey'],
+                                   'b':parseInt(messageObj[data['persFid']]['b']) //folder block the message landed in, V3 commits per block
                                };
 
                                message2Delete.push(messageData);
 
                            });
 
-                           app.userObjects.updateObjects('saveNewEmailV2', message2Delete, function (result) {
+                           app.userObjects.updateObjects('saveNewEmailV3', message2Delete, function (result) {
 
                                 callback();
 

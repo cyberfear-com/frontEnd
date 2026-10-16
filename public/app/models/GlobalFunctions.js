@@ -1301,8 +1301,19 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                                     //console.log(draft);
                                 }
                             } else {
+                                // no such record
+                                app.notifications.systemMessage("mesgNotFound");
+                                app.globalF.closeEmailView();
+                            }
+                        }else if(result["response"] == "fail"){
+                            if(result["data"] == "retry"){
+                                app.notifications.systemMessage("tryAgain");
+                            }else{
+                                // "notFound": the record exists but its body is gone
                                 app.notifications.systemMessage("mesgNotFound");
                             }
+                            // either way nothing will be decrypted: leave "Decrypting..."
+                            app.globalF.closeEmailView();
                         }
                     }
                 );
@@ -2306,8 +2317,15 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                 if (result["response"] == "success") {
                     callback(result["data"]);
                 } else if (result["response"] == "fail") {
-                    app.notifications.systemMessage("fileNotFound");
-                    callback(false);
+                    if(result["data"] == "retry"){
+                        app.notifications.systemMessage("tryAgain");
+                        callback(false);
+                    }else{
+                        app.notifications.systemMessage("fileNotFound");
+                        callback(false);
+                    }
+
+
                 } else {
                     app.notifications.systemMessage("tryAgain");
                     callback(false);
@@ -3304,6 +3322,38 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
                     },
                 },
             });
+        },
+        /**
+         * Deselect the open email and return the right panel to "Choose an Email".
+         * Same steps as clicking a selected row again in emailList (readEmail, else
+         * branch), callable from outside the list component.
+         */
+        closeEmailView: function () {
+            // row highlight
+            if ($.fn.DataTable && $.fn.DataTable.isDataTable("#emailListTable")) {
+                $("#emailListTable").DataTable().$("tr.selected").removeClass("selected");
+            } else {
+                $("#emailListTable tr.selected").removeClass("selected");
+            }
+
+            // mobile: hide the reading pane (desktop keeps it, forced visible by CSS)
+            $("#wrapper").removeClass("email-read-active");
+            $("#appRightSide").css("display", "none");
+
+            app.globalF.resetCurrentMessage();
+            app.user.set({ isDecryptingEmail: false });
+
+            // drop the email id from the URL: /mail/<Folder>/<id> -> /mail/<Folder>
+            var folders = app.user.get("folders");
+            var folder = folders ? folders[app.user.get("activeFolderId")] : undefined;
+            if (folder !== undefined && folder["name"] !== undefined) {
+                Backbone.history.navigate(
+                    "/mail/" + app.transform.from64str(folder["name"]),
+                    { trigger: false, replace: true }
+                );
+            }
+
+            Backbone.history.loadUrl(Backbone.history.fragment);
         },
         resetDraftMessage: function () {
             app.user.set({

@@ -287,6 +287,21 @@ define(["app", "forge", "openpgp"], function (app, forge, openpgp) {
           //console.log(messageObj);
         });
       }
+
+      // server-side spam filter verdict (meta.spam, set by EmailparseCommand): file into Spam
+      // unless one of the user's own rules above already chose a folder
+      var spamFolder = app.user.get("systemFolders")["spamFolderId"];
+      if (spamFolder) {
+        $.each(decryptedMeta, function (messageId, messageObj) {
+          if (
+            decryptedMeta[messageId]["sugFolder"] === undefined &&
+            messageObj["meta"] !== undefined &&
+            parseInt(messageObj["meta"]["spam"]) === 1
+          ) {
+            decryptedMeta[messageId]["sugFolder"] = spamFolder;
+          }
+        });
+      }
       //console.log(filter);
 
       // console.log(decryptedMeta);

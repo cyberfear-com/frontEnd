@@ -1803,6 +1803,19 @@ define(["react", "app"], function (React, app) {
             document.removeEventListener("message", this.state.backApp,false);
         },
 
+// same free-plan test as the header and folder list
+        isFreePlan: function () {
+            var plan = app.user.get("userPlan") || {};
+            return (
+                (plan["paymentVersion"] == 2 && plan["planSelected"] == 3) ||
+                (plan["paymentVersion"] == 3 && plan["planSelected"] == "free")
+            );
+        },
+
+        handleUpgrade: function () {
+            Backbone.history.navigate("/settings/Plan", { trigger: true });
+        },
+
         render: function () {
             return (
                 <div>
@@ -1983,6 +1996,45 @@ define(["react", "app"], function (React, app) {
                                         Please contact us at{" "}
                                         <strong>support@Mailum.com</strong>
                                     </p>
+                                    {this.isFreePlan() && (
+                                        <div className="free-plan-notice">
+                                            <h3>Free plan changes</h3>
+                                            <ul>
+                                                <li>
+                                                    New emails that have not been
+                                                    downloaded to your mailbox yet
+                                                    are kept on our servers for{" "}
+                                                    <strong>6 months</strong>.
+                                                </li>
+                                                <li>
+                                                    Starting{" "}
+                                                    <strong>November 30</strong>,
+                                                    free accounts can keep emails
+                                                    up to 6 months old. Older
+                                                    emails will be deleted.
+                                                </li>
+                                                <li>
+                                                    Starting{" "}
+                                                    <strong>November 30</strong>,
+                                                    free accounts that have not
+                                                    logged in for 3 months will
+                                                    stop receiving new emails.
+                                                </li>
+                                            </ul>
+                                            <p>
+                                                Upgrade to a Basic or Premium
+                                                account to keep all your emails
+                                                and keep receiving new ones.
+                                            </p>
+                                            <button
+                                                type="button"
+                                                className="upgrade-btn"
+                                                onClick={this.handleUpgrade}
+                                            >
+                                                Upgrade
+                                            </button>
+                                        </div>
+                                    )}
                                     <div className="the-link">
                                         <div>
                                             <strong>Check Our Blog</strong>{" "}

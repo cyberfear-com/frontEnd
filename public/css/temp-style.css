@@ -10950,7 +10950,51 @@ header .menu-icon.on-left-side {
     grid-template-columns: 38% 60%;
     justify-content: space-between;
 }
+/* No email selected: free plan notice */
+.right-side .mail-data.emailNo .free-plan-notice {
 
+    max-width: 520px;
+    margin: 0 auto 24px;
+    padding: 18px 22px;
+    border: 1px solid #f5d48a;
+    border-radius: 15px;
+    background-color: #fff8e6;
+    color: #4a3b12;
+    text-align: left;
+    font-size: 13px;
+    line-height: 1.5;
+}
+.right-side .mail-data.emailNo .free-plan-notice h3 {
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0 0 8px;
+    color: #3a2e0c;
+}
+.right-side .mail-data.emailNo .free-plan-notice ul {
+    margin: 0 0 10px;
+    padding-left: 18px;
+}
+.right-side .mail-data.emailNo .free-plan-notice li {
+    margin-bottom: 6px;
+    list-style:disc;
+}
+.right-side .mail-data.emailNo .free-plan-notice p {
+    margin: 0 0 12px;
+    padding: 0;
+    font-size: 13px;
+    color: inherit;
+}
+.right-side .mail-data.emailNo .free-plan-notice .upgrade-btn {
+    border: none;
+    border-radius: 10px;
+    padding: 8px 20px;
+    background-color: #2277f6;
+    color: #fff;
+    font-size: 14px;
+}
+.right-side .mail-data.emailNo .free-plan-notice .upgrade-btn:hover {
+    background-color: #00112c;
+}
 /* No email selected */
 .right-side .mail-data.emailNo .the-link {
     display: inline-flex;

@@ -249,3 +249,9 @@ html.dark-theme .left-settings-mobile .__items .icon.settings svg path, html.dar
 html.dark-theme .left-settings-mobile .__items .btn-group button.show, html.dark-theme .left-settings-mobile .__items .btn-group button.active { background-color: rgba(52, 133, 255, 0.12); border-color: transparent; color: #3485ff; }
 html.dark-theme .left-settings-mobile .__items .btn-group button.show svg path, html.dark-theme .left-settings-mobile .__items .btn-group button.active svg path { fill: #3485ff; }
 html.dark-theme .left-settings-mobile .__items .btn-group button.show .icon.settings svg path, html.dark-theme .left-settings-mobile .__items .btn-group button.active .icon.settings svg path, html.dark-theme .left-settings-mobile .__items .btn-group button.show .icon.settings svg circle, html.dark-theme .left-settings-mobile .__items .btn-group button.active .icon.settings svg circle { fill: none; stroke: #3485ff; }
+
+/* --- page count pill shown off the newest page --- */
+html.dark-theme #emailListNavigation.off-first-page .dataTables_info, html.dark-theme #emailListTable_wrapper.off-first-page .dataTables_info { background-color: rgba(255, 255, 255, 0.1); color: #4992ff; }
+
+/* --- free plan notice on the empty reading pane: amber box --- */
+html.dark-theme .right-side .mail-data.emailNo .free-plan-notice { background-color: #2a2412; border-color: #5c4a1a; color: #f1e3bd; }
